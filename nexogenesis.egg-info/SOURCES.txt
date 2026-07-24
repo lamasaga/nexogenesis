@@ -1,0 +1,12 @@
+README.md
+pyproject.toml
+nexogenesis/__init__.py
+nexogenesis/__main__.py
+nexogenesis/models.py
+nexogenesis.egg-info/PKG-INFO
+nexogenesis.egg-info/SOURCES.txt
+nexogenesis.egg-info/dependency_links.txt
+nexogenesis.egg-info/entry_points.txt
+nexogenesis.egg-info/requires.txt
+nexogenesis.egg-info/top_level.txt
+tests/test_models.py

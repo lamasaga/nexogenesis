@@ -1,0 +1,2 @@
+[console_scripts]
+nexogenesis = nexogenesis.cli:main

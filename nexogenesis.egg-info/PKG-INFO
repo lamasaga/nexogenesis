@@ -1,0 +1,10 @@
+Metadata-Version: 2.4
+Name: nexogenesis
+Version: 0.1.0
+Summary: Personal thought emergence harness
+Requires-Python: >=3.13
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: jsonschema>=4.0
+Requires-Dist: click>=8.0
+Provides-Extra: dev
+Requires-Dist: pytest>=8.0; extra == "dev"
