@@ -201,6 +201,9 @@ python -m nexogenesis index        # 生成 _meta/ 下的领域/冲突/理论视
 python -m nexogenesis write --batch <file>   # 统一原子写入入口
 python -m nexogenesis doctor       # 一致性检查与诊断
 python -m nexogenesis migrate --to <scheme> --dry-run   # scheme 迁移预演
+python -m nexogenesis compile [--apply]      # 文档编译：00-Inbox → 05-Buffer
+python -m nexogenesis digest [--apply]       # Buffer 消化：05-Buffer → 01-Cards
+python -m nexogenesis construct [--apply]    # 结构整理：01-Cards + 05-Buffer
 ```
 
 ### 5.1 `write --batch` 事务
@@ -300,7 +303,53 @@ writes:
 
 ---
 
-## 八、延后机制的进入条件
+## 八、文档摄入流水线（P1）
+
+P1 新增 `compile`/`digest`/`construct` 三阶段，把批量文档纳入底座：
+
+```bash
+python -m nexogenesis compile --root .           # 生成 prompt
+# Agent 调用 LLM，保存 response 到 .nexogenesis/tmp/compile/batch-XXX-response.md
+python -m nexogenesis compile --apply --root .   # 写入 05-Buffer/，归档 00-Inbox/
+
+python -m nexogenesis digest --root .            # 生成 digest prompt
+# Agent 调用 LLM，保存 batch 到 .nexogenesis/tmp/digest/batch.yaml
+python -m nexogenesis digest --apply --root .    # 写入 01-Cards/，标记 Buffer 为 digested
+
+python -m nexogenesis construct --root .         # 生成 construct prompt
+# Agent 调用 LLM，保存 batch 到 .nexogenesis/tmp/construct/batch.yaml
+python -m nexogenesis construct --apply --root . # 结构优化，标记 Buffer 为 constructed
+```
+
+### 8.1 `/compile`
+
+- 扫描 `00-Inbox/` 中的 `.md`、`.txt`、`.markdown`、`.pdf`；
+- 启发式预判体裁：`book` / `paper` / `essay` / `dialogue` / `scrap` / `generic`；
+- 按体裁切分编译单元；
+- 生成体裁专属 prompt 到 `.nexogenesis/tmp/compile/`；
+- `--apply` 时解析 LLM 返回，写入 `05-Buffer/<type>/`，并移动原文到 `03-Archive/`。
+
+### 8.2 `/digest`
+
+- 读取 `05-Buffer/` 中 `status: scratch` 的片段；
+- 生成 digest prompt，要求 LLM 输出标准 `write --batch` YAML；
+- `--apply` 时写入卡片或问题清单，并把已消费 Buffer 状态改为 `digested`。
+
+### 8.3 `/construct`
+
+- 读取全部 `01-Cards/` 和 `05-Buffer/`；
+- 生成 construct prompt，识别结构张力（冗余、分裂、链接空洞、领域归属冲突）；
+- `--apply` 时写入 domain/relations 调整，并把 `status: digested` 的 Buffer 改为 `constructed`。
+
+### 8.4 人机协作边界
+
+- 默认命令只生成 prompt/batch，**不自动写入卡片**；
+- Agent 必须在 `--apply` 前检查产物，并在 `operation.approved_by` 中记录确认来源；
+- 未经用户批准，不得把 `origin: system` 的产出直接标为 `mature` 或 `theory_status: active`。
+
+---
+
+## 九、延后机制的进入条件
 
 | 机制 | 进入条件 |
 |---|---|
