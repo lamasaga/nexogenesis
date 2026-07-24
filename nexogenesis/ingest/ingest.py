@@ -135,10 +135,9 @@ def extract_metadata(path: Path, doc_type: str) -> dict:
         meta["academic_hits"] = _count_academic_markers(text)
         meta["heading_count"] = len(HEADING_RE.findall(text))
     elif doc_type == "pdf":
-        import fitz
-
         from nexogenesis.ingest.pdf_extractor import _estimate_chars_per_page
 
+        fitz = _fitz()
         with fitz.open(path) as doc:
             meta["page_count"] = len(doc)
             try:
@@ -157,6 +156,14 @@ def extract_metadata(path: Path, doc_type: str) -> dict:
         raise ValueError(f"未知文档类型: {doc_type}")
 
     return meta
+
+
+def _fitz():
+    try:
+        import fitz
+        return fitz
+    except ImportError as e:
+        raise ImportError("PDF 处理需要 PyMuPDF，请运行：python -m pip install pymupdf") from e
 
 
 def predict_genre(meta: dict, doc_type: str) -> str:
@@ -190,8 +197,7 @@ def extract_sample(path: Path, doc_type: str, max_chars: int = 1500) -> str:
         return path.read_text(encoding="utf-8")[: max_chars * 2]
 
     if doc_type == "pdf":
-        import fitz
-
+        fitz = _fitz()
         parts = []
         with fitz.open(path) as doc:
             try:
