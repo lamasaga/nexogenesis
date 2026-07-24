@@ -1,0 +1,22 @@
+[project]
+name = "nexogenesis"
+version = "0.1.0"
+description = "Personal thought emergence harness"
+requires-python = ">=3.13"
+dependencies = [
+    "pyyaml>=6.0",
+    "jsonschema>=4.0",
+    "click>=8.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+]
+
+[project.scripts]
+nexogenesis = "nexogenesis.cli:main"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
