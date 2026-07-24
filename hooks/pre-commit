@@ -1,2 +1,8 @@
 #!/bin/sh
-python -m nexogenesis validate
+ROOT=$(git rev-parse --show-toplevel)
+PYTHON="$ROOT/.venv/Scripts/python.exe"
+if [ -x "$PYTHON" ]; then
+  "$PYTHON" -m nexogenesis validate
+else
+  python -m nexogenesis validate
+fi
