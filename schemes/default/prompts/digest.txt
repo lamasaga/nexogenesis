@@ -1,0 +1,26 @@
+你是一位知识库消化助手。当前有一批来自 05-Buffer 的 scratch 片段，请判断它们应该：
+1. enriching 哪张已有卡片（更新 sources/relations/body）；
+2. 新建哪些卡片（生成标准 frontmatter）；
+3. 产生哪些冲突（生成 conflict 卡）；
+4. 追加哪些问题到问题清单。
+
+现有卡片：
+{% for c in cards %}
+- {{ c.id }} ({{ c.type }}) {{ c.title }} domains={{ c.domains }}
+{% endfor %}
+
+现有问题：
+{% for q in questions %}
+- {{ q }}
+{% endfor %}
+
+Buffer 片段：
+{% for b in buffers %}
+---
+路径：{{ b.path }}
+{{ b.text }}
+{% endfor %}
+
+请输出标准 write --batch YAML，operation.approved_by 留 "user"。
+新建卡片必须包含：id, title, type, maturity, lifecycle, domains, origin, sources, relations, created, updated, body。
+其中 origin 根据 Buffer perspective 推断：self -> user，external -> document，未标注 -> document。
