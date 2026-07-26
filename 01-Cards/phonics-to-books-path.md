@@ -1,0 +1,51 @@
+---
+id: phonics-to-books-path
+title: 落地路径：拼读 → 意群 → 原版书自主念读
+type: method
+maturity: growing
+lifecycle: active
+domains:
+- teaching
+- cognitive
+origin: document
+sources:
+- 《认知英语教程之教程部分》Ⅰ 认知英语概述 · 三件套路径
+relations:
+- target: cognitive-phonics-method
+  type: extends
+  note: 在拼读之上接意群与原版书
+- target: sense-group-semantic-line
+  type: based-on
+  note: 第二步依赖意群模型
+- target: phonetic-to-grammar-sequence
+  type: applies-to
+  note: 整条路径落实语音到语法顺序
+created: '2026-07-24'
+updated: '2026-07-24'
+---
+
+## 输入
+
+　　已开始或完成认知拼读基础的学习者；原版书籍材料；教师/家长修正发音与意群断句（不代读）。
+
+## 步骤
+
+1. **认知拼读**：建语音系统基础（见拼读方法碎片）。
+2. **按意群读句、按意群理解语义**：用静态/动态句框架与语意线建立英语思维。
+3. **自主念读原版书**：在有限时间里反复练习系统；处理长单词、长难句；为阅读策略与写作专项打底。
+
+总教学步骤口号：**语音 → 语调 → 语义 → 语法**；语法是感知结果的整理，不是先背规则。
+
+## 输出
+
+　　快速升级系统掌握；具备进入阅读理解、策略与写作专项的基础。
+
+## 适用边界
+
+　　中途插班需评估程度再定级数；高阶写作仍需专门教师。
+
+## 原文摘录
+
+> 「认知英语教程的目的是利用学习者有限的时间，让他们用自主念读原版书籍的方式，反复练习并掌握英语系统。」（Ⅰ 认知英语概述）
+
+> 「语法知识需要建立在感知英语语言的基础上，这样的语法知识是感知结果的整理，而非死记硬背的内容。」（Ⅰ 认知英语概述）

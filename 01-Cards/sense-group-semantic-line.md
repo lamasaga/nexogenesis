@@ -1,0 +1,56 @@
+---
+id: sense-group-semantic-line
+title: 意群与语意线：按意群读句建立英语思维
+type: model
+maturity: growing
+lifecycle: active
+domains:
+- teaching
+- cognitive
+origin: document
+sources:
+- 《认知英语教程之教程部分》Ⅰ 认知英语概述 · 按意群读句
+relations:
+- target: phonetic-to-grammar-sequence
+  type: based-on
+  note: 意群连接语调、语义与语法
+- target: phonics-to-books-path
+  type: supports
+  note: 为落地路径第二步提供模型
+created: '2026-07-24'
+updated: '2026-07-24'
+---
+
+## 核心思想
+
+　　句子按**意群**分段念读与理解，用语意线训练英语思维；弱读功能词与停顿点往往正是语法关键点。
+
+## 关键组件
+
+两类主句式：
+
+- **静态句**：主 + 系表（who / what / where / when / why / how）
+- **动态句**：主 + 谓宾（+ 状语：where / when / why / how）
+
+意群图标：Who / What / Where / When / Why / How。
+
+语意线划分原则（文中）：
+
+1. 谓语+宾语视为完整动作信息，一起念；
+2. 系动词+表语不可断开；
+3. 连词、介词等弱读功能词通常归入其后的语意线；
+4. 地点、时间、原因/目的、方法等单独成线。
+
+## 教学用途
+
+　　按意群读句也是听力训练：听音频时注意英语切分；教师提醒关注弱声调词，因其承载句法/语义内涵。
+
+## 失效边界
+
+　　语法篇会更展开；此处仅为拼读阶段的基本模型。断句错误会直接损害语义与语法感知。
+
+## 原文摘录
+
+> 「注意意群的分段点，意群的分段点是学习者应该学习的语法点。」（Ⅰ 认知英语概述）
+
+> 「清晰比速度重要。」（Ⅰ 认知英语概述 · 自主拼读）
