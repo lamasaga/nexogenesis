@@ -203,7 +203,7 @@ python -m nexogenesis index        # 生成 _meta/ 下的领域/冲突/理论视
 python -m nexogenesis write --batch <file>   # 统一原子写入入口
 python -m nexogenesis doctor       # 一致性检查与诊断
 python -m nexogenesis migrate --to <scheme> --dry-run   # scheme 迁移预演
-python -m nexogenesis compile [--apply]      # 文档编译：00-Inbox → 05-Buffer
+python -m nexogenesis compile [--plan|--check-responses|--apply]  # 编译（默认分波；可部分 apply）
 python -m nexogenesis digest [--apply]       # Buffer 消化：05-Buffer → 01-Cards
 python -m nexogenesis construct [--apply]    # 结构整理：01-Cards + 05-Buffer
 ```
@@ -308,9 +308,11 @@ writes:
 ## 八、文档摄入流水线
 
 ```bash
-python -m nexogenesis compile --root .           # 生成 prompt
-# Agent 调用 LLM，保存 response 到 .nexogenesis/tmp/compile/batch-XXX-response.md
-python -m nexogenesis compile --apply --root .   # 写入 05-Buffer/<role>/，归档 00-Inbox/
+python -m nexogenesis compile --plan --root .    # 预览分波计划
+python -m nexogenesis compile --root .           # 生成本波 prompt（默认自动分波）
+# Agent 串行调用 LLM，保存 response 到 .nexogenesis/tmp/compile/batch-XXX-response.md
+python -m nexogenesis compile --check-responses  # 落盘前检查（推荐每写完一个就跑）
+python -m nexogenesis compile --apply --root .   # 按文件部分成功写入 Buffer
 
 python -m nexogenesis digest --root .            # 生成 digest prompt
 # Agent 调用 LLM，保存 batch 到 .nexogenesis/tmp/digest/batch.yaml
@@ -323,13 +325,17 @@ python -m nexogenesis construct --apply --root . # 结构优化，标记 Buffer 
 
 ### 8.1 `/compile`
 
-- 扫描 `00-Inbox/` 中的 `.md`、`.txt`、`.markdown`、`.pdf`；
+- 扫描 `00-Inbox/` 中的 `.md`、`.txt`、`.markdown`、`.pdf`（默认不递归；`--recursive` 可扫子目录）；
 - 启发式预判体裁：`book` / `paper` / `essay` / `dialogue` / `scrap` / `generic`；
-- 按体裁切分编译单元；
-- 生成体裁专属 prompt 到 `.nexogenesis/tmp/compile/`；
+- **默认自动分波**：按库存选择本波文档（默认约 ≤5 篇 / ≤4 个 prompt），其余留 Inbox；`--all` 关闭分波；`--plan` 预览；
+- 默认每批约 **10000** 等效中文字（`--max-chars` 可覆盖）；同批按体裁装箱，`scrap` 最多混 3 源，`paper`/`book` 等不混装；
+- 生成体裁专属 prompt 到 `.nexogenesis/tmp/compile/`，并写 `wave-manifest.json`；
 - LLM 按**意义单元**整理质料，用 `role` 标注（`meaning-unit`、`artifact-table`、`artifact-figure`、`tension`、`link-hypothesis`、`profile-seed` 等）；
 - 不定 Card `type`，不写 `id` / `relations`；对立不和解；细节内嵌；
-- `--apply` 时写入 `05-Buffer/<role>/`，并移动原文到 `03-Archive/`。
+- response **必须**命名为 `batch-XXX-response.md`（或 `.yaml`），与 prompt 序号对应；草稿 `*-blocks.md` / `*-fragments.json` 非正式格式；
+- **编排纪律**：默认单代理串行生成 response；勿并行子代理。每写完一个先 `compile --check-responses`；禁止手写脚本「大修」response，不合格则重生成该 batch；
+- `--apply` 按 **response 文件**独立落盘（部分成功保留失败文件）；`--response <file>` 只处理一个；语义槽缺失默认 warning（`--strict-body` 升为错误）；
+- `--apply` 在本波全部 batch 成功后，才归档已完成全部单元的原文；长书可跨多波，进度记在 `progress.json`。
 
 ### 8.2 `/digest`
 

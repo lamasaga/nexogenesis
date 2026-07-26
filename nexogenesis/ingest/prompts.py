@@ -35,9 +35,36 @@ def format_rules() -> str:
 6. 跨段/跨文「可能有关」写成 link-hypothesis（弱假设），不要写成 Card relations。
 7. 可选 proposed_card_type（仅建议，digest 可改），取值：{card_types}。
 8. 禁止使用 [[ ]] 链接；提及概念用加粗。禁止 frontmatter 写 id / relations / Card 七型 type。
-9. source 必须精确（文件/章节/页码/图表编号）。genre、perspective（self/external）建议填写。
-10. meaning-unit 正文尽量含：核心表达、依据与细节、限制与边界、原文摘录；缺信息写「原文未提及：……」。
-11. 宁可少拆，不要硬造。"""
+9. source 必须精确（文件/章节/页码/图表编号）。含冒号、引号、井号时必须用双引号包裹整个字符串。
+10. meaning-unit 正文必须使用且仅使用 Markdown 三级标题：### 核心表达 / ### 依据与细节 / ### 限制与边界 / ### 原文摘录；缺信息写「原文未提及：……」。
+11. 块之间只用单独一行 --- 分隔；禁止 ---\n\n---；正文中不要出现单独成行的 ---（表格用 | --- | 即可）。
+12. 宁可少拆，不要硬造。
+
+【合格示例 — 请严格模仿此结构】
+---
+title: "教学反馈应指出可操作差距"
+role: meaning-unit
+source: "paper.pdf / §3.2: Results / pp. 12-14"
+genre: paper
+perspective: external
+proposed_card_type: claim
+---
+### 核心表达
+
+　　教学反馈应优先指出可操作差距。
+
+### 依据与细节
+
+　　原文通过对照实验支持该主张。
+
+### 限制与边界
+
+　　原文未提及：未讨论跨文化适用性。
+
+### 原文摘录
+
+> feedback should name the actionable gap
+"""
 
 
 def render_compile_prompt(units: list[dict], genre: str | None = None, deep: bool = False) -> str:

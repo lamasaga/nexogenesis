@@ -72,15 +72,19 @@ def _looks_like_text(path: Path) -> bool:
         return False
 
 
-def scan_inbox(inbox_dir: Path) -> list[dict]:
+def scan_inbox(inbox_dir: Path, *, recursive: bool = False) -> list[dict]:
     """扫描 inbox 目录，返回文档元信息列表。"""
     docs = []
     if not inbox_dir.exists():
         return docs
-    for path in inbox_dir.iterdir():
+    paths = inbox_dir.rglob("*") if recursive else inbox_dir.iterdir()
+    for path in paths:
         if not path.is_file():
             continue
         if path.name.startswith("."):
+            continue
+        # 跳过隐藏目录下的文件（如 .git）
+        if any(part.startswith(".") for part in path.relative_to(inbox_dir).parts[:-1]):
             continue
         try:
             doc_type = classify_file(path)
@@ -88,7 +92,7 @@ def scan_inbox(inbox_dir: Path) -> list[dict]:
             logger.warning("跳过：%s", e)
             continue
         docs.append({"path": path, "doc_type": doc_type})
-    return docs
+    return sorted(docs, key=lambda d: str(d["path"]))
 
 
 def _count_academic_markers(text: str) -> int:

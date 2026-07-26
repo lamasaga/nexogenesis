@@ -16,29 +16,119 @@ logger = logging.getLogger(__name__)
 
 DEFAULT_ROLE = "meaning-unit"
 
+# 同批最多混装的源文件数（按体裁）
+MAX_DOCS_PER_BATCH = {
+    "scrap": 3,
+    "generic": 3,
+    "dialogue": 1,
+    "essay": 1,
+    "paper": 1,
+    "book": 1,
+}
 
-def build_batches(units: list[dict], max_chars: int = 30000) -> list[list[dict]]:
-    """将编译单元按 max_chars 上限分批。"""
-    batches = []
-    current = []
-    current_chars = 0
-    for unit in units:
-        unit_chars = unit["char_count"]
-        if unit_chars > max_chars:
-            if current:
-                batches.append(current)
-                current = []
-                current_chars = 0
-            batches.append([unit])
-            continue
-        if current_chars + unit_chars > max_chars and current:
-            batches.append(current)
-            current = []
-            current_chars = 0
-        current.append(unit)
-        current_chars += unit_chars
+
+def max_docs_for_genre(genre: str | None) -> int:
+    if not genre:
+        return 1
+    return MAX_DOCS_PER_BATCH.get(genre, 1)
+
+
+def _unit_source_key(unit: dict) -> str:
+    path = unit.get("source_path")
+    if path is None:
+        return ""
+    return str(path)
+
+
+def _flush_batch(batches: list, current: list) -> list:
     if current:
         batches.append(current)
+    return []
+
+
+def build_batches(
+    units: list[dict],
+    max_chars: int = 10000,
+    *,
+    group_by_genre: bool = True,
+    max_docs_per_batch: int | None = None,
+    max_docs_per_batch_fn=None,
+) -> list[list[dict]]:
+    """将编译单元装箱。
+
+    - 默认按 genre 分组，且限制同批源文件数（避免 scrap+paper 混装、跨书混装）。
+    - max_docs_per_batch 为全局上限；max_docs_per_batch_fn(genre) 可按体裁覆盖。
+    """
+    if max_chars <= 0:
+        raise ValueError("max_chars 必须为正数")
+
+    if group_by_genre:
+        groups: dict[str, list[dict]] = {}
+        order: list[str] = []
+        for unit in units:
+            genre = unit.get("genre") or "generic"
+            if genre not in groups:
+                groups[genre] = []
+                order.append(genre)
+            groups[genre].append(unit)
+        batches: list[list[dict]] = []
+        for genre in order:
+            cap = max_docs_per_batch
+            if cap is None and max_docs_per_batch_fn is not None:
+                cap = max_docs_per_batch_fn(genre)
+            if cap is None:
+                cap = max_docs_for_genre(genre)
+            batches.extend(
+                _pack_group(groups[genre], max_chars=max_chars, max_docs=cap)
+            )
+        return batches
+
+    cap = max_docs_per_batch if max_docs_per_batch is not None else 0
+    return _pack_group(units, max_chars=max_chars, max_docs=cap or 10**9)
+
+
+def _pack_group(units: list[dict], *, max_chars: int, max_docs: int) -> list[list[dict]]:
+    batches: list[list[dict]] = []
+    current: list[dict] = []
+    current_chars = 0
+    current_sources: set[str] = set()
+
+    for unit in units:
+        unit_chars = unit["char_count"]
+        source = _unit_source_key(unit)
+        # book：不同源文件永不混装
+        genre = unit.get("genre")
+        if genre == "book" and current_sources and source not in current_sources:
+            current = _flush_batch(batches, current)
+            current_chars = 0
+            current_sources = set()
+
+        would_new_source = source and source not in current_sources
+        if would_new_source and current_sources and len(current_sources) >= max_docs:
+            current = _flush_batch(batches, current)
+            current_chars = 0
+            current_sources = set()
+
+        if unit_chars > max_chars:
+            current = _flush_batch(batches, current)
+            current_chars = 0
+            current_sources = set()
+            batches.append([unit])
+            continue
+
+        if current_chars + unit_chars > max_chars and current:
+            current = _flush_batch(batches, current)
+            current_chars = 0
+            current_sources = set()
+            # 换批后重新检查混装上限
+            would_new_source = bool(source)
+
+        current.append(unit)
+        current_chars += unit_chars
+        if source:
+            current_sources.add(source)
+
+    _flush_batch(batches, current)
     return batches
 
 
@@ -63,9 +153,17 @@ def _normalize_role(fm: dict) -> str:
     return DEFAULT_ROLE
 
 
+def _line_number_at(text: str, offset: int) -> int:
+    return text.count("\n", 0, max(0, offset)) + 1
+
+
 def parse_llm_buffers(raw_output: str, default_source: str) -> list[dict]:
-    """解析 LLM 输出中的 Buffer 块。"""
-    text = raw_output.strip()
+    """解析 LLM 输出中的 Buffer 块。
+
+    使用单独成行的 ``---`` 作为 frontmatter 边界，避免把正文中的
+    水平线或表格分隔线 ``|---|`` 误认为新块开始；统一 CRLF。
+    """
+    text = raw_output.strip().replace("\r\n", "\n").replace("\r", "\n")
     if text.startswith("```"):
         text = re.sub(r"^```[a-zA-Z]*\n", "", text)
         text = re.sub(r"\n```\s*$", "", text)
@@ -74,43 +172,56 @@ def parse_llm_buffers(raw_output: str, default_source: str) -> list[dict]:
     if not text:
         raise ValueError("LLM 输出为空")
 
+    dividers = [m.start() for m in re.finditer(r"^---\s*$", text, re.MULTILINE)]
     buffers = []
-    pos = 0
-    while True:
-        start = text.find("---", pos)
-        if start == -1:
-            break
-        end = text.find("---", start + 3)
-        if end == -1:
-            break
-        fm_text = text[start + 3:end].strip()
+    parse_notes: list[str] = []
+    idx = 0
+    while idx < len(dividers) - 1:
+        start = dividers[idx]
+        fm = None
+        end = None
+        last_yaml_err = None
+        for j in range(idx + 1, len(dividers)):
+            candidate_end = dividers[j]
+            fm_text = text[start + 3 : candidate_end].strip()
+            try:
+                candidate_fm = yaml.safe_load(fm_text)
+                if isinstance(candidate_fm, dict):
+                    fm = candidate_fm
+                    end = candidate_end
+                    break
+            except yaml.YAMLError as e:
+                last_yaml_err = e
+                continue
 
-        try:
-            fm = yaml.safe_load(fm_text)
-            if not isinstance(fm, dict):
-                raise ValueError("frontmatter 不是字典")
-        except yaml.YAMLError as e:
-            logger.warning("解析 frontmatter 失败：%s", e)
-            pos = end + 3
+        if fm is None or end is None:
+            line = _line_number_at(text, start)
+            if last_yaml_err:
+                parse_notes.append(f"约第 {line} 行：frontmatter YAML 无效（{last_yaml_err}）")
+            idx += 1
             continue
 
-        candidate = text.find("---", end + 3)
-        next_start = -1
-        while candidate != -1:
-            fm_end_candidate = text.find("---", candidate + 3)
-            if fm_end_candidate == -1:
+        next_start = None
+        end_idx = dividers.index(end)
+        for k in range(end_idx + 1, len(dividers)):
+            candidate_next = dividers[k]
+            fm_end_candidate = None
+            for m in range(k + 1, len(dividers)):
+                if dividers[m] > candidate_next:
+                    fm_end_candidate = dividers[m]
+                    break
+            if fm_end_candidate is None:
                 break
-            candidate_fm_text = text[candidate + 3:fm_end_candidate].strip()
+            candidate_fm_text = text[candidate_next + 3 : fm_end_candidate].strip()
             try:
                 candidate_fm = yaml.safe_load(candidate_fm_text)
                 if isinstance(candidate_fm, dict) and "title" in candidate_fm:
-                    next_start = candidate
+                    next_start = candidate_next
                     break
             except yaml.YAMLError:
-                pass
-            candidate = text.find("---", candidate + 3)
+                continue
 
-        body = text[end + 3:next_start if next_start != -1 else len(text)].strip()
+        body = text[end + 3 : next_start if next_start is not None else len(text)].strip()
 
         role = _normalize_role(fm)
         proposed_card_type = fm.get("proposed_card_type")
@@ -132,14 +243,93 @@ def parse_llm_buffers(raw_output: str, default_source: str) -> list[dict]:
             "body": body,
         })
 
-        pos = end + 3
-        if next_start == -1:
-            break
+        idx = end_idx + 1
+        if next_start is not None:
+            idx = dividers.index(next_start)
 
     if not buffers:
-        raise ValueError("未从 LLM 输出中解析到任何 Buffer 块")
+        hint = ("；".join(parse_notes[:3]) + ("…" if len(parse_notes) > 3 else "")) if parse_notes else ""
+        raise ValueError("未从 LLM 输出中解析到任何 Buffer 块" + (f"。{hint}" if hint else ""))
+
+    for note in parse_notes:
+        logger.warning("%s", note)
 
     return buffers
+
+
+def load_response_raw(path: Path) -> str:
+    """读取 response 文件；支持纯 markdown 或 YAML {\"output\": \"...\"}。"""
+    raw = path.read_bytes()
+    if b"\x00" in raw:
+        raw = raw.replace(b"\x00", b"")
+    text = raw.decode("utf-8", errors="replace")
+    try:
+        data = yaml.safe_load(text)
+        if isinstance(data, dict) and "output" in data:
+            return str(data["output"])
+    except yaml.YAMLError:
+        pass
+    return text
+
+
+def inspect_response_buffers(
+    buffers: list[dict],
+    *,
+    strict_body: bool = False,
+) -> tuple[list[str], list[str]]:
+    """对已解析 Buffer 做结构/槽检查。返回 (hard_errors, warnings)。"""
+    from nexogenesis.body_slots import validate_buffer_body
+    from nexogenesis.schemas import validate_buffer_schema
+
+    hard: list[str] = []
+    soft: list[str] = []
+    for i, buf in enumerate(buffers, 1):
+        prefix = f"块{i}({buf.get('title', '?')})"
+        meta = {
+            "title": buf["title"],
+            "role": buf["role"],
+            "source": buf["source"],
+            "created": "1970-01-01",
+            "updated": "1970-01-01",
+            "status": "scratch",
+        }
+        if buf.get("genre"):
+            meta["genre"] = buf["genre"]
+        if buf.get("perspective"):
+            meta["perspective"] = buf["perspective"]
+        if buf.get("proposed_domains"):
+            meta["proposed_domains"] = buf["proposed_domains"]
+        if buf.get("proposed_card_type"):
+            meta["proposed_card_type"] = buf["proposed_card_type"]
+        for e in validate_buffer_schema(meta):
+            hard.append(f"{prefix}: {e}")
+        body = buf.get("body") or ""
+        if "[[" in body:
+            hard.append(f"{prefix}: Buffer 正文不得包含 [[ ]] 链接")
+        slot_errs = validate_buffer_body(buf["role"], body)
+        if strict_body:
+            hard.extend(f"{prefix}: {e}" for e in slot_errs)
+        else:
+            soft.extend(f"{prefix}: {e}" for e in slot_errs)
+    return hard, soft
+
+
+def check_response_file(
+    path: Path,
+    *,
+    default_source: str = "00-Inbox compile",
+    strict_body: bool = False,
+) -> tuple[list[dict], list[str], list[str]]:
+    """解析并检查单个 response。返回 (buffers, hard_errors, warnings)。"""
+    try:
+        raw = load_response_raw(path)
+        buffers = parse_llm_buffers(raw, default_source=default_source)
+    except Exception as e:
+        return [], [f"{path.name}: 解析失败 — {e}"], []
+    hard, soft = inspect_response_buffers(buffers, strict_body=strict_body)
+    hard = [f"{path.name}: {e}" for e in hard]
+    soft = [f"{path.name}: {e}" for e in soft]
+    return buffers, hard, soft
 
 
 def _sanitize_filename(title: str) -> str:

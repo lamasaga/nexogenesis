@@ -8,7 +8,11 @@ from nexogenesis.store import Store
 from nexogenesis.yaml_utils import split_frontmatter
 
 
-def _validate_buffers(root_path: Path) -> tuple[list[str], list[str]]:
+def _validate_buffers(
+    root_path: Path,
+    *,
+    body_slots_as_errors: bool = False,
+) -> tuple[list[str], list[str]]:
     errors: list[str] = []
     warnings: list[str] = []
     buffer_dir = root_path / "05-Buffer"
@@ -27,8 +31,10 @@ def _validate_buffers(root_path: Path) -> tuple[list[str], list[str]]:
             errors.append(f"{rel}: Buffer 正文不得包含 [[ ]] 链接")
         role = meta.get("role")
         if isinstance(role, str):
-            for e in validate_buffer_body(role, body or ""):
-                errors.append(f"{rel}: {e}")
+            slot_errs = validate_buffer_body(role, body or "")
+            target = errors if body_slots_as_errors else warnings
+            for e in slot_errs:
+                target.append(f"{rel}: {e}")
             parent = path.parent.name
             if parent not in ("05-Buffer",) and parent != role:
                 warnings.append(f"{rel}: 目录名 {parent} 与 role {role} 不一致")
@@ -38,6 +44,8 @@ def _validate_buffers(root_path: Path) -> tuple[list[str], list[str]]:
 def run_validate(
     root_path: Path,
     cards_dir_override: Path | None = None,
+    *,
+    buffer_body_as_errors: bool = False,
 ) -> tuple[list[str], list[str]]:
     cards_dir = cards_dir_override or (root_path / "01-Cards")
     store = Store(cards_dir).load()
@@ -64,16 +72,25 @@ def run_validate(
                     errors.append(f"{card.id}: theory_status 要求正文含「失效边界」或「原文未提及」")
 
     semantic_errors, store_warnings = store.validate()
-    buf_errors, buf_warnings = _validate_buffers(root_path)
+    buf_errors, buf_warnings = _validate_buffers(
+        root_path, body_slots_as_errors=buffer_body_as_errors
+    )
     return errors + semantic_errors + buf_errors, warnings + store_warnings + buf_warnings
 
 
 @click.command()
 @click.option("--root", default=".", help="项目根目录")
 @click.option("--strict", is_flag=True, help="warning 也视为错误")
-def validate_cmd(root: str, strict: bool):
+@click.option(
+    "--strict-buffer-body",
+    is_flag=True,
+    help="Buffer 语义槽缺失视为错误（默认仅 warning）",
+)
+def validate_cmd(root: str, strict: bool, strict_buffer_body: bool):
     root_path = Path(root).resolve()
-    all_errors, warnings = run_validate(root_path)
+    all_errors, warnings = run_validate(
+        root_path, buffer_body_as_errors=strict_buffer_body
+    )
 
     for e in all_errors:
         click.echo(f"ERROR: {e}")

@@ -64,3 +64,12 @@ def test_scan_inbox(tmp_path: Path):
     (tmp_path / "b.txt").write_text("text", encoding="utf-8")
     docs = scan_inbox(tmp_path)
     assert len(docs) == 2
+
+
+def test_scan_inbox_recursive(tmp_path: Path):
+    (tmp_path / "top.md").write_text("t", encoding="utf-8")
+    sub = tmp_path / "01-sub"
+    sub.mkdir()
+    (sub / "nested.md").write_text("n", encoding="utf-8")
+    assert len(scan_inbox(tmp_path)) == 1
+    assert len(scan_inbox(tmp_path, recursive=True)) == 2

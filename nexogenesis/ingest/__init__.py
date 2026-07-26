@@ -5,7 +5,7 @@ from pathlib import Path
 
 from nexogenesis.schemas import BUFFER_ROLES
 
-DEFAULT_BATCH_LIMIT = 30000
+DEFAULT_BATCH_LIMIT = 10000
 
 WORD_RE = re.compile(r"[a-zA-Z]+(?:['-][a-zA-Z]+)?")
 
