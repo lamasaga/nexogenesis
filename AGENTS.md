@@ -1,7 +1,8 @@
 # AGENTS.md — Nexogenesis P0 运行时契约
 
-> 版本：P0（2026-07-24 修订版）  
-> 作用：约束 AI 与 Harness 如何与底座交互。本手册本身可被用户修订，但修订前须经用户确认。
+> 版本：P0（2026-07-27）  
+> 作用：约束 AI 与 Harness 如何与底座交互。本手册本身可被用户修订，但修订前须经用户确认。  
+> Buffer / Card 正文结构以 `01-Cards/_meta/body-structure.md` 为准；机制说明见 `docs/2026-07-26-buffer-card-structure-draft.md`。
 
 ---
 
@@ -21,30 +22,33 @@
 ```text
 AGENTS.md                    # 本手册
 README.md                    # 项目说明
-00-Inbox/                    # 待处理原始材料（P1 启用）
-01-Cards/                    # 知识卡片（扁平存储，不按领域分子目录）
+00-Inbox/                    # 待处理原始材料
+01-Cards/                    # 知识卡片（扁平存储）
    ├── _meta/
-   │    ├── ontology.md      # 当前生效的元结构契约（初始化时从 scheme 复制）
+   │    ├── ontology.md      # 卡片类型与关系类型契约
+   │    ├── body-structure.md# Buffer / Card 正文结构活契约
    │    ├── domain-index.md  # 自动生成的领域视图
    │    ├── conflict-index.md# 自动生成的冲突视图
    │    └── theory-index.md  # 自动生成的理论视图
    └── <id>.md               # 所有卡片平铺，id 即文件名
 02-Profile/                  # 用户/学派档案 + 问题清单
    └── 问题清单.md
-03-Archive/                  # 已处理原始材料（P1 启用）
+03-Archive/                  # 已处理原始材料
 04-OutBox/                   # 分析产物、回答、报告
-05-Buffer/                   # compile 产出的原子化片段（P1 启用）
+05-Buffer/<role>/            # compile 产出的质料（按 role 分目录）
 06-Journal/                  # 操作大事记
-nexogenesis/                 # Python 包（P0 交付）
+nexogenesis/                 # Python 包
 schemes/default/             # 默认沉淀方案
-hooks/                       # git hooks（init 时自动安装到 .git/hooks/）
+hooks/                       # git hooks（init 时安装到 .git/hooks/）
 ```
 
-**关键变化**：`01-Cards/` 扁平化，领域归属由 frontmatter 的 `domains` 字段显式声明，而不是目录结构。
+领域归属由 frontmatter 的 `domains` 字段声明；领域成员列表由 `index` 反向生成。
 
 ---
 
 ## 三、卡片规范
+
+`type` 仅用于 Card。Buffer 使用 `role`，细则见 `body-structure.md`。
 
 ### 3.1 通用 frontmatter
 
@@ -79,7 +83,7 @@ superseded_by: ""                # lifecycle=superseded 时必填
 
 | 字段 | 必需 | 说明 |
 |---|---|---|
-| `id` | 是 | 只能包含小写字母、数字、连字符 `-`。也是文件名。 |
+| `id` | 是 | 汉字、字母、数字、连字符 `-`；兼作文件名。新建以中文为主。 |
 | `title` | 是 | 卡片标题。 |
 | `type` | 是 | 7 种卡片类型之一。 |
 | `maturity` | 是 | 证据成熟度：`seed`=草稿/探索，`growing`=已确认，`mature`=充分验证。 |
@@ -148,7 +152,7 @@ superseded_by: ""                # lifecycle=superseded 时必填
 
 ### 4.2 `/capture` 捕获
 
-替代旧版“自动入库”。每次最多提出 3 个候选：
+每次最多提出 3 个候选：
 
 - `claim`/`model`/`conflict`/`entity`/`method`/`phenomenon` → 写入 `01-Cards/`；
 - `question` → 追加到 `02-Profile/问题清单.md`；
@@ -186,13 +190,11 @@ superseded_by: ""                # lifecycle=superseded 时必填
 
 ### 4.7 `/compile`、`/digest`、`/construct`
 
-- 继承 v4.0 文档摄入流水线，但 **P0 不实现**；
-- P1 迁移并适配到新的扁平结构和 7 型卡片；
-- P2 实现完整编排层。
+文档摄入三阶段。Buffer 为质料层（`role`），Card 为本体对象层（`type`）。结构涌现按聚类 / 区分 / 衔接三类协议进行。细则见 `body-structure.md` 与结构说明文档。
 
 ---
 
-## 五、Harness CLI（P0 交付）
+## 五、Harness CLI
 
 ```bash
 python -m nexogenesis init         # 初始化目录结构，安装 git hook
@@ -249,10 +251,10 @@ writes:
 ### 5.2 写入安全
 
 - 所有 YAML 用 `yaml.safe_load` 解析；
-- ID 和路径穿越检查（id 只能包含 `[a-z0-9-]`）；
-- 临时文件写入后原子替换正式文件；
-- 事务语义：任何一步失败不留下半成状态；
-- 同一次 batch 对应一个 `operation_id`。
+- ID 与路径穿越检查（id 允许汉字、字母、数字、连字符 `-`，禁止路径分隔符与危险字符）；
+- 先写入 staging 并完整校验，通过后才提交到正式位置；失败不留下半成卡片或问题清单；
+- `origin: system` 进入 `mature` / `theory_status: active` 须 `approved_by: user` 且 `operation.allow_system_promotion: true`；
+- 同一次 batch 对应一个 `operation_id`；digest/construct 用 `operation.consumed_buffers` 声明实际消费的 Buffer 路径。
 
 ### 5.3 数量上限改为 warning
 
@@ -303,14 +305,12 @@ writes:
 
 ---
 
-## 八、文档摄入流水线（P1）
-
-P1 新增 `compile`/`digest`/`construct` 三阶段，把批量文档纳入底座：
+## 八、文档摄入流水线
 
 ```bash
 python -m nexogenesis compile --root .           # 生成 prompt
 # Agent 调用 LLM，保存 response 到 .nexogenesis/tmp/compile/batch-XXX-response.md
-python -m nexogenesis compile --apply --root .   # 写入 05-Buffer/，归档 00-Inbox/
+python -m nexogenesis compile --apply --root .   # 写入 05-Buffer/<role>/，归档 00-Inbox/
 
 python -m nexogenesis digest --root .            # 生成 digest prompt
 # Agent 调用 LLM，保存 batch 到 .nexogenesis/tmp/digest/batch.yaml
@@ -327,19 +327,22 @@ python -m nexogenesis construct --apply --root . # 结构优化，标记 Buffer 
 - 启发式预判体裁：`book` / `paper` / `essay` / `dialogue` / `scrap` / `generic`；
 - 按体裁切分编译单元；
 - 生成体裁专属 prompt 到 `.nexogenesis/tmp/compile/`；
-- `--apply` 时解析 LLM 返回，写入 `05-Buffer/<type>/`，并移动原文到 `03-Archive/`。
+- LLM 按**意义单元**整理质料，用 `role` 标注（`meaning-unit`、`artifact-table`、`artifact-figure`、`tension`、`link-hypothesis`、`profile-seed` 等）；
+- 不定 Card `type`，不写 `id` / `relations`；对立不和解；细节内嵌；
+- `--apply` 时写入 `05-Buffer/<role>/`，并移动原文到 `03-Archive/`。
 
 ### 8.2 `/digest`
 
-- 读取 `05-Buffer/` 中 `status: scratch` 的片段；
-- 生成 digest prompt，要求 LLM 输出标准 `write --batch` YAML；
+- 读取 `05-Buffer/` 中 `status: scratch` 的质料，连同相关 Card 正文与问题清单；
+- 跨源对照，产出：丰富/新建 Card、domain 候选、conflict 候选、relation/model 候选、问题清单；
+- 生成标准 `write --batch` YAML；
 - `--apply` 时写入卡片或问题清单，并把已消费 Buffer 状态改为 `digested`。
 
 ### 8.3 `/construct`
 
-- 读取全部 `01-Cards/` 和 `05-Buffer/`；
-- 生成 construct prompt，识别结构张力（冗余、分裂、链接空洞、领域归属冲突）；
-- `--apply` 时写入 domain/relations 调整，并把 `status: digested` 的 Buffer 改为 `constructed`。
+- 读取全部 `01-Cards/` 和相关 `05-Buffer/`；
+- 按聚类 / 区分 / 衔接扫描结构张力（假 domain、未升格 tension、链接空洞、可抽成 model 的关系团等）；
+- 先给出结构方案，经确认后 `--apply`；标记对应 Buffer 为 `constructed`。
 
 ### 8.4 人机协作边界
 
@@ -353,7 +356,7 @@ python -m nexogenesis construct --apply --root . # 结构优化，标记 Buffer 
 
 | 机制 | 进入条件 |
 |---|---|
-| 文档摄入流水线 | 对话-捕获闭环跑通且用户有真实文档需要处理 |
+| 文档摄入流水线 | 已有真实文档需要处理 |
 | 更多卡片类型 | 7 型在真实使用中持续无法表达 |
 | 多透镜强制流程 | 简化判断反复遗漏关键风险 |
 | 自动定期反思 | 人工 `/reflect` 经常被忘记且确实造成损失 |

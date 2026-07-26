@@ -2,22 +2,70 @@ from pathlib import Path
 
 import click
 
-from nexogenesis.schemas import validate_card_schema
+from nexogenesis.body_slots import validate_buffer_body, validate_card_body
+from nexogenesis.schemas import validate_buffer_schema, validate_card_schema
 from nexogenesis.store import Store
 from nexogenesis.yaml_utils import split_frontmatter
 
 
-def run_validate(root_path: Path) -> tuple[list[str], list[str]]:
-    cards_dir = root_path / "01-Cards"
+def _validate_buffers(root_path: Path) -> tuple[list[str], list[str]]:
+    errors: list[str] = []
+    warnings: list[str] = []
+    buffer_dir = root_path / "05-Buffer"
+    if not buffer_dir.exists():
+        return errors, warnings
+    for path in sorted(buffer_dir.rglob("*.md")):
+        text = path.read_text(encoding="utf-8")
+        meta, body = split_frontmatter(text)
+        if not meta:
+            errors.append(f"{path}: 缺少 frontmatter")
+            continue
+        rel = path.relative_to(root_path).as_posix()
+        for e in validate_buffer_schema(meta):
+            errors.append(f"{rel}: {e}")
+        if "[[" in (body or ""):
+            errors.append(f"{rel}: Buffer 正文不得包含 [[ ]] 链接")
+        role = meta.get("role")
+        if isinstance(role, str):
+            for e in validate_buffer_body(role, body or ""):
+                errors.append(f"{rel}: {e}")
+            parent = path.parent.name
+            if parent not in ("05-Buffer",) and parent != role:
+                warnings.append(f"{rel}: 目录名 {parent} 与 role {role} 不一致")
+    return errors, warnings
+
+
+def run_validate(
+    root_path: Path,
+    cards_dir_override: Path | None = None,
+) -> tuple[list[str], list[str]]:
+    cards_dir = cards_dir_override or (root_path / "01-Cards")
     store = Store(cards_dir).load()
-    schema_errors: list[str] = []
+    errors: list[str] = []
+    warnings: list[str] = []
+
     for card in store.cards.values():
-        meta, _ = split_frontmatter(Path(card.path).read_text(encoding="utf-8"))
-        errs = validate_card_schema(meta)
-        for e in errs:
-            schema_errors.append(f"{card.id}: {e}")
-    semantic_errors, warnings = store.validate()
-    return schema_errors + semantic_errors, warnings
+        meta, body = split_frontmatter(Path(card.path).read_text(encoding="utf-8"))
+        for e in validate_card_schema(meta):
+            errors.append(f"{card.id}: {e}")
+        card_type = meta.get("type") if meta else None
+        if isinstance(card_type, str):
+            slot_errs = validate_card_body(card_type, body or "")
+            if body and len(body.strip()) > 20:
+                for e in slot_errs:
+                    errors.append(f"{card.id}: {e}")
+            else:
+                for e in slot_errs:
+                    warnings.append(f"{card.id}: {e}")
+        if meta:
+            theory = meta.get("theory_status")
+            if theory and card_type in ("claim", "model"):
+                if "失效边界" not in (body or "") and "原文未提及" not in (body or ""):
+                    errors.append(f"{card.id}: theory_status 要求正文含「失效边界」或「原文未提及」")
+
+    semantic_errors, store_warnings = store.validate()
+    buf_errors, buf_warnings = _validate_buffers(root_path)
+    return errors + semantic_errors + buf_errors, warnings + store_warnings + buf_warnings
 
 
 @click.command()

@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
@@ -11,6 +11,8 @@ class BatchOperation:
     source: str
     approved_by: str
     writes: list[dict[str, Any]]
+    allow_system_promotion: bool = False
+    consumed_buffers: list[str] = field(default_factory=list)
 
     @classmethod
     def from_file(cls, path: Path) -> "BatchOperation":
@@ -21,6 +23,8 @@ class BatchOperation:
             source=op["source"],
             approved_by=op["approved_by"],
             writes=data.get("writes", []),
+            allow_system_promotion=bool(op.get("allow_system_promotion", False)),
+            consumed_buffers=list(op.get("consumed_buffers") or []),
         )
 
 

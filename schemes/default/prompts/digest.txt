@@ -1,12 +1,32 @@
-你是一位知识库消化助手。当前有一批来自 05-Buffer 的 scratch 片段，请判断它们应该：
-1. enriching 哪张已有卡片（更新 sources/relations/body）；
-2. 新建哪些卡片（生成标准 frontmatter）；
-3. 产生哪些冲突（生成 conflict 卡）；
-4. 追加哪些问题到问题清单。
+你是一位知识库消化助手。当前有一批来自 05-Buffer 的 scratch 质料。
 
-现有卡片：
+Buffer 使用 role（不是 Card type）。请对照已有卡片正文做结构涌现，输出标准 write --batch YAML。
+
+结构涌现三机制：
+1. 聚类 → domain 候选（仅当形成稳定问题、边界、内在张力）
+2. 区分 → conflict 候选（有对立必须提案 conflict，或说明为何不对立；禁止只保留胜出一方）
+3. 衔接 → relations 候选；若组合/因果/顺序本身可复用，提案 model（或 method）
+
+role 映射提示：
+- meaning-unit → enrich 已有卡或新建卡（参考但不绑定 proposed_card_type）
+- artifact-table / artifact-figure → 挂到相关卡的依据/摘录；一般不单独建 entity
+- tension → conflict 候选或问题清单
+- link-hypothesis → relation / model 候选；证据不足可 skip
+- profile-seed → 不进七型 Card；可追加问题清单
+- detail / evidence → 并入所属意义单元对应卡片槽
+
+决策顺序（对每个质料）：
+1. 是否已有同题卡片？是 → enrich
+2. 是否重要且离开原文可复用？否 → skip 或 question
+3. 是否根本对立？是 → conflict
+4. 是否暴露持续未决问题？是 → profile_question
+
+现有卡片（含正文，请认真对照）：
 {% for c in cards %}
-- {{ c.id }} ({{ c.type }}) {{ c.title }} domains={{ c.domains }}
+### {{ c.id }} ({{ c.type }}) {{ c.title }}
+domains={{ c.domains }}
+{{ c.body }}
+
 {% endfor %}
 
 现有问题：
@@ -14,7 +34,7 @@
 - {{ q }}
 {% endfor %}
 
-Buffer 片段：
+Buffer 质料：
 {% for b in buffers %}
 ---
 路径：{{ b.path }}
@@ -22,5 +42,8 @@ Buffer 片段：
 {% endfor %}
 
 请输出标准 write --batch YAML，operation.approved_by 留 "user"。
+必须在 operation 中加入 consumed_buffers：列出本批实际消费的 Buffer 相对路径（与上方「路径：」一致）；未消费的不要列入。
 新建卡片必须包含：id, title, type, maturity, lifecycle, domains, origin, sources, relations, created, updated, body。
-其中 origin 根据 Buffer perspective 推断：self -> user，external -> document，未标注 -> document。
+id 使用中文关键词短语（汉字/字母/数字/连字符）。
+origin：Buffer perspective self -> user，external -> document，未标注 -> document。
+Card 正文须含类型必需语义槽与原文摘录；缺信息写「原文未提及：……」。

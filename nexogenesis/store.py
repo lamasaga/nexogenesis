@@ -1,8 +1,11 @@
 from dataclasses import dataclass, field
 from pathlib import Path
+import re
 
 from nexogenesis.models import Card, CardType, RelationType
 from nexogenesis.yaml_utils import split_frontmatter
+
+WIKILINK_RE = re.compile(r"\[\[([^\]|#/]+)")
 
 
 @dataclass
@@ -68,4 +71,9 @@ class Store:
                 warnings.append(f"{card.id}: sources 数量 {len(card.sources)} 超过建议值 12")
             if len(card.relations) > 12:
                 warnings.append(f"{card.id}: relations 数量 {len(card.relations)} 超过建议值 12")
+            # 正文幽灵链接
+            for m in WIKILINK_RE.finditer(card.body or ""):
+                target = m.group(1).strip()
+                if target and target not in self.cards:
+                    errors.append(f"{card.id}: 正文幽灵链接 [[{target}]]")
         return errors, warnings

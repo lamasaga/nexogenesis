@@ -3,6 +3,8 @@
 import re
 from pathlib import Path
 
+from nexogenesis.schemas import BUFFER_ROLES
+
 DEFAULT_BATCH_LIMIT = 30000
 
 WORD_RE = re.compile(r"[a-zA-Z]+(?:['-][a-zA-Z]+)?")
@@ -23,18 +25,12 @@ def count_chars(text: str) -> int:
     return (chinese * CHINESE_CHAR_COST_NUM + english_words * ENGLISH_WORD_COST_NUM + 1) // 2
 
 
-VALID_BUFFER_TYPES = {
-    "domain",
-    "claim",
-    "phenomenon",
-    "model",
-    "method",
-    "entity",
-    "conflict",
-}
+# 兼容旧名：曾用 Card type 作为 Buffer 子目录
+VALID_BUFFER_ROLES = set(BUFFER_ROLES)
+VALID_BUFFER_TYPES = VALID_BUFFER_ROLES  # 弃用别名，避免外部 import 立即断裂
 
 
 def ensure_buffer_dirs(buffer_dir: Path) -> None:
-    """确保 Buffer 子目录存在（7 种类型）。"""
-    for subtype in VALID_BUFFER_TYPES:
-        (buffer_dir / subtype).mkdir(parents=True, exist_ok=True)
+    """确保 Buffer 子目录存在（按 role）。"""
+    for role in VALID_BUFFER_ROLES:
+        (buffer_dir / role).mkdir(parents=True, exist_ok=True)

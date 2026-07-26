@@ -1,540 +1,325 @@
-# Buffer / Card 成品结构草案
+# Buffer / Card 结构说明
 
-> 状态：已确认（v1，2026-07-26 用户拍板）  
-> 日期：2026-07-26  
-> 依据：当前 `AGENTS.md`、现有 `05-Buffer`/`01-Cards` 样本、`思维涌现mainV4` 与 `思维引擎mainv3.1` 可继承优点梳理  
-> 目标：确定「拆解 Buffer」与「消化 Card」两步的成品正文结构，并允许按类型与内容灵活扩展
-
----
-
-## 0. 已确认决策（拍板记录）
-
-　　以下五项已由用户确认，作为本草案的硬前提；后续各节据此收紧。
-
-1. **命名使用中文**：Buffer 文件名与 Card 的 `id`（兼文件名）均以中文为主，详见 §3.5。
-2. **限制 / 边界 7 类全部必需**：所有类型都必须有「限制 / 边界」语义槽，缺则写「原文未提及」，详见 §3.3、§4。
-3. **Card 必须保留原文摘录**：原文摘录在 Card 侧由「建议」升为「必需」，详见 §3.3、§4。
-4. **结构契约单独成文**：正文骨架不塞进 `ontology.md`，新建 `01-Cards/_meta/body-structure.md` 专管，详见 §9。
-5. **直接上 harness 校验**：不走「先 Prompt 后 warning」的分期，直接把结构契约实现为 harness 校验，详见 §10。
+> 状态：现行（2026-07-27）  
+> 活契约：`01-Cards/_meta/body-structure.md`（校验与 prompt 以之为准）  
+> 本文件是机制说明；改契约须先改 `body-structure.md` 并经用户确认。
 
 ---
 
+## 1. 两层分工
 
-
-## 1. 设计目标
-
-　　本草案只回答一件事：**成品文档应长什么样**，以及 **digest 如何决定写什么**。
-
-成功标准：
-
-1. 不同类型卡片有稳定的最小语义槽，读起来可学习、可复用。
-2. 同类材料可以按内容追加可选段，不必把标题全部写死。
-3. Buffer 与 Card 结构同源，digest 主要做比对、归因与关系，而不是重写一通。
-4. 缺信息时允许显式标注「原文未提及」，禁止空套话与「待补充」。
-
-非目标（本草案不做）：
-
-- 不恢复 10 型卡片或按领域分子目录。
-- 不把 Profile 三件套重新绑回每轮 digest。
-
----
-
-
-
-## 2. 三层结构模型
+| 层 | 是什么 | 回答的问题 | 身份 |
+|---|---|---|---|
+| **Buffer（质料层）** | 整理后的可重组材料 | 有什么意义、细节、证据、图表、张力、弱链？ | 无稳定 id；有 `source` + `role` |
+| **Card（本体对象层）** | 承诺维护的知识对象 | 哪类对象？属哪些域？与谁关联？ | 有 `id` / `type` / `domains` / `relations` / `lifecycle` |
 
 ```text
-层 1  通用不可变层     所有 Buffer/Card 都必须满足
-层 2  类型最小骨架     7 种 type 各有少量必需语义槽
-层 3  内容驱动变体     按体裁/材料特征追加可选段
+00-Inbox（原始材料，处理前不可变）
+  → compile：整理为质料（不定 Card type、不写死 relations）
+  → 05-Buffer/<role>/
+  → digest：跨源对照，提出候选（用户确认后写入）
+  → 01-Cards + 02-Profile/问题清单
+  → construct：跨批次结构扫描，先方案后写入
 ```
 
-原则：
+纪律：
 
-- **语义槽优先于标题字面**：允许同义标题，但槽位必须可识别。
-- **缺槽显式说明**：某必需槽原文确实没有时，写「原文未提及：……」，不得省略、不得编造。
-- **Buffer 是草稿资产，Card 是可复用资产**：两者正文骨架同源；Card 额外承担 id、domains、origin、relations、lifecycle。
-
----
-
-
-
-## 3. 层 1：通用不可变结构
-
-
-
-### 3.1 Buffer frontmatter（必需 / 可选）
-
-
-| 字段                    | 必需  | 说明                                                     |
-| --------------------- | --- | ------------------------------------------------------ |
-| `title`               | 是   | 一句话标题，能独立理解                                            |
-| `type`                | 是   | 7 型之一                                                  |
-| `created` / `updated` | 是   | `YYYY-MM-DD`                                           |
-| `source`              | 是   | 精确来源锚点（文件/章节/页码/说话人等）                                  |
-| `status`              | 是   | `scratch` / `digested` / `constructed`                 |
-| `genre`               | 建议  | `book` / `paper` / `essay` / `dialogue` / `scrap` / 其他 |
-| `perspective`         | 建议  | `self` / `external`                                    |
-| `proposed_domains`    | 可选  | 供 digest 参考                                            |
-| `proposed_maturity`   | 可选  | `seed` / `growing` / `mature`                          |
-
-
-禁止：
-
-- Buffer frontmatter 不得写 `id`、`relations`
-- Buffer 正文不得使用 `[[ ]]`；提及概念用 **加粗**
-- 禁止只有标题或一句话摘要的空碎片
-
-
-
-### 3.2 Card frontmatter（沿用现契约）
-
-沿用当前 `AGENTS.md` §3.1–3.3：`id`、`title`、`type`、`maturity`、`lifecycle`、`domains`、`origin`、`sources`、`relations`、`created`、`updated`；条件字段 `theory_status`、`superseded_by`。
-
-补充纪律：
-
-- 更新已有卡片时 **保留原** `created`，只改 `updated`
-- `origin` 映射：`perspective:self → user`；`external → document`；未标注 → `document`
-- `origin:system` 未经用户批准不得进入 `maturity:mature` 或 `theory_status:active`
-
-
-
-### 3.3 通用正文语义槽（Buffer 与 Card 共用）
-
-所有成品正文在类型专属槽之外，应尽量覆盖以下通用槽。类型专属槽已表达同一语义时，不必重复开同名节。
-
-
-| 语义槽     | 作用                   | 强度                                   |
-| ------- | -------------------- | ------------------------------------ |
-| 核心表达    | 一句话说清这是什么 / 主张什么     | 必需（由类型槽承载）                           |
-| 依据 / 细节 | 支撑核心表达的机制、步骤或证据      | 必需（由类型槽承载）                           |
-| 限制 / 边界 | 何时失效、代价、不适用          | **7 类全部必需**（由各类型指定槽承载，见 §4）          |
-| 原文摘录    | ≤6 条，带精确锚点           | **Buffer 与 Card 均必需**至少 1 条摘录或等价精确锚点 |
-| 观点分层    | 区分作者原意 / 本库解读 / 系统推断 | 有混杂风险时必需                             |
-
-
-缺失写法统一为：
-
-```markdown
-## 已知限制
-
-　　原文未提及：作者未讨论该主张在应试场景下的代价。
-```
-
-「限制 / 边界」7 类必需时，各类型承载槽如下（避免为不同类型强加不自然的同名节）：
-
-
-| 类型           | 承载「限制 / 边界」的槽         |
-| ------------ | --------------------- |
-| `domain`     | 边界（领域适用范围与盲区）         |
-| `claim`      | 已知限制                  |
-| `phenomenon` | 反例与失效条件               |
-| `model`      | 失效边界                  |
-| `method`     | 适用边界                  |
-| `entity`     | 边界与局限（不是什么 / 已知问题）    |
-| `conflict`   | 调和可能（含何时不再对立 / 是否伪冲突） |
-
-
-
-
-### 3.4 中文排版
-
-叙述性正文段首使用两个全角空格（　　``）。标题、列表、引用块、YAML、代码块不加段首空格。
-
-### 3.5 命名约束（中文）
-
-　　Buffer 文件名与 Card 的 `id` 都以中文为主。`id` 兼作文件名与 `relations.target`、`[[id|标题]]` 链接目标，因此需要一套可校验的中文命名规则。
-
-**允许字符集**：中文汉字、`0-9`、英文字母、连字符 `-`。  
-**禁止字符**：路径穿越与文件系统危险字符 `/ \ : * ? " < > | 空白`，以及前后空格。
-
-- Buffer 文件名：`YYYY-MM-DD-HHMMSS-<毫秒或序号>-<中文标题>.md`，标题部分按上表清洗，超长截断。
-- Card `id`：直接采用**中文关键词短语**（如 `语音系统是英语学习的核心`），文件名 = `<id>.md`。
-- `id` 全局唯一；更新卡片不改 `id` 与 `created`。
-
-**存量与迁移**：现有英文 `id` 卡片（如 `speech-system-as-english-core`）作为历史保留，`relations` 指向其英文 `id` 仍有效；不强制批量改名。新建卡片一律使用中文 `id`。是否在后续 `/construct` 中统一迁移，另行决定。
-
-**harness 影响**（见 §10）：`id` 正则、文件名清洗、索引链接解析、幽灵链接匹配都需从「仅 `[a-z0-9-]`」放宽到「中文命名规则」。中文文件名在 Windows/git 下可能显示乱码但不影响存在性，判断存在性以路径 API 为准。
+- **`type` 只属于 Card**；Buffer 用 **`role`** 标注材料用途。
+- compile **保细节、保张力、不和解、不定型**。
+- 定型与关系承诺发生在 digest / construct，且须用户确认。
 
 ---
 
+## 2. 结构涌现：聚类 / 区分 / 衔接
 
+| 机制 | 结构操作 | 主要落点 | 升格门槛 |
+|---|---|---|---|
+| **聚类** | 同属一个问题空间 | `domain` Card + `domains` | 稳定问题 + 边界 + 内在张力 |
+| **区分** | 不能同时成立或必须对照 | `conflict` Card + `conflicts-with` / `involves` | 可持续追踪的对立 + 双方证据 |
+| **衔接** | 互相支撑、组成、延伸 | `relations`（默认）+ `model` / `method`（结构或步骤可复用时） | 组合关系本身值得维护时 |
 
-## 4. 层 2：七类型最小骨架
+衔接不另增 Card 类型：轻量用 `relations`；解释结构用 `model`；可执行步骤链用 `method`；质料侧种子为 `link-hypothesis`。
 
-说明：
+升格注意：
 
-- **推荐标题**只是默认写法；同义标题可接受（如「关键组件与关系」≈「关键组件」）。
-- Buffer 与 Card 使用同一套类型骨架；Card 可在消化时精炼措辞，但不得丢掉必需槽。
-- `phenomenon` 当前样本缺失，仍按下列骨架定义，便于首次落地。
-
-
-
-### 4.1 `domain`
-
-回答：这是哪个思想领域？
-
-
-| 槽位   | 强度          | 推荐标题      |
-| ---- | ----------- | --------- |
-| 核心问题 | 必需          | `## 核心问题` |
-| 边界   | 必需（承载限制/边界） | `## 边界`   |
-| 内在张力 | 必需          | `## 内在张力` |
-| 原文摘录 | 必需          | `## 原文摘录` |
-
-
-可选变体：涉及的概念（未建卡者用加粗，不建幽灵链接）。
-
-### 4.2 `claim`
-
-回答：主张 / 立场是什么？
-
-
-| 槽位    | 强度          | 推荐标题       |
-| ----- | ----------- | ---------- |
-| 一句话主张 | 必需          | `## 一句话主张` |
-| 依据    | 必需          | `## 依据`    |
-| 已知限制  | 必需（承载限制/边界） | `## 已知限制`  |
-| 原文摘录  | 必需          | `## 原文摘录`  |
-
-
-可选变体：要点清单（如「五项要点」）、适用场景、反例。
-
-### 4.3 `phenomenon`
-
-回答：发生了什么模式？
-
-
-| 槽位      | 强度          | 推荐标题         |
-| ------- | ----------- | ------------ |
-| 模式描述    | 必需          | `## 模式描述`    |
-| 典型实例    | 必需          | `## 典型实例`    |
-| 反例与失效条件 | 必需（承载限制/边界） | `## 反例与失效条件` |
-| 原文摘录    | 必需          | `## 原文摘录`    |
-
-
-可选变体：触发条件、可见指标、与相关 claim/model 的关系说明。
-
-### 4.4 `model`
-
-回答：怎么理解这个复杂事物？
-
-
-| 槽位      | 强度          | 推荐标题                             |
-| ------- | ----------- | -------------------------------- |
-| 核心思想    | 必需          | `## 核心思想`                        |
-| 关键组件    | 必需          | `## 关键组件` 或 `## 关键组件与关系`         |
-| 结构 / 因果 | 必需          | 可并入组件节，或单列 `## 结构关系` / `## 因果链条` |
-| 失效边界    | 必需（承载限制/边界） | `## 失效边界`                        |
-| 原文摘录    | 必需          | `## 原文摘录`                        |
-
-
-可选变体：章节骨架、论证主线、与一般框架对比、图示文字化描述。
-
-### 4.5 `method`
-
-回答：怎么做？
-
-
-| 槽位   | 强度          | 推荐标题      |
-| ---- | ----------- | --------- |
-| 输入   | 必需          | `## 输入`   |
-| 步骤   | 必需          | `## 步骤`   |
-| 输出   | 必需          | `## 输出`   |
-| 适用边界 | 必需（承载限制/边界） | `## 适用边界` |
-| 原文摘录 | 必需          | `## 原文摘录` |
-
-
-可选变体：课程阶段、课程类型、检查点、常见失败模式、参数 / 节奏。
-
-### 4.6 `entity`
-
-回答：这个对象是什么？
-
-
-| 槽位    | 强度          | 推荐标题       |
-| ----- | ----------- | ---------- |
-| 定义    | 必需          | `## 定义`    |
-| 关键属性  | 必需          | `## 关键属性`  |
-| 边界与局限 | 必需（承载限制/边界） | `## 边界与局限` |
-| 来源    | 必需          | `## 来源`    |
-| 原文摘录  | 必需          | `## 原文摘录`  |
-
-
-可选变体：别名、相关作品 / 人物。
-
-### 4.7 `conflict`
-
-回答：根本矛盾在哪？
-
-
-| 槽位        | 强度          | 推荐标题         |
-| --------- | ----------- | ------------ |
-| 对立双方      | 必需          | `## 对立双方`    |
-| 核心分歧点     | 必需          | `## 核心分歧点`   |
-| 各自证据 / 代价 | 必需          | `## 各自证据/代价` |
-| 调和可能      | 必需（承载限制/边界） | `## 调和可能`    |
-| 原文摘录      | 必需          | `## 原文摘录`    |
-
-
-关系纪律：
-
-- conflict 卡用 `involves` 指向争议各方
-- 两张 claim/model 之间的直接对立用 `conflicts-with`
-- 不得用 `involves` 代替 `conflicts-with`
+- 共同主题 ≠ domain。
+- 局部差异 ≠ conflict。
+- 两主张直接相斥可用 `conflicts-with`；冲突本身值得解释时另建 conflict，并用 `involves` 指向各方。
 
 ---
 
+## 3. Buffer：质料层
 
+### 3.1 颗粒度
 
-## 5. 层 3：内容驱动变体（何时追加）
+**一文件 ≈ 一个意义单元，或一个独立表/图质料。**
 
-变体是**可选段**，不得取代层 2 必需槽。
+成片闸门：
 
+1. **单核**：只承载一个核心意义  
+2. **自足**：脱离原文仍可读懂  
+3. **可重组**：可被不同结构分别调用  
+4. **留线索不锁结构**：弱关联标注，不写 Card relations  
 
-| 触发条件            | 建议追加          | 典型落点类型                        |
-| --------------- | ------------- | ----------------------------- |
-| 图书 / 长教程，存在全书主线 | 章节骨架、论证主线     | `model`                       |
-| 论文，有评测          | 数据集、指标、基线对比   | `claim` / `method` / 也可单开证据说明 |
-| 课程或教学路径         | 课程阶段、课程类型、检查点 | `method`                      |
-| 对话录             | 说话人立场演变、转折点   | `claim` / `conflict`          |
-| 随笔 / 本人思考       | 推理路径、未决张力     | `claim` / `model`             |
-| 多个并列要点          | 要点清单          | `claim`                       |
-| 与常见做法对照         | 对比表或对比段       | `model` / `conflict`          |
+同单元的依据、边界、摘录**内嵌**；禁止无核薄片。
 
+### 3.2 `role`
 
-约束：
+| role | 含义 | 默认形态 |
+|---|---|---|
+| `meaning-unit` | 候选对象内核 | 独立文件；内嵌细节 |
+| `detail` | 须被他处单独引用的细节 | 默认内嵌 |
+| `evidence` | 可独立引用的关键证据 | 默认内嵌 |
+| `artifact-table` | 重要表格 | 独立文件 |
+| `artifact-figure` | 重要配图 | 独立文件 |
+| `tension` | 未定型对立线索 | 独立文件 |
+| `link-hypothesis` | 弱关联假设 | 可独立 |
+| `profile-seed` | 风格/推理线索 | 分流 Profile，不进七型 Card |
 
-- 同一张卡可选变体建议 ≤3 个，避免膨胀
-- 变体标题应具体（「课程阶段」优于「补充说明」）
-- 若变体内容其实是另一类型能独立回答的问题，应拆卡，而不是塞进可选段
+目录：`05-Buffer/<role>/`。
 
----
+### 3.3 frontmatter
 
+必需：`title`、`role`、`created`、`updated`、`source`、`status`  
+建议：`genre`、`perspective`  
+可选：`proposed_card_type`、`proposed_domains`、`related_within_batch`
 
+禁止：`type`（七型）、`id`、`relations`；正文禁止 `[[ ]]`（概念用 **加粗**）；禁止空质料与和稀泥式综合。
 
-## 6. 类型判定规则（从旧版继承并适配 7 型）
+### 3.4 意义单元正文
 
-当内容可能属于多种类型时，按优先级选**主类型**：
+| 槽位 | 强度 | 推荐标题 |
+|---|---|---|
+| 核心表达 | 必需 | `## 核心表达` |
+| 依据与细节 | 必需 | `## 依据与细节` |
+| 限制与边界 | 必需（无则「原文未提及」） | `## 限制与边界` |
+| 原文摘录 | 必需 ≥1 | `## 原文摘录` |
+| 观点分层 | 有混杂风险时必需 | `## 观点分层` |
 
-1. 记录根本对立或两难 → `conflict`
-2. 提供可执行步骤 → `method`
-3. 解释复杂结构 / 因果框架 → `model`
-4. 描述可观察模式 → `phenomenon`
-5. 表达主张 / 立场 / 原则性判断 → `claim`
-6. 有明确边界的对象 → `entity`
-7. 思想领域本身 → `domain`
+### 3.5 表 / 图正文
 
-交叉处理：
+必需：标题与编号、内容转写（表用 Markdown 表或结构化转写；图如实描述关键可见信息）。  
+建议：支撑的意义单元标题、限制说明。  
+一般不因表/图单独建 entity Card。
 
-- 主类型只选一个；其他维度用 `relations` 连接
-- 例：某教学法主类型为 `method`，其背后原理用 `based-on` 指向 `model`/`claim`
-- 无法判定时：Buffer 可暂标 `claim` + `proposed_maturity: seed`，并在编译报告中标「类型待确认」
+### 3.6 其他 role
 
----
-
-
-
-## 7. Buffer 与 Card 的关系
-
-
-
-### 7.1 同源映射
-
-```text
-compile 产出 Buffer（层1+层2[+层3]）
-    → digest 比对已有 Card
-    → enrich 已有 / 新建 Card / 新建 conflict / 追加 question
-```
-
-默认策略：
-
-- **优先 enrich**：同题已有卡时，合并依据、限制、摘录与来源，不新建近义卡
-- **正文可近乎迁移**：新建时允许从 Buffer 正文进入 Card，再补 frontmatter 与 relations
-- **精炼允许，删槽不允许**：可改写句子，不得删掉必需语义槽
-
-
-
-### 7.2 什么时候不该成卡
-
-满足任一条件则保持 Buffer 或仅写入问题清单：
-
-- 只有金句、无可复用结构
-- 离开原文档上下文后无法理解
-- 与已有卡重复，且无新证据 / 新限制 / 新关系
-- 仅是临时疑问 → `02-Profile/问题清单.md`
+- `tension`：双方、分歧点、各一侧依据、为何暂不定型  
+- `link-hypothesis`：A/B、假设关系、强度、可证伪方式  
+- `profile-seed`：观察与来源；不得写成用户稳定信念  
+- `detail` / `evidence` 独立成文件时：说明为何不能内嵌及所属意义单元  
 
 ---
 
+## 4. Card：本体对象层
 
+### 4.1 frontmatter
 
-## 8. Digest 比对协议（成卡决策）
+`id`、`title`、`type`、`maturity`、`lifecycle`、`domains`、`origin`、`sources`、`relations`、`created`、`updated`；条件字段 `theory_status`、`superseded_by`。
 
+- 更新保留原 `created`  
+- `origin:system` 未经批准不得 `mature` / `theory_status:active`  
+- `perspective:self → user`；`external → document`  
 
+### 4.2 七型与判定优先级
 
-### 8.1 入场上下文（必须给 LLM）
+`domain` | `claim` | `phenomenon` | `model` | `method` | `entity` | `conflict`
 
-1. `01-Cards/_meta/ontology.md`
-2. 相关 `domain` 卡全文
-3. 候选相关实例卡：至少 `id/title/type/domains/sources`，**以及正文**（或正文摘要 + 关键槽）
-4. 本批 scratch Buffer 全文
-5. 当前问题清单
+1. 根本对立 → `conflict`  
+2. 可执行步骤 → `method`  
+3. 解释结构/因果 → `model`  
+4. 可观察模式 → `phenomenon`  
+5. 主张/立场 → `claim`  
+6. 有边界对象 → `entity`  
+7. 思想领域 → `domain`  
 
-不得只提供卡片标题列表。
+主类型唯一；其余用 `relations` 连接。
 
-### 8.2 决策顺序
+### 4.3 通用纪律
 
-对每个 Buffer 片段：
+- 限制/边界：七型全部必需（由各类型指定槽承载）  
+- 原文摘录：至少 1 条，带精确锚点  
+- 缺信息写 `原文未提及：……`，禁止空套话  
 
-```text
-1. 是否已有同题卡片？
-   是 → enrich（更新 body 对应槽、sources、updated、必要 relations）
-   否 → 进入 2
-2. 是否重要且持久、离开原文仍可复用？
-   否 → 跳过或降为 question
-   是 → 新建对应 type 卡
-3. 是否与已有 claim/model 根本对立？
-   是 → 新建/更新 conflict，并用 involves / conflicts-with 连边
-4. 是否暴露持续未决问题？
-   是 → 追加问题清单
-```
+「限制/边界」承载：domain→边界；claim→已知限制；phenomenon→反例与失效条件；model→失效边界；method→适用边界；entity→边界与局限；conflict→调和可能。
 
+### 4.4 命名与排版
 
+- Buffer 文件名与 Card `id` 以中文为主：汉字 / 字母 / 数字 / `-`  
+- Buffer：`YYYY-MM-DD-HHMMSS-<序号>-<中文标题>.md`  
+- Card：文件名 = `<id>.md`；更新不改 `id`  
+- 叙述段首两个全角空格（　　）  
 
-### 8.3 消化报告（`--apply` 前必出）
+### 4.5 各型最小骨架
 
-最低字段：
+**domain**：核心问题、边界、内在张力、原文摘录（成员由 index 反向生成）  
+**claim**：一句话主张、依据、已知限制、原文摘录  
+**phenomenon**：模式描述、典型实例、反例与失效条件、原文摘录  
+**model**：核心思想、关键组件、结构关系/因果链条、失效边界、原文摘录  
+**method**：输入、步骤、输出、适用边界、原文摘录  
+**entity**：定义、关键属性、边界与局限、来源、原文摘录  
+**conflict**：对立双方、核心分歧点、各自证据/代价、调和可能、原文摘录  
 
-- enrich：哪些 id，补了什么
-- create：哪些新 id / type
-- conflict：新旧冲突及涉及方
-- skip：跳过的 Buffer 及原因
-- risk：建议触发 `/construct` 的结构张力（冗余、分裂、链接空洞等）
-- open questions：追加到问题清单的条目
+conflict 用 `involves`；claim/model 直接对立用 `conflicts-with`；二者不可互代。
 
-未经用户确认，不得 `--apply`。
+### 4.6 内容变体（可选）
 
-### 8.4 消费标记
-
-- 仅当 Buffer 在已批准 batch 中被实际消费（enrich/create/conflict/skip-with-reason）后，才标 `digested`
-- 不得把本轮未处理的 scratch 批量误标为 digested
-
----
-
-
-
-## 9. 结构契约文档：`body-structure.md`
-
-　　正文骨架不写进已刻意变薄的 `ontology.md`，而是单独落在 `01-Cards/_meta/body-structure.md`，作为 compile / digest / validate 共同引用的**活契约**。
-
-`body-structure.md` 至少声明：
-
-1. **通用层**：Buffer / Card 各自的 frontmatter 必需字段与命名规则（§3.1、§3.2、§3.5）。
-2. **类型层**：7 种 type 的必需语义槽及其承载「限制/边界」的槽（§3.3、§4）。
-3. **槽识别规则**：每个语义槽的推荐标题 + 可接受同义标题清单（供校验器做语义槽匹配，而非标题全等）。
-4. **缺槽写法**：`原文未提及：……` 的标准格式。
-5. **变体白名单**：层 3 常见可选段名称（非强制，仅供提示）。
-
-版本与演化：`body-structure.md` 带 frontmatter（`version`、`updated`），修改须经用户确认；校验器读取它决定当前生效的结构规则，实现「改契约即改校验」。
+单卡建议 ≤3 个可选段；不得取代必需槽。例如：章节骨架、评测数据、课程阶段、立场演变、要点清单。若变体实为另一类型可独立回答的问题 → 拆卡。
 
 ---
 
+## 5. role → 消化映射
 
+| Buffer role | digest 默认动作 |
+|---|---|
+| `meaning-unit` | enrich 已有或新建 Card；`proposed_card_type` 仅供参考 |
+| `artifact-table` / `artifact-figure` | 挂到相关 Card 依据/摘录 |
+| `tension` | conflict 候选，或说明为何不对立；否则问题清单 |
+| `link-hypothesis` | relation / model 候选；证据不足则跳过 |
+| `profile-seed` | Profile / 问题清单，不进七型 Card |
+| `detail` / `evidence` | 并入所属意义单元对应 Card 槽 |
 
-## 10. harness 校验（直接实现，不分期）
-
-　　按已确认决策，结构契约直接实现为 harness 校验。校验器读取 `body-structure.md`，对 Buffer 与 Card 同时生效。
-
-### 10.1 校验规则与级别
-
-
-| 检查项                                                        | 对象          | 级别      |
-| ---------------------------------------------------------- | ----------- | ------- |
-| `type` ∈ 7                                                 | Buffer/Card | error   |
-| 命名符合中文规则（允许字符集、无危险字符、无空格）                                  | Buffer/Card | error   |
-| Card `id` 唯一、文件名 = `id`.md                                 | Card        | error   |
-| Buffer 禁 `[[ ]]`、禁 frontmatter `id`/`relations`            | Buffer      | error   |
-| 类型必需语义槽齐全（按语义槽匹配，缺则须有「原文未提及」）                              | Buffer/Card | error   |
-| 原文摘录 ≥1 条或等价精确锚点                                           | Buffer/Card | error   |
-| 更新时 `created` 被改写                                          | Card        | error   |
-| `relations.target` / `involves` 指向存在的卡片                    | Card        | error   |
-| `conflict` 用 `involves`，claim/model 直接对立用 `conflicts-with` | Card        | error   |
-| `origin:system` 擅自 `mature` / `theory_status:active`       | Card        | error   |
-| `sources` / `relations` 数量 > 12                            | Card        | warning |
-| 层 3 变体 > 3 个                                               | Buffer/Card | warning |
-
-
-原则：**正文结构校验按语义槽识别**（标题命中推荐或同义清单即算满足），不做标题字符串全等。
-
-### 10.2 harness 改造点
-
-现有实现（见约束梳理）需要以下改动：
-
-1. **中文命名放宽**：`nexogenesis/schemas.py` 的 `id` 正则 `^[a-z0-9-]+$` → 中文命名规则；`ingest/batch_runner.py` 的文件名清洗同步放宽但仍剔除危险字符。
-2. **新增 Buffer 校验**：新建 `BUFFER_SCHEMA` 与 Buffer body 校验；`compile --apply` 的校验对象从「只验 Card」扩展到「验 Buffer」。
-3. **正文语义槽校验器**：新增按 `body-structure.md` 解析标题、做语义槽匹配的模块，供 Card 与 Buffer 共用。
-4. **写入事务补齐**：`write.py` 改为「先临时文件 → 校验 → 再原子提交」；Buffer 状态更新、问题清单追加纳入同一回滚范围。
-5. **摘录/锚点检查**：识别 `## 原文摘录` 或 `source` 精确锚点，缺失报 error。
-6. **索引/链接解析**：`index.py` 与幽灵链接匹配适配中文 `id`。
-
-
-
-### 10.3 存量兼容
-
-- 现有英文 `id` 卡片保留，校验对存量 `id` 放行（新旧规则并存）；仅对**新建**卡强制中文 `id`。
-- 现有 Buffer/Card 若缺「限制/边界」或摘录槽，由对照审计（§12）逐个补，不在启用校验当天批量拒绝提交。
+优先 enrich；新建须离开原文仍可复用；禁止近义重复卡。
 
 ---
 
+## 6. Digest / Construct 协议
 
+### 6.1 Digest 入场
 
-## 11. 模板示例（精简）
+1. `ontology.md`  
+2. 相关 domain 卡全文  
+3. 候选实例卡（含正文或关键槽）  
+4. 本批 scratch Buffer 全文  
+5. 同批标题 / role 一览  
+6. 问题清单  
 
+### 6.2 Digest 产出（候选，须确认）
 
+| 产出 | 机制 |
+|---|---|
+| 丰富 / 新建普通 Card | — |
+| domain 候选 | 聚类 |
+| conflict 候选 | 区分 |
+| relation / model 候选 | 衔接 |
+| 问题清单 | 开口 |
 
-### 11.1 Buffer `claim` 示例骨架
+硬纪律：有对立须提案 conflict（或说明为何不对立）；未经确认不得 `--apply`。仅实际消费的 Buffer 标 `digested`。
+
+### 6.3 Construct
+
+跨批次扫描：
+
+- 聚类：重复主题、假 domain、孤儿卡、领域边界漂移  
+- 区分：未升格 tension、缺 conflict 卡或 `involves`  
+- 衔接：链接空洞/过载、可抽成 model 的关系团、表图未挂上解释结构  
+
+先出结构方案，后写入。
+
+### 6.4 反模式
+
+按维度切薄片；compile 定 type/relations；digest 只誊写不对照；自动抹平矛盾；用向量库/多 Agent 冒充发现。
+
+---
+
+## 7. Compile 要点
+
+1. 按意义单元成片（过闸门）  
+2. 重要表/图 → `artifact-*`  
+3. 对立分片 + `tension`  
+4. 可能联系 → `link-hypothesis`  
+5. 细节内嵌  
+6. 不写 Card 的 `type` / `id` / `relations`  
+
+---
+
+## 8. 校验与契约文件
+
+- 活契约：`01-Cards/_meta/body-structure.md`  
+- Harness：`validate` 校验 Buffer `role` 与 Card `type`、语义槽、中文命名、幽灵链接等  
+- 运行手册：`AGENTS.md`  
+- Prompt：`schemes/default/prompts/`  
+
+---
+
+## 9. 模板
+
+### Buffer 意义单元
 
 ```markdown
 ---
-title: 语音系统是英语学习的核心
-type: claim
-created: "2026-07-26"
-updated: "2026-07-26"
-source: 《认知英语教程》Ⅰ · 三个关键角度
+title: 示例主张标题
+role: meaning-unit
+created: "2026-07-27"
+updated: "2026-07-27"
+source: 《某材料》第×章
 status: scratch
-genre: book
+genre: essay
 perspective: external
-proposed_domains: [teaching, cognitive]
-proposed_maturity: growing
+proposed_card_type: claim
 ---
 
-## 一句话主张
+## 核心表达
 
 　　……
 
-## 依据
+## 依据与细节
 
 - ……
 
-## 已知限制
+## 限制与边界
 
-　　……
+　　原文未提及：……
 
 ## 原文摘录
 
-> 「……」（Ⅰ）
+> 「……」
 ```
 
-
-
-### 11.2 Card `method` 带变体示例
+### Buffer 表格
 
 ```markdown
 ---
-id: 认知拼读法
-title: 认知拼读：从元音切入的语音基础建构法
+title: 表1 示例对照表
+role: artifact-table
+created: "2026-07-27"
+updated: "2026-07-27"
+source: 《某材料》表1
+status: scratch
+related_within_batch: [相关意义单元标题]
+---
+
+## 标题与编号
+
+　　表1 示例对照表
+
+## 内容转写
+
+| 列A | 列B |
+|---|---|
+| …… | …… |
+
+## 支撑的意义
+
+　　服务于 **相关意义单元标题**。
+```
+
+### Card method
+
+```markdown
+---
+id: 示例方法
+title: 示例方法全称
 type: method
-...
+maturity: growing
+lifecycle: active
+domains: [示例领域]
+origin: document
+sources:
+  - 《某材料》第×章
+relations: []
+created: "2026-07-27"
+updated: "2026-07-27"
 ---
 
 ## 输入
@@ -553,10 +338,6 @@ type: method
 
 　　……
 
-## 课程阶段
-
-- ……
-
 ## 原文摘录
 
 > 「……」
@@ -564,29 +345,6 @@ type: method
 
 ---
 
+## 10. 一句话
 
-
-## 12. 落地顺序（确认后执行）
-
-1. 编写 `01-Cards/_meta/body-structure.md` 结构契约（§9）。
-2. harness 改造（§10.2）：中文命名放宽、`BUFFER_SCHEMA`、语义槽校验器、写入事务补齐、索引/链接适配。
-3. 更新 `compile-*.txt` / `digest.txt`：按 type 输出骨架，而不仅按体裁列提取维；digest 入场携带相关卡正文（§8.1）。
-4. 用现有 `05-Buffer` / `01-Cards` 样本做一次对照审计：补齐缺失的「限制/边界」与原文摘录槽，存量英文 `id` 保留。
-5. 启用校验（§10.1），跑通 `validate` 与既有测试，补 Buffer 校验用例。
-
----
-
-
-
-## 13. 遗留待澄清（不阻塞落地）
-
-1. **存量英文** `id` **是否统一迁移为中文**：默认保留，另行决定是否在 `/construct` 批量改名。
-2. **中文** `id` **允许字符集边界**：是否允许全角标点（如 `：`）出现在 `id` 中；默认剔除，仅保留汉字/字母/数字/连字符。
-
----
-
-
-
-## 14. 一句话收束
-
-　　成品结构 = **通用不可变层 + 七类型最小语义槽（限制/边界与原文摘录 7 类全必需）+ 少量内容变体**；消化过程 = **读相关正文后 enrich 优先，缺槽显式声明，冲突单独成卡**；结构契约落在 `body-structure.md`，并直接由 harness 校验强制。
+　　Buffer 用 role 整理质料；Card 用 type 承诺对象；结构靠聚类、区分、衔接三类协议涌现——compile 整理，digest 对照，construct 齐扫。

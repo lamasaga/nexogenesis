@@ -48,7 +48,12 @@ def test_full_capture_loop_is_idempotent(tmp_path: Path):
                     "origin": "user",
                     "sources": ["用户对话"],
                     "relations": [],
-                    "body": "教学领域的核心问题、边界与内在张力。",
+                    "body": (
+                        "## 核心问题\n\n　　教学如何有效发生。\n\n"
+                        "## 边界\n\n　　原文未提及：验收测试未展开。\n\n"
+                        "## 内在张力\n\n　　原文未提及：验收测试未展开。\n\n"
+                        "## 原文摘录\n\n> 教学领域\n"
+                    ),
                     "created": "2026-07-24",
                     "updated": "2026-07-24",
                 },
@@ -63,7 +68,12 @@ def test_full_capture_loop_is_idempotent(tmp_path: Path):
                     "origin": "user",
                     "sources": ["2026-07-24 用户对话"],
                     "relations": [],
-                    "body": "教师在给出反馈时，应明确指出学生当前表现与目标之间的差距，并提供可操作的建议。",
+                    "body": (
+                        "## 一句话主张\n\n　　教学反馈应优先指出可操作差距。\n\n"
+                        "## 依据\n\n　　教师在给出反馈时，应明确指出学生当前表现与目标之间的差距，并提供可操作的建议。\n\n"
+                        "## 已知限制\n\n　　原文未提及：验收测试未展开。\n\n"
+                        "## 原文摘录\n\n> 教师在给出反馈时，应明确指出学生当前表现与目标之间的差距\n"
+                    ),
                     "created": "2026-07-24",
                     "updated": "2026-07-24",
                 },
@@ -108,9 +118,10 @@ def test_full_capture_loop_is_idempotent(tmp_path: Path):
     card_files_after = set(cards_dir.glob("*.md"))
     assert card_files_before == card_files_after
 
-    # Verify claim file still has exactly one body content (not appended)
+    # Verify claim file still has the core claim once in 一句话主张
     claim_text = (cards_dir / "feedback-gap-actionable.md").read_text(encoding="utf-8")
-    assert claim_text.count("教师在给出反馈时") == 1
+    assert claim_text.count("## 一句话主张") == 1
+    assert "教学反馈应优先指出可操作差距" in claim_text
 
 
 def test_write_rolls_back_on_validation_failure(tmp_path: Path):

@@ -10,4 +10,7 @@ def test_init_creates_directories(tmp_path: Path):
     result = runner.invoke(init_cmd, ["--root", str(tmp_path)])
     assert result.exit_code == 0
     assert (tmp_path / "01-Cards" / "_meta" / "ontology.md").exists()
+    assert (tmp_path / "01-Cards" / "_meta" / "body-structure.md").exists()
+    assert (tmp_path / "05-Buffer" / "meaning-unit").exists()
+    assert (tmp_path / "05-Buffer" / "tension").exists()
     assert (tmp_path / "06-Journal").exists()

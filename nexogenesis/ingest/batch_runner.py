@@ -7,11 +7,14 @@ from pathlib import Path
 
 import yaml
 
-from nexogenesis.ingest import VALID_BUFFER_TYPES, count_chars
+from nexogenesis.ingest import VALID_BUFFER_ROLES, count_chars
 from nexogenesis.ingest.prompts import render_compile_prompt
+from nexogenesis.schemas import CARD_TYPES
 
 
 logger = logging.getLogger(__name__)
+
+DEFAULT_ROLE = "meaning-unit"
 
 
 def build_batches(units: list[dict], max_chars: int = 30000) -> list[list[dict]]:
@@ -42,6 +45,22 @@ def build_batches(units: list[dict], max_chars: int = 30000) -> list[list[dict]]
 def format_batch_prompt(units: list[dict], genre: str | None = None, deep: bool = False) -> str:
     """将一批编译单元格式化为给 LLM 的提示词。"""
     return render_compile_prompt(units, genre=genre, deep=deep)
+
+
+def _normalize_role(fm: dict) -> str:
+    """从 frontmatter 解析 role；兼容旧 type=七型 写法。"""
+    role = fm.get("role")
+    if isinstance(role, str) and role in VALID_BUFFER_ROLES:
+        return role
+    legacy = fm.get("type")
+    if isinstance(legacy, str) and legacy in VALID_BUFFER_ROLES:
+        return legacy
+    if isinstance(legacy, str) and legacy in CARD_TYPES:
+        # 旧输出：type 为 Card 七型 → 降为意义单元，并把原 type 记为建议
+        return DEFAULT_ROLE
+    if isinstance(legacy, str):
+        logger.warning("非法 Buffer role/type '%s'，回退到 %s", legacy, DEFAULT_ROLE)
+    return DEFAULT_ROLE
 
 
 def parse_llm_buffers(raw_output: str, default_source: str) -> list[dict]:
@@ -93,19 +112,23 @@ def parse_llm_buffers(raw_output: str, default_source: str) -> list[dict]:
 
         body = text[end + 3:next_start if next_start != -1 else len(text)].strip()
 
-        btype = fm.get("type", "claim")
-        if btype not in VALID_BUFFER_TYPES:
-            logger.warning("非法 Buffer type '%s'，回退到 claim", btype)
-            btype = "claim"
+        role = _normalize_role(fm)
+        proposed_card_type = fm.get("proposed_card_type")
+        legacy_type = fm.get("type")
+        if not proposed_card_type and isinstance(legacy_type, str) and legacy_type in CARD_TYPES:
+            proposed_card_type = legacy_type
+        if isinstance(proposed_card_type, str) and proposed_card_type not in CARD_TYPES:
+            proposed_card_type = None
 
         buffers.append({
-            "title": str(fm.get("title", "未命名碎片")),
-            "type": btype,
+            "title": str(fm.get("title", "未命名质料")),
+            "role": role,
             "source": str(fm.get("source", default_source)),
             "genre": str(fm["genre"]) if fm.get("genre") else None,
             "perspective": str(fm["perspective"]) if fm.get("perspective") else None,
             "proposed_domains": list(fm["proposed_domains"]) if isinstance(fm.get("proposed_domains"), list) else [],
-            "proposed_maturity": str(fm["proposed_maturity"]) if fm.get("proposed_maturity") else None,
+            "proposed_card_type": proposed_card_type,
+            "related_within_batch": list(fm["related_within_batch"]) if isinstance(fm.get("related_within_batch"), list) else [],
             "body": body,
         })
 
@@ -120,32 +143,41 @@ def parse_llm_buffers(raw_output: str, default_source: str) -> list[dict]:
 
 
 def _sanitize_filename(title: str) -> str:
-    s = re.sub(r"[<>:/\\|?*\"'\n]", "", title)
+    s = re.sub(r'[<>:/\\|?*"\'\n\r\t]', "", title)
     s = s.strip().replace(" ", "-")
     return s[:50] or "untitled"
 
 
-def write_buffer(buffer: dict, subtype: str, buffer_dir: Path, now: datetime | None = None) -> Path:
-    """写入单个 Buffer 文件。"""
+def write_buffer(buffer: dict, subtype: str | None = None, buffer_dir: Path | None = None, now: datetime | None = None) -> Path:
+    """写入单个 Buffer 文件。subtype 为 role 子目录名。"""
     if now is None:
         now = datetime.now()
+    if buffer_dir is None:
+        raise ValueError("buffer_dir is required")
 
-    btype = buffer.get("type", "claim")
-    if btype not in VALID_BUFFER_TYPES:
-        logging.warning("非法 Buffer type '%s'，回退到 claim", btype)
-        btype = "claim"
-    if subtype not in VALID_BUFFER_TYPES:
-        subtype = btype
+    role = buffer.get("role") or subtype or DEFAULT_ROLE
+    if role not in VALID_BUFFER_ROLES:
+        logging.warning("非法 Buffer role '%s'，回退到 %s", role, DEFAULT_ROLE)
+        role = DEFAULT_ROLE
+    if subtype and subtype in VALID_BUFFER_ROLES:
+        role = subtype
+    elif subtype and subtype not in VALID_BUFFER_ROLES:
+        role = role if role in VALID_BUFFER_ROLES else DEFAULT_ROLE
 
     safe_title = _sanitize_filename(buffer["title"])
-    filename = now.strftime(f"%Y-%m-%d-%H%M%S-%f-{safe_title}.md")
-    target_dir = buffer_dir / subtype
+    target_dir = buffer_dir / role
     target_dir.mkdir(parents=True, exist_ok=True)
-    target = target_dir / filename
+    seq = 0
+    while True:
+        seq += 1
+        filename = now.strftime(f"%Y-%m-%d-%H%M%S-{seq:02d}-{safe_title}.md")
+        target = target_dir / filename
+        if not target.exists():
+            break
 
     frontmatter = {
         "title": buffer["title"],
-        "type": btype,
+        "role": role,
         "created": now.strftime("%Y-%m-%d"),
         "updated": now.strftime("%Y-%m-%d"),
         "source": buffer["source"],
@@ -157,8 +189,10 @@ def write_buffer(buffer: dict, subtype: str, buffer_dir: Path, now: datetime | N
         frontmatter["perspective"] = buffer["perspective"]
     if buffer.get("proposed_domains"):
         frontmatter["proposed_domains"] = buffer["proposed_domains"]
-    if buffer.get("proposed_maturity"):
-        frontmatter["proposed_maturity"] = buffer["proposed_maturity"]
+    if buffer.get("proposed_card_type"):
+        frontmatter["proposed_card_type"] = buffer["proposed_card_type"]
+    if buffer.get("related_within_batch"):
+        frontmatter["related_within_batch"] = buffer["related_within_batch"]
 
     content = "---\n" + yaml.safe_dump(frontmatter, allow_unicode=True, sort_keys=False) + "---\n\n" + buffer["body"]
     target.write_text(content, encoding="utf-8")

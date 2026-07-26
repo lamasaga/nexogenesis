@@ -14,4 +14,5 @@ def test_render_compile_prompt():
     }]
     prompt = render_compile_prompt(units, genre="essay")
     assert "hello" in prompt
-    assert "claim" in prompt
+    assert "meaning-unit" in prompt
+    assert "role" in prompt

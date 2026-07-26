@@ -4,21 +4,15 @@ import click
 
 from nexogenesis import journal
 from nexogenesis.commands.write import write_cmd
+from nexogenesis.ingest.buffer_status import (
+    load_buffer_paths_by_status,
+    resolve_consumed_buffers,
+    set_buffer_status,
+)
 from nexogenesis.ingest.prompts import render_digest_prompt
+from nexogenesis.operations import BatchOperation
 from nexogenesis.store import Store
 from nexogenesis.yaml_utils import atomic_write_file
-
-
-def _load_buffer_paths(buffer_dir: Path, status: str) -> list[Path]:
-    paths = []
-    for subdir in buffer_dir.iterdir():
-        if not subdir.is_dir() or subdir.name.startswith("_"):
-            continue
-        for p in subdir.glob("*.md"):
-            text = p.read_text(encoding="utf-8")
-            if f"status: {status}" in text:
-                paths.append(p)
-    return sorted(paths)
 
 
 def _parse_questions(profile_path: Path) -> list[str]:
@@ -26,15 +20,22 @@ def _parse_questions(profile_path: Path) -> list[str]:
     if not profile_path.exists():
         return questions
     for line in profile_path.read_text(encoding="utf-8").splitlines():
-        if line.startswith("|") and "问题" not in line:
+        if line.startswith("|") and "问题" not in line and "---" not in line:
             parts = [p.strip() for p in line.split("|")]
             if len(parts) >= 3 and parts[1]:
                 questions.append(parts[1])
     return questions
 
 
-def _load_buffers(buffer_paths: list[Path]) -> list[dict]:
-    return [{"path": str(p), "text": p.read_text(encoding="utf-8")} for p in buffer_paths]
+def _load_buffers(buffer_paths: list[Path], root: Path) -> list[dict]:
+    out = []
+    for p in buffer_paths:
+        try:
+            rel = p.relative_to(root).as_posix()
+        except ValueError:
+            rel = str(p)
+        out.append({"path": rel, "text": p.read_text(encoding="utf-8")})
+    return out
 
 
 def _load_cards(cards_dir: Path) -> list[dict]:
@@ -45,7 +46,10 @@ def _load_cards(cards_dir: Path) -> list[dict]:
             "title": c.title,
             "type": c.type.value,
             "domains": c.domains,
-            "relations": [{"target": r.target, "type": r.type.value, "note": r.note} for r in c.relations],
+            "relations": [
+                {"target": r.target, "type": r.type.value, "note": r.note} for r in c.relations
+            ],
+            "body": c.body or "",
         }
         for c in store.cards.values()
     ]
@@ -63,14 +67,14 @@ def digest_cmd(root, status, apply):
     tmp_dir = root_path / ".nexogenesis" / "tmp" / "digest"
     tmp_dir.mkdir(parents=True, exist_ok=True)
 
-    buffer_paths = _load_buffer_paths(buffer_dir, status)
+    buffer_paths = load_buffer_paths_by_status(buffer_dir, status)
     if not buffer_paths:
         click.echo("没有待消化的 Buffer。")
         return
 
     cards = _load_cards(cards_dir)
     questions = _parse_questions(profile_path)
-    buffers = _load_buffers(buffer_paths)
+    buffers = _load_buffers(buffer_paths, root_path)
 
     prompt = render_digest_prompt(buffers, cards, questions)
     prompt_path = tmp_dir / "prompt.md"
@@ -80,7 +84,10 @@ def digest_cmd(root, status, apply):
 
     if not apply:
         click.echo(f"已生成 digest prompt: {prompt_path}")
-        click.echo(f"请 Agent 调用 LLM 并将 batch YAML 保存到 {batch_path}，确认后运行 --apply。")
+        click.echo(
+            f"请 Agent 调用 LLM 并将 batch YAML 保存到 {batch_path}；"
+            "请在 operation.consumed_buffers 列出实际消费的 Buffer 相对路径，确认后运行 --apply。"
+        )
         return
 
     if not batch_path.exists():
@@ -89,17 +96,25 @@ def digest_cmd(root, status, apply):
     ctx = click.Context(write_cmd)
     ctx.invoke(write_cmd, batch=str(batch_path), root=str(root_path))
 
-    for p in buffer_paths:
-        text = p.read_text(encoding="utf-8")
-        text = text.replace(f"status: {status}", "status: digested")
-        atomic_write_file(p, text)
+    batch_op = BatchOperation.from_file(batch_path)
+    consumed = resolve_consumed_buffers(root_path, batch_op, buffer_paths)
+    if not consumed:
+        # 兼容旧 batch：若 sources 能按文件名命中则已在 resolve 内处理；仍空则不误标
+        click.echo(
+            "WARNING: batch 未匹配到 consumed Buffer；未修改任何 Buffer status。"
+            "请在 operation.consumed_buffers 中声明路径。"
+        )
+    marked = 0
+    for p in consumed:
+        if set_buffer_status(p, status, "digested"):
+            marked += 1
 
     journal.append(
         root_path,
-        f"digest-{len(buffer_paths)}",
+        f"digest-{marked}",
         "digest",
-        [str(p.relative_to(root_path)) for p in buffer_paths],
+        [str(p.relative_to(root_path)) for p in consumed],
         "05-Buffer",
         "user",
     )
-    click.echo(f"Digest applied: {len(buffer_paths)} buffers consumed.")
+    click.echo(f"Digest applied: {marked} buffers consumed.")

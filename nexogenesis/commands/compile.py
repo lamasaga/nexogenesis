@@ -63,7 +63,7 @@ def _apply_responses(tmp_dir: Path, buffer_dir: Path, default_source: str) -> li
             pass
         buffers = parse_llm_buffers(raw_output, default_source=default_source)
         for buf in buffers:
-            written.append(write_buffer(buf, subtype=buf["type"], buffer_dir=buffer_dir))
+            written.append(write_buffer(buf, subtype=buf["role"], buffer_dir=buffer_dir))
     return written
 
 
@@ -131,7 +131,12 @@ def compile_cmd(root, deep, max_chars, genres, apply, plan):
     written = _apply_responses(tmp_dir, buffer_dir, default_source="00-Inbox compile")
     errors, warnings = run_validate(root_path)
     if errors:
-        raise click.ClickException("Buffer 校验失败：\n" + "\n".join(errors))
+        for p in written:
+            try:
+                p.unlink(missing_ok=True)
+            except OSError:
+                pass
+        raise click.ClickException("Buffer 校验失败（已回滚本轮写入）：\n" + "\n".join(errors))
 
     processed = {u["source_path"] for u in units}
     archive_dir.mkdir(parents=True, exist_ok=True)

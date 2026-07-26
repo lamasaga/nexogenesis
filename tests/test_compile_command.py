@@ -38,11 +38,26 @@ def test_compile_apply_writes_buffers_and_archives(tmp_path: Path):
     # 模拟 LLM response
     response = """
 ---
-title: 教学反馈 claim
-type: claim
+title: 教学反馈
+role: meaning-unit
 source: note.md
+proposed_card_type: claim
 ---
-教学反馈应优先指出可操作差距。
+## 核心表达
+
+　　教学反馈应优先指出可操作差距。
+
+## 依据与细节
+
+　　原文未提及：测试材料未展开依据。
+
+## 限制与边界
+
+　　原文未提及：测试材料未讨论边界。
+
+## 原文摘录
+
+> 教学反馈应优先指出可操作差距。
 """
     tmp_dir = tmp_path / ".nexogenesis" / "tmp" / "compile"
     tmp_dir.mkdir(parents=True, exist_ok=True)
@@ -52,5 +67,6 @@ source: note.md
     assert result.exit_code == 0, result.output
     buffers = list((tmp_path / "05-Buffer").rglob("*.md"))
     assert len(buffers) == 1
+    assert "meaning-unit" in str(buffers[0])
     assert not (inbox / "note.md").exists()
     assert (tmp_path / "03-Archive" / "note.md").exists()

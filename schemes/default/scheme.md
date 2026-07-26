@@ -1,20 +1,24 @@
 ---
 scheme_id: "default"
-version: "0.1.0"
+version: "0.2.0"
 name: "默认沉淀方案"
-based_on: "思维涌现mainV4"
 ---
 
 # 默认沉淀方案
 
-适用于个人思想沉淀与一般性知识管理。卡片类型 7 种，关系 8 种。
+适用于个人思想沉淀与一般性知识管理。
+
+- Card：7 种 `type`
+- Buffer：按 `role` 整理质料
+- 关系：8 种
+- 正文契约：`01-Cards/_meta/body-structure.md`
 
 ## 文档摄入流水线
 
-本方案提供 `prompts/` 下的体裁专属 prompt 模板，驱动 `compile` → `digest` → `construct` 三阶段：
+`prompts/` 下的 Jinja2 模板驱动三阶段：
 
-- `compile-*.txt`：把 00-Inbox 文档拆分为 05-Buffer 原子片段；
-- `digest.txt`：把 Buffer 片段沉淀为 01-Cards 卡片或问题清单条目；
-- `construct.txt`：基于当前卡片和 Buffer 做结构整理。
+- `compile-*.txt`：00-Inbox → 05-Buffer/<role>/（意义单元质料）
+- `digest.txt`：Buffer → 01-Cards / 问题清单（跨源对照，聚类/区分/衔接）
+- `construct.txt`：跨批次结构扫描与方案
 
-模板使用 Jinja2 渲染，可在本 scheme 内按需覆盖。
+可在本 scheme 内覆盖模板。
