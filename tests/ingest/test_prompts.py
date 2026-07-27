@@ -17,4 +17,5 @@ def test_render_compile_prompt():
     assert "meaning-unit" in prompt
     assert "role" in prompt
     assert "合格示例" in prompt
-    assert 'source: "paper.pdf' in prompt or "### 核心表达" in prompt
+    assert "### 核心表达" in prompt
+    assert "宁厚勿空" in prompt or "2–3" in prompt or "2-3" in prompt

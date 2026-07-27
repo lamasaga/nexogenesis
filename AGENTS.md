@@ -204,8 +204,8 @@ python -m nexogenesis write --batch <file>   # 统一原子写入入口
 python -m nexogenesis doctor       # 一致性检查与诊断
 python -m nexogenesis migrate --to <scheme> --dry-run   # scheme 迁移预演
 python -m nexogenesis compile [--plan|--check-responses|--apply]  # 编译（默认分波；可部分 apply）
-python -m nexogenesis digest [--apply]       # Buffer 消化：05-Buffer → 01-Cards
-python -m nexogenesis construct [--apply]    # 结构整理：01-Cards + 05-Buffer
+python -m nexogenesis digest [--plan|--apply|--auto]   # Buffer 消化（默认分波）
+python -m nexogenesis construct [--lens|--apply|--auto] # 结构整理（默认诊断）
 ```
 
 ### 5.1 `write --batch` 事务
@@ -301,7 +301,7 @@ writes:
 - ✅ 维护领域卡片的完整性；
 - ✅ 处理完后归档原始文档；
 - ✅ 所有 AI 生成的内容标注来源；
-- ✅ 任何写入先经过用户批准，再生成 batch 文件。
+- ✅ 任何写入须经授权：逐步确认，或用户一句「开始消化/建构」/`--auto` 视为本轮授权；中间产物仍保留在 `.nexogenesis/tmp/`。
 
 ---
 
@@ -314,13 +314,17 @@ python -m nexogenesis compile --root .           # 生成本波 prompt（默认�
 python -m nexogenesis compile --check-responses  # 落盘前检查（推荐每写完一个就跑）
 python -m nexogenesis compile --apply --root .   # 按文件部分成功写入 Buffer
 
-python -m nexogenesis digest --root .            # 生成 digest prompt
+python -m nexogenesis digest --plan --root .     # 预览本波 scratch 与深读卡
+python -m nexogenesis digest --root .            # 生成 digest prompt（分波，非全库）
 # Agent 调用 LLM，保存 batch 到 .nexogenesis/tmp/digest/batch.yaml
 python -m nexogenesis digest --apply --root .    # 写入 01-Cards/，标记 Buffer 为 digested
+# 或 Agent 自主：digest --auto →（写 batch）→ digest --auto（自检后 apply）
 
-python -m nexogenesis construct --root .         # 生成 construct prompt
-# Agent 调用 LLM，保存 batch 到 .nexogenesis/tmp/construct/batch.yaml
-python -m nexogenesis construct --apply --root . # 结构优化，标记 Buffer 为 constructed
+python -m nexogenesis construct --root .         # 默认：结构诊断（无全文）
+python -m nexogenesis construct --lens distinguish --root .
+# Agent 保存 batch 到 .nexogenesis/tmp/construct/batch.yaml
+python -m nexogenesis construct --apply --root . # 结构优化；可标记 digested → constructed
+# 或：construct --auto → 按 suggested-lenses 逐镜 construct --auto --lens …
 ```
 
 ### 8.1 `/compile`
@@ -339,22 +343,30 @@ python -m nexogenesis construct --apply --root . # 结构优化，标记 Buffer 
 
 ### 8.2 `/digest`
 
-- 读取 `05-Buffer/` 中 `status: scratch` 的质料，连同相关 Card 正文与问题清单；
-- 跨源对照，产出：丰富/新建 Card、domain 候选、conflict 候选、relation/model 候选、问题清单；
-- 生成标准 `write --batch` YAML；
-- `--apply` 时写入卡片或问题清单，并把已消费 Buffer 状态改为 `digested`。
+- **先消化、后建构**；默认只处理一波 `status: scratch`（`--wave-buffers` 默认 8），其余留待下波。
+- 上下文：全库**卡片目录**（无正文）+ **相关深读卡正文**（`--deep-cards` 默认 6）+ 本波 Buffer 全文 + 问题清单；可附 `_meta` 索引摘录。
+- 空库/无 domain：batch **必须先写 domain**，再建实例卡（`domains` 仅引用本批或已有 id）。
+- 跨源对照发生在同波内；产出 enrich/新建 Card、domain/conflict/relation/model 候选、问题清单。
+- `--plan` 预览本波选择与字符估算；`--all-scratch` 仅调试。
+- `--apply` 经 `write --batch` 写入，并把 `consumed_buffers` 标为 `digested`。
+- **`--auto`**：无 `batch.yaml` 时生成 prompt + `auto-runbook.md`；有 batch 时 Harness 自检（YAML、必填字段、`consumed_buffers`、bootstrap domain）通过后戳记 `approved_by: agent`（已是 `user` 则保留）并 apply。不调用 LLM。
 
 ### 8.3 `/construct`
 
-- 读取全部 `01-Cards/` 和相关 `05-Buffer/`；
-- 按聚类 / 区分 / 衔接扫描结构张力（假 domain、未升格 tension、链接空洞、可抽成 model 的关系团等）；
-- 先给出结构方案，经确认后 `--apply`；标记对应 Buffer 为 `constructed`。
+- 在已有卡片网上做结构校准（勿在空库上优先于 digest）。
+- **默认 `--diagnose`**：Harness 结构信号 + 卡目录 + Buffer 索引（**无全文**）→ `lenses-report.md`。
+- **`--lens`**：一次只跑一个镜头（`cluster` / `distinguish` / `articulate` / `cross_source`）；注入目录 + 点名深读卡/Buffer。禁止 `all`。
+- 产出仍是 `write --batch` 候选；确认后 `--apply`；可将声明消费的 `digested` Buffer 标为 `constructed`。
+- **`--auto`**（无 lens）：诊断 + `suggested-lenses.txt` + `auto-runbook.md`。  
+  **`--auto --lens <name>`**：无 batch 则生成该镜头 prompt+规程；有 batch 则自检后 apply（同 digest 戳记规则）。
+- 图可视化 / GraphML 导出延至 P2；P0 图即卡片 + relations + `index` 投影。
 
 ### 8.4 人机协作边界
 
-- 默认命令只生成 prompt/batch，**不自动写入卡片**；
-- Agent 必须在 `--apply` 前检查产物，并在 `operation.approved_by` 中记录确认来源；
-- 未经用户批准，不得把 `origin: system` 的产出直接标为 `mature` 或 `theory_status: active`。
+- 默认命令只生成 prompt/batch，**不自动写入卡片**（须 `--apply` 或 `--auto` 二次通过自检）。
+- **逐步模式**：Agent 在 `--apply` 前检查产物，`operation.approved_by` 记 `user`。
+- **自主模式**：用户说「开始消化/建构」或显式 `--auto` = 本轮写入授权；Agent 自审中间产物并循环至自检通过；`approved_by` 通常为 `agent`；tmp 下 prompt/batch/报告**一律保留**供事后分析。
+- 未经用户批准，不得把 `origin: system` 的产出直接标为 `mature` 或 `theory_status: active`（`--auto` 自检亦拒绝此类升格）。
 
 ---
 

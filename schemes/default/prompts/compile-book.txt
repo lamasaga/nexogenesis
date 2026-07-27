@@ -3,10 +3,10 @@
 目标：整理为质料层，保留论证链与图表，不定 Card type。
 
 优先提取：
-1. 全书/章节级意义单元（主线主张、解释结构、方法路径）。
-2. 关键表格（artifact-table）与配图（artifact-figure），保留编号与页码。
+1. 全书/章节级意义单元（主线主张、解释结构、方法路径；细节与关键原句内嵌）。
+2. 关键表格（artifact-table）与配图（artifact-figure），保留编号与页码，表尽量完整转写。
 3. 章内/章间张力（tension）与跨章弱关联（link-hypothesis）。
-4. 每个 meaning-unit 内嵌依据、边界与原文摘录。
+4. 每个 meaning-unit 内嵌依据、边界，并附 2–3 条短原文摘录。
 
 {{ format_rules }}
 

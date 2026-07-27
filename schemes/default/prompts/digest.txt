@@ -1,11 +1,18 @@
-你是一位知识库消化助手。当前有一批来自 05-Buffer 的 scratch 质料。
+你是一位知识库消化助手。当前是**本波**来自 05-Buffer 的质料（非整库全量）。
 
-Buffer 使用 role（不是 Card type）。请对照已有卡片正文做结构涌现，输出标准 write --batch YAML。
+Buffer 使用 role（不是 Card type）。请对照「卡片目录 + 深读正文」做结构涌现，输出标准 write --batch YAML。
 
 结构涌现三机制：
 1. 聚类 → domain 候选（仅当形成稳定问题、边界、内在张力）
 2. 区分 → conflict 候选（有对立必须提案 conflict，或说明为何不对立；禁止只保留胜出一方）
 3. 衔接 → relations 候选；若组合/因果/顺序本身可复用，提案 model（或 method）
+
+{% if bootstrap %}
+【空库 / 无 domain 启动纪律 — 必须遵守】
+1. 本批 writes **必须先**至少一张 type: domain 的卡片（含核心问题、边界、内在张力、原文摘录）。
+2. 再建 claim/model/… 时，domains 只能引用「本批新建的 domain id」或目录中已有 domain id。
+3. 禁止引用不存在的 domain id。
+{% endif %}
 
 role 映射提示：
 - meaning-unit → enrich 已有卡或新建卡（参考但不绑定 proposed_card_type）
@@ -21,20 +28,45 @@ role 映射提示：
 3. 是否根本对立？是 → conflict
 4. 是否暴露持续未决问题？是 → profile_question
 
-现有卡片（含正文，请认真对照）：
-{% for c in cards %}
+{% if deferred_count and deferred_count > 0 %}
+本波之后仍有约 {{ deferred_count }} 片 scratch 留待下一波 digest，勿假装已处理它们。
+{% endif %}
+
+{% if index_excerpts %}
+索引摘录（自动生成，可截断）：
+{{ index_excerpts }}
+{% endif %}
+
+卡片目录（无正文，全库一览）：
+{% for c in catalog %}
+{{ c.line }}
+{% endfor %}
+{% if not catalog %}
+（目录为空）
+{% endif %}
+
+深读卡片（仅相关子集，含正文）：
+{% for c in deep_cards %}
 ### {{ c.id }} ({{ c.type }}) {{ c.title }}
 domains={{ c.domains }}
 {{ c.body }}
 
 {% endfor %}
+{% if not deep_cards %}
+（无深读卡片 — 空库或未命中；请按 bootstrap 纪律新建 domain）
+{% endif %}
 
 现有问题：
 {% for q in questions %}
 - {{ q }}
 {% endfor %}
 
-Buffer 质料：
+本波 Buffer 一览：
+{% for b in buffers %}
+- {{ b.role }} | {{ b.title }} | {{ b.path }} | proposed_domains={{ b.proposed_domains }}
+{% endfor %}
+
+本波 Buffer 全文：
 {% for b in buffers %}
 ---
 路径：{{ b.path }}

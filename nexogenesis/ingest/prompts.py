@@ -38,7 +38,12 @@ def format_rules() -> str:
 9. source 必须精确（文件/章节/页码/图表编号）。含冒号、引号、井号时必须用双引号包裹整个字符串。
 10. meaning-unit 正文必须使用且仅使用 Markdown 三级标题：### 核心表达 / ### 依据与细节 / ### 限制与边界 / ### 原文摘录；缺信息写「原文未提及：……」。
 11. 块之间只用单独一行 --- 分隔；禁止 ---\n\n---；正文中不要出现单独成行的 ---（表格用 | --- | 即可）。
-12. 宁可少拆，不要硬造。
+12. 宁可少拆，不要硬造；但每个已建质料应「宁厚勿空」——多留可复核的原文信息，供后续 digest 使用。
+13. 原文保留（稍加强）：
+    - 「依据与细节」尽量保留关键公式、符号定义、数据集/指标名、关键数值与对照条件（可条列，勿只写空泛转述）。
+    - 「原文摘录」每个 meaning-unit 建议 2–3 条短摘录（每条一句或一小段，用 > 引用）；优先可核对主张的原句，勿整节粘贴。
+    - artifact-table：优先完整 Markdown 表转写；文末可加「关键观察」1–3 句，并可附 1 条表注/原文说明摘录。
+    - artifact-figure：除内容转写外，尽量保留轴含义、图注要点或作者对图的一句解释。
 
 【合格示例 — 请严格模仿此结构】
 ---
@@ -51,19 +56,20 @@ proposed_card_type: claim
 ---
 ### 核心表达
 
-　　教学反馈应优先指出可操作差距。
+　　教学反馈应优先指出可操作差距，而非仅给笼统评价。
 
 ### 依据与细节
 
-　　原文通过对照实验支持该主张。
+　　对照实验（N=120）比较「笼统赞扬」与「指出目标差距 + 下一步动作」两组；后一组修订成功率更高。作者将可操作差距定义为当前表现与成功标准之间可观察、可执行的差额。
 
 ### 限制与边界
 
-　　原文未提及：未讨论跨文化适用性。
+　　原文未提及：未讨论跨文化适用性；样本限于大学写作课。
 
 ### 原文摘录
 
-> feedback should name the actionable gap
+> Feedback should name the actionable gap between current performance and the success criteria.
+> "Vague praise did not reliably improve revision quality in our sample."
 """
 
 
@@ -88,11 +94,46 @@ def render_compile_prompt(units: list[dict], genre: str | None = None, deep: boo
     return template.render(units=units_render, format_rules=format_rules(), deep=deep)
 
 
-def render_digest_prompt(buffers: list, cards: list, questions: list) -> str:
+def render_digest_prompt(
+    buffers: list,
+    catalog: list | None = None,
+    deep_cards: list | None = None,
+    questions: list | None = None,
+    *,
+    bootstrap: bool = False,
+    deferred_count: int = 0,
+    index_excerpts: str = "",
+) -> str:
     template = _load_template("digest")
-    return template.render(buffers=buffers, cards=cards, questions=questions)
+    # 兼容旧调用：cards= 全文列表
+    return template.render(
+        buffers=buffers,
+        catalog=catalog or [],
+        deep_cards=deep_cards or [],
+        questions=questions or [],
+        bootstrap=bootstrap,
+        deferred_count=deferred_count,
+        index_excerpts=index_excerpts,
+    )
 
 
-def render_construct_prompt(cards: list, buffers: list, questions: list) -> str:
-    template = _load_template("construct")
-    return template.render(cards=cards, buffers=buffers, questions=questions)
+def render_construct_prompt(
+    catalog: list | None = None,
+    deep_cards: list | None = None,
+    buffers: list | None = None,
+    questions: list | None = None,
+    *,
+    lens: str = "cluster",
+    signals: list | None = None,
+    diagnose_mode: bool = False,
+) -> str:
+    name = "construct-diagnose" if diagnose_mode else "construct"
+    template = _load_template(name)
+    return template.render(
+        catalog=catalog or [],
+        deep_cards=deep_cards or [],
+        buffers=buffers or [],
+        questions=questions or [],
+        lens=lens,
+        signals=signals or [],
+    )

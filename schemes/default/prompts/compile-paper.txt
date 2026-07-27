@@ -3,10 +3,11 @@
 目标：整理为质料层。主张与证据尽量留在同一 meaning-unit；仅当证据块必须被多处单独引用时才独立为 evidence。
 
 优先提取：
-1. 核心主张 / 模型 / 方法意义单元。
-2. 关键图表（artifact-table / artifact-figure）。
+1. 核心主张 / 模型 / 方法意义单元（依据里保留公式、指标与关键数值）。
+2. 关键图表（artifact-table / artifact-figure；表尽量完整转写）。
 3. 与既有工作的张力（tension）、潜在关联（link-hypothesis）。
 4. 限制与边界写入对应意义单元，不要拆成孤立 limit 片。
+5. 每个 meaning-unit 附 2–3 条短原文摘录，便于后续 digest 复核。
 
 {{ format_rules }}
 

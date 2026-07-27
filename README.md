@@ -13,4 +13,6 @@ python -m nexogenesis validate
 python -m nexogenesis doctor
 python -m nexogenesis compile --plan   # 预览 Inbox 分波；默认每波少量文档
 # compile 后先 --check-responses，再 --apply（可 --response 逐个落盘）
+# digest --auto（Agent 自审 batch 后落盘）；construct --auto → --auto --lens …
+# 逐步模式仍可用：digest → --apply；construct → --lens → --apply
 ```
