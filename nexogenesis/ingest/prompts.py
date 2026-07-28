@@ -103,6 +103,7 @@ def render_digest_prompt(
     bootstrap: bool = False,
     deferred_count: int = 0,
     index_excerpts: str = "",
+    material_excerpts: str = "",
 ) -> str:
     template = _load_template("digest")
     # 兼容旧调用：cards= 全文列表
@@ -114,6 +115,7 @@ def render_digest_prompt(
         bootstrap=bootstrap,
         deferred_count=deferred_count,
         index_excerpts=index_excerpts,
+        material_excerpts=material_excerpts,
     )
 
 

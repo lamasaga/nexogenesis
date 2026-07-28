@@ -190,11 +190,12 @@ def write_construct_runbook(
         "中间产物保留供事后分析。\n",
         "## Agent 步骤\n",
         "1. 阅读 `lenses-report.md` 与 `suggested-lenses.txt`\n",
-        f"2. 建议镜头（按序，一次一个）：{lenses}\n",
-        "3. 对每个镜头：`construct --lens <name>` → LLM → 写 `batch.yaml` → "
+        "2. 若有 `structure-ops-draft.md`，将 graph analyze 提案转为 batch writes\n",
+        f"3. 建议镜头（按序，一次一个）：{lenses}\n",
+        "4. 对每个镜头：`construct --lens <name>` → LLM → 写 `batch.yaml` → "
         "`construct --auto --lens <name>`（有 batch 则自检并 apply）\n",
-        "4. 自检不合格则改写/重跑，不要逐步等人确认\n",
-        f"5. batch 路径：`{batch_path.as_posix()}`\n",
+        "5. 自检不合格则改写/重跑，不要逐步等人确认\n",
+        f"6. batch 路径：`{batch_path.as_posix()}`\n",
         "\n## 事后分析\n\n"
         "- `lenses-report.md` / `diagnose-prompt.md` / 各次 `prompt.md` / `batch.yaml` 均保留\n",
     ]

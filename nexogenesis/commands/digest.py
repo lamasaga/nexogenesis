@@ -53,6 +53,11 @@ from nexogenesis.ingest.context_pack import (
 )
 
 from nexogenesis.ingest.prompts import render_digest_prompt
+from nexogenesis.retrieve.context_package import (
+    build_context_package,
+    format_material_excerpt,
+    seeds_from_buffers,
+)
 
 from nexogenesis.models import CardType
 
@@ -238,7 +243,7 @@ def digest_cmd(root, status, wave_buffers, deep_cards, all_scratch, plan, apply,
 
     catalog = card_catalog(store)
 
-    deep = select_deep_cards(store, selected, max_deep=deep_cards)
+    deep = select_deep_cards(store, selected, max_deep=deep_cards, root=root_path)
 
     questions = _parse_questions(profile_path)
 
@@ -332,6 +337,24 @@ def digest_cmd(root, status, wave_buffers, deep_cards, all_scratch, plan, apply,
 
 
 
+    material_excerpts = ""
+    try:
+        btokens = seeds_from_buffers(selected)
+        query = " ".join(sorted(btokens)[:24]) or " ".join(
+            b.get("title", "") for b in selected[:3]
+        )
+        pkg = build_context_package(
+            root_path,
+            query=query,
+            mode="digest",
+            buffer_tokens=btokens,
+            use_graph=False,
+            rag_top=6,
+        )
+        material_excerpts = format_material_excerpt(pkg.get("material") or [], max_items=6)
+    except Exception:
+        pass
+
     prompt = render_digest_prompt(
 
         selected,
@@ -347,6 +370,8 @@ def digest_cmd(root, status, wave_buffers, deep_cards, all_scratch, plan, apply,
         deferred_count=len(deferred),
 
         index_excerpts=index_excerpts,
+
+        material_excerpts=material_excerpts,
 
     )
 

@@ -2,13 +2,13 @@
 
 > 版本：P0（2026-07-27）  
 > 作用：约束 AI 与 Harness 如何与底座交互。本手册本身可被用户修订，但修订前须经用户确认。  
-> Buffer / Card 正文结构以 `01-Cards/_meta/body-structure.md` 为准；机制说明见 `docs/2026-07-26-buffer-card-structure-draft.md`。
+> Buffer / Card 正文结构以 `01-Cards/_meta/body-structure.md` 为准；机制说明见 `docs/2026-07-26-buffer-card-structure-draft.md`；**双轨检索**见 `docs/2026-07-27-retrieval-graph-rag-design.md`；**思维体注意力/STM**见 `docs/2026-07-28-thinking-body-attention-design.md`。
 
 ---
 
 ## 一、核心原则
 
-1. **底座主权不变量**：`markdown + git` 是唯一事实之源。任何时候删除全部代码、索引、Journal，只留 `markdown + git`，系统信息零损失。
+1. **底座主权不变量**：约定目录下的 **markdown 是唯一语义事实之源**。任何时候删除全部代码与可重建索引（图、RAG、自动生成视图等），只留 markdown，知识内容零损失。**git 是强烈推荐的版本层**（历史、回滚、pre-commit），不是思想本体的必要条件；未启用 git 时不得声称操作已可逆。
 2. **Harness 负责过程，LLM 负责语义**：卡片校验、原子写入、索引生成、孤儿检测由 Harness 强制执行；内容好坏、冲突识别、新建/丰富判断由 LLM 负责。
 3. **统一写入入口**：任何对底座的实质写入（新建/修改卡片、追加问题清单、追加 Journal）必须通过 `python -m nexogenesis write --batch <file>` 完成。禁止绕过该入口直接改文件。
 4. **写路径优先**：系统设计优先降低高质量内容进入底座的摩擦，而非优先美化检索界面。
@@ -35,6 +35,7 @@ README.md                    # 项目说明
    └── 问题清单.md
 03-Archive/                  # 已处理原始材料
 04-OutBox/                   # 分析产物、回答、报告
+   └── discussions/          # 知识演进中的讨论文档（新生证据，入 RAG）
 05-Buffer/<role>/            # compile 产出的质料（按 role 分目录）
 06-Journal/                  # 操作大事记
 nexogenesis/                 # Python 包
@@ -192,20 +193,130 @@ superseded_by: ""                # lifecycle=superseded 时必填
 
 文档摄入三阶段。Buffer 为质料层（`role`），Card 为本体对象层（`type`）。结构涌现按聚类 / 区分 / 衔接三类协议进行。细则见 `body-structure.md` 与结构说明文档。
 
+### 4.8 思维体体验层（对话面 · 闸门面 · 注意力）
+
+　　细则见 `docs/2026-07-28-thinking-body-attention-design.md`；权重见 `schemes/default/attention.yaml`（可被 `.nexogenesis/attention.yaml` 覆盖）。
+
+| 层 | 含义 | 落点 |
+|----|------|------|
+| 工具书 | 手边证据 | RAG |
+| 长期记忆 | 已承诺结构 | 卡片图 |
+| 短期记忆 | 约 10 次会话卷 | `.nexogenesis/memory/stm/`（非 Card） |
+| 注意力 | 每轮 Working Set | `retrieve` 双账户：core / expansion / conflict |
+| 强信号 | 偶发轻问 | `signal --text`；**捕获永远用户确认** |
+
+- **默认对话面**：不要求用户点选 `/talk`/`/judge`；Agent 静默 `retrieve` + STM。  
+- **闸门面**：捕获候选须用户批准后 `write --batch`；分析默认留在对话。  
+- **强信号**：有可解释触发时轻问（记一下 / 可复用主张 / 对立 / Inbox→compile 建议等）；可用「先别记」关闭本会话主动捕获。  
+- **会话覆盖**：`memory override --conflict N` 临时偏置席位，不改永久 YAML。
+
 ---
 
 ## 五、Harness CLI
 
+　　对话指令（`/talk`、`/capture`、`/answer` 等）见 §四；本节为 **Harness 可执行命令** 的完整速查。几乎所有命令支持 `--root .`（项目根，默认当前目录）。更细的机制说明见 §八（摄入流水线）与 `docs/2026-07-27-retrieval-graph-rag-design.md`（双轨检索）。
+
+### 5.0 CLI 命令速查
+
+#### 底座维护
+
+| 命令 | 常用选项 | 作用 |
+|------|----------|------|
+| `init` | `--root` | 初始化目录结构、复制 scheme 模板、安装 git pre-commit hook |
+| `validate` | `--root` | 校验全部卡片 frontmatter、链接、orphan（pre-commit 亦调用） |
+| `index` | `--root` | 生成 `01-Cards/_meta/` 下领域/冲突/理论视图 |
+| `write` | `--batch <file>` `--root` | **统一原子写入入口**（卡片、问题清单、Journal）；成功后自动 `index` + `graph rebuild` + `rag index` |
+| `doctor` | `--root` | 目录/契约/hook 检查 + `validate` + 图/RAG 索引陈旧 WARNING |
+| `migrate` | `--to <scheme>` `--dry-run` `--root` | scheme 迁移预演 |
+
+#### 文档摄入：`compile` → `digest` → `construct`
+
+| 命令 | 常用选项 | 作用 |
+|------|----------|------|
+| `compile` | `--plan` | 预览 Inbox 分波计划（不写 prompt） |
+| | `--root` | 生成本波 compile prompt 到 `.nexogenesis/tmp/compile/` |
+| | `--check-responses` | 检查 `batch-*-response.*` 格式（不写盘） |
+| | `--apply` | 将 response 落盘为 `05-Buffer/`（按文件部分成功） |
+| | `--response <file>` | 只检查/apply 指定 response |
+| | `--all` `--recursive` `--deep` | 关闭分波 / 递归扫 Inbox / 深度模式（每波 1 篇） |
+| | `--max-chars` `--wave-prompts` `--wave-docs` | 分波规模控制 |
+| | `--genres "a.md=paper,..."` | 体裁覆盖 |
+| | `--strict-body` | 语义槽缺失升为错误 |
+| `digest` | `--plan` | 预览本波 Buffer 选择与字符预算 |
+| | `--root` | 生成本波 digest prompt（默认 `status=scratch`，分波） |
+| | `--apply` | 应用 `.nexogenesis/tmp/digest/batch.yaml` 写入卡片 |
+| | `--auto` | 无 batch → prompt+规程；有 batch → 自检通过后 apply |
+| | `--wave-buffers N` `--deep-cards N` | 本波 Buffer 数 / 深读卡数 |
+| | `--status scratch` `--all-scratch` | Buffer 状态过滤 / 调试全量 |
+| `construct` | （默认） | 结构诊断：`lenses-report.md` + graph analyze + `structure-ops-draft.md` |
+| | `--diagnose` | 显式只诊断（同默认） |
+| | `--lens cluster\|distinguish\|articulate\|cross_source` | 单镜头 prompt（禁止 `all`） |
+| | `--plan` | 预览本镜头深读对象 |
+| | `--apply` | 应用 `.nexogenesis/tmp/construct/batch.yaml` |
+| | `--auto` | 无 lens → 诊断+suggested-lenses；有 lens+batch → 自检 apply |
+| | `--auto --lens <name>` | 单镜头自主模式 |
+| | `--deep-cards N` `--wave-buffers N` | 镜头模式深读规模 |
+
+**摄入典型顺序**（Agent 串行，中间产物保留在 `.nexogenesis/tmp/`）：
+
 ```bash
-python -m nexogenesis init         # 初始化目录结构，安装 git hook
-python -m nexogenesis validate     # 校验全部 frontmatter、链接、orphan
-python -m nexogenesis index        # 生成 _meta/ 下的领域/冲突/理论视图
-python -m nexogenesis write --batch <file>   # 统一原子写入入口
-python -m nexogenesis doctor       # 一致性检查与诊断
-python -m nexogenesis migrate --to <scheme> --dry-run   # scheme 迁移预演
-python -m nexogenesis compile [--plan|--check-responses|--apply]  # 编译（默认分波；可部分 apply）
-python -m nexogenesis digest [--plan|--apply|--auto]   # Buffer 消化（默认分波）
-python -m nexogenesis construct [--lens|--apply|--auto] # 结构整理（默认诊断）
+python -m nexogenesis compile --plan --root .
+python -m nexogenesis compile --root .
+# → LLM → batch-XXX-response.md → compile --check-responses → compile --apply
+
+python -m nexogenesis digest --plan --root .
+python -m nexogenesis digest --root .
+# → LLM → batch.yaml → digest --apply  或  digest --auto（自检后 apply）
+
+python -m nexogenesis construct --root .
+# → 读 lenses-report / suggested-lenses → construct --lens <name> → batch.yaml → construct --auto --lens <name>
+```
+
+#### 双轨检索：结构图 + 质料 RAG
+
+| 命令 | 常用选项 | 作用 |
+|------|----------|------|
+| `graph rebuild` | `--root` | 从卡片重建结构图索引（`.nexogenesis/graph/`） |
+| `graph stats` | `--root` | 节点/边统计 |
+| `graph analyze` | `--rebuild` `--root` | orphan、conflict 缺口、桥接点 → `structure_ops.json` + 报告 |
+| `graph retrieve` | `--query` `--seed`（可多次） `--hops` `--max-nodes` `--out` | 结构子图检索，写入 Context Package |
+| `graph export` | `--center <id>` `--hops` `--out` `--rebuild` | 导出 GraphML（默认 `.nexogenesis/tmp/graph/graph.graphml`） |
+| `rag index` | `--full` `--kinds` `--root` | 建/增量更新 FTS 索引（默认增量；`--full` 全量） |
+| `rag stats` | `--root` | 语料块数与索引时间 |
+| `rag search` | `--query` `--kinds` `--top` `--root` | 质料检索（archive/buffer/discussion/outbox/card_excerpt） |
+| `retrieve` | `--query` `--mode talk\|answer\|digest\|construct\|judge` | **统一双轨入口**：结构子图 + RAG 质料 → Context Package（默认注意力双账户） |
+| | `--seed` `--budget-chars` `--graph-hops` `--graph-nodes` `--rag-top` | 种子卡 / 预算 / 图与 RAG 规模 |
+| | `--no-graph` `--no-rag` `--no-attention` `--no-stm` `--print-yaml` `--out` | 禁用轨/注意力/STM / 打印 / 输出 |
+| `memory start\|status\|update\|override\|end` | `--focus` `--cite` `--tension` / `--conflict N` | 短期记忆会话卷与临时席位覆盖 |
+| `attention show\|validate` | `--profile` `--print-yaml` | 查看/校验注意力 YAML 有效配置 |
+| `signal` | `--text` `--bump-turn` | 强信号评估（只建议，不写卡） |
+
+**检索典型用法**：
+
+```bash
+python -m nexogenesis graph rebuild
+python -m nexogenesis rag index          # 增量；rag index --full 全量重建
+python -m nexogenesis memory start --title "今日对话"
+python -m nexogenesis retrieve --query "…" --mode talk --root .
+python -m nexogenesis signal --text "记一下"
+```
+
+　　`write --batch` 成功后 Harness 自动：`index` → `graph rebuild` → `rag index`（增量）。`doctor` 会提示图/RAG 索引是否落后于 markdown。
+
+#### 速记（一行版）
+
+```bash
+python -m nexogenesis init | validate | index | doctor
+python -m nexogenesis write --batch <file>
+python -m nexogenesis compile [--plan|--check-responses|--apply]
+python -m nexogenesis digest [--plan|--apply|--auto]
+python -m nexogenesis construct [--lens|--apply|--auto]
+python -m nexogenesis graph rebuild|stats|analyze|retrieve|export
+python -m nexogenesis rag index|stats|search
+python -m nexogenesis retrieve --query "…" --mode talk
+python -m nexogenesis memory start|status|update|override|end
+python -m nexogenesis attention show|validate
+python -m nexogenesis signal --text "…"
 ```
 
 ### 5.1 `write --batch` 事务
@@ -307,6 +418,8 @@ writes:
 
 ## 八、文档摄入流水线
 
+　　CLI 完整参数见 **§5.0**；以下为编排纪律与机制说明。
+
 ```bash
 python -m nexogenesis compile --plan --root .    # 预览分波计划
 python -m nexogenesis compile --root .           # 生成本波 prompt（默认自动分波）
@@ -344,7 +457,7 @@ python -m nexogenesis construct --apply --root . # 结构优化；可标记 dige
 ### 8.2 `/digest`
 
 - **先消化、后建构**；默认只处理一波 `status: scratch`（`--wave-buffers` 默认 8），其余留待下波。
-- 上下文：全库**卡片目录**（无正文）+ **相关深读卡正文**（`--deep-cards` 默认 6）+ 本波 Buffer 全文 + 问题清单；可附 `_meta` 索引摘录。
+- 上下文：全库**卡片目录**（无正文）+ **相关深读卡正文**（`--deep-cards` 默认 6，优先 graph retrieve）+ 本波 Buffer 全文 + 问题清单；可附 `_meta` 索引摘录与 **RAG 质料摘录**（archive/buffer/discussion，nascent 不得升格为 Card）。
 - 空库/无 domain：batch **必须先写 domain**，再建实例卡（`domains` 仅引用本批或已有 id）。
 - 跨源对照发生在同波内；产出 enrich/新建 Card、domain/conflict/relation/model 候选、问题清单。
 - `--plan` 预览本波选择与字符估算；`--all-scratch` 仅调试。
@@ -354,12 +467,12 @@ python -m nexogenesis construct --apply --root . # 结构优化；可标记 dige
 ### 8.3 `/construct`
 
 - 在已有卡片网上做结构校准（勿在空库上优先于 digest）。
-- **默认 `--diagnose`**：Harness 结构信号 + 卡目录 + Buffer 索引（**无全文**）→ `lenses-report.md`。
+- **默认 `--diagnose`**：Harness 结构信号 + **graph analyze**（orphan/conflict 缺口/桥接点）+ 卡目录 + Buffer 索引（**无全文**）→ `lenses-report.md`；并写 `structure-ops-draft.md`。
 - **`--lens`**：一次只跑一个镜头（`cluster` / `distinguish` / `articulate` / `cross_source`）；注入目录 + 点名深读卡/Buffer。禁止 `all`。
 - 产出仍是 `write --batch` 候选；确认后 `--apply`；可将声明消费的 `digested` Buffer 标为 `constructed`。
 - **`--auto`**（无 lens）：诊断 + `suggested-lenses.txt` + `auto-runbook.md`。  
   **`--auto --lens <name>`**：无 batch 则生成该镜头 prompt+规程；有 batch 则自检后 apply（同 digest 戳记规则）。
-- 图可视化 / GraphML 导出延至 P2；P0 图即卡片 + relations + `index` 投影。
+- GraphML 导出：`python -m nexogenesis graph export`（可选 `--center`/`--hops` 子图）；P0 图即卡片 + relations + `index` 投影。
 
 ### 8.4 人机协作边界
 
@@ -370,7 +483,40 @@ python -m nexogenesis construct --apply --root . # 结构优化；可标记 dige
 
 ---
 
-## 九、延后机制的进入条件
+## 九、双轨检索：结构图 + 质料 RAG
+
+> 细则见 `docs/2026-07-27-retrieval-graph-rag-design.md`。本节为运行时摘要。
+
+### 9.1 分工
+
+- **结构轨（Graph）**：`01-Cards` 关系网——论证骨架、领域、冲突、显式 `relations`；索引在 `.nexogenesis/graph/`，可重建。
+- **质料轨（RAG）**：原文、Buffer 片段、归档、**讨论文档（新生证据）**——细节与证据；语料仍在 markdown，索引在 `.nexogenesis/rag/`，可重建。
+- **统一入口**：`python -m nexogenesis retrieve --query … --mode talk|digest|answer|construct` → Context Package（结构区 + 质料区 + 归因）。
+
+### 9.2 新生证据（discussion）
+
+- 路径：`04-OutBox/discussions/YYYY-MM-DD-<主题>-discussion.md`。
+- 性质：知识演进中的讨论纪要；RAG 中 `attribution: nascent`；**不自动**升格为 Card。
+- 升格：讨论中可维护的主张经 `/capture` 或 digest → `write --batch`；discussion 文件保留并补 `linked_cards`。
+
+### 9.3 检索纪律
+
+- RAG 命中**不得**直接写入 `relations` 或新建 Card。
+- Context 必须区分：`structure`（图）与 `material`（RAG），并标注 `user` / `document` / `system` / `nascent`。
+- `write --batch` 成功后顺序：`index` → `graph rebuild` → `rag index`（增量）。
+
+### 9.4 与指令的关系
+
+| 指令 | 结构轨 | 质料轨 |
+|------|--------|--------|
+| `/digest` | graph retrieve 深读卡 | buffer 全文 + RAG 质料摘录（archive/discussion） |
+| `/construct` | graph analyze + structure_ops 合并进诊断 | 低权重 |
+| `/talk` `/answer` | 子图 + 立场卡片 | 引文与讨论块 |
+| `/compile` | — | 产出 buffer → 入 RAG 语料 |
+
+---
+
+## 十、延后机制的进入条件
 
 | 机制 | 进入条件 |
 |---|---|
@@ -378,7 +524,9 @@ python -m nexogenesis construct --apply --root . # 结构优化；可标记 dige
 | 更多卡片类型 | 7 型在真实使用中持续无法表达 |
 | 多透镜强制流程 | 简化判断反复遗漏关键风险 |
 | 自动定期反思 | 人工 `/reflect` 经常被忘记且确实造成损失 |
-| 图检索/向量库 | 文本检索在真实规模下明显失效 |
+| **图检索（G1）** | R0/R1 实现完成，且卡片 ≥20 或 digest 深读明显漏召回 |
+| **质料 RAG（FTS）** | R2 实现完成；有 archive/buffer/discussion 语料 |
+| **向量 / 混合 RRF** | 黄金集证明 FTS+图遍历不够 |
 | Web 界面 | 文件与 code agent 成为主要使用障碍 |
 | 多 Agent 分工 | 单流程出现可测的并发/隔离/专业化需求 |
 | 自动优化手册 | 已有稳定评估集，人工改动效果可重复比较 |

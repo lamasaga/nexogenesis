@@ -4,6 +4,7 @@ import sys
 import click
 
 from nexogenesis.commands.validate import run_validate
+from nexogenesis.indexing import check_index_staleness
 from nexogenesis.schemas import BUFFER_ROLES
 
 
@@ -57,6 +58,11 @@ def doctor_cmd(root: str):
         issues.append(e)
     for w in warnings:
         click.echo(f"WARNING: {w}")
+
+    stale_issues, stale_warnings = check_index_staleness(root_path)
+    for w in stale_warnings:
+        click.echo(f"WARNING: {w}")
+    issues.extend(stale_issues)
 
     if issues:
         for i in issues:

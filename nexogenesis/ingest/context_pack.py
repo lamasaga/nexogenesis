@@ -143,10 +143,22 @@ def select_deep_cards(
     buffers: list[dict],
     *,
     max_deep: int = DEFAULT_DEEP_CARDS,
+    root: Path | None = None,
+    use_graph: bool = True,
 ) -> list[dict]:
-    """选相关卡片注入正文。"""
+    """选相关卡片注入正文；优先图检索，失败则启发式打分。"""
     if max_deep <= 0 or not store.cards:
         return []
+
+    if root is not None and use_graph:
+        try:
+            from nexogenesis.retrieve.context_package import deep_cards_from_graph
+
+            graph_cards = deep_cards_from_graph(root, buffers, max_deep=max_deep)
+            if graph_cards:
+                return graph_cards
+        except Exception:
+            pass
 
     tokens = _tokens_from_buffers(buffers)
     scored: list[tuple[int, str]] = []

@@ -275,6 +275,15 @@ def _apply_wave(
             "user",
         )
         generate_indexes(root_path)
+        from nexogenesis.indexing import refresh_derived_indexes
+
+        refresh_derived_indexes(
+            root_path,
+            graph=True,
+            rag=True,
+            rag_kinds=["buffer", "archive"],
+            quiet=True,
+        )
 
     click.echo(
         f"Compile apply: wrote={len(all_written)} buffers, "

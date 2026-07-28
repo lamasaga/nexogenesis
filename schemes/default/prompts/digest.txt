@@ -37,6 +37,15 @@ role 映射提示：
 {{ index_excerpts }}
 {% endif %}
 
+{% if material_excerpts %}
+## 质料检索摘录（RAG，非 Card）
+
+以下来自 archive / buffer / discussion 等语料，**不得**直接写入 relations 或新建 Card；
+`nascent` 表示研讨草稿，不能标为成熟主张。
+
+{{ material_excerpts }}
+{% endif %}
+
 卡片目录（无正文，全库一览）：
 {% for c in catalog %}
 {{ c.line }}

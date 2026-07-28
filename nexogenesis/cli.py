@@ -9,6 +9,10 @@ from nexogenesis.commands.migrate import migrate_cmd
 from nexogenesis.commands.compile import compile_cmd
 from nexogenesis.commands.digest import digest_cmd
 from nexogenesis.commands.construct import construct_cmd
+from nexogenesis.commands.graph import graph_cmd
+from nexogenesis.commands.rag import rag_cmd
+from nexogenesis.commands.retrieve import retrieve_cmd
+from nexogenesis.commands.memory import attention_cmd, memory_cmd, signal_cmd
 
 
 @click.group()
@@ -27,6 +31,12 @@ main.add_command(migrate_cmd, name="migrate")
 main.add_command(compile_cmd, name="compile")
 main.add_command(digest_cmd, name="digest")
 main.add_command(construct_cmd, name="construct")
+main.add_command(graph_cmd, name="graph")
+main.add_command(rag_cmd, name="rag")
+main.add_command(retrieve_cmd, name="retrieve")
+main.add_command(memory_cmd, name="memory")
+main.add_command(attention_cmd, name="attention")
+main.add_command(signal_cmd, name="signal")
 
 
 if __name__ == "__main__":

@@ -16,6 +16,7 @@ def init_cmd(root: str):
         "02-Profile",
         "03-Archive",
         "04-OutBox",
+        "04-OutBox/discussions",
         *[f"05-Buffer/{role}" for role in sorted(BUFFER_ROLES)],
         "06-Journal",
         "schemes/default",
@@ -33,6 +34,8 @@ def init_cmd(root: str):
         "profile-template.md",
         "migration.md",
         "body-structure-template.md",
+        "discussion-template.md",
+        "attention.yaml",
     ]:
         src = scheme_src / fname
         dst = scheme_dst / fname

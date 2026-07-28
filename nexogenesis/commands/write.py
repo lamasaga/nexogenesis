@@ -157,6 +157,15 @@ def write_cmd(batch: str, root: str):
             batch_op.approved_by,
         )
         generate_indexes(root_path)
+        from nexogenesis.indexing import refresh_derived_indexes
+
+        refresh_derived_indexes(
+            root_path,
+            graph=True,
+            rag=True,
+            rag_kinds=["card_excerpt", "buffer", "archive", "discussion", "outbox"],
+            quiet=True,
+        )
     except Exception as exc:
         raise click.ClickException(f"Write failed (no commit): {exc}") from exc
     finally:
