@@ -23,45 +23,34 @@ def _load_template(name: str, scheme_dir: Path | None = None) -> Template:
 
 
 def format_rules() -> str:
-    """Compile 快节奏意义切片规则：少标注、可读块、不做预售 Card。"""
-    roles = ", ".join(sorted(VALID_BUFFER_ROLES))
-    return f"""请遵循以下输出规则（快节奏意义切片；Harness 只守闸门）：
+    """Compile：高效保质料切片。Harness 已开阅读窗；模型只做窗内压缩命名。"""
+    roles = ", ".join(("meaning-unit", "tension", "link-hypothesis"))
+    return f"""【你的唯一任务】对本阅读窗产出 **1～6** 个有意义命名、**含质料**的 Buffer。
+Harness 已按结构切好窗；不要重规划全书、不要填卡片槽、不要预售 Card。
 
-【目标】
-把杂乱、长短不一的原文，切成**消化时读起来舒服**的意义块。块是原料，不是卡片草稿。
-
-【块头 — 尽量短】
-每块只用三段 YAML（Harness 落盘时自动补 created / updated / status）：
+【块格式】每块仅三行头 + 正文（落盘时自动补日期/status）：
 ---
-title: "短标题（说清本块讲什么）"
+title: "说清本块讲什么"
 role: meaning-unit
-source: "文件 / 章节或页码"
+source: "与窗来源一致，可加小节名"
 ---
-- `role` 常用：`meaning-unit`（默认）、`tension`（对立未和解）、`link-hypothesis`（弱关联，少用）。
-- 完整可选集合：{roles}。不要为填表而换 role。
-- **不要写**：created、updated、status、id、relations、Card 七型 type、proposed_card_type、proposed_domains（除非你极有把握且对 digest 有用）。
-- source 含冒号/引号时用双引号包裹整串。
+　　连贯段落：机制/主张 + 关键条件或数字 +（若有）边界 + 1～2 句短摘录（可用 >）。
+常用 role：{roles}（完整枚举见系统；勿为填表换 role）。
+禁止：created/updated/status、id、relations、Card type、[[ ]]、空心标题壳。
 
-【正文 — 自由连贯，不填槽】
-- 用自然段落写清：主张/机制 + 关键依据或数字 + 边界（若有）+ 1–2 条短摘录（可用 `>`）。
-- **不要求** `### 核心表达 / 依据与细节 / …` 四级标题；需要分段时用任意小标题即可。
-- 表图数字与观察默认写进所属块，不要另开空心 artifact。
-- 禁止 `[[ ]]`；提及概念用加粗。
+【质料标准】
+- 消化阶段应能直接把机制与事实并入 Card；省略废话与重复，**不要抽成更短的空摘要**。
+- 块数按内容定（1～6）；宁少而厚，勿维度薄片（problem/claim/evidence 分片）。
+- 表图数字默认写进块内。
 
-【切分节奏】
-- 按意义切，不按「问题/主张/证据/限制」维度切薄片。
-- 同一论证链写进同一块；本单元宜少而可读（常见 3–8 块，勿 15+ 标题壳）。
-- 对立各写一块，再用 `tension` 记分歧；禁止和稀泥。
-- 宁可少切，不要硬造；已切则宁厚勿空——质料供 digest **对着骨架滋养**，不是「一片预售一张 Card」。
-
-【合格示例】
+【示例】
 ---
 title: "教学反馈应指出可操作差距"
 role: meaning-unit
-source: "paper.pdf / §3.2 / pp.12-14"
+source: "paper.pdf / §3.2"
 ---
 
-　　教学反馈应优先指出可操作差距，而非仅给笼统评价。对照实验（N=120）比较「笼统赞扬」与「指出目标差距 + 下一步」；后一组修订成功率更高。作者将可操作差距定义为当前表现与成功标准之间可观察、可执行的差额。样本限于大学写作课，未讨论跨文化适用性。
+　　教学反馈应优先指出可操作差距。对照实验（N=120）中，「指出目标差距+下一步」组修订成功率高于笼统赞扬。可操作差距=当前表现与成功标准间可观察差额。样本限于大学写作课。
 
 > Feedback should name the actionable gap between current performance and the success criteria.
 """
@@ -76,7 +65,12 @@ def render_compile_prompt(units: list[dict], genre: str | None = None, deep: boo
     units_render = []
     for idx, u in enumerate(units, 1):
         source = " / ".join(
-            p for p in [u["source_path"].name, u.get("title", ""), u.get("section", ""), u.get("page_range", "")] if p
+            p for p in [
+                Path(u["source_path"]).name if u.get("source_path") else "",
+                u.get("title", ""),
+                u.get("section", ""),
+                u.get("page_range", ""),
+            ] if p
         )
         units_render.append({
             "index": idx,
@@ -84,6 +78,8 @@ def render_compile_prompt(units: list[dict], genre: str | None = None, deep: boo
             "source": source,
             "char_count": u["char_count"],
             "text": u["text"],
+            "title": u.get("title") or "",
+            "section": u.get("section") or "",
         })
     return template.render(units=units_render, format_rules=format_rules(), deep=deep)
 

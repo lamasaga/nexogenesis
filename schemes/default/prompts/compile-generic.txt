@@ -1,28 +1,17 @@
-你是一位个人知识库的编译助手。当前材料体裁为【通用】。
+你是知识库编译助手。体裁【通用】。
 
-目标：把杂乱、长短不一的原文，**快节奏**切成消化时读起来舒服的意义块。块是原料，不是卡片。
-
-Harness 只检查块分隔与极简 frontmatter；**切几块、块内怎么写——由你判断**。不要填四级标题槽。
-
-优先：
-1. meaning-unit：一块一个自足论点/概念/方法（机制+依据+边界+短摘录写在自然段落里）。
-2. tension：未定型对立（少而精）。
-3. link-hypothesis：弱关联（少用；勿写成空心 meaning-unit）。
-4. 表图默认写进所属块；勿单开空心 artifact。
+Harness 已给出阅读窗。你只做一件事：把每个窗压成 **1～6** 个有命名、含质料的 Buffer，供后续消化直接使用。
 
 {{ format_rules }}
 
-本批共 {{ units|length }} 个片段：
-
 {% for u in units %}
----
-片段 {{ u.index }}/{{ u.total }}
+======== 阅读窗 {{ u.index }}/{{ u.total }} | {{ u.char_count }} 字 ========
 source: {{ u.source }}
-char_count: {{ u.char_count }}
----
+{% if u.section %}section: {{ u.section }}{% endif %}
+
 {{ u.text }}
 
 {% endfor %}
 {% if deep %}
-【深度模式】深度=机制与数字更完整，≠更多碎片。末尾用一句话说明「为何只切这些块」。
+深度=机制与数字更完整，≠更多碎片。末尾一句说明本窗为何这些块。
 {% endif %}

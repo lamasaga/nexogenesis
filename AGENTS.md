@@ -462,29 +462,24 @@ python -m nexogenesis construct --apply --root . # 结构优化；可标记 dige
 
 ### 8.1 `/compile`
 
-- 扫描 `00-Inbox/` 中的 `.md`、`.txt`、`.markdown`、`.pdf`（**默认递归子目录**；`--no-recursive` 仅扫顶层）；源键为相对 Inbox 的路径，归档时保留子目录结构；
-- 启发式预判体裁：`book` / `paper` / `essay` / `dialogue` / `scrap` / `generic`；
-- **默认自动分波**：按库存选择本波文档（默认约 ≤5 篇 / ≤4 个 prompt），其余留 Inbox；`--all` 关闭分波；`--plan` 预览；
-- 默认每批约 **10000** 等效中文字（`--max-chars` 可覆盖）；同批按体裁装箱，`scrap` 最多混 3 源，`paper`/`book` 等不混装；
-- 生成体裁专属 prompt 到 `.nexogenesis/tmp/compile/`，并写 `wave-manifest.json`；
-- **快节奏意义切片**：LLM 输出极简 frontmatter（`title` / `role` / `source`）；正文自由连贯段落；**不强制四级标题槽**；表图默认内嵌；落盘时 Harness 补 `created`/`updated`/`status`；
-- **不定 Card `type`，不写 `id` / `relations`**；对立不和解；
-- **职责划分**：Harness 校验分隔符/role/空正文/路径；**切几块、块内怎么写——属 LLM**；禁止空心套话凑格式；
-- response **必须**命名为 `batch-XXX-response.md`（或 `.yaml`），与 prompt 序号对应；
-- **编排纪律**：默认单代理串行；每写完一个先 `compile --check-responses`；不合格则重生成该 batch，禁止手写脚本「大修」；
-- `--apply` 按 response 文件独立落盘；`--strict-body` 将过短/空正文升为错误（非缺标题）；
-- 本波全部 batch 成功后，才归档已完成全部单元的原文；长书可跨多波，进度记在 `progress.json`。
+- 扫描 `00-Inbox/`（**默认递归**；`--no-recursive` 仅顶层）；源键为相对路径，归档保留子目录；
+- 体裁预判：`book` / `paper` / `essay` / `dialogue` / `scrap` / `generic`；
+- **阅读窗（Harness）+ 窗内切块（LLM）**：
+  - **图书/长文**：优先 PDF 目录小节或 Markdown `##`/`###` 开窗；有子节时跳过粗章；
+  - **论文**：有小标题则按节，否则少窗；
+  - **对话**：按话轮；**scrap**：段落堆叠；
+  - 窗内产出 **1～6** 个有命名、含质料的 Buffer——块数由模型按内容定，Harness 不机械定块数；
+- 默认分波与 `max_chars`；**书默认一窗一 prompt**，减少赶工薄片；
+- LLM 输出极简 frontmatter（`title`/`role`/`source`）+ 自由充实正文；不强制四级槽；落盘补日期/status；
+- **职责**：Harness 开窗与闸门；**切几块、叫什么、保哪些机制与事实——属 LLM**；
+- response 命名 `batch-XXX-response.md`；串行生成；`--strict-body` 拦过短/空正文。
 
 ### 8.2 `/digest`
 
-- **先消化、后建构**；默认只处理一波 `status: scratch`（`--wave-buffers` 默认 8），其余留待下波。
-- **主职对齐 v3.1：对着领域骨架滋养**——渐进阅读（domain → 相关实例 → 比较 → enrich 优先 → 偶发新建）；不是「一片 Buffer → 一张 Card」。
-- 本波 N 片建议新建 ≤ max(2, N/3)，其余 enrich/skip；`proposed_card_type` 可忽略。
-- 上下文：**领域目录与领域深读**优先 pin + 实例目录/深读（`--deep-cards` 默认 6，图检索后仍 pin domain）+ 本波 Buffer 全文 + 问题清单；可附索引与 RAG 质料摘录（nascent 不得升格为 Card）。
-- 空库/无 domain：batch **必须先写 domain**，再建实例卡。
-- 跨源对照在同波内；产出 enrich/新建、conflict、relation/model、问题清单；**单卡须可读**（Card 仍校验类型槽）。
-- **职责划分**：Harness 校验 batch/链接/`consumed_buffers`；**匹配、合并、skip、单卡能否解释问题——属 LLM**。
-- `--plan` 预览本波与新建预算；`--apply` 经 `write --batch`；`--auto` 自检后 apply（不调用 LLM）。
+- **先消化、后建构**；默认一波 `scratch`（`--wave-buffers` 默认 8）。
+- **主职：骨架滋养**——领域 → 实例 → enrich 优先；把 Buffer 中的机制与事实**转入/并入**可读 Card（Card 仍校验类型语义槽），不是另写更短空壳。
+- 新建建议 ≤ max(2, N/3)；深读优先 pin domain；空库须先 domain。
+- Harness 校验 batch/链接/`consumed_buffers`；匹配与 skip 属 LLM。
 
 ### 8.3 `/construct`
 

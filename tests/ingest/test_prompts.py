@@ -6,23 +6,20 @@ from nexogenesis.ingest.prompts import render_compile_prompt, render_digest_prom
 def test_render_compile_prompt():
     units = [{
         "source_path": Path("a.md"),
-        "title": "a",
-        "section": "",
+        "title": "第一节",
+        "section": "第一节",
         "page_range": "",
         "char_count": 10,
         "text": "hello",
     }]
-    prompt = render_compile_prompt(units, genre="essay")
+    prompt = render_compile_prompt(units, genre="book")
     assert "hello" in prompt
-    assert "meaning-unit" in prompt
-    assert "role" in prompt
-    assert "合格示例" in prompt
-    assert "意义切片" in prompt or "快节奏" in prompt
-    assert "不要求" in prompt  # 明确不强制四级槽
-    assert "不要写" in prompt or "Harness" in prompt
+    assert "阅读窗" in prompt
+    assert "1～6" in prompt or "1-6" in prompt
+    assert "质料" in prompt
 
 
-def test_render_digest_prompt_separates_domain_skeleton():
+def test_render_digest_prompt_principle_not_hard_ban():
     prompt = render_digest_prompt(
         buffers=[{"role": "meaning-unit", "title": "t", "path": "05-Buffer/x.md", "text": "---\nt\n"}],
         catalog=[
@@ -35,6 +32,7 @@ def test_render_digest_prompt_separates_domain_skeleton():
         ],
         questions=[],
     )
-    assert "领域骨架" in prompt or "领域卡片目录" in prompt
-    assert "滋养" in prompt or "v3.1" in prompt
-    assert "enrich" in prompt.lower() or "丰富" in prompt
+    assert "禁止二次摘要掏空" not in prompt
+    assert "语义槽" in prompt or "必需语义槽" in prompt
+    assert "转入" in prompt or "并入" in prompt or "质料" in prompt
+    assert "领域" in prompt

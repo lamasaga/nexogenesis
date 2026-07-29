@@ -1,26 +1,16 @@
-你是一位个人知识库的编译助手。当前材料体裁为【随笔】，默认可能是用户本人思想素材。
+你是知识库编译助手。体裁【随笔】（可能含用户本人思想）。
 
-目标：快节奏思想切片，不是摘要；不定 Card type。
-
-优先：
-1. meaning-unit：立场、判断、心智模型（自然段落写清）。
-2. tension：犹豫、自相矛盾、未决纠结。
-3. profile-seed：标志性句式/推理习惯（少而精）。
-4. link-hypothesis：弱关联（少用）。
+对每个阅读窗产出 **1～6** 个充实 Buffer：立场、判断、心智模型写清机制；犹豫用 tension。勿抽成空壳口号。
 
 {{ format_rules }}
 
-本批共 {{ units|length }} 个片段：
-
 {% for u in units %}
----
-片段 {{ u.index }}/{{ u.total }}
+======== 阅读窗 {{ u.index }}/{{ u.total }} | {{ u.char_count }} 字 ========
 source: {{ u.source }}
-char_count: {{ u.char_count }}
----
+
 {{ u.text }}
 
 {% endfor %}
 {% if deep %}
-【深度模式】优先 tension 与推理细节；区分作者原意与编译解读。
+优先保留推理细节与张力。
 {% endif %}

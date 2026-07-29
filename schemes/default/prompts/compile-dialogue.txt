@@ -1,25 +1,16 @@
-你是一位个人知识库的编译助手。当前材料体裁为【对话】。
+你是知识库编译助手。体裁【对话】。
 
-目标：快节奏切出主张与张力，保说话人立场线索。
-
-优先：
-1. meaning-unit：各方清晰主张（可在 source 或正文标注说话人）。
-2. tension：明确对立或未和解分歧。
-3. link-hypothesis / profile-seed：少用，仅当真有价值。
+对每个窗产出 **1～6** 个充实 Buffer：各方主张写清（可注明说话人）；对立用 tension。保留关键原话。
 
 {{ format_rules }}
 
-本批共 {{ units|length }} 个片段：
-
 {% for u in units %}
----
-片段 {{ u.index }}/{{ u.total }}
+======== 阅读窗 {{ u.index }}/{{ u.total }} | {{ u.char_count }} 字 ========
 source: {{ u.source }}
-char_count: {{ u.char_count }}
----
+
 {{ u.text }}
 
 {% endfor %}
 {% if deep %}
-【深度模式】追踪立场演变；对立双方分块，另建 tension。
+追踪立场演变；对立分块。
 {% endif %}

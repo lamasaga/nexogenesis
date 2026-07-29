@@ -80,8 +80,34 @@ def _split_by_page_ranges(
     return chunks
 
 
+def select_toc_window_entries(toc: list) -> list[tuple[int, int, str, int]]:
+    """从 PDF TOC 选出阅读窗条目。
+
+    策略：若存在更细目录（子节），跳过「下面还有子节」的粗章，
+    优先以小节/小标题为窗；仅当某章无子节时才用该章本身。
+
+    返回 [(toc_index, level, title, page), ...]
+    """
+    if not toc:
+        return []
+    selected: list[tuple[int, int, str, int]] = []
+    for i, entry in enumerate(toc):
+        level, title, page = entry[0], entry[1], entry[2]
+        next_level = toc[i + 1][0] if i + 1 < len(toc) else None
+        has_child = next_level is not None and next_level > level
+        if has_child:
+            # 粗章/父标题：留给子节开窗
+            continue
+        selected.append((i, int(level), str(title), int(page)))
+    # 极端情况：全部被跳过（异常 TOC）→ 回退用全部条目
+    if not selected:
+        for i, entry in enumerate(toc):
+            selected.append((i, int(entry[0]), str(entry[1]), int(entry[2])))
+    return selected
+
+
 def extract_pdf_toc_chunks(path: Path, max_chars: int = 30000) -> list[dict]:
-    """提取 PDF 文本并按目录/页码切分为编译单元。"""
+    """提取 PDF 文本并按目录/页码切分为编译单元（优先小节窗）。"""
     if max_chars <= 0:
         raise ValueError("max_chars 必须大于 0")
     if not path.is_file():
@@ -96,11 +122,16 @@ def extract_pdf_toc_chunks(path: Path, max_chars: int = 30000) -> list[dict]:
 
             chunks: list[dict] = []
             if toc:
-                for i, entry in enumerate(toc):
-                    level, title, page = entry
+                windows = select_toc_window_entries(toc)
+                for wi, (toc_i, _level, title, page) in enumerate(windows):
                     page = max(1, page)
-                    end_page = toc[i + 1][2] if i + 1 < len(toc) else len(doc) + 1
-                    end_page = max(page, end_page)
+                    if wi + 1 < len(windows):
+                        end_page = windows[wi + 1][3]
+                    elif toc_i + 1 < len(toc):
+                        end_page = toc[toc_i + 1][2]
+                    else:
+                        end_page = len(doc) + 1
+                    end_page = max(page, int(end_page))
 
                     start_idx = max(0, page - 1)
                     end_idx = max(start_idx, min(end_page - 1, len(doc)))
@@ -117,10 +148,12 @@ def extract_pdf_toc_chunks(path: Path, max_chars: int = 30000) -> list[dict]:
                         sub_chunks = _split_by_page_ranges(doc, max_chars, start_idx, end_idx)
                         for sc in sub_chunks:
                             sc["title"] = f"{title} / {sc['title']}"
+                            sc["section"] = title
                         chunks.extend(sub_chunks)
                     else:
                         chunks.append({
                             "title": title,
+                            "section": title,
                             "page_range": f"{page}-{end_page - 1}",
                             "text": text,
                         })

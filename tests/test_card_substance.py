@@ -85,10 +85,7 @@ def test_compile_format_rules_favor_fast_slices():
     from nexogenesis.ingest.prompts import format_rules
 
     text = format_rules()
-    assert "意义切片" in text or "快节奏" in text
+    assert "1～6" in text or "1-6" in text
+    assert "质料" in text
     assert "title" in text and "source" in text
-    assert "不要求" in text or "四级" in text or "自由" in text
-    assert "预售" in text or "滋养" in text or "骨架" in text
-    assert "各自独立成块" not in text
-    assert "proposed_card_type" in text  # 明确不要写
-    assert "created" in text  # 说明由 Harness 补
+    assert "预售" in text or "Card" in text

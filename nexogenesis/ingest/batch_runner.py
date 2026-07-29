@@ -27,11 +27,27 @@ MAX_DOCS_PER_BATCH = {
     "book": 1,
 }
 
+# 同批最多阅读窗数：书/论文宜少窗，便于模型保质料而非赶工薄片
+MAX_UNITS_PER_BATCH = {
+    "book": 1,
+    "paper": 2,
+    "essay": 2,
+    "dialogue": 2,
+    "scrap": 4,
+    "generic": 3,
+}
+
 
 def max_docs_for_genre(genre: str | None) -> int:
     if not genre:
         return 1
     return MAX_DOCS_PER_BATCH.get(genre, 1)
+
+
+def max_units_for_genre(genre: str | None) -> int:
+    if not genre:
+        return 3
+    return MAX_UNITS_PER_BATCH.get(genre, 3)
 
 
 def _unit_source_key(unit: dict) -> str:
@@ -93,6 +109,8 @@ def _pack_group(units: list[dict], *, max_chars: int, max_docs: int) -> list[lis
     current: list[dict] = []
     current_chars = 0
     current_sources: set[str] = set()
+    genre0 = (units[0].get("genre") if units else None) or "generic"
+    max_units = max_units_for_genre(genre0)
 
     for unit in units:
         unit_chars = unit["char_count"]
@@ -117,12 +135,13 @@ def _pack_group(units: list[dict], *, max_chars: int, max_docs: int) -> list[lis
             batches.append([unit])
             continue
 
-        if current_chars + unit_chars > max_chars and current:
+        if current and (
+            current_chars + unit_chars > max_chars
+            or len(current) >= max_units
+        ):
             current = _flush_batch(batches, current)
             current_chars = 0
             current_sources = set()
-            # 换批后重新检查混装上限
-            would_new_source = bool(source)
 
         current.append(unit)
         current_chars += unit_chars

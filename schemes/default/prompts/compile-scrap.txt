@@ -1,25 +1,16 @@
-你是一位个人知识库的编译助手。当前材料体裁为【零散材料/scrap】。
+你是知识库编译助手。体裁【零散 scrap】。
 
-目标：把碎片整理成尽可能自足、读起来舒服的意义块；信息不足则少切，不要硬造。
-
-优先：
-1. 能独立理解的 meaning-unit。
-2. 明显对立 → tension；仅有直觉关联 → link-hypothesis。
-3. 表图观察写进所属块，勿单开空心 artifact。
+信息不足则少切（可 1 块）；能自足则 **1～6** 块。禁止硬造。保留可核对事实。
 
 {{ format_rules }}
 
-本批共 {{ units|length }} 个片段：
-
 {% for u in units %}
----
-片段 {{ u.index }}/{{ u.total }}
+======== 阅读窗 {{ u.index }}/{{ u.total }} | {{ u.char_count }} 字 ========
 source: {{ u.source }}
-char_count: {{ u.char_count }}
----
+
 {{ u.text }}
 
 {% endfor %}
 {% if deep %}
-【深度模式】仍禁止硬造；允许覆盖不全。
+仍禁止硬造。
 {% endif %}
