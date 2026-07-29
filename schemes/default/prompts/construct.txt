@@ -5,9 +5,14 @@
 镜头职责：
 - cluster：假 domain、空壳领域、孤儿/无关系、domains 漂移 → 新建/调整 domain，修正 domains
 - distinguish：未升格 tension、conflicts-with 无 conflict 卡、conflict 缺 involves → 补 conflict / involves
-- articulate：关系团可抽 model/method、表图未挂解释、链接空洞/过载 → 补 relations 或新建 model/method
+- articulate：关系团可抽 model/method、枢纽术语升格 entity/model、表图未挂解释、链接空洞/过载 → 补 relations 或新建 model/method/entity
 - cross_source：多源主题互补或对立 → 跨源 relations / conflict / 问题清单
 
+【本镜头优先序】
+1. 先补边（空 relations、conflict 缺 involves），再考虑新建卡；确定性 seed-links 应由 `construct --apply-seed-links` 完成，本镜头勿重复只挂 domain；
+2. conflict 的 involves 必须落到 claim/model，不能只用 applies-to domain 代替；
+3. 高频术语升格用已有类型 entity（定义对象）或 model（解释结构），**不要**发明第八种「概念」类型；相关卡用 based-on / involves / example-of 指过去；
+4. 一句话主张保持短而可复述；缺的是关系与机制，不是把主张写成段落。
 本镜头确定性信号：
 {% for s in signals %}
 - {{ s }}
@@ -42,8 +47,8 @@ domains={{ c.domains }}
 {% endfor %}
 
 请输出标准 write --batch YAML，包含本镜头所需的：
-- 新建/调整 domain、conflict、model（如需要）；
-- 补全 relations；
+- 新建/调整 domain、conflict、model、entity（如需要）；
+- 补全 relations（尤其 involves / based-on）；
 - 调整 domains；
 - 如需更新问题清单，使用 target: profile_question。
 operation.approved_by 留 "user"。

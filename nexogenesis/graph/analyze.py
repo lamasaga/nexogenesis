@@ -93,9 +93,16 @@ def structure_ops_to_signals(ops: list[dict[str, Any]]) -> dict[str, list[str]]:
         line = f"[graph-analyze] {kind}: {reason} → {card_txt}"
         if kind == "suggest_conflict_card":
             signals["distinguish"].append(line)
+        elif kind in ("require_involves",):
+            signals["distinguish"].append(line)
+        elif kind == "suggest_entity_hub":
+            signals["articulate"].append(line)
         elif kind == "suggest_link_or_enrich":
             signals["cluster"].append(line)
             signals["articulate"].append(line)
+        elif kind == "suggest_review_bridge":
+            signals["articulate"].append(line)
+            signals["cluster"].append(line)
         else:
             signals["cluster"].append(line)
     return signals
@@ -115,31 +122,17 @@ def merge_structure_signals(
 
 
 def write_structure_ops_batch_draft(root: Path, ops: list[dict[str, Any]]) -> Path:
-    """生成结构提案 batch 草稿（须人工/Agent 补全 writes 后再 apply）。"""
-    out_dir = root / ".nexogenesis" / "tmp" / "construct"
-    out_dir.mkdir(parents=True, exist_ok=True)
-    lines = [
-        "# 结构提案 batch 草稿（不可直接 apply）",
-        "",
-        "将下方 structure_ops 转为标准 write --batch YAML 后，经 construct --apply 或 --auto 落盘。",
-        "",
-        "```yaml",
-        "operation:",
-        "  id: construct-from-graph-ops-DRAFT",
-        "  source: graph analyze",
-        "  approved_by: user",
-        "writes: []  # 须按 ops 填写 enrich / conflict / relations",
-        "```",
-        "",
-        "## structure_ops",
-        "",
-    ]
-    for op in ops[:20]:
-        lines.append(f"- **{op.get('op')}**: {op.get('reason')} → {op.get('cards')}")
-    lines.append("")
-    path = out_dir / "structure-ops-draft.md"
-    atomic_write_file(path, "\n".join(lines))
-    return path
+    """
+    生成可执行结构行动单：seed-links batch + LLM ops + draft。
+    确定性补边见 structure-seed-links.yaml；其余须镜头补全后 write --batch。
+    """
+    from nexogenesis.ingest.construct_ops import write_construct_action_artifacts
+
+    store = Store(root / "01-Cards").load()
+    paths = write_construct_action_artifacts(
+        root, store, existing_graph_ops=ops
+    )
+    return paths["draft"]
 
 
 def analyze_graph(root: Path, *, rebuild: bool = False) -> dict[str, Any]:

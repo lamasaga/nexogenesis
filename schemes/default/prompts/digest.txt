@@ -7,6 +7,11 @@ Buffer 使用 role（不是 Card type）。请对照「卡片目录 + 深读正�
 2. 区分 → conflict 候选（有对立必须提案 conflict，或说明为何不对立；禁止只保留胜出一方）
 3. 衔接 → relations 候选；若组合/因果/顺序本身可复用，提案 model（或 method）
 
+【衔接纪律 — 金融库实践教训】
+- 新建或 enrich 的 claim / model / method：除 domains 外，**尽量写 ≥2 条 relations**（如 applies-to / based-on / supports / conflicts-with）。只有 domains、没有出边 → 图能分区却难多跳，思维体讨论会变弱。
+- 新建 conflict：**必须**用 involves 指向对立双方的具体 claim/model（可与本批新建 id）；**不要**只用 applies-to 挂领域就算完结。
+- claim 的「一句话主张」保持锋利即可，不必写成摘要；信息不足时加一句机制或一条关系，而不是把主张拉长。
+- 优先 enrich 已有卡并补边，避免为同一对立再造一张空壳卡。
 {% if bootstrap %}
 【空库 / 无 domain 启动纪律 — 必须遵守】
 1. 本批 writes **必须先**至少一张 type: domain 的卡片（含核心问题、边界、内在张力、原文摘录）。

@@ -9,7 +9,6 @@ from nexogenesis.graph.analyze import (
     load_structure_ops,
     merge_structure_signals,
     structure_ops_to_signals,
-    write_structure_ops_batch_draft,
 )
 from nexogenesis.ingest.batch_auto import (
     load_batch_data,
@@ -22,6 +21,11 @@ from nexogenesis.ingest.buffer_status import (
     load_buffer_paths_by_status,
     resolve_consumed_buffers,
     set_buffer_status,
+)
+from nexogenesis.ingest.construct_ops import (
+    build_structure_action_plan,
+    merge_action_ops_into_graph_signals,
+    write_construct_action_artifacts,
 )
 from nexogenesis.ingest.context_pack import (
     DEFAULT_LENS_BUFFERS,
@@ -104,6 +108,32 @@ def _auto_apply_batch(root_path: Path, batch_path: Path, buffer_dir: Path) -> No
     _run_construct_apply(root_path, batch_path, buffer_dir, approved_by=approved)
 
 
+def _apply_seed_links(root_path: Path, store: Store, *, approved_by: str) -> int:
+    """刷新并 apply 确定性 seed-links；返回写入张数。"""
+    paths = write_construct_action_artifacts(
+        root_path, store, existing_graph_ops=load_structure_ops(root_path)
+    )
+    seed_path = paths["seed_links"]
+    plan = build_structure_action_plan(store)
+    n = plan["stats"]["seed_link_count"]
+    if n == 0:
+        click.echo("无 seed-links 可应用（空 relations 卡已挂 domain，或无需补边）。")
+        return 0
+    ctx = click.Context(write_cmd)
+    ctx.invoke(write_cmd, batch=str(seed_path), root=str(root_path))
+    write_ids = [w["id"] for w in plan["seed_link_writes"]]
+    journal.append(
+        root_path,
+        "construct",
+        "seed-links",
+        write_ids,
+        "01-Cards",
+        approved_by,
+    )
+    click.echo(f"Seed-links applied: {n} card(s) → {seed_path}")
+    return n
+
+
 def _run_diagnose(
     root_path: Path,
     store: Store,
@@ -118,13 +148,27 @@ def _run_diagnose(
     if store.cards:
         analyze_graph(root_path, rebuild=True)
 
-    merged = merge_structure_signals(signals, structure_ops_to_signals(load_structure_ops(root_path)))
+    graph_ops = load_structure_ops(root_path)
+    action_plan = build_structure_action_plan(store)
+    action_signals = merge_action_ops_into_graph_signals(action_plan["ops_need_llm"])
+    merged = merge_structure_signals(signals, structure_ops_to_signals(graph_ops))
+    merged = merge_structure_signals(merged, action_signals)
 
     report = render_diagnose_report(store, buffer_records, merged)
     graph_summary = root_path / ".nexogenesis" / "graph" / "reports" / "latest-summary.md"
     if graph_summary.exists():
         report += "\n\n---\n\n## 图分析（graph analyze）\n\n"
         report += graph_summary.read_text(encoding="utf-8")
+
+    stats = action_plan["stats"]
+    report += (
+        "\n\n---\n\n## 可执行结构动作（construct_ops）\n\n"
+        f"- seed-links（空 relations → applies-to domain）：**{stats['seed_link_count']}**\n"
+        f"- require_involves：**{stats['require_involves_count']}**\n"
+        f"- hub 升格候选（entity/model）：**{stats['hub_candidate_count']}**\n"
+        "- 详见 `structure-ops-draft.md`；有 seed-links 时先 "
+        "`construct --apply-seed-links`\n"
+    )
 
     report_path = tmp_dir / "lenses-report.md"
     atomic_write_file(report_path, report)
@@ -144,13 +188,29 @@ def _run_diagnose(
     prompt_path = tmp_dir / "diagnose-prompt.md"
     atomic_write_file(prompt_path, prompt)
 
-    ops_draft = write_structure_ops_batch_draft(
-        root_path, load_structure_ops(root_path)
+    artifacts = write_construct_action_artifacts(
+        root_path, store, existing_graph_ops=graph_ops
     )
 
     click.echo(f"已生成诊断报告: {report_path}")
     click.echo(f"诊断 prompt（无全文）: {prompt_path}")
-    click.echo(f"结构提案草稿: {ops_draft}")
+    click.echo(f"结构行动单: {artifacts['draft']}")
+    click.echo(f"确定性补边 batch: {artifacts['seed_links']} ({stats['seed_link_count']} writes)")
+    click.echo(f"LLM ops: {artifacts['ops_llm']}")
+
+    if auto and stats["seed_link_count"] > 0:
+        click.echo("AUTO: 先应用确定性 seed-links…")
+        _apply_seed_links(root_path, store, approved_by="agent")
+        # 补边后重新加载信号（involves/hub 仍在）
+        store = Store(root_path / "01-Cards").load()
+        signals = collect_structure_signals(store, buffer_records)
+        action_plan = build_structure_action_plan(store)
+        action_signals = merge_action_ops_into_graph_signals(action_plan["ops_need_llm"])
+        merged = merge_structure_signals(signals, structure_ops_to_signals(load_structure_ops(root_path)))
+        merged = merge_structure_signals(merged, action_signals)
+        write_construct_action_artifacts(
+            root_path, store, existing_graph_ops=load_structure_ops(root_path)
+        )
 
     if auto:
         suggested = suggest_lenses(merged)
@@ -171,6 +231,10 @@ def _run_diagnose(
         )
         return
 
+    if stats["seed_link_count"] > 0:
+        click.echo(
+            "建议先：python -m nexogenesis construct --apply-seed-links --root ."
+        )
     click.echo(
         "下一步：python -m nexogenesis construct --lens "
         "cluster|distinguish|articulate|cross_source"
@@ -191,11 +255,18 @@ def _run_diagnose(
 @click.option("--plan", is_flag=True, help="打印本镜头将深读的对象，不写 prompt")
 @click.option("--apply", is_flag=True, help="应用 batch 文件写入卡片")
 @click.option(
+    "--apply-seed-links",
+    is_flag=True,
+    help="应用确定性补边（空 relations → applies-to domain），经 write --batch",
+)
+@click.option(
     "--auto",
     is_flag=True,
     help="Agent 自主模式：诊断+建议镜头；有 lens+batch 则自检后 apply",
 )
-def construct_cmd(root, diagnose, lens, deep_cards, wave_buffers, plan, apply, auto):
+def construct_cmd(
+    root, diagnose, lens, deep_cards, wave_buffers, plan, apply, apply_seed_links, auto
+):
     root_path = Path(root).resolve()
     buffer_dir = root_path / "05-Buffer"
     cards_dir = root_path / "01-Cards"
@@ -205,6 +276,8 @@ def construct_cmd(root, diagnose, lens, deep_cards, wave_buffers, plan, apply, a
 
     if plan and auto:
         raise click.ClickException("--plan 与 --auto 不能同时使用")
+    if apply_seed_links and (apply or lens or plan):
+        raise click.ClickException("--apply-seed-links 请单独使用（可与 --auto 同用）")
 
     store = Store(cards_dir).load()
     buffer_records = index_all_buffers(buffer_dir, root_path)
@@ -212,6 +285,11 @@ def construct_cmd(root, diagnose, lens, deep_cards, wave_buffers, plan, apply, a
     catalog = card_catalog(store)
     signals = collect_structure_signals(store, buffer_records)
     batch_path = tmp_dir / "batch.yaml"
+
+    if apply_seed_links:
+        approved = "agent" if auto else "user"
+        _apply_seed_links(root_path, store, approved_by=approved)
+        return
 
     if apply and not auto:
         if not batch_path.exists():
@@ -239,7 +317,12 @@ def construct_cmd(root, diagnose, lens, deep_cards, wave_buffers, plan, apply, a
     if lens.lower() == "all":
         raise click.ClickException("禁止 --lens all，请一次只跑一个镜头。")
 
-    merged = merge_structure_signals(signals, structure_ops_to_signals(load_structure_ops(root_path)))
+    action_plan = build_structure_action_plan(store)
+    action_signals = merge_action_ops_into_graph_signals(action_plan["ops_need_llm"])
+    merged = merge_structure_signals(
+        signals, structure_ops_to_signals(load_structure_ops(root_path))
+    )
+    merged = merge_structure_signals(merged, action_signals)
 
     card_ids, buf_paths = suggest_ids_for_lens(
         store,

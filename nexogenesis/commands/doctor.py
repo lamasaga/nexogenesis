@@ -6,6 +6,8 @@ import click
 from nexogenesis.commands.validate import run_validate
 from nexogenesis.indexing import check_index_staleness
 from nexogenesis.schemas import BUFFER_ROLES
+from nexogenesis.store import Store
+from nexogenesis.models import CardType, RelationType
 
 
 def _python_env_hints() -> list[str]:
@@ -24,6 +26,41 @@ def _python_env_hints() -> list[str]:
         )
     hints.append("Windows 若中文乱码，可设置环境变量 PYTHONUTF8=1")
     return hints
+
+
+def _graph_sparsity_warnings(root_path: Path) -> list[str]:
+    cards_dir = root_path / "01-Cards"
+    if not cards_dir.exists():
+        return []
+    store = Store(cards_dir).load()
+    instances = [
+        c for c in store.cards.values() if c.type != CardType.DOMAIN
+    ]
+    if len(instances) < 5:
+        return []
+    hollow = sum(1 for c in instances if not c.relations)
+    ratio = hollow / len(instances)
+    warnings: list[str] = []
+    if ratio >= 0.4:
+        warnings.append(
+            f"图谱偏稀：{hollow}/{len(instances)} 张非 domain 卡无 outgoing relations "
+            f"（{ratio:.0%}）。建议 construct --lens articulate|distinguish 优先补边；"
+            "conflict 须 involves 双方，勿只挂 domain。"
+        )
+    conflicts = [c for c in store.cards.values() if c.type == CardType.CONFLICT]
+    missing_involves = [
+        c.id
+        for c in conflicts
+        if not any(r.type == RelationType.INVOLVES for r in c.relations)
+    ]
+    if missing_involves:
+        show = ", ".join(f"`{x}`" for x in missing_involves[:6])
+        extra = len(missing_involves) - min(6, len(missing_involves))
+        msg = f"conflict 缺 involves：{show}"
+        if extra > 0:
+            msg += f" …等共 {len(missing_involves)} 张"
+        warnings.append(msg + "。对立双方应落到 claim/model。")
+    return warnings
 
 
 @click.command()
@@ -63,6 +100,9 @@ def doctor_cmd(root: str):
     for w in stale_warnings:
         click.echo(f"WARNING: {w}")
     issues.extend(stale_issues)
+
+    for w in _graph_sparsity_warnings(root_path):
+        click.echo(f"WARNING: {w}")
 
     if issues:
         for i in issues:

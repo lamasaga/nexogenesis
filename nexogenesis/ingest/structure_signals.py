@@ -36,12 +36,38 @@ def collect_structure_signals(
                 elif d not in domain_ids:
                     signals["cluster"].append(f"`{cid}` 的 `{d}` 不是 domain 卡")
 
-    # 孤儿：不在任何 domain 成员列表语义上——已由 domains 字段约束；检查无 relations 的非 domain
+    # 孤儿 / 链接空洞：非 domain 无 outgoing relations（汇总，避免刷屏）
+    hollow: list[str] = []
     for cid, c in store.cards.items():
         if c.type == CardType.DOMAIN:
             continue
         if not c.relations:
-            signals["cluster"].append(f"`{cid}` ({c.type.value}) 无 outgoing relations（链接空洞候选）")
+            hollow.append(f"{cid}({c.type.value})")
+    if hollow:
+        show = hollow[:8]
+        extra = len(hollow) - len(show)
+        line = "无 outgoing relations（链接空洞）：" + ", ".join(f"`{x}`" for x in show)
+        if extra > 0:
+            line += f" …另有 {extra} 张"
+        line += "。优先补边：claim/model→domain(applies-to/based-on)、conflict→双方(involves)，勿只新建卡。"
+        signals["cluster"].append(line)
+        signals["articulate"].append(line)
+
+    # 领域有成员但成员彼此几乎无边 → 图能分区却难多跳
+    for did in domain_ids:
+        members = [x for x in store.by_domain.get(did, []) if x != did]
+        if len(members) < 2:
+            continue
+        hollow_m = sum(
+            1
+            for m in members
+            if m in store.cards and not store.cards[m].relations
+        )
+        if hollow_m >= max(2, (len(members) + 1) // 2):
+            signals["articulate"].append(
+                f"domain `{did}` 有 {len(members)} 个成员，其中 {hollow_m} 张无 relations——"
+                "图谱偏「卡片柜」；本镜头优先为成员补 2–4 条语义边"
+            )
 
     # --- distinguish ---
     conflict_ids = {cid for cid, c in store.cards.items() if c.type == CardType.CONFLICT}
@@ -49,23 +75,33 @@ def collect_structure_signals(
         if c.type == CardType.CONFLICT:
             involves = [r for r in c.relations if r.type == RelationType.INVOLVES]
             if not involves:
-                signals["distinguish"].append(f"conflict `{cid}` 缺少 involves")
+                only_domain = all(
+                    r.type == RelationType.APPLIES_TO for r in c.relations
+                ) if c.relations else True
+                tip = (
+                    "（目前多半只挂了 domain；须 involves 指向对立双方的 claim/model，"
+                    "不要只写 applies-to 领域）"
+                    if only_domain
+                    else ""
+                )
+                signals["distinguish"].append(f"conflict `{cid}` 缺少 involves{tip}")
         for rel in c.relations:
-            if rel.type == RelationType.CONFLICTS_WITH:
-                # 是否存在以双方为 involves 的 conflict 卡
-                covered = False
-                for conf_id in conflict_ids:
-                    conf = store.cards[conf_id]
-                    involved = {
-                        r.target for r in conf.relations if r.type == RelationType.INVOLVES
-                    }
-                    if cid in involved and rel.target in involved:
-                        covered = True
-                        break
-                if not covered:
-                    signals["distinguish"].append(
-                        f"`{cid}` conflicts-with `{rel.target}`，但尚无覆盖双方的 conflict 卡"
-                    )
+            if rel.type != RelationType.CONFLICTS_WITH:
+                continue
+            # 是否存在以双方为 involves 的 conflict 卡
+            covered = False
+            for conf_id in conflict_ids:
+                conf = store.cards[conf_id]
+                involved = {
+                    r.target for r in conf.relations if r.type == RelationType.INVOLVES
+                }
+                if cid in involved and rel.target in involved:
+                    covered = True
+                    break
+            if not covered:
+                signals["distinguish"].append(
+                    f"`{cid}` conflicts-with `{rel.target}`，但尚无覆盖双方的 conflict 卡"
+                )
 
     for b in buffer_records:
         if b.get("role") == "tension" and b.get("status") in ("scratch", "digested", ""):

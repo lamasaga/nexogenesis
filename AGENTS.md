@@ -248,12 +248,13 @@ superseded_by: ""                # lifecycle=superseded 时必填
 | | `--auto` | 无 batch → prompt+规程；有 batch → 自检通过后 apply |
 | | `--wave-buffers N` `--deep-cards N` | 本波 Buffer 数 / 深读卡数 |
 | | `--status scratch` `--all-scratch` | Buffer 状态过滤 / 调试全量 |
-| `construct` | （默认） | 结构诊断：`lenses-report.md` + graph analyze + `structure-ops-draft.md` |
+| `construct` | （默认） | 结构诊断：`lenses-report.md` + graph analyze + **可执行** `structure-ops-draft.md`（含 seed-links / involves / hub） |
 | | `--diagnose` | 显式只诊断（同默认） |
+| | `--apply-seed-links` | 应用确定性补边：空 `relations` → `applies-to` 所属 domain（经 `write --batch`） |
 | | `--lens cluster\|distinguish\|articulate\|cross_source` | 单镜头 prompt（禁止 `all`） |
 | | `--plan` | 预览本镜头深读对象 |
 | | `--apply` | 应用 `.nexogenesis/tmp/construct/batch.yaml` |
-| | `--auto` | 无 lens → 诊断+suggested-lenses；有 lens+batch → 自检 apply |
+| | `--auto` | 无 lens → 诊断+自动 seed-links（若有）+suggested-lenses；有 lens+batch → 自检 apply |
 | | `--auto --lens <name>` | 单镜头自主模式 |
 | | `--deep-cards N` `--wave-buffers N` | 镜头模式深读规模 |
 
@@ -377,6 +378,8 @@ writes:
 
 ## 六、P0 验收标准
 
+　　进度与剩余项总表见 `docs/2026-07-29-p0-p1-remaining.md`。
+
 第一个里程碑以“真实对话-捕获-回答闭环”成功为标志：
 
 1. 用户能完成至少 10—20 次真实对话；
@@ -467,10 +470,11 @@ python -m nexogenesis construct --apply --root . # 结构优化；可标记 dige
 ### 8.3 `/construct`
 
 - 在已有卡片网上做结构校准（勿在空库上优先于 digest）。
-- **默认 `--diagnose`**：Harness 结构信号 + **graph analyze**（orphan/conflict 缺口/桥接点）+ 卡目录 + Buffer 索引（**无全文**）→ `lenses-report.md`；并写 `structure-ops-draft.md`。
-- **`--lens`**：一次只跑一个镜头（`cluster` / `distinguish` / `articulate` / `cross_source`）；注入目录 + 点名深读卡/Buffer。禁止 `all`。
+- **默认 `--diagnose`**：Harness 结构信号 + **graph analyze** + **construct_ops**（确定性 seed-links / conflict 缺 involves / 枢纽升格候选）+ 卡目录 + Buffer 索引（**无全文**）→ `lenses-report.md`；并写可执行 `structure-ops-draft.md`、`structure-seed-links.yaml`、`structure-ops-llm.yaml`。
+- **`--apply-seed-links`**：对空 `relations` 的非 domain 卡确定性补 `applies-to` 所属 domain；经 `write --batch`。`--auto` 诊断时若有 seed-links 会先自动应用。
+- **`--lens`**：一次只跑一个镜头（`cluster` / `distinguish` / `articulate` / `cross_source`）；注入目录 + 点名深读卡/Buffer。禁止 `all`。优先补 involves / 枢纽 entity·model，不新建第八种类型。
 - 产出仍是 `write --batch` 候选；确认后 `--apply`；可将声明消费的 `digested` Buffer 标为 `constructed`。
-- **`--auto`**（无 lens）：诊断 + `suggested-lenses.txt` + `auto-runbook.md`。  
+- **`--auto`**（无 lens）：诊断 + 可选 seed-links + `suggested-lenses.txt` + `auto-runbook.md`。  
   **`--auto --lens <name>`**：无 batch 则生成该镜头 prompt+规程；有 batch 则自检后 apply（同 digest 戳记规则）。
 - GraphML 导出：`python -m nexogenesis graph export`（可选 `--center`/`--hops` 子图）；P0 图即卡片 + relations + `index` 投影。
 

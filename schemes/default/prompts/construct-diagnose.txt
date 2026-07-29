@@ -2,6 +2,12 @@
 
 根据卡片目录、Buffer 索引与确定性信号，为四个镜头各写「候选动作」摘要（每镜头 ≤8 条）。不要索要全文。
 
+行动优先约定：
+1. 若信号含 seed-links / 空 relations：注明应先 `construct --apply-seed-links`（勿在此写 batch）；
+2. distinguish：conflict 缺 involves → 点名 conflict id 与候选 claim/model；
+3. articulate：枢纽术语 → 建议升格 entity 或补强 model（不是新类型「概念」）；
+4. 少建卡、多补边。
+
 卡片目录：
 {% for c in catalog %}
 {{ c.line }}
@@ -28,4 +34,4 @@ Buffer 索引：
 ## articulate
 ## cross_source
 每个小节列出建议动作与涉及的 card id / Buffer 路径（点名即可）。
-结尾写：下一步运行 `construct --lens <name>`。
+结尾写：下一步先 `--apply-seed-links`（若有），再 `construct --lens <name>`。

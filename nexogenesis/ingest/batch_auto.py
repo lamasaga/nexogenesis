@@ -136,7 +136,7 @@ def self_check_batch(
 
 
 def suggest_lenses(signals: dict[str, list[str]], *, max_lenses: int = 3) -> list[str]:
-    """按信号强度选出本轮建议执行的镜头（不含 all）。"""
+    """按信号强度选出本轮建议执行的镜头（不含 all）。优先补边/involves/枢纽。"""
     scored: list[tuple[int, str]] = []
     for lens in LENSES:
         items = list(signals.get(lens) or [])
@@ -144,11 +144,20 @@ def suggest_lenses(signals: dict[str, list[str]], *, max_lenses: int = 3) -> lis
             continue
         if lens == "cross_source" and all("可暂缓" in s or "来源较单一" in s for s in items):
             continue
-        # 可行动信号加权
         weight = len(items)
-        if lens == "distinguish" and any("tension" in s or "conflict" in s for s in items):
+        blob = "\n".join(items)
+        if lens == "distinguish" and any(
+            k in blob
+            for k in ("require_involves", "involves", "tension", "conflict", "conflicts-with")
+        ):
+            weight += 3
+        if lens == "articulate" and any(
+            k in blob for k in ("suggest_entity_hub", "枢纽", "链接空洞", "bridge")
+        ):
             weight += 2
-        if lens == "cluster" and any("空壳" in s or "无成员" in s for s in items):
+        if lens == "cluster" and any(
+            k in blob for k in ("空壳", "无成员", "suggest_link_or_enrich", "orphan")
+        ):
             weight += 1
         scored.append((weight, lens))
     scored.sort(key=lambda x: (-x[0], LENSES.index(x[1])))
@@ -188,16 +197,22 @@ def write_construct_runbook(
         "# construct --auto 规程\n",
         "用户「开始建构」或 `construct --auto` 视为本轮写入授权。"
         "中间产物保留供事后分析。\n",
-        "## Agent 步骤\n",
-        "1. 阅读 `lenses-report.md` 与 `suggested-lenses.txt`\n",
-        "2. 若有 `structure-ops-draft.md`，将 graph analyze 提案转为 batch writes\n",
-        f"3. 建议镜头（按序，一次一个）：{lenses}\n",
-        "4. 对每个镜头：`construct --lens <name>` → LLM → 写 `batch.yaml` → "
+        "## Agent 步骤（行动优先，勿空谈）\n",
+        "0. 阅读 `structure-ops-draft.md`：若 seed-links 非空，先执行 "
+        "`python -m nexogenesis construct --apply-seed-links --root .`\n"
+        "   （确定性挂 domain；也可直接 write `structure-seed-links.yaml`）\n",
+        "1. 阅读 `lenses-report.md`、`structure-ops-llm.yaml`、`suggested-lenses.txt`\n",
+        "2. distinguish：把 `require_involves` 写成完整 enrich（involves 落到 claim/model）\n",
+        "3. articulate：处理 `suggest_entity_hub`（升格 entity/补强 model + based-on，"
+        "不是新类型「概念」）与链接空洞\n",
+        f"4. 建议镜头（按序，一次一个）：{lenses}\n",
+        "5. 对每个镜头：`construct --lens <name>` → LLM → 写 `batch.yaml` → "
         "`construct --auto --lens <name>`（有 batch 则自检并 apply）\n",
-        "5. 自检不合格则改写/重跑，不要逐步等人确认\n",
-        f"6. batch 路径：`{batch_path.as_posix()}`\n",
+        "6. 自检不合格则改写/重跑，不要逐步等人确认\n",
+        f"7. batch 路径：`{batch_path.as_posix()}`\n",
         "\n## 事后分析\n\n"
-        "- `lenses-report.md` / `diagnose-prompt.md` / 各次 `prompt.md` / `batch.yaml` 均保留\n",
+        "- `structure-ops-draft.md` / `structure-seed-links.yaml` / "
+        "`structure-ops-llm.yaml` / `lenses-report.md` / 各次 `prompt.md` / `batch.yaml` 均保留\n",
     ]
     path = tmp_dir / "auto-runbook.md"
     atomic_write_file(path, "".join(lines))
