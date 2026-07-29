@@ -91,7 +91,12 @@ def build_inventory(compile_plan: list[dict], genres: dict[str, str]) -> list[In
     items = []
     for item in compile_plan:
         path: Path = item["path"]
-        genre = genres.get(path.name, item["predicted_genre"])
+        name = item.get("name") or path.name
+        genre = (
+            genres.get(name)
+            or genres.get(path.name)
+            or item["predicted_genre"]
+        )
         meta = item.get("metadata") or {}
         items.append(
             InventoryItem(
@@ -99,7 +104,7 @@ def build_inventory(compile_plan: list[dict], genres: dict[str, str]) -> list[In
                 doc_type=item["doc_type"],
                 genre=genre,
                 char_count=int(meta.get("char_count") or 0),
-                name=path.name,
+                name=name,
             )
         )
     return items
@@ -157,14 +162,17 @@ def clear_source_progress(progress: dict, source_name: str) -> None:
 def filter_pending_units(units: list[dict], progress: dict) -> list[dict]:
     pending = []
     for u in units:
-        name = u["source_path"].name
+        name = u.get("source_key") or u["source_path"].name
         if u["unit_id"] not in completed_unit_ids(progress, name):
             pending.append(u)
     return pending
 
 
 def _docs_from_items(items: list[InventoryItem]) -> list[dict]:
-    return [{"path": i.path, "doc_type": i.doc_type} for i in items]
+    return [
+        {"path": i.path, "doc_type": i.doc_type, "name": i.name}
+        for i in items
+    ]
 
 
 def _genres_from_items(items: list[InventoryItem]) -> dict[str, str]:
@@ -213,7 +221,10 @@ def _wave_from_capped(
     selected_unit_ids = {u["unit_id"] for u in units}
     for item in selected:
         pending_for_item = [
-            u for b in all_batches for u in b if u["source_path"].name == item.name
+            u
+            for b in all_batches
+            for u in b
+            if (u.get("source_key") or u["source_path"].name) == item.name
         ]
         if any(u["unit_id"] not in selected_unit_ids for u in pending_for_item):
             remaining_names.add(item.name)
@@ -325,7 +336,8 @@ def write_wave_manifest(
     tmp_dir.mkdir(parents=True, exist_ok=True)
     unit_ids_by_source: dict[str, list[str]] = {}
     for u in wave.units:
-        unit_ids_by_source.setdefault(u["source_path"].name, []).append(u["unit_id"])
+        key = u.get("source_key") or u["source_path"].name
+        unit_ids_by_source.setdefault(key, []).append(u["unit_id"])
 
     selected_in_wave = [
         i for i in wave.selected if i.name in unit_ids_by_source

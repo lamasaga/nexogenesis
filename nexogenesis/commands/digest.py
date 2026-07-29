@@ -282,35 +282,26 @@ def digest_cmd(root, status, wave_buffers, deep_cards, all_scratch, plan, apply,
     if plan:
 
         click.echo("=== /digest 分波计划 ===")
-
+        n = len(selected)
+        suggest_new = max(2, n // 3) if n else 0
         click.echo(
-
-            f"status={status} selected={len(selected)} deferred={len(deferred)} "
-
+            f"status={status} selected={n} deferred={len(deferred)} "
             f"deep_cards={len(deep)} bootstrap={bootstrap} est_chars≈{est}"
-
         )
-
+        click.echo(
+            f"质量提示：本波 {n} 片 Buffer → 建议新建 Card ≤ {suggest_new}，"
+            "其余 enrich/skip；digest 主职是聚合涌现，不是逐片转卡。"
+        )
         for b in selected:
-
             click.echo(f"  [本波] {b['role']} {b['path']}")
-
         for b in deferred[:20]:
-
             click.echo(f"  [暂缓] {b['path']}")
-
         if len(deferred) > 20:
-
             click.echo(f"  ... 另有 {len(deferred) - 20} 片暂缓")
-
         for c in deep:
-
             click.echo(f"  [深读] {c['id']} ({c['type']})")
-
         click.echo("=== 计划结束 ===")
-
         return
-
 
 
     if apply:

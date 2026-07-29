@@ -142,12 +142,32 @@ def test_check_response_file_soft_slot_warning(tmp_path: Path):
         "role: meaning-unit\n"
         "source: s.md\n"
         "---\n"
-        "只有一句话，没有槽标题。\n",
+        "只有一句话。\n",
         encoding="utf-8",
     )
     buffers, hard, soft = check_response_file(p, strict_body=False)
     assert len(buffers) == 1
     assert hard == []
-    assert soft
+    assert soft  # 过短 → soft warning
     _, hard2, _ = check_response_file(p, strict_body=True)
-    assert hard2
+    assert hard2  # strict：正文过短升 hard
+
+
+def test_check_response_freeform_ok(tmp_path: Path):
+    p = tmp_path / "batch-002-scrap-response.md"
+    p.write_text(
+        "---\n"
+        "title: 教学反馈应指出可操作差距\n"
+        "role: meaning-unit\n"
+        "source: paper.pdf / §3\n"
+        "---\n"
+        "　　教学反馈应优先指出可操作差距，而非仅给笼统评价。"
+        "对照实验比较两组反馈方式，指出差距的一组修订成功率更高。\n\n"
+        "> Feedback should name the actionable gap.\n",
+        encoding="utf-8",
+    )
+    buffers, hard, soft = check_response_file(p, strict_body=True)
+    assert len(buffers) == 1
+    assert hard == []
+    # 自由正文合格时不应再因「缺四级标题」报错
+    assert not any("缺少语义槽" in w for w in soft)

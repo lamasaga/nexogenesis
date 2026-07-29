@@ -174,7 +174,8 @@ def build_compile_units(
     for doc in docs:
         path: Path = doc["path"]
         doc_type = doc["doc_type"]
-        genre = genres.get(path.name)
+        source_key = doc.get("name") or path.name
+        genre = genres.get(source_key) or genres.get(path.name)
 
         if doc_type == "text":
             text = path.read_text(encoding="utf-8")
@@ -186,6 +187,7 @@ def build_compile_units(
                 units.append({
                     "unit_id": f"{path.stem}-{idx + 1:03d}",
                     "source_path": path,
+                    "source_key": source_key,
                     "doc_type": "text",
                     "title": path.name,
                     "page_range": "",
@@ -203,6 +205,7 @@ def build_compile_units(
                 units.append({
                     "unit_id": f"{path.stem}-{idx + 1:03d}",
                     "source_path": path,
+                    "source_key": source_key,
                     "doc_type": "pdf",
                     "title": chunk["title"],
                     "page_range": chunk["page_range"],

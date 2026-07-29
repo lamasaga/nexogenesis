@@ -18,6 +18,7 @@ from nexogenesis.thinking.config import (
     validate_attention_config,
 )
 from nexogenesis.thinking.stm import STMStore
+from nexogenesis.thinking.type_priors import type_prior_score
 
 
 def assemble_working_set(
@@ -104,11 +105,13 @@ def assemble_working_set(
         blind_spots.append("图尚无节点；请先 digest 或 capture 写入卡片。")
     else:
         snapshot = load_snapshot(root) or rebuild_graph(root)
+        type_priors = effective.get("type_priors") or {}
         seed_ids = pick_seeds(
             store,
             query=query,
             explicit=explicit_seeds,
             buffer_tokens=all_tokens,
+            type_priors=type_priors,
         )
         structure["seeds"] = seed_ids
 
@@ -141,6 +144,7 @@ def assemble_working_set(
             bridge_ids=bridge_ids,
             weak_ties=weak_ties,
             weights=effective.get("weights") or {},
+            type_priors=type_priors,
             n_core=n_core,
             n_conflict=n_conflict,
             n_expansion=n_expansion,
@@ -302,6 +306,7 @@ def _dual_account_select(
     bridge_ids: set[str],
     weak_ties: bool,
     weights: dict[str, Any],
+    type_priors: dict[str, Any] | None = None,
     n_core: int,
     n_conflict: int,
     n_expansion: int,
@@ -353,6 +358,7 @@ def _dual_account_select(
         hay = f"{c.id} {c.title} {(c.body or '')[:400]}"
         if tension_toks and any(t in hay for t in tension_toks):
             score += float(w_conf.get("tension_match", 0.35)) * 2
+        score += type_prior_score(c, type_priors)
         if score > 0.05:
             conflict_scored.append((score, nid))
     conflict_scored.sort(key=lambda x: (-x[0], x[1]))
@@ -384,6 +390,7 @@ def _dual_account_select(
             float(w_exp.get("relevance", 0.55)) * rel
             + float(w_exp.get("novelty", 0.35)) * novelty
             - float(w_exp.get("already_cited_penalty", 0.4)) * penalty
+            + type_prior_score(c, type_priors)
         )
         exp_scored.append((score, nid))
     exp_scored.sort(key=lambda x: (-x[0], x[1]))

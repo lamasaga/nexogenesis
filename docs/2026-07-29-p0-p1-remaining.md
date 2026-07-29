@@ -28,6 +28,7 @@
 - [x] CLI 速查（`AGENTS.md` §5.0）；项目快速理解文档  
 - [x] markdown 语义主权 / git 版本层表述澄清  
 - [x] （2026-07-29）digest/construct 补边与 involves 纪律；结构信号汇总；doctor 图谱偏稀 WARNING  
+- [x] （2026-07-29）retrieve `type_priors`；边质量诊断（applies-to 过载）；事实外查纪律写入 prompt/AGENTS  
 
 ---
 
@@ -56,7 +57,9 @@ P1 不是「再堆功能」，而是让思维体与结构反馈在真实使用�
 |------|------|------|
 | **对话面协议产品化** | §4.8 + STM/attention/signal | Agent 默认剧本固化；可选 `talk-context` 一键包 |
 | **捕获闸门 UX** | write batch | 自然语言候选→batch 的标准模板与去重辅助 |
-| **结构反馈闭环** | graph analyze + construct_ops → seed-links / involves / hub 行动单；`--apply-seed-links` | 语义边（based-on 等）半自动；桥接跨 domain |
+| **结构反馈闭环** | graph analyze + construct_ops + **边质量诊断**（applies-to 过载/语义边不足）+ seed-links | 语义边半自动建议；桥接跨 domain |
+| **检索答题骨架** | attention `type_priors`：提 model/conflict/entity，压图表 phenomenon | 会话级覆盖调参 UX |
+| **事实外查纪律** | digest/construct prompt 明示序列不入库 | 可选「事实笔记」目录约定（仍非 Card） |
 | **图谱健康** | doctor 偏稀 WARNING、信号汇总 | 目标：实例卡平均 ≥2 语义出边；conflict 全员 involves |
 | **评测** | 设计稿有 Recall 思路 | 黄金问答题集；归因错误率抽样 |
 | **理论升格 `/theorize`** | theory_status + theory-index | 升格工作流与失效边界检查产品化 |
@@ -68,7 +71,7 @@ P1 不是「再堆功能」，而是让思维体与结构反馈在真实使用�
 
 ## 建议推进顺序（近期）
 
-1. **在金融库跑 `construct --apply-seed-links` + distinguish/articulate**（验证确定性补边与 involves/枢纽）  
+1. **金融库：先立房价/政策时间线 entity + 文档—事实 conflict，再 articulate 补语义边**（收益大于再全库 construct）  
 2. **补最小使用指标**（例如 Journal 旁或 `.nexogenesis/metrics.yaml` 记 capture 批/驳）——关闭 P0 §六 #10  
 3. **对话捕获跑通 10 次**——关闭 P0 主验收  
 4. **P1**：talk 上下文一键包 + conflict involves 自检进 validate（warning）  

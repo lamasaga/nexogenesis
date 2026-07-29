@@ -2,7 +2,11 @@ from pathlib import Path
 
 import click
 
-from nexogenesis.body_slots import validate_buffer_body, validate_card_body
+from nexogenesis.body_slots import (
+    card_substance_warnings,
+    validate_buffer_body,
+    validate_card_body,
+)
 from nexogenesis.schemas import validate_buffer_schema, validate_card_schema
 from nexogenesis.store import Store
 from nexogenesis.yaml_utils import split_frontmatter
@@ -65,6 +69,13 @@ def run_validate(
             else:
                 for e in slot_errs:
                     warnings.append(f"{card.id}: {e}")
+            for w in card_substance_warnings(
+                card_id=card.id,
+                title=card.title,
+                card_type=card_type,
+                body=body or "",
+            ):
+                warnings.append(w)
         if meta:
             theory = meta.get("theory_status")
             if theory and card_type in ("claim", "model"):

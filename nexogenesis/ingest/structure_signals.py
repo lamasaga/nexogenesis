@@ -7,6 +7,7 @@ from pathlib import Path
 from nexogenesis.models import CardType, RelationType
 from nexogenesis.store import Store
 from nexogenesis.yaml_utils import split_frontmatter
+from nexogenesis.ingest.edge_quality import edge_quality_signals
 
 
 LENSES = ("cluster", "distinguish", "articulate", "cross_source")
@@ -18,6 +19,11 @@ def collect_structure_signals(
 ) -> dict[str, list[str]]:
     """返回各镜头下的信号列表（字符串，供报告与 prompt）。"""
     signals: dict[str, list[str]] = {k: [] for k in LENSES}
+
+    # 边质量 / 枢纽稀缺 / seed 冻结（反馈：边数≠思想连通）
+    for lens, items in edge_quality_signals(store).items():
+        if lens in signals:
+            signals[lens].extend(items)
 
     # --- cluster ---
     domain_ids = {cid for cid, c in store.cards.items() if c.type == CardType.DOMAIN}
@@ -49,7 +55,10 @@ def collect_structure_signals(
         line = "无 outgoing relations（链接空洞）：" + ", ".join(f"`{x}`" for x in show)
         if extra > 0:
             line += f" …另有 {extra} 张"
-        line += "。优先补边：claim/model→domain(applies-to/based-on)、conflict→双方(involves)，勿只新建卡。"
+        line += (
+            "。优先补语义边（based-on/supports/involves）；"
+            "空 relations 可用 seed-links 挂 domain，但勿把 applies-to 当完成态。"
+        )
         signals["cluster"].append(line)
         signals["articulate"].append(line)
 

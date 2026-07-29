@@ -97,6 +97,20 @@ def _builtin_fallback() -> dict[str, Any]:
                 "conflicts_edge": 0.25,
             },
         },
+        "type_priors": {
+            "enabled": True,
+            "by_type": {
+                "model": 0.45,
+                "conflict": 0.40,
+                "entity": 0.35,
+                "method": 0.25,
+                "claim": 0.10,
+                "phenomenon": -0.05,
+                "domain": 0.05,
+            },
+            "chart_phenomenon_penalty": -0.40,
+            "maturity_bonus": {"seed": 0.0, "growing": 0.15, "mature": 0.25},
+        },
         "graph": {
             "hops": 2,
             "prefer_bridge_nodes": True,

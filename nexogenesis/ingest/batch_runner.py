@@ -7,9 +7,10 @@ from pathlib import Path
 
 import yaml
 
+from nexogenesis.body_slots import buffer_substance_warnings, validate_buffer_body
 from nexogenesis.ingest import VALID_BUFFER_ROLES, count_chars
 from nexogenesis.ingest.prompts import render_compile_prompt
-from nexogenesis.schemas import CARD_TYPES
+from nexogenesis.schemas import CARD_TYPES, validate_buffer_schema
 
 
 logger = logging.getLogger(__name__)
@@ -278,9 +279,6 @@ def inspect_response_buffers(
     strict_body: bool = False,
 ) -> tuple[list[str], list[str]]:
     """对已解析 Buffer 做结构/槽检查。返回 (hard_errors, warnings)。"""
-    from nexogenesis.body_slots import validate_buffer_body
-    from nexogenesis.schemas import validate_buffer_schema
-
     hard: list[str] = []
     soft: list[str] = []
     for i, buf in enumerate(buffers, 1):
@@ -311,6 +309,12 @@ def inspect_response_buffers(
             hard.extend(f"{prefix}: {e}" for e in slot_errs)
         else:
             soft.extend(f"{prefix}: {e}" for e in slot_errs)
+        for w in buffer_substance_warnings(
+            role=str(buf.get("role") or ""),
+            title=str(buf.get("title") or ""),
+            body=body,
+        ):
+            soft.append(f"{prefix}: {w}")
     return hard, soft
 
 

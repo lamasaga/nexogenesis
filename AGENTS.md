@@ -9,11 +9,12 @@
 ## 一、核心原则
 
 1. **底座主权不变量**：约定目录下的 **markdown 是唯一语义事实之源**。任何时候删除全部代码与可重建索引（图、RAG、自动生成视图等），只留 markdown，知识内容零损失。**git 是强烈推荐的版本层**（历史、回滚、pre-commit），不是思想本体的必要条件；未启用 git 时不得声称操作已可逆。
-2. **Harness 负责过程，LLM 负责语义**：卡片校验、原子写入、索引生成、孤儿检测由 Harness 强制执行；内容好坏、冲突识别、新建/丰富判断由 LLM 负责。
-3. **统一写入入口**：任何对底座的实质写入（新建/修改卡片、追加问题清单、追加 Journal）必须通过 `python -m nexogenesis write --batch <file>` 完成。禁止绕过该入口直接改文件。
-4. **写路径优先**：系统设计优先降低高质量内容进入底座的摩擦，而非优先美化检索界面。
-5. **复杂度必须有证据**：新增类型、关系、视图、自动化必须说明它解决的真实摩擦、最小改动、有效判断标准和撤回方式。
-6. **P0 不是完整 Harness**：P0 实现结构约束层与最小原子写入事务；完整编排层（自动触发、Web UI、图检索）延至 P1/P2。
+2. **聚合涌现优先于批处理切分（总原则）**：本系统用大模型做**意义聚合与知识结构涌现**，**不是**自动化切分书籍/报告的批处理器。Compile / digest / construct 的成功标准是「是否涌现出可独立阅读、可解释问题的结构」，不是「是否把原文拆成足够多的 Buffer/Card」。禁止用槽位填空、逐片转卡、表图强制独立等规程**替代** LLM 的聚合判断；Harness 只守闸门（格式、链接、原子写入），思考性工作留给模型。
+3. **Harness 负责过程，LLM 负责语义**：卡片校验、原子写入、索引生成、孤儿检测由 Harness 强制执行；内容好坏、冲突识别、新建/丰富/skip、单卡是否可读由 LLM 负责。
+4. **统一写入入口**：任何对底座的实质写入（新建/修改卡片、追加问题清单、追加 Journal）必须通过 `python -m nexogenesis write --batch <file>` 完成。禁止绕过该入口直接改文件。
+5. **写路径优先**：系统设计优先降低高质量内容进入底座的摩擦，而非优先美化检索界面。
+6. **复杂度必须有证据**：新增类型、关系、视图、自动化必须说明它解决的真实摩擦、最小改动、有效判断标准和撤回方式。
+7. **P0 不是完整 Harness**：P0 实现结构约束层与最小原子写入事务；完整编排层（自动触发、Web UI、图检索）延至 P1/P2。
 
 ---
 
@@ -113,12 +114,14 @@ superseded_by: ""                # lifecycle=superseded 时必填
 | 类型 | 回答的问题 | 最小内容要求 |
 |---|---|---|
 | `domain` | 这是哪个思想领域？ | 核心问题、边界、内在张力 |
-| `claim` | 主张/立场是什么？ | 一句话主张、依据、已知限制 |
-| `phenomenon` | 发生了什么模式？ | 模式描述、典型实例、反例 |
+| `claim` | 主张/立场是什么？ | 一句话主张（**可复述机制，非标题回声**）、依据、已知限制 |
+| `phenomenon` | 发生了什么模式？ | 模式描述、典型实例、反例（图表勿空心独立成卡） |
 | `model` | 怎么理解这个复杂事物？ | 核心思想、关键组件、因果/结构、失效边界 |
 | `method` | 怎么做？ | 输入、步骤、输出、适用边界 |
 | `entity` | 这个对象是什么？ | 定义、关键属性、来源 |
 | `conflict` | 根本矛盾在哪？ | 对立双方、核心分歧点、各自证据、调和可能 |
+
+**单卡纪律**：每张卡须能独立阅读并解释某类问题；槽位齐全但内容空洞（复读标题、「原文未提及：具体依据」）视为质量失败，应 skip / enrich 他卡，而非增产碎片。
 
 ### 3.5 关系类型（8 种）
 
@@ -191,7 +194,17 @@ superseded_by: ""                # lifecycle=superseded 时必填
 
 ### 4.7 `/compile`、`/digest`、`/construct`
 
-文档摄入三阶段。Buffer 为质料层（`role`），Card 为本体对象层（`type`）。结构涌现按聚类 / 区分 / 衔接三类协议进行。细则见 `body-structure.md` 与结构说明文档。
+文档摄入三阶段（手感对齐前身 v3.1 消化，Harness 只守闸门）：
+
+| 阶段 | 主职 |
+|------|------|
+| **compile** | **快节奏意义切片**：少标注、自由正文，把杂乱原文切成消化时读起来舒服的块 |
+| **digest** | **骨架滋养**：领域入口 → 相关实例 → enrich 优先 → 偶发新建（非一片一卡） |
+| **construct** | **结构校准**：在卡片网上发现、合并、调整、升枢纽与张力 |
+
+Buffer 用 `role`，Card 用 `type`。结构涌现按聚类 / 区分 / 衔接。细则见 `body-structure.md`。
+
+**总原则重申**：用大模型**聚合涌现**知识结构，禁止把流水线做成「切书批处理器」。Harness 守写入闸门（格式、链接、原子事务）；**切分粒度、聚合、skip、单卡是否可读——属 LLM**。槽位是脚手架，不是填空考试。
 
 ### 4.8 思维体体验层（对话面 · 闸门面 · 注意力）
 
@@ -202,8 +215,9 @@ superseded_by: ""                # lifecycle=superseded 时必填
 | 工具书 | 手边证据 | RAG |
 | 长期记忆 | 已承诺结构 | 卡片图 |
 | 短期记忆 | 约 10 次会话卷 | `.nexogenesis/memory/stm/`（非 Card） |
-| 注意力 | 每轮 Working Set | `retrieve` 双账户：core / expansion / conflict |
+| 注意力 | 每轮 Working Set | `retrieve` 双账户：core / expansion / conflict；**type_priors** 提 model/conflict/entity、压图表 phenomenon |
 | 强信号 | 偶发轻问 | `signal --text`；**捕获永远用户确认** |
+| 事实外查 | 可核验序列/最新数据 | **默认不进 Card**（防库膨胀）；文档↔事实张力可建 conflict，事实侧注明须外核 |
 
 - **默认对话面**：不要求用户点选 `/talk`/`/judge`；Agent 静默 `retrieve` + STM。  
 - **闸门面**：捕获候选须用户批准后 `write --batch`；分析默认留在对话。  
@@ -238,7 +252,7 @@ superseded_by: ""                # lifecycle=superseded 时必填
 | | `--check-responses` | 检查 `batch-*-response.*` 格式（不写盘） |
 | | `--apply` | 将 response 落盘为 `05-Buffer/`（按文件部分成功） |
 | | `--response <file>` | 只检查/apply 指定 response |
-| | `--all` `--recursive` `--deep` | 关闭分波 / 递归扫 Inbox / 深度模式（每波 1 篇） |
+| | `--all` `--recursive`/`--no-recursive` `--deep` | 关闭分波 / 是否递归扫 Inbox（**默认递归**）/ 深度模式（每波 1 篇） |
 | | `--max-chars` `--wave-prompts` `--wave-docs` | 分波规模控制 |
 | | `--genres "a.md=paper,..."` | 体裁覆盖 |
 | | `--strict-body` | 语义槽缺失升为错误 |
@@ -399,6 +413,8 @@ writes:
 
 ### 禁止
 
+- ❌ 把 ingest 做成「切书批处理器」：以拆片数量、槽位填满率冒充消化成功；
+- ❌ 用空心「原文未提及」/标题回声凑格式过关，替代聚合判断；
 - ❌ 绕过 `write --batch` 直接改卡片文件；
 - ❌ 创建信息稀薄的空卡片；
 - ❌ 为每篇文档都创建新卡片；
@@ -410,6 +426,7 @@ writes:
 
 ### 必须
 
+- ✅ 以**聚合涌现**为目标：少而厚的质料 → 可独立阅读的卡片结构；
 - ✅ 优先丰富已有卡片，而非新建卡片；
 - ✅ 检测并记录冲突；
 - ✅ 维护领域卡片的完整性；
@@ -445,38 +462,39 @@ python -m nexogenesis construct --apply --root . # 结构优化；可标记 dige
 
 ### 8.1 `/compile`
 
-- 扫描 `00-Inbox/` 中的 `.md`、`.txt`、`.markdown`、`.pdf`（默认不递归；`--recursive` 可扫子目录）；
+- 扫描 `00-Inbox/` 中的 `.md`、`.txt`、`.markdown`、`.pdf`（**默认递归子目录**；`--no-recursive` 仅扫顶层）；源键为相对 Inbox 的路径，归档时保留子目录结构；
 - 启发式预判体裁：`book` / `paper` / `essay` / `dialogue` / `scrap` / `generic`；
 - **默认自动分波**：按库存选择本波文档（默认约 ≤5 篇 / ≤4 个 prompt），其余留 Inbox；`--all` 关闭分波；`--plan` 预览；
 - 默认每批约 **10000** 等效中文字（`--max-chars` 可覆盖）；同批按体裁装箱，`scrap` 最多混 3 源，`paper`/`book` 等不混装；
 - 生成体裁专属 prompt 到 `.nexogenesis/tmp/compile/`，并写 `wave-manifest.json`；
-- LLM 按**意义单元**整理质料，用 `role` 标注（`meaning-unit`、`artifact-table`、`artifact-figure`、`tension`、`link-hypothesis`、`profile-seed` 等）；
-- 不定 Card `type`，不写 `id` / `relations`；对立不和解；细节内嵌；
-- response **必须**命名为 `batch-XXX-response.md`（或 `.yaml`），与 prompt 序号对应；草稿 `*-blocks.md` / `*-fragments.json` 非正式格式；
-- **编排纪律**：默认单代理串行生成 response；勿并行子代理。每写完一个先 `compile --check-responses`；禁止手写脚本「大修」response，不合格则重生成该 batch；
-- `--apply` 按 **response 文件**独立落盘（部分成功保留失败文件）；`--response <file>` 只处理一个；语义槽缺失默认 warning（`--strict-body` 升为错误）；
-- `--apply` 在本波全部 batch 成功后，才归档已完成全部单元的原文；长书可跨多波，进度记在 `progress.json`。
+- **快节奏意义切片**：LLM 输出极简 frontmatter（`title` / `role` / `source`）；正文自由连贯段落；**不强制四级标题槽**；表图默认内嵌；落盘时 Harness 补 `created`/`updated`/`status`；
+- **不定 Card `type`，不写 `id` / `relations`**；对立不和解；
+- **职责划分**：Harness 校验分隔符/role/空正文/路径；**切几块、块内怎么写——属 LLM**；禁止空心套话凑格式；
+- response **必须**命名为 `batch-XXX-response.md`（或 `.yaml`），与 prompt 序号对应；
+- **编排纪律**：默认单代理串行；每写完一个先 `compile --check-responses`；不合格则重生成该 batch，禁止手写脚本「大修」；
+- `--apply` 按 response 文件独立落盘；`--strict-body` 将过短/空正文升为错误（非缺标题）；
+- 本波全部 batch 成功后，才归档已完成全部单元的原文；长书可跨多波，进度记在 `progress.json`。
 
 ### 8.2 `/digest`
 
 - **先消化、后建构**；默认只处理一波 `status: scratch`（`--wave-buffers` 默认 8），其余留待下波。
-- 上下文：全库**卡片目录**（无正文）+ **相关深读卡正文**（`--deep-cards` 默认 6，优先 graph retrieve）+ 本波 Buffer 全文 + 问题清单；可附 `_meta` 索引摘录与 **RAG 质料摘录**（archive/buffer/discussion，nascent 不得升格为 Card）。
-- 空库/无 domain：batch **必须先写 domain**，再建实例卡（`domains` 仅引用本批或已有 id）。
-- 跨源对照发生在同波内；产出 enrich/新建 Card、domain/conflict/relation/model 候选、问题清单。
-- `--plan` 预览本波选择与字符估算；`--all-scratch` 仅调试。
-- `--apply` 经 `write --batch` 写入，并把 `consumed_buffers` 标为 `digested`。
-- **`--auto`**：无 `batch.yaml` 时生成 prompt + `auto-runbook.md`；有 batch 时 Harness 自检（YAML、必填字段、`consumed_buffers`、bootstrap domain）通过后戳记 `approved_by: agent`（已是 `user` 则保留）并 apply。不调用 LLM。
+- **主职对齐 v3.1：对着领域骨架滋养**——渐进阅读（domain → 相关实例 → 比较 → enrich 优先 → 偶发新建）；不是「一片 Buffer → 一张 Card」。
+- 本波 N 片建议新建 ≤ max(2, N/3)，其余 enrich/skip；`proposed_card_type` 可忽略。
+- 上下文：**领域目录与领域深读**优先 pin + 实例目录/深读（`--deep-cards` 默认 6，图检索后仍 pin domain）+ 本波 Buffer 全文 + 问题清单；可附索引与 RAG 质料摘录（nascent 不得升格为 Card）。
+- 空库/无 domain：batch **必须先写 domain**，再建实例卡。
+- 跨源对照在同波内；产出 enrich/新建、conflict、relation/model、问题清单；**单卡须可读**（Card 仍校验类型槽）。
+- **职责划分**：Harness 校验 batch/链接/`consumed_buffers`；**匹配、合并、skip、单卡能否解释问题——属 LLM**。
+- `--plan` 预览本波与新建预算；`--apply` 经 `write --batch`；`--auto` 自检后 apply（不调用 LLM）。
 
 ### 8.3 `/construct`
 
 - 在已有卡片网上做结构校准（勿在空库上优先于 digest）。
-- **默认 `--diagnose`**：Harness 结构信号 + **graph analyze** + **construct_ops**（确定性 seed-links / conflict 缺 involves / 枢纽升格候选）+ 卡目录 + Buffer 索引（**无全文**）→ `lenses-report.md`；并写可执行 `structure-ops-draft.md`、`structure-seed-links.yaml`、`structure-ops-llm.yaml`。
-- **`--apply-seed-links`**：对空 `relations` 的非 domain 卡确定性补 `applies-to` 所属 domain；经 `write --batch`。`--auto` 诊断时若有 seed-links 会先自动应用。
-- **`--lens`**：一次只跑一个镜头（`cluster` / `distinguish` / `articulate` / `cross_source`）；注入目录 + 点名深读卡/Buffer。禁止 `all`。优先补 involves / 枢纽 entity·model，不新建第八种类型。
-- 产出仍是 `write --batch` 候选；确认后 `--apply`；可将声明消费的 `digested` Buffer 标为 `constructed`。
-- **`--auto`**（无 lens）：诊断 + 可选 seed-links + `suggested-lenses.txt` + `auto-runbook.md`。  
-  **`--auto --lens <name>`**：无 batch 则生成该镜头 prompt+规程；有 batch 则自检后 apply（同 digest 戳记规则）。
-- GraphML 导出：`python -m nexogenesis graph export`（可选 `--center`/`--hops` 子图）；P0 图即卡片 + relations + `index` 投影。
+- **主职：发现、合并、调整、升枢纽与张力**——不是继续切材料。
+- **默认 `--diagnose`**：结构信号 + graph analyze + construct_ops + 卡目录 + Buffer 索引 → `lenses-report.md` 与可执行结构草稿。
+- **`--apply-seed-links`**：空 `relations` 补 `applies-to` domain；勿把挂靠边当完成态。
+- **`--lens`**：一次一镜（`cluster` / `distinguish` / `articulate` / `cross_source`）；优先合并近义/空心、补 involves、升 entity·model 枢纽。
+- 产出仍是 `write --batch`；可将消费的 `digested` Buffer 标为 `constructed`。
+- **`--auto`** / **`--auto --lens`**：同前；GraphML 导出见 `graph export`。
 
 ### 8.4 人机协作边界
 

@@ -152,11 +152,19 @@ def suggest_lenses(signals: dict[str, list[str]], *, max_lenses: int = 3) -> lis
         ):
             weight += 3
         if lens == "articulate" and any(
-            k in blob for k in ("suggest_entity_hub", "枢纽", "链接空洞", "bridge")
+            k in blob
+            for k in (
+                "suggest_entity_hub",
+                "枢纽",
+                "链接空洞",
+                "bridge",
+                "applies-to",
+                "语义边",
+            )
         ):
             weight += 2
         if lens == "cluster" and any(
-            k in blob for k in ("空壳", "无成员", "suggest_link_or_enrich", "orphan")
+            k in blob for k in ("空壳", "无成员", "suggest_link_or_enrich", "orphan", "过载")
         ):
             weight += 1
         scored.append((weight, lens))

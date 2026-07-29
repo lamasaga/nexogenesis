@@ -138,6 +138,55 @@ def _tokens_from_buffers(buffers: list[dict]) -> set[str]:
     return tokens
 
 
+def _card_deep_row(c) -> dict:
+    return {
+        "id": c.id,
+        "title": c.title,
+        "type": c.type.value,
+        "domains": list(c.domains),
+        "relations": [
+            {"target": r.target, "type": r.type.value, "note": r.note} for r in c.relations
+        ],
+        "body": c.body or "",
+    }
+
+
+def pin_domain_skeleton(store: Store, cards: list[dict], *, max_deep: int) -> list[dict]:
+    """v3.1 风格：深读工作集优先保住相关 domain 骨架，再填实例。"""
+    if max_deep <= 0:
+        return []
+    ordered: list[dict] = []
+    seen: set[str] = set()
+
+    def _add(row: dict) -> None:
+        cid = row.get("id")
+        if not cid or cid in seen:
+            return
+        seen.add(cid)
+        ordered.append(row)
+
+    for row in cards:
+        if row.get("type") == "domain":
+            _add(row)
+    for row in cards:
+        for d in row.get("domains") or []:
+            if d in seen:
+                continue
+            c = store.cards.get(d)
+            if c and c.type.value == "domain":
+                _add(_card_deep_row(c))
+    for row in cards:
+        _add(row)
+    # 仍空席时补全库 domain（截断）
+    if len(ordered) < max_deep:
+        for cid, c in sorted(store.cards.items()):
+            if c.type.value == "domain":
+                _add(_card_deep_row(c))
+            if len(ordered) >= max_deep:
+                break
+    return ordered[:max_deep]
+
+
 def select_deep_cards(
     store: Store,
     buffers: list[dict],
@@ -146,59 +195,48 @@ def select_deep_cards(
     root: Path | None = None,
     use_graph: bool = True,
 ) -> list[dict]:
-    """选相关卡片注入正文；优先图检索，失败则启发式打分。"""
+    """选相关卡片注入正文；优先图检索，失败则启发式；始终 pin domain 骨架。"""
     if max_deep <= 0 or not store.cards:
         return []
 
+    raw: list[dict] = []
     if root is not None and use_graph:
         try:
             from nexogenesis.retrieve.context_package import deep_cards_from_graph
 
             graph_cards = deep_cards_from_graph(root, buffers, max_deep=max_deep)
             if graph_cards:
-                return graph_cards
+                raw = graph_cards
         except Exception:
             pass
 
-    tokens = _tokens_from_buffers(buffers)
-    scored: list[tuple[int, str]] = []
-    for cid, c in store.cards.items():
-        score = 0
-        if c.type.value == "domain":
-            score += 2
-        for d in c.domains:
-            if d in tokens:
-                score += 5
-        if c.id in tokens or c.title in tokens:
-            score += 6
-        for t in tokens:
-            if t in c.id or t in c.title or t in (c.body or "")[:800]:
-                score += 1
-        if score > 0:
-            scored.append((score, cid))
+    if not raw:
+        tokens = _tokens_from_buffers(buffers)
+        scored: list[tuple[int, str]] = []
+        for cid, c in store.cards.items():
+            score = 0
+            if c.type.value == "domain":
+                score += 4
+            for d in c.domains:
+                if d in tokens:
+                    score += 5
+            if c.id in tokens or c.title in tokens:
+                score += 6
+            for t in tokens:
+                if t in c.id or t in c.title or t in (c.body or "")[:800]:
+                    score += 1
+            if score > 0:
+                scored.append((score, cid))
 
-    scored.sort(key=lambda x: (-x[0], x[1]))
-    # 若无命中：至少带上全部 domain 卡（截断）
-    if not scored:
-        domains = [cid for cid, c in store.cards.items() if c.type.value == "domain"]
-        pick = domains[:max_deep]
-    else:
-        pick = [cid for _, cid in scored[:max_deep]]
+        scored.sort(key=lambda x: (-x[0], x[1]))
+        if not scored:
+            domains = [cid for cid, c in store.cards.items() if c.type.value == "domain"]
+            pick = domains[:max_deep]
+        else:
+            pick = [cid for _, cid in scored[:max_deep]]
+        raw = [_card_deep_row(store.cards[cid]) for cid in pick]
 
-    deep = []
-    for cid in pick:
-        c = store.cards[cid]
-        deep.append({
-            "id": c.id,
-            "title": c.title,
-            "type": c.type.value,
-            "domains": list(c.domains),
-            "relations": [
-                {"target": r.target, "type": r.type.value, "note": r.note} for r in c.relations
-            ],
-            "body": c.body or "",
-        })
-    return deep
+    return pin_domain_skeleton(store, raw, max_deep=max_deep)
 
 
 def load_cards_by_ids(store: Store, ids: list[str]) -> list[dict]:

@@ -1,3 +1,5 @@
+import sys
+
 import click
 
 from nexogenesis.commands.init import init_cmd
@@ -15,11 +17,35 @@ from nexogenesis.commands.retrieve import retrieve_cmd
 from nexogenesis.commands.memory import attention_cmd, memory_cmd, signal_cmd
 
 
+def ensure_utf8_stdio() -> None:
+    """
+    Windows 控制台常为 gbk：click.echo 输出中文路径/扩展字符会 UnicodeEncodeError。
+    在 CLI 入口统一把 stdout/stderr 切到 utf-8（失败字符替换，不中断命令）。
+    """
+    for stream in (sys.stdout, sys.stderr):
+        if stream is None:
+            continue
+        reconfigure = getattr(stream, "reconfigure", None)
+        if not callable(reconfigure):
+            continue
+        encoding = (getattr(stream, "encoding", None) or "").lower()
+        if encoding in ("utf-8", "utf8"):
+            try:
+                reconfigure(errors="replace")
+            except (OSError, ValueError, AttributeError):
+                pass
+            continue
+        try:
+            reconfigure(encoding="utf-8", errors="replace")
+        except (OSError, ValueError, AttributeError):
+            pass
+
+
 @click.group()
 @click.version_option(version="0.1.0")
 def main():
     """Nexogenesis harness CLI."""
-    pass
+    ensure_utf8_stdio()
 
 
 main.add_command(init_cmd, name="init")

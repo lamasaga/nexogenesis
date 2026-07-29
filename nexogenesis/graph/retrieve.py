@@ -22,7 +22,10 @@ def pick_seeds(
     query: str = "",
     explicit: list[str] | None = None,
     buffer_tokens: set[str] | None = None,
+    type_priors: dict | None = None,
 ) -> list[str]:
+    from nexogenesis.thinking.type_priors import type_prior_seed_boost
+
     seeds: list[str] = []
     seen: set[str] = set()
 
@@ -51,6 +54,7 @@ def pick_seeds(
         for d in card.domains:
             if d in q_tokens or d in btokens:
                 score += 4
+        score += type_prior_seed_boost(card, type_priors)
         if score > 0:
             scored.append((score, cid))
 

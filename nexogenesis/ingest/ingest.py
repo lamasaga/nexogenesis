@@ -72,11 +72,15 @@ def _looks_like_text(path: Path) -> bool:
         return False
 
 
-def scan_inbox(inbox_dir: Path, *, recursive: bool = False) -> list[dict]:
-    """扫描 inbox 目录，返回文档元信息列表。"""
+def scan_inbox(inbox_dir: Path, *, recursive: bool = True) -> list[dict]:
+    """
+    扫描 inbox 目录，返回文档元信息列表。
+    默认递归子目录；每项含 name=相对 inbox 的 posix 路径（作 progress/体裁键）。
+    """
     docs = []
     if not inbox_dir.exists():
         return docs
+    inbox_dir = inbox_dir.resolve()
     paths = inbox_dir.rglob("*") if recursive else inbox_dir.iterdir()
     for path in paths:
         if not path.is_file():
@@ -84,15 +88,34 @@ def scan_inbox(inbox_dir: Path, *, recursive: bool = False) -> list[dict]:
         if path.name.startswith("."):
             continue
         # 跳过隐藏目录下的文件（如 .git）
-        if any(part.startswith(".") for part in path.relative_to(inbox_dir).parts[:-1]):
+        try:
+            rel_parts = path.resolve().relative_to(inbox_dir).parts
+        except ValueError:
+            continue
+        if any(part.startswith(".") for part in rel_parts[:-1]):
             continue
         try:
             doc_type = classify_file(path)
         except UnsupportedDocumentError as e:
             logger.warning("跳过：%s", e)
             continue
-        docs.append({"path": path, "doc_type": doc_type})
-    return sorted(docs, key=lambda d: str(d["path"]))
+        rel_name = Path(*rel_parts).as_posix()
+        docs.append({
+            "path": path.resolve(),
+            "doc_type": doc_type,
+            "name": rel_name,
+        })
+    return sorted(docs, key=lambda d: str(d["name"]))
+
+
+def inbox_source_key(path: Path, inbox_dir: Path | None = None) -> str:
+    """相对 Inbox 的稳定源键；无法相对化时回退为文件名。"""
+    if inbox_dir is not None:
+        try:
+            return path.resolve().relative_to(inbox_dir.resolve()).as_posix()
+        except ValueError:
+            pass
+    return path.name
 
 
 def _count_academic_markers(text: str) -> int:
@@ -222,12 +245,14 @@ def build_compile_plan(docs: list[dict]) -> list[dict]:
     """为扫描到的文档生成编译计划。"""
     plan = []
     for doc in docs:
-        meta = extract_metadata(doc["path"], doc["doc_type"])
+        path = doc["path"]
+        meta = extract_metadata(path, doc["doc_type"])
         plan.append({
-            "path": doc["path"],
+            "path": path,
             "doc_type": doc["doc_type"],
+            "name": doc.get("name") or path.name,
             "metadata": meta,
             "predicted_genre": predict_genre(meta, doc["doc_type"]),
-            "sample": extract_sample(doc["path"], doc["doc_type"]),
+            "sample": extract_sample(path, doc["doc_type"]),
         })
     return plan

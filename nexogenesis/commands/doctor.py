@@ -5,6 +5,7 @@ import click
 
 from nexogenesis.commands.validate import run_validate
 from nexogenesis.indexing import check_index_staleness
+from nexogenesis.ingest.edge_quality import edge_quality_warnings
 from nexogenesis.schemas import BUFFER_ROLES
 from nexogenesis.store import Store
 from nexogenesis.models import CardType, RelationType
@@ -24,7 +25,9 @@ def _python_env_hints() -> list[str]:
         hints.append(
             "建议在项目虚拟环境中运行：.venv\\Scripts\\python.exe -m nexogenesis …"
         )
-    hints.append("Windows 若中文乱码，可设置环境变量 PYTHONUTF8=1")
+    hints.append(
+        "Windows 中文输出：CLI 已自动切 utf-8；若仍乱码可设 PYTHONUTF8=1"
+    )
     return hints
 
 
@@ -60,6 +63,7 @@ def _graph_sparsity_warnings(root_path: Path) -> list[str]:
         if extra > 0:
             msg += f" …等共 {len(missing_involves)} 张"
         warnings.append(msg + "。对立双方应落到 claim/model。")
+    warnings.extend(edge_quality_warnings(store))
     return warnings
 
 

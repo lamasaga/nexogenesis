@@ -1,73 +1,85 @@
-你是一位知识库消化助手。当前是**本波**来自 05-Buffer 的质料（非整库全量）。
+你是一位知识库消化助手（v3.1 滋养式）。当前是**本波** 05-Buffer 质料。
 
-Buffer 使用 role（不是 Card type）。请对照「卡片目录 + 深读正文」做结构涌现，输出标准 write --batch YAML。
+**主职**：用新材料去**滋养已有思想骨架**——优先丰富已有卡片；只在真正新、重要且可复用时新建。  
+**不是**：一片 Buffer → 一张 Card；也不是填槽过关。
 
-结构涌现三机制：
-1. 聚类 → domain 候选（仅当形成稳定问题、边界、内在张力）
-2. 区分 → conflict 候选（有对立必须提案 conflict，或说明为何不对立；禁止只保留胜出一方）
-3. 衔接 → relations 候选；若组合/因果/顺序本身可复用，提案 model（或 method）
+Buffer 是快节奏意义切片（少标注、自由正文）。对照「领域骨架 + 相关实例」，先比较再写入。
 
-【衔接纪律 — 金融库实践教训】
-- 新建或 enrich 的 claim / model / method：除 domains 外，**尽量写 ≥2 条 relations**（如 applies-to / based-on / supports / conflicts-with）。只有 domains、没有出边 → 图能分区却难多跳，思维体讨论会变弱。
-- 新建 conflict：**必须**用 involves 指向对立双方的具体 claim/model（可与本批新建 id）；**不要**只用 applies-to 挂领域就算完结。
-- claim 的「一句话主张」保持锋利即可，不必写成摘要；信息不足时加一句机制或一条关系，而不是把主张拉长。
-- 优先 enrich 已有卡并补边，避免为同一对立再造一张空壳卡。
+【渐进阅读（必须按此思考）】
+1. 先读下方**领域骨架**（核心问题 / 边界 / 张力）——这是入口。
+2. 判断本波材料落在哪些领域；再读相关**实例深读卡**。
+3. 比较：已有卡能否容纳？→ **enrich**（更新 sources / updated / 正文机制）。
+4. 冲突？→ conflict 候选（或说明为何不对立）；禁止只留胜出一方。
+5. 真正新且持久？→ 少量新建；否则 **skip**。
+6. 结构涌现（想清楚再写 writes）：聚类→domain；区分→conflict；衔接→relations / 枢纽 model·entity。
+
+【产出预算】
+- 本波 Buffer 数 N：新建建议 ≤ max(2, N/3)；多数应是 enrich / skip / 并入依据。
+- operation 用 2–4 句写清：命中哪些领域、聚成几簇、为何新建/不建。
+
+【单卡可读】
+- 每张 Card 须可单独阅读并解释某类问题（Card 仍用类型必需语义槽）。
+- 禁止空心合规：复读标题、「原文未提及：具体依据」、link 冒充 claim。
+- artifact / 表图观察 → 并入相关卡依据；tension → conflict 或问题清单；link-hypothesis → relation 或 skip。
+
 {% if bootstrap %}
-【空库 / 无 domain 启动纪律 — 必须遵守】
-1. 本批 writes **必须先**至少一张 type: domain 的卡片（含核心问题、边界、内在张力、原文摘录）。
-2. 再建 claim/model/… 时，domains 只能引用「本批新建的 domain id」或目录中已有 domain id。
-3. 禁止引用不存在的 domain id。
+【空库 / 无 domain】
+1. 本批 writes **必须先**至少一张 type: domain。
+2. 实例卡 domains 只能引用本批新建或目录已有 domain id。
 {% endif %}
 
-role 映射提示：
-- meaning-unit → enrich 已有卡或新建卡（参考但不绑定 proposed_card_type）
-- artifact-table / artifact-figure → 挂到相关卡的依据/摘录；一般不单独建 entity
-- tension → conflict 候选或问题清单
-- link-hypothesis → relation / model 候选；证据不足可 skip
-- profile-seed → 不进七型 Card；可追加问题清单
-- detail / evidence → 并入所属意义单元对应卡片槽
-
-决策顺序（对每个质料）：
-1. 是否已有同题卡片？是 → enrich
-2. 是否重要且离开原文可复用？否 → skip 或 question
-3. 是否根本对立？是 → conflict
-4. 是否暴露持续未决问题？是 → profile_question
-
 {% if deferred_count and deferred_count > 0 %}
-本波之后仍有约 {{ deferred_count }} 片 scratch 留待下一波 digest，勿假装已处理它们。
+本波之后仍有约 {{ deferred_count }} 片 scratch 留待下一波，勿假装已处理。
 {% endif %}
 
 {% if index_excerpts %}
-索引摘录（自动生成，可截断）：
+索引摘录：
 {{ index_excerpts }}
 {% endif %}
 
 {% if material_excerpts %}
 ## 质料检索摘录（RAG，非 Card）
 
-以下来自 archive / buffer / discussion 等语料，**不得**直接写入 relations 或新建 Card；
-`nascent` 表示研讨草稿，不能标为成熟主张。
+不得直接写入 relations 或新建 Card；`nascent` 不能标为成熟主张。
 
 {{ material_excerpts }}
 {% endif %}
 
-卡片目录（无正文，全库一览）：
-{% for c in catalog %}
+## 领域卡片目录（骨架入口）
+{% for c in domain_catalog %}
 {{ c.line }}
 {% endfor %}
-{% if not catalog %}
-（目录为空）
+{% if not domain_catalog %}
+（无 domain — 按 bootstrap 纪律新建）
 {% endif %}
 
-深读卡片（仅相关子集，含正文）：
-{% for c in deep_cards %}
+## 实例卡片目录（无正文）
+{% for c in instance_catalog %}
+{{ c.line }}
+{% endfor %}
+{% if not instance_catalog %}
+（实例目录为空）
+{% endif %}
+
+## 领域骨架（深读正文）
+{% for c in domain_deep %}
+### {{ c.id }} (domain) {{ c.title }}
+{{ c.body }}
+
+{% endfor %}
+{% if not domain_deep %}
+（无领域深读 — 空库或未命中）
+{% endif %}
+
+## 相关实例（深读正文）
+{% for c in instance_deep %}
 ### {{ c.id }} ({{ c.type }}) {{ c.title }}
 domains={{ c.domains }}
 {{ c.body }}
 
 {% endfor %}
-{% if not deep_cards %}
-（无深读卡片 — 空库或未命中；请按 bootstrap 纪律新建 domain）
+{% if not instance_deep %}
+（无实例深读）
 {% endif %}
 
 现有问题：
@@ -77,7 +89,7 @@ domains={{ c.domains }}
 
 本波 Buffer 一览：
 {% for b in buffers %}
-- {{ b.role }} | {{ b.title }} | {{ b.path }} | proposed_domains={{ b.proposed_domains }}
+- {{ b.role }} | {{ b.title }} | {{ b.path }}
 {% endfor %}
 
 本波 Buffer 全文：
@@ -88,8 +100,7 @@ domains={{ c.domains }}
 {% endfor %}
 
 请输出标准 write --batch YAML，operation.approved_by 留 "user"。
-必须在 operation 中加入 consumed_buffers：列出本批实际消费的 Buffer 相对路径（与上方「路径：」一致）；未消费的不要列入。
+必须在 operation 中加入 consumed_buffers（实际消费的相对路径）；未消费的不要列入。
 新建卡片必须包含：id, title, type, maturity, lifecycle, domains, origin, sources, relations, created, updated, body。
-id 使用中文关键词短语（汉字/字母/数字/连字符）。
-origin：Buffer perspective self -> user，external -> document，未标注 -> document。
+id 使用中文关键词短语。origin：未标注 perspective 时用 document。
 Card 正文须含类型必需语义槽与原文摘录；缺信息写「原文未提及：……」。

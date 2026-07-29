@@ -44,6 +44,25 @@ weights:
     tension_match: 0.35
     conflicts_edge: 0.25
 
+# 答题骨架偏置：结构召回 ≠ 图表种子
+# talk/answer 优先 model/conflict/entity；图表类 phenomenon 降权
+# 事后事实序列默认外查，不靠堆卡膨胀
+type_priors:
+  enabled: true
+  by_type:
+    model: 0.45
+    conflict: 0.40
+    entity: 0.35
+    method: 0.25
+    claim: 0.10
+    phenomenon: -0.05
+    domain: 0.05
+  chart_phenomenon_penalty: -0.40
+  maturity_bonus:
+    seed: 0.0
+    growing: 0.15
+    mature: 0.25
+
 # 图遍历
 graph:
   hops: 2

@@ -2,11 +2,14 @@
 
 根据卡片目录、Buffer 索引与确定性信号，为四个镜头各写「候选动作」摘要（每镜头 ≤8 条）。不要索要全文。
 
+**建构目标**：在知识卡片中发现、合并、调整、升枢纽与张力——不是消化新文、也不是堆 applies-to。
+
 行动优先约定：
-1. 若信号含 seed-links / 空 relations：注明应先 `construct --apply-seed-links`（勿在此写 batch）；
-2. distinguish：conflict 缺 involves → 点名 conflict id 与候选 claim/model；
-3. articulate：枢纽术语 → 建议升格 entity 或补强 model（不是新类型「概念」）；
-4. 少建卡、多补边。
+1. 冗余/空心近义卡 → cluster 建议合并（superseded）。
+2. 空 relations → 可先 `construct --apply-seed-links`；若 applies-to 过载 / 语义边不足 → articulate 补 based-on 等。
+3. distinguish：conflict 缺 involves；文档主张 vs 事后事实张力 → 点名双方。
+4. articulate：时间线/政策工具箱/变量 **entity 或 model 枢纽**；图表 phenomenon 并入依据。
+5. 少建卡、多合并与补语义边；事实序列默认外查。
 
 卡片目录：
 {% for c in catalog %}
@@ -34,4 +37,4 @@ Buffer 索引：
 ## articulate
 ## cross_source
 每个小节列出建议动作与涉及的 card id / Buffer 路径（点名即可）。
-结尾写：下一步先 `--apply-seed-links`（若有），再 `construct --lens <name>`。
+结尾写：下一步先处理合并与 `--apply-seed-links`（若有空边），再 `construct --lens articulate|distinguish` 升枢纽/张力。

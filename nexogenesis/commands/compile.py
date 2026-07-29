@@ -95,14 +95,44 @@ def _list_response_files(tmp_dir: Path, response: str | None) -> list[Path]:
     return files
 
 
-def _archive_doc(src: Path, archive_dir: Path) -> Path:
+def _archive_doc(
+    src: Path,
+    archive_dir: Path,
+    *,
+    inbox_dir: Path | None = None,
+) -> Path:
+    """归档原文；若在 Inbox 子目录内，保留相对路径结构。"""
     archive_dir.mkdir(parents=True, exist_ok=True)
-    target = archive_dir / src.name
-    counter = 1
-    while target.exists():
-        target = archive_dir / f"{src.stem}-{counter}{src.suffix}"
-        counter += 1
+    src = src.resolve()
+    if inbox_dir is not None:
+        try:
+            rel = src.relative_to(inbox_dir.resolve())
+            target = archive_dir / rel
+        except ValueError:
+            target = archive_dir / src.name
+    else:
+        target = archive_dir / src.name
+    target.parent.mkdir(parents=True, exist_ok=True)
+    if target.exists():
+        stem, suffix = target.stem, target.suffix
+        counter = 1
+        while True:
+            candidate = target.with_name(f"{stem}-{counter}{suffix}")
+            if not candidate.exists():
+                target = candidate
+                break
+            counter += 1
     shutil.move(str(src), str(target))
+    # 清理 Inbox 中空的父目录（不删除 inbox 根）
+    if inbox_dir is not None:
+        parent = src.parent
+        root = inbox_dir.resolve()
+        while parent != root and parent.exists():
+            try:
+                parent.rmdir()
+            except OSError:
+                break
+            parent = parent.parent
     return target
 
 
@@ -259,7 +289,7 @@ def _apply_wave(
             )
             pending = filter_pending_units(units, progress)
             if not pending:
-                _archive_doc(src, archive_dir)
+                _archive_doc(src, archive_dir, inbox_dir=inbox_dir)
                 clear_source_progress(progress, name)
                 archived.append(name)
         save_progress(tmp_dir, progress)
@@ -323,8 +353,17 @@ def _apply_wave(
     help=f"每波最多文档数（默认 {DEFAULT_WAVE_DOCS}）",
 )
 @click.option("--all", "process_all", is_flag=True, help="关闭分波，处理 Inbox 全部待编译单元")
-@click.option("--recursive", is_flag=True, help="递归扫描 00-Inbox 子目录")
-@click.option("--genres", default="", help='体裁覆盖，格式 "文件名=体裁,..."')
+@click.option(
+    "--recursive/--no-recursive",
+    default=True,
+    show_default=True,
+    help="是否递归扫描 00-Inbox 子目录",
+)
+@click.option(
+    "--genres",
+    default="",
+    help='体裁覆盖，格式 "相对路径或文件名=体裁,..."（如 papers/a.md=paper）',
+)
 @click.option("--apply", is_flag=True, help="应用 LLM response 写入 Buffer（按文件部分成功）")
 @click.option(
     "--response",
@@ -339,7 +378,7 @@ def _apply_wave(
 @click.option(
     "--strict-body",
     is_flag=True,
-    help="语义槽缺失视为错误（默认仅 warning，仍可落盘）",
+    help="正文过短/为空视为错误（默认仅 warning；不再强制四级标题槽）",
 )
 @click.option("--plan", is_flag=True, help="只输出分波编译计划")
 def compile_cmd(
@@ -413,8 +452,11 @@ def compile_cmd(
     compile_plan = build_compile_plan(docs)
     final_genres = {}
     for item in compile_plan:
-        final_genres[item["path"].name] = genre_overrides.get(
-            item["path"].name, item["predicted_genre"]
+        key = item.get("name") or item["path"].name
+        final_genres[key] = (
+            genre_overrides.get(key)
+            or genre_overrides.get(item["path"].name)
+            or item["predicted_genre"]
         )
 
     policy = resolve_policy(

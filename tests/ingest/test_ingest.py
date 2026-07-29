@@ -71,5 +71,7 @@ def test_scan_inbox_recursive(tmp_path: Path):
     sub = tmp_path / "01-sub"
     sub.mkdir()
     (sub / "nested.md").write_text("n", encoding="utf-8")
-    assert len(scan_inbox(tmp_path)) == 1
+    # 默认递归
+    assert len(scan_inbox(tmp_path)) == 2
+    assert len(scan_inbox(tmp_path, recursive=False)) == 1
     assert len(scan_inbox(tmp_path, recursive=True)) == 2

@@ -45,7 +45,7 @@ def test_hollow_relations_summarized(tmp_path: Path):
     signals = collect_structure_signals(store, [])
     cluster = " ".join(signals["cluster"])
     assert "链接空洞" in cluster
-    assert "优先补边" in cluster
+    assert "优先补语义边" in cluster or "语义边" in cluster
     distinguish = " ".join(signals["distinguish"])
     assert "缺少 involves" in distinguish
     assert "不要只写 applies-to" in distinguish or "involves" in distinguish
