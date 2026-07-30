@@ -14,7 +14,7 @@ domain, claim, phenomenon, model, method, entity, conflict
 
 meaning-unit, detail, evidence, artifact-table, artifact-figure, tension, link-hypothesis, profile-seed
 
-正文骨架与校验规则见 `01-Cards/_meta/body-structure.md`（init 后由方案复制或维护）。
+正文骨架与校验规则见 `01-Cards/_meta/body-structure.md`（init 后由方案复制或维护）；写法正例见 `01-Cards/_meta/card-exemplars/`（方案源 `schemes/default/card-exemplars/`）。
 
 ## 关系类型
 

@@ -12,6 +12,7 @@ name: "默认沉淀方案"
 - Buffer：按 `role` 整理质料
 - 关系：8 种
 - 正文契约：`01-Cards/_meta/body-structure.md`
+- 写法正例：`01-Cards/_meta/card-exemplars/`（源：`schemes/default/card-exemplars/`）
 
 ## 文档摄入流水线
 

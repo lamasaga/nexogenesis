@@ -28,6 +28,17 @@ ARTIFACT_SLOTS = {
     "内容转写": ["内容转写", "表格内容", "图示描述", "内容"],
 }
 
+# 开篇推荐（不硬校验）：domain/phenomenon/conflict → 诠释；其余用类型原生开篇槽
+CARD_OPENING_ALIASES: dict[str, list[str]] = {
+    "domain": ["诠释", "导读"],
+    "phenomenon": ["诠释", "导读"],
+    "conflict": ["诠释", "导读"],
+    "claim": ["一句话主张", "核心表达", "主张"],
+    "model": ["核心思想", "核心表达"],
+    "method": ["输入"],
+    "entity": ["定义"],
+}
+
 CARD_SLOTS: dict[str, dict[str, list[str]]] = {
     "domain": {
         "核心问题": ["核心问题"],
@@ -50,7 +61,14 @@ CARD_SLOTS: dict[str, dict[str, list[str]]] = {
     "model": {
         "核心思想": ["核心思想", "核心表达"],
         "关键组件": ["关键组件", "关键组件与关系"],
-        "结构关系": ["结构关系", "因果链条", "结构 / 因果", "结构", "因果"],
+        "结构关系": [
+            "结构关系",
+            "因果链条",
+            "结构关系或因果链条",
+            "结构 / 因果",
+            "结构",
+            "因果",
+        ],
         "失效边界": ["失效边界", "限制与边界"],
         "原文摘录": ["原文摘录", "摘录", "原文"],
     },
@@ -71,7 +89,13 @@ CARD_SLOTS: dict[str, dict[str, list[str]]] = {
     "conflict": {
         "对立双方": ["对立双方"],
         "核心分歧点": ["核心分歧点", "分歧点"],
-        "各自证据": ["各自证据/代价", "各自证据", "各自证据 / 代价", "证据与代价"],
+        "各自证据": [
+            "各自证据/代价",
+            "各自证据或代价",
+            "各自证据",
+            "各自证据 / 代价",
+            "证据与代价",
+        ],
         "调和可能": ["调和可能"],
         "原文摘录": ["原文摘录", "摘录", "原文"],
     },
@@ -95,6 +119,14 @@ _EVIDENCE_ALIASES = {
     "conflict": ["各自证据/代价", "各自证据", "证据与代价"],
     "domain": ["边界", "内在张力"],
     "method": ["输入", "输出"],
+}
+
+# 可选语义槽：不强制，但 digest 应主动写出；缺少时发出 warning
+CARD_OPTIONAL_SLOTS: dict[str, dict[str, list[str]]] = {
+    "claim": {
+        "立场/学派来源": ["立场/学派来源", "学派来源", "立场"],
+        "适用条件": ["适用条件", "适用边界"],
+    },
 }
 
 _HOLLOW_MARKS = (
@@ -247,6 +279,7 @@ def card_substance_warnings(
     title: str,
     card_type: str,
     body: str,
+    meta: dict | None = None,
 ) -> list[str]:
     """
     单卡实质密度警告（不挡写入）：卡片应是可独立阅读的意义单元。
@@ -301,5 +334,47 @@ def card_substance_warnings(
                 f"{card_id}: 标题像 link-hypothesis，正文无实质——"
                 "应作关系/问题清单，勿落成空心 claim"
             )
+
+    # 开篇纪律：domain/phenomenon/conflict 推荐「诠释」；claim/model 勿叠套与核心重复的导读
+    if card_type in ("domain", "phenomenon", "conflict"):
+        opening = _section_text(body, ["诠释", "导读"])
+        if not opening:
+            warnings.append(
+                f"{card_id}: 建议补「诠释」开篇（一段人话摆正局面）；"
+                "见 01-Cards/_meta/card-exemplars/"
+            )
+        if card_type == "domain":
+            portrait = _section_text(body, ["领域肖像", "肖像"])
+            if not portrait and core and len(_norm(core)) < 40:
+                warnings.append(
+                    f"{card_id}: domain 建议有「领域肖像」；"
+                    "勿只用枢纽目录代替材料中的领域图像"
+                )
+    if card_type in ("claim", "model"):
+        redundant = _section_text(body, ["诠释", "导读"])
+        if redundant and core and (
+            _almost_echo(redundant, core)
+            or len(_norm(redundant)) > 0 and _norm(core) in _norm(redundant)
+        ):
+            warnings.append(
+                f"{card_id}: 「诠释/导读」与核心槽重复；"
+                f"{'一句话主张' if card_type == 'claim' else '核心思想'}即开篇，勿另套一层"
+            )
+
+    # 可选槽推荐：仅当 frontmatter 已声明对应元数据但正文未展开时提示
+    optional_slots = CARD_OPTIONAL_SLOTS.get(card_type, {})
+    meta = meta or {}
+    headings = extract_headings(body)
+    field_to_slot = {
+        "school": "立场/学派来源",
+        "applicable_scope": "适用条件",
+    }
+    for field, slot_name in field_to_slot.items():
+        if field in meta and meta.get(field):
+            aliases = optional_slots.get(slot_name, [])
+            if aliases and not any(_heading_matches(h, aliases) for h in headings):
+                warnings.append(
+                    f"{card_id}: frontmatter 有 `{field}`，但正文未展开「{slot_name}」"
+                )
 
     return warnings

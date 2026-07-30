@@ -74,6 +74,7 @@ def run_validate(
                 title=card.title,
                 card_type=card_type,
                 body=body or "",
+                meta=meta or {},
             ):
                 warnings.append(w)
         if meta:

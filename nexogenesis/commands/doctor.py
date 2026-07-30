@@ -89,6 +89,12 @@ def doctor_cmd(root: str):
     for name in ("ontology.md", "body-structure.md"):
         if not (meta / name).exists():
             issues.append(f"缺少契约文件: 01-Cards/_meta/{name}")
+    exemplars = meta / "card-exemplars"
+    if not exemplars.is_dir() or not any(exemplars.glob("*.md")):
+        click.echo(
+            "WARNING: 缺少 01-Cards/_meta/card-exemplars/ "
+            "（可从 schemes/default/card-exemplars 复制，或重新 init）"
+        )
 
     hook = root_path / ".git" / "hooks" / "pre-commit"
     if (root_path / ".git").exists() and not hook.exists():

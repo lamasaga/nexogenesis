@@ -61,6 +61,43 @@ def test_good_claim_passes_substance():
     assert warns == []
 
 
+def test_conflict_without_interpretation_warns():
+    warns = card_substance_warnings(
+        card_id="甲乙之争",
+        title="甲乙之争",
+        card_type="conflict",
+        body=(
+            "## 对立双方\n\n　　甲方与乙方。\n\n"
+            "## 核心分歧点\n\n　　动机不同。\n\n"
+            "## 各自证据或代价\n\n　　各有案例。\n\n"
+            "## 调和可能\n\n　　可分层。\n\n"
+            "## 原文摘录\n\n　　「……」\n"
+        ),
+    )
+    assert any("诠释" in w for w in warns)
+
+
+def test_claim_redundant_daodu_warns():
+    warns = card_substance_warnings(
+        card_id="攀比污染",
+        title="公益常被攀比污染",
+        card_type="claim",
+        body=(
+            "## 导读\n\n"
+            "　　现代改良与慈善组织通常也掺杂攀比性荣誉动机。\n\n"
+            "## 一句话主张\n\n"
+            "　　现代改良与慈善组织通常也掺杂攀比性荣誉动机。\n\n"
+            "## 依据\n\n"
+            "　　大型捐赠尤其容易以荣誉为主导，会员制也能展示体面。\n\n"
+            "## 已知限制\n\n"
+            "　　不否认仍有真诚动机。\n\n"
+            "## 原文摘录\n\n"
+            "　　「extraneous motives are commonly present」\n"
+        ),
+    )
+    assert any("重复" in w or "勿另套" in w for w in warns)
+
+
 def test_buffer_substance_flags_hollow_meaning_unit():
     warns = buffer_substance_warnings(
         role="meaning-unit",
@@ -89,3 +126,24 @@ def test_compile_format_rules_favor_fast_slices():
     assert "质料" in text
     assert "title" in text and "source" in text
     assert "预售" in text or "Card" in text
+
+
+def test_claim_optional_slot_warning():
+    warns = card_substance_warnings(
+        card_id="制度摩擦主张",
+        title="市场化转型国家的制度摩擦常被低估",
+        card_type="claim",
+        body=(
+            "## 一句话主张\n\n"
+            "　　市场化转型国家的制度摩擦常被低估。\n\n"
+            "## 依据\n\n"
+            "　　转型经济中的非正式制度成本高于预期。\n\n"
+            "## 已知限制\n\n"
+            "　　量化测度困难。\n\n"
+            "## 原文摘录\n\n"
+            "　　「……」\n"
+        ),
+        meta={"school": "制度学派", "applicable_scope": "市场化转型国家"},
+    )
+    assert any("立场/学派来源" in w for w in warns)
+    assert any("适用条件" in w for w in warns)

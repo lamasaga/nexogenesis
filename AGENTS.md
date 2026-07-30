@@ -1,38 +1,47 @@
 # AGENTS.md — Nexogenesis P0 运行时契约
 
-> 版本：P0（2026-07-27）  
-> 作用：约束 AI 与 Harness 如何与底座交互。本手册本身可被用户修订，但修订前须经用户确认。  
-> Buffer / Card 正文结构以 `01-Cards/_meta/body-structure.md` 为准；机制说明见 `docs/2026-07-26-buffer-card-structure-draft.md`；**双轨检索**见 `docs/2026-07-27-retrieval-graph-rag-design.md`；**思维体注意力/STM**见 `docs/2026-07-28-thinking-body-attention-design.md`。
+> 版本：P0（2026-07-30 约束分层）  
+> 作用：宪法层——底座主权、权限、类型一览、CLI 索引。修订须经用户确认。  
+> **约束分层**：[`docs/2026-07-30-constraint-layers.md`](docs/2026-07-30-constraint-layers.md)  
+> - 编排剧本 → [`.agent/skills/`](.agent/skills/)（思维体 `nexo-talk|emerge|judge`；记忆体 `nexo-compile|digest|construct`）  
+> - 写法 → `01-Cards/_meta/body-structure.md` + `card-exemplars/`  
+> - 摄入语义 → `schemes/default/prompts/`  
+> - 机制 → `docs/2026-07-26-buffer-card-structure-draft.md`；双轨检索 → `docs/2026-07-27-retrieval-graph-rag-design.md`；思维体 → `docs/2026-07-28-thinking-body-attention-design.md`
 
 ---
 
 ## 一、核心原则
 
 1. **底座主权不变量**：约定目录下的 **markdown 是唯一语义事实之源**。任何时候删除全部代码与可重建索引（图、RAG、自动生成视图等），只留 markdown，知识内容零损失。**git 是强烈推荐的版本层**（历史、回滚、pre-commit），不是思想本体的必要条件；未启用 git 时不得声称操作已可逆。
-2. **聚合涌现优先于批处理切分（总原则）**：本系统用大模型做**意义聚合与知识结构涌现**，**不是**自动化切分书籍/报告的批处理器。Compile / digest / construct 的成功标准是「是否涌现出可独立阅读、可解释问题的结构」，不是「是否把原文拆成足够多的 Buffer/Card」。禁止用槽位填空、逐片转卡、表图强制独立等规程**替代** LLM 的聚合判断；Harness 只守闸门（格式、链接、原子写入），思考性工作留给模型。
-3. **Harness 负责过程，LLM 负责语义**：卡片校验、原子写入、索引生成、孤儿检测由 Harness 强制执行；内容好坏、冲突识别、新建/丰富/skip、单卡是否可读由 LLM 负责。
-4. **统一写入入口**：任何对底座的实质写入（新建/修改卡片、追加问题清单、追加 Journal）必须通过 `python -m nexogenesis write --batch <file>` 完成。禁止绕过该入口直接改文件。
-5. **写路径优先**：系统设计优先降低高质量内容进入底座的摩擦，而非优先美化检索界面。
-6. **复杂度必须有证据**：新增类型、关系、视图、自动化必须说明它解决的真实摩擦、最小改动、有效判断标准和撤回方式。
-7. **P0 不是完整 Harness**：P0 实现结构约束层与最小原子写入事务；完整编排层（自动触发、Web UI、图检索）延至 P1/P2。
+2. **社科领域思想结构化（总原则）**：本系统用大模型做**社科领域思想的意义聚合与知识结构涌现**，沉淀可支撑推理、分析、判断的领域知识体；**不是**自动化切分书籍/报告的批处理器，也不是个人日记或读书笔记系统。Compile / digest / construct 的成功标准是「是否涌现出可独立阅读、可解释领域问题的结构」，不是「是否把原文拆成足够多的 Buffer/Card」。禁止用槽位填空、逐片转卡、表图强制独立等规程**替代** LLM 的聚合判断；Harness 只守闸门（格式、链接、原子写入），思考性工作留给模型。
+3. **双层结构：知识体 + 思维体**：`01-Cards/` 与 `05-Buffer/` 构成**知识体**，负责沉淀并结构化领域思想；`nexo-talk|emerge|judge` 等思维体利用该结构进行推理、分析与判断。思维体不替代知识体写入，知识体不假设思维体在场。
+4. **Harness 负责过程，LLM 负责语义**：卡片校验、原子写入、索引生成、孤儿检测由 Harness 强制执行；内容好坏、冲突识别、新建/丰富/skip、单卡是否可读由 LLM 负责。
+5. **统一写入入口**：任何对底座的实质写入（新建/修改卡片、追加问题清单、追加 Profile 字段、追加 Journal）必须通过 `python -m nexogenesis write --batch <file>` 完成。禁止绕过该入口直接改文件。
+6. **写路径优先**：系统设计优先降低高质量内容进入底座的摩擦，而非优先美化检索界面。
+7. **复杂度必须有证据**：新增类型、关系、视图、自动化必须说明它解决的真实摩擦、最小改动、有效判断标准和撤回方式。
+8. **P0 不是完整 Harness**：P0 实现结构约束层与最小原子写入事务；完整编排层（自动触发、Web UI、图检索）延至 P1/P2。
 
 ---
 
 ## 二、目录结构
 
 ```text
-AGENTS.md                    # 本手册
+AGENTS.md                    # 本手册（宪法）
+.agent/skills/               # Agent 编排技能（思维体 + 记忆体；非仅 Cursor）
 README.md                    # 项目说明
 00-Inbox/                    # 待处理原始材料
 01-Cards/                    # 知识卡片（扁平存储）
    ├── _meta/
    │    ├── ontology.md      # 卡片类型与关系类型契约
    │    ├── body-structure.md# Buffer / Card 正文结构活契约
+   │    ├── card-exemplars/  # 七型写法正例（digest 模仿）
    │    ├── domain-index.md  # 自动生成的领域视图
    │    ├── conflict-index.md# 自动生成的冲突视图
    │    └── theory-index.md  # 自动生成的理论视图
    └── <id>.md               # 所有卡片平铺，id 即文件名
-02-Profile/                  # 用户/学派档案 + 问题清单
+02-Profile/                  # 领域级思考特质档案：领域理念、领域思维模型、问题清单
+   ├── 领域理念.md
+   ├── 领域思维模型.md
    └── 问题清单.md
 03-Archive/                  # 已处理原始材料
 04-OutBox/                   # 分析产物、回答、报告
@@ -40,7 +49,7 @@ README.md                    # 项目说明
 05-Buffer/<role>/            # compile 产出的质料（按 role 分目录）
 06-Journal/                  # 操作大事记
 nexogenesis/                 # Python 包
-schemes/default/             # 默认沉淀方案
+schemes/default/             # 默认沉淀方案（含 prompts/）
 hooks/                       # git hooks（init 时安装到 .git/hooks/）
 ```
 
@@ -96,6 +105,8 @@ superseded_by: ""                # lifecycle=superseded 时必填
 | `relations` | 是 | 允许空；`target` 必须指向存在的卡片；数量超过 12 会触发 warning。 |
 | `created`/`updated` | 是 | 创建/更新时间，建议 `YYYY-MM-DD`。 |
 | `theory_status` | 否 | 仅 `claim`/`model` 可用；`draft`/`active`/`dormant`。 |
+| `school` | 否 | 仅 `claim` 可用；学派/传统来源，如「制度学派」「行为经济学」。 |
+| `applicable_scope` | 否 | 仅 `claim` 可用；适用条件摘要，如「市场化转型国家」。 |
 | `superseded_by` | 条件 | `lifecycle: superseded` 时必须提供，指向替代卡片。 |
 
 ### 3.3 写入权限规则
@@ -113,13 +124,15 @@ superseded_by: ""                # lifecycle=superseded 时必填
 
 | 类型 | 回答的问题 | 最小内容要求 |
 |---|---|---|
-| `domain` | 这是哪个思想领域？ | 核心问题、边界、内在张力 |
-| `claim` | 主张/立场是什么？ | 一句话主张（**可复述机制，非标题回声**）、依据、已知限制 |
-| `phenomenon` | 发生了什么模式？ | 模式描述、典型实例、反例（图表勿空心独立成卡） |
-| `model` | 怎么理解这个复杂事物？ | 核心思想、关键组件、因果/结构、失效边界 |
+| `domain` | 这是哪个思想领域？ | **诠释**（推荐）+ 核心问题、边界、内在张力；宜有领域肖像 |
+| `claim` | 主张/原则/立场是什么？ | **一句话主张**（开篇；可复述、非标题回声）、依据、已知限制；可选：立场/学派来源、适用条件 |
+| `phenomenon` | 发生了什么模式？ | **诠释**（推荐）+ 模式描述、典型实例、反例 |
+| `model` | 怎么理解这个复杂事物？ | **核心思想**（开篇）、关键组件（写职责）、因果/结构、失效边界 |
 | `method` | 怎么做？ | 输入、步骤、输出、适用边界 |
-| `entity` | 这个对象是什么？ | 定义、关键属性、来源 |
-| `conflict` | 根本矛盾在哪？ | 对立双方、核心分歧点、各自证据、调和可能 |
+| `entity` | 这个对象是什么？ | **定义**（开篇）、关键属性、来源 |
+| `conflict` | 根本矛盾在哪？ | **诠释**（推荐）+ 对立双方、核心分歧点（1～2 钉）、各自证据、调和可能 |
+
+　　写法正例：`01-Cards/_meta/card-exemplars/`。勿给 claim/model 另套与核心重复的「导读」。
 
 **单卡纪律**：每张卡须能独立阅读并解释某类问题；槽位齐全但内容空洞（复读标题、「原文未提及：具体依据」）视为质量失败，应 skip / enrich 他卡，而非增产碎片。
 
@@ -144,91 +157,68 @@ superseded_by: ""                # lifecycle=superseded 时必填
 
 ---
 
-## 四、指令集（P0 务实裁剪版）
+## 三之一、领域 Profile 定位
 
-### 4.1 `/talk` 默认对话
+`02-Profile/` 不再记录个人语言风格，而是记录**领域级思考特质**——一种可被思维体复用的「领域智慧」：
 
-- **轻量入场**：读取 `01-Cards/_meta/ontology.md` + `02-Profile/问题清单.md` + 与当前问题相关的卡片（优先读 `index` 生成的视图，而非扫全部目录）；
-- **立场声明**：只有当存在 `theory_status: active` 且相关的理论时，才声明“这是从 X 视角看的”；否则不演；
-- **区分观点**：回答中明确区分用户立场、文档立场、系统生成观点；
-- **对话蒸馏**：对话结束或用户说“记一下”时触发 `/capture`；
-- **批量确认**：蒸馏产物以候选形式呈现，用户确认后生成 batch 文件，由 Harness 统一写入。
+| 文件 | 沉淀什么 | 更新时机 |
+|---|---|---|
+| `02-Profile/领域理念.md` | 领域核心立场、价值取向排序、反模式、诚实边界 | digest/construct 涌现出新立场或价值冲突时 |
+| `02-Profile/领域思维模型.md` | 领域心智模型、决策启发式、推理模式、默认分析路径、内在张力 | digest/construct 发现新的领域级解释或分析习惯时 |
+| `02-Profile/问题清单.md` | 领域待解问题、证据缺口、跨源冲突 | anytime 出现值得追踪的问题时 |
 
-### 4.2 `/capture` 捕获
+**更新纪律**：
+- digest/construct 在生成 `batch.yaml` 时，可使用 `target: profile_field` 追加到上述文件；
+- 新增条目须经用户确认（`approved_by: user` 或用户明确授权 `--auto`）；
+- 改写已有条目前必须单独报告变更点；
+- 每条推断须标注来源（Buffer 路径或 Card id）。
 
-每次最多提出 3 个候选：
+---
 
-- `claim`/`model`/`conflict`/`entity`/`method`/`phenomenon` → 写入 `01-Cards/`；
-- `question` → 追加到 `02-Profile/问题清单.md`；
-- 候选必须附带来源；
-- 用户批准/修改/驳回后，AI 生成 batch 文件，调用 `python -m nexogenesis write --batch <file>`。
+## 四、指令集与 Skills（务实裁剪）
 
-### 4.3 `/answer` 回答
+　　**日常对话与思考**走思维体 skills；**文档摄入**走记忆体 skills。本节约纪律与指针，逐步编排见各 `SKILL.md`。
 
-- 检索并复用已有卡片；
-- 区分用户立场、文档立场、系统生成观点；
-- 普通回答直接输出到对话；
-- 有长期复用价值的回答可保存到 `04-OutBox/` 作为 Synthesis；
-- 若 Synthesis 中包含可沉淀的思想，再拆成 `claim`/`model` 卡片经 `/capture` 入库。
+| 意图 | Skill | Harness 要点 |
+|------|-------|--------------|
+| 默认对话 / 分析 | `nexo-talk` | `memory` + `retrieve --mode talk`；分析留对话；不默写卡 |
+| 记一下 / 涌现 | `nexo-emerge` | ≤3 候选 → 用户确认 → `write --batch` |
+| 深判 | `nexo-judge` | `retrieve --mode judge`；2–4 透镜；定位非裁决 |
+| 编译 | `nexo-compile` | `compile --plan` → prompt → check → `--apply` |
+| 消化 | `nexo-digest` | enrich + 建立领域对象；读 exemplars；`digest --apply` |
+| 建构 | `nexo-construct` | diagnose → 单镜头；通盘合并/调整/升枢纽/张力 |
 
-### 4.4 `/judge` 判断（按风险升级）
+### 4.1 思维体底线
 
-- **默认**：直接回答 + 一个最强反例/限制；
-- **升级条件**：重要决策、明显争议、跨域因果、用户明确要求；
-- **升级时**：从六透镜角度库中选 2-4 个真正相关的角度；
-- **价值评估**：不打分，只观察后续有效复用率和用户纠正率。
+- 捕获**永远**用户确认；对话路径禁止 `approved_by: agent` 写卡。  
+- 区分 user / document / system / nascent。  
+- 仅当相关 `theory_status: active` 时声明理论立场。  
+- 强信号可 `signal --text`；「先别记」关闭本会话主动捕获。  
+- 注意力：`retrieve` 双账户；权重见 `schemes/default/attention.yaml`。  
+- 事实序列默认外查，不进 Card 膨胀。  
+- 细则：`docs/2026-07-28-thinking-body-attention-design.md`。
 
-### 4.5 `/theorize` 理论升格
-
-- 理论不是独立层，而是卡片升格机制；
-- 任何 `claim` 或 `model` 满足“跨多个领域解释”条件时，可被标记 `theory_status: draft`；
-- 升格时正文必须补“失效边界”一节；
-- `draft → active` 需用户确认；
-- 对抗视角在 `/judge` 升级时引入，不是常驻相位。
-
-### 4.6 `/reflect` 反思
-
-- **Journal**：harness 自动追加大事记（蒸馏确认、理论转正、方案切换）；保留理由是未来训练优化的数据资产；
-- **深反思**：用户触发或摩擦累积时运行；产出摩擦模式 + 改进提案；
-- **手册修改**：永远 = 提案 + 用户批准，无自主执行器。
-
-### 4.7 `/compile`、`/digest`、`/construct`
-
-文档摄入三阶段（手感对齐前身 v3.1 消化，Harness 只守闸门）：
+### 4.2 记忆体底线
 
 | 阶段 | 主职 |
 |------|------|
-| **compile** | **快节奏意义切片**：少标注、自由正文，把杂乱原文切成消化时读起来舒服的块 |
-| **digest** | **骨架滋养**：领域入口 → 相关实例 → enrich 优先 → 偶发新建（非一片一卡） |
-| **construct** | **结构校准**：在卡片网上发现、合并、调整、升枢纽与张力 |
+| compile | 快节奏意义切片 → Buffer |
+| digest | 骨架滋养：enrich 优先，偶发新建 |
+| construct | 结构校准：发现/合并/枢纽/张力 |
 
-Buffer 用 `role`，Card 用 `type`。结构涌现按聚类 / 区分 / 衔接。细则见 `body-structure.md`。
+　　语义全文在 `schemes/default/prompts/`；写法在 `body-structure` + `card-exemplars`。禁止把流水线做成切书批处理器。
 
-**总原则重申**：用大模型**聚合涌现**知识结构，禁止把流水线做成「切书批处理器」。Harness 守写入闸门（格式、链接、原子事务）；**切分粒度、聚合、skip、单卡是否可读——属 LLM**。槽位是脚手架，不是填空考试。
+### 4.3 其他指令（摘要）
 
-### 4.8 思维体体验层（对话面 · 闸门面 · 注意力）
-
-　　细则见 `docs/2026-07-28-thinking-body-attention-design.md`；权重见 `schemes/default/attention.yaml`（可被 `.nexogenesis/attention.yaml` 覆盖）。
-
-| 层 | 含义 | 落点 |
-|----|------|------|
-| 工具书 | 手边证据 | RAG |
-| 长期记忆 | 已承诺结构 | 卡片图 |
-| 短期记忆 | 约 10 次会话卷 | `.nexogenesis/memory/stm/`（非 Card） |
-| 注意力 | 每轮 Working Set | `retrieve` 双账户：core / expansion / conflict；**type_priors** 提 model/conflict/entity、压图表 phenomenon |
-| 强信号 | 偶发轻问 | `signal --text`；**捕获永远用户确认** |
-| 事实外查 | 可核验序列/最新数据 | **默认不进 Card**（防库膨胀）；文档↔事实张力可建 conflict，事实侧注明须外核 |
-
-- **默认对话面**：不要求用户点选 `/talk`/`/judge`；Agent 静默 `retrieve` + STM。  
-- **闸门面**：捕获候选须用户批准后 `write --batch`；分析默认留在对话。  
-- **强信号**：有可解释触发时轻问（记一下 / 可复用主张 / 对立 / Inbox→compile 建议等）；可用「先别记」关闭本会话主动捕获。  
-- **会话覆盖**：`memory override --conflict N` 临时偏置席位，不改永久 YAML。
+- `/answer`：检索复用；普通答对话；高价值可 OutBox Synthesis。  
+- `/theorize`：claim/model 升 `theory_status`；补失效边界；`draft→active` 须用户确认。  
+- `/reflect`：Journal 由 harness；深反思产提案；改 AGENTS = 提案 + 批准。
 
 ---
 
 ## 五、Harness CLI
 
-　　对话指令（`/talk`、`/capture`、`/answer` 等）见 §四；本节为 **Harness 可执行命令** 的完整速查。几乎所有命令支持 `--root .`（项目根，默认当前目录）。更细的机制说明见 §八（摄入流水线）与 `docs/2026-07-27-retrieval-graph-rag-design.md`（双轨检索）。
+　　对话与摄入编排见 §四 Skills；本节为 **Harness 可执行命令** 速查。几乎所有命令支持 `--root .`。
 
 ### 5.0 CLI 命令速查
 
@@ -239,7 +229,7 @@ Buffer 用 `role`，Card 用 `type`。结构涌现按聚类 / 区分 / 衔接。
 | `init` | `--root` | 初始化目录结构、复制 scheme 模板、安装 git pre-commit hook |
 | `validate` | `--root` | 校验全部卡片 frontmatter、链接、orphan（pre-commit 亦调用） |
 | `index` | `--root` | 生成 `01-Cards/_meta/` 下领域/冲突/理论视图 |
-| `write` | `--batch <file>` `--root` | **统一原子写入入口**（卡片、问题清单、Journal）；成功后自动 `index` + `graph rebuild` + `rag index` |
+| `write` | `--batch <file>` `--root` | **统一原子写入入口**（卡片、问题清单、Profile 字段、Journal）；成功后自动 `index` + `graph rebuild` + `rag index` |
 | `doctor` | `--root` | 目录/契约/hook 检查 + `validate` + 图/RAG 索引陈旧 WARNING |
 | `migrate` | `--to <scheme>` `--dry-run` `--root` | scheme 迁移预演 |
 
@@ -372,13 +362,20 @@ writes:
   - target: "profile_question"
     question: "怎样区分有效反思与自我感动？"
     added_at: "2026-07-24"
+
+  - target: "profile_field"
+    file: "领域理念.md"
+    section: "核心立场"
+    content: "市场化转型国家的制度摩擦常被低估"
+    sources:
+      - "《某书》第 4 章"
 ```
 
 ### 5.2 写入安全
 
 - 所有 YAML 用 `yaml.safe_load` 解析；
 - ID 与路径穿越检查（id 允许汉字、字母、数字、连字符 `-`，禁止路径分隔符与危险字符）；
-- 先写入 staging 并完整校验，通过后才提交到正式位置；失败不留下半成卡片或问题清单；
+- 先写入 staging 并完整校验，通过后才提交到正式位置；失败不留下半成卡片、问题清单或 Profile 条目；
 - `origin: system` 进入 `mature` / `theory_status: active` 须 `approved_by: user` 且 `operation.allow_system_promotion: true`；
 - 同一次 batch 对应一个 `operation_id`；digest/construct 用 `operation.consumed_buffers` 声明实际消费的 Buffer 路径。
 
@@ -419,7 +416,7 @@ writes:
 - ❌ 创建信息稀薄的空卡片；
 - ❌ 为每篇文档都创建新卡片；
 - ❌ 在 Inbox 中堆积已处理的原始文档；
-- ❌ 未经用户确认修改 `02-Profile/`；
+- ❌ 未经用户确认改写 `02-Profile/` 已有条目；新增条目须报告变更点；
 - ❌ 删除任何卡片（只能标记 `lifecycle: superseded`/`archived`）；
 - ❌ 创建幽灵链接；
 - ❌ 让卡片因无限引用而膨胀。
@@ -430,6 +427,7 @@ writes:
 - ✅ 优先丰富已有卡片，而非新建卡片；
 - ✅ 检测并记录冲突；
 - ✅ 维护领域卡片的完整性；
+- ✅ 主动沉淀领域级理念与思维模型到 `02-Profile/`，并标注来源；
 - ✅ 处理完后归档原始文档；
 - ✅ 所有 AI 生成的内容标注来源；
 - ✅ 任何写入须经授权：逐步确认，或用户一句「开始消化/建构」/`--auto` 视为本轮授权；中间产物仍保留在 `.nexogenesis/tmp/`。
@@ -465,7 +463,7 @@ python -m nexogenesis construct --apply --root . # 结构优化；可标记 dige
 - 扫描 `00-Inbox/`（**默认递归**；`--no-recursive` 仅顶层）；源键为相对路径，归档保留子目录；
 - 体裁预判：`book` / `paper` / `essay` / `dialogue` / `scrap` / `generic`；
 - **阅读窗（Harness）+ 窗内切块（LLM）**：
-  - **图书/长文**：优先 PDF 目录小节或 Markdown `##`/`###` 开窗；有子节时跳过粗章；
+  - **图书/长文**：优先 PDF 目录小节或 Markdown `##`/`###` 开窗；有子节时跳过粗章；**跳过封面/版权/目录等扉页书签**；若 TOC 仅有前页（无正文书签），则从正文起始页起按页开窗，避免本波 prompt 全被扉页占满；
   - **论文**：有小标题则按节，否则少窗；
   - **对话**：按话轮；**scrap**：段落堆叠；
   - 窗内产出 **1～6** 个有命名、含质料的 Buffer——块数由模型按内容定，Harness 不机械定块数；
@@ -476,20 +474,18 @@ python -m nexogenesis construct --apply --root . # 结构优化；可标记 dige
 
 ### 8.2 `/digest`
 
-- **先消化、后建构**；默认一波 `scratch`（`--wave-buffers` 默认 8）。
-- **主职：骨架滋养**——领域 → 实例 → enrich 优先；把 Buffer 中的机制与事实**转入/并入**可读 Card（Card 仍校验类型语义槽），不是另写更短空壳。
-- 新建建议 ≤ max(2, N/3)；深读优先 pin domain；空库须先 domain。
-- Harness 校验 batch/链接/`consumed_buffers`；匹配与 skip 属 LLM。
+- 编排见 skill `nexo-digest`；语义见 `schemes/default/prompts/digest.txt`。  
+- **先消化、后建构**；默认一波 `scratch`；**主职：骨架滋养 + 建立领域对象**。enrich 优先，但遇到真正新、重要且可独立复用的质料时应果断新建 Card。  
+- 空库须先 domain；写法对齐 exemplars。  
+- 同步从 Buffer 中提取领域级立场、价值取向、推理模式与反模式，追加到 `02-Profile/领域理念.md` 与 `02-Profile/领域思维模型.md`。
 
 ### 8.3 `/construct`
 
-- 在已有卡片网上做结构校准（勿在空库上优先于 digest）。
-- **主职：发现、合并、调整、升枢纽与张力**——不是继续切材料。
-- **默认 `--diagnose`**：结构信号 + graph analyze + construct_ops + 卡目录 + Buffer 索引 → `lenses-report.md` 与可执行结构草稿。
-- **`--apply-seed-links`**：空 `relations` 补 `applies-to` domain；勿把挂靠边当完成态。
-- **`--lens`**：一次一镜（`cluster` / `distinguish` / `articulate` / `cross_source`）；优先合并近义/空心、补 involves、升 entity·model 枢纽。
-- 产出仍是 `write --batch`；可将消费的 `digested` Buffer 标为 `constructed`。
-- **`--auto`** / **`--auto --lens`**：同前；GraphML 导出见 `graph export`。
+- 编排见 skill `nexo-construct`；语义见 `prompts/construct.txt`。  
+- **主职：通盘考虑、合并、调整、升枢纽与张力**——不是第二次消化，也不是继续大量新建 Card。  
+- 原则上不新建 Card；digest 阶段建立的对象由 construct 组织成更干净的结构。只有在通盘考虑后确实缺少枢纽时才允许新建，并须在操作说明中解释原因。  
+- 默认 diagnose；`--lens` 一次一镜；`--apply-seed-links` 勿当完成态。  
+- 若涌现出新的领域级理念或思维模型，使用 `target: profile_field` 更新 `02-Profile/`。
 
 ### 8.4 人机协作边界
 

@@ -77,3 +77,22 @@ def test_buffer_rejects_card_type_field():
     }
     errors = validate_buffer_schema(data)
     assert any("type" in e for e in errors)
+
+
+def test_claim_with_school_and_scope_fields_passes():
+    data = {
+        "id": "test-claim",
+        "title": "测试主张",
+        "type": "claim",
+        "maturity": "growing",
+        "lifecycle": "active",
+        "domains": ["economics"],
+        "origin": "document",
+        "sources": ["某书第3章"],
+        "relations": [],
+        "created": "2026-07-30",
+        "updated": "2026-07-30",
+        "school": "制度学派",
+        "applicable_scope": "市场化转型国家",
+    }
+    assert validate_card_schema(data) == []

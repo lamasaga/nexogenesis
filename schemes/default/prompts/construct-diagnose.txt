@@ -2,13 +2,43 @@
 
 根据卡片目录、Buffer 索引与确定性信号，为四个镜头各写「候选动作」摘要（每镜头 ≤8 条）。不要索要全文。
 
-**建构目标**：在知识卡片中发现、合并、调整、升枢纽与张力——不是消化新文、也不是堆 applies-to。
+**建构目标**：在已有卡片网上发现、合并、调整、升枢纽与张力——不是消化新文、也不是堆 applies-to。
 
-行动优先约定：
+【镜头检查清单】
+对每个镜头，按以下信号扫描全库，列出具体候选动作：
+
+### cluster（归并与归属）
+- 孤儿卡：无 incoming relations 且未被任何 domain 明确统摄；
+- 空壳 domain：只有下属卡片列表，缺少 `## 诠释` 与 `## 领域肖像`；
+- 近义卡：标题或核心表达相似度 >80%，或共享 3 个以上来源且论断可合并；
+- domains 漂移：同一主题的多张卡被分到明显不同的领域；
+- 微型卡：正文过薄、无独立阅读价值，应并入主卡。
+
+### distinguish（张力与冲突）
+- 两个 claim 互相否定或前提互斥；
+- 同一 model/method 在不同来源中被明确批评或给出相反证据；
+- 已有 tension Buffer 但未升格为 conflict Card；
+- conflict Card 缺少 `involves` 或核心分歧点超过 2 处；
+- 文档主张 vs 可外核事实之间的张力未被显式标注。
+
+### articulate（枢纽与语义边）
+- 高频术语（≥3 张卡提及）没有独立 entity/model 卡；
+- 关系团（≥3 张卡两两互联）未抽成枢纽 model/method；
+- method 卡缺少输入/输出/适用边界；
+- entity 卡只有定义，没有说明它在领域争论中的角色；
+- 空 relations 的卡（可先 `construct --apply-seed-links`，但挂靠不是完成态）。
+
+### cross_source（跨源校准）
+- 多源互补：不同来源对同一主张给出不同证据 →  enrich 主卡；
+- 跨源对立：不同来源对同一问题给出不可调和的主张 → 新建/补 conflict；
+- 重复出现的证据缺口 → 追加到 `02-Profile/问题清单.md`；
+- 同一学派在多张卡中被零散引用 → 升 entity 枢纽。
+
+【行动优先约定】
 1. 冗余/空心近义卡 → cluster 建议合并（superseded）。
 2. 空 relations → 可先 `construct --apply-seed-links`；若 applies-to 过载 / 语义边不足 → articulate 补 based-on 等。
 3. distinguish：conflict 缺 involves；文档主张 vs 事后事实张力 → 点名双方。
-4. articulate：时间线/政策工具箱/变量 **entity 或 model 枢纽**；图表 phenomenon 并入依据。
+4. articulate：时间线/政策工具箱/变量等应升格为 **entity 或 model 枢纽**；图表 phenomenon 并入依据。
 5. 少建卡、多合并与补语义边；事实序列默认外查。
 
 卡片目录：

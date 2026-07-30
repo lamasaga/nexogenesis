@@ -1,0 +1,73 @@
+# 模拟 digest 输入：5 片 scratch Buffer
+
+buffers:
+  - path: "05-Buffer/meaning-unit/2026-07-30-100000-制度摩擦.md"
+    role: "meaning-unit"
+    title: "制度摩擦：转型经济的隐形成本"
+    source: "《制度摩擦》第3章"
+    text: |
+      制度摩擦指正式制度变革快于非正式制度适应而产生的落差。核心机制：旧行为预期的黏性、新制度执行者的可信承诺不足、协调困境导致旧模式自我实现。俄罗斯 1994 年调查显示 60% 私营企业家仍依赖旧关系网络获取贷款和解决纠纷。
+
+      > "制度变革的难点不在于写出更好的法律，而在于让法律成为人们预期的一部分。"
+
+  - path: "05-Buffer/meaning-unit/2026-07-30-100001-反馈效应.md"
+    role: "meaning-unit"
+    title: "可操作反馈提升大学写作修订表现"
+    source: "Actionable Feedback and Revision Performance"
+    text: |
+      RCT（N=120）比较通用表扬、仅批评、可操作反馈三种反馈方式。可操作反馈组正确修订率比通用表扬组高 34%（d=0.62），比仅批评组高 21%（d=0.41）。效果在两周后的写作任务中持续。样本来自单一大学写作课，外部效度待检验。
+
+  - path: "05-Buffer/tension/2026-07-30-100002-分析的诱惑.md"
+    role: "tension"
+    title: "事后解释与事前反条件之间的张力"
+    source: "《分析的诱惑与诚实的边界》"
+    text: |
+      社科分析常在事后组装连贯叙述，但真正的困难是事前判断。好的分析应附带"反条件"：什么证据会推翻这个判断？否则只是修辞。作者承认这会让文章失去锐气，与"给出有力判断"的需求形成张力。
+
+  - path: "05-Buffer/meaning-unit/2026-07-30-100003-制度摩擦局限.md"
+    role: "meaning-unit"
+    title: "制度摩擦案例的局限"
+    source: "《制度摩擦》第3章结语"
+    text: |
+      本章主要依赖俄罗斯案例，对东亚转型经济体比较较少。作者承认制度摩擦在不同文化背景下表现形式可能差异很大，需要后续研究补充。
+
+  - path: "05-Buffer/detail/2026-07-30-100004-方法论细节.md"
+    role: "detail"
+    title: "反馈实验的方法论细节"
+    source: "Actionable Feedback and Revision Performance §Method"
+    text: |
+      参与者为大公立大学写作课大一学生，随机分配到三组，每篇 500 词议论文，对三个目标句提供反馈。评分者盲法编码，κ=0.84。
+
+# 已有卡片（digest 前应存在）
+existing_cards:
+  - id: "制度经济学"
+    type: "domain"
+    title: "制度经济学"
+    body: |
+      ## 诠释
+
+      制度经济学研究制度如何影响经济行为与绩效。
+
+      ## 核心问题
+
+      正式制度与非正式制度如何共同塑造市场运行？
+
+      ## 边界
+
+      原文未提及。
+
+      ## 内在张力
+
+      原文未提及。
+
+      ## 原文摘录
+
+      原文未提及。
+
+# 期望行为（供人工评估用）
+expected_behavior:
+  - 制度摩擦 meaning-unit 应 enrich 或新建 claim/model
+  - 可操作反馈 meaning-unit 应新建 claim 或 phenomenon
+  - tension 分析的诱惑 应新建 conflict 或 claim（反条件主张）
+  - 制度摩擦局限 应 enrich 主卡或 skip
+  - 方法论细节 应 enrich 已有 claim/phenomenon

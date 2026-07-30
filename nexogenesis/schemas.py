@@ -52,6 +52,8 @@ CARD_SCHEMA = {
         "created": {"type": "string"},
         "updated": {"type": "string"},
         "theory_status": {"enum": ["draft", "active", "dormant"]},
+        "school": {"type": "string"},
+        "applicable_scope": {"type": "string"},
         "superseded_by": {"type": "string"},
     },
 }

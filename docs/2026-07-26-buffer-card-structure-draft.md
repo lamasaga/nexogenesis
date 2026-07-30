@@ -236,6 +236,7 @@ conflict 用 `involves`；claim/model 直接对立用 `conflicts-with`；二者�
 ## 8. 校验与契约文件
 
 - 活契约：`01-Cards/_meta/body-structure.md`  
+- 写法正例：`01-Cards/_meta/card-exemplars/`（方案源 `schemes/default/card-exemplars/`）  
 - Harness：`validate` 校验 Buffer `role` 与 Card `type`、语义槽、中文命名、幽灵链接等  
 - 运行手册：`AGENTS.md`  
 - Prompt：`schemes/default/prompts/`  

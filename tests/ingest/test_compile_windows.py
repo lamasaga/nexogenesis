@@ -1,9 +1,15 @@
 """阅读窗：标题切分与 PDF TOC 选窗。"""
 
-from nexogenesis.ingest.chunker import split_text_by_headings, build_compile_units
-from nexogenesis.ingest.pdf_extractor import select_toc_window_entries
-from nexogenesis.ingest.batch_runner import build_batches, max_units_for_genre
 from pathlib import Path
+
+from nexogenesis.ingest.batch_runner import build_batches, max_units_for_genre
+from nexogenesis.ingest.chunker import build_compile_units, split_text_by_headings
+from nexogenesis.ingest.pdf_extractor import (
+    filter_content_toc_windows,
+    is_front_matter_title,
+    select_toc_window_entries,
+    toc_is_front_matter_only,
+)
 
 
 def test_select_toc_skips_parent_with_children():
@@ -33,6 +39,43 @@ def test_select_toc_keeps_chapter_without_children():
     assert titles == ["第一章", "第二章"]
 
 
+def test_front_matter_titles_detected():
+    assert is_front_matter_title("Book Cover")
+    assert is_front_matter_title("Title")
+    assert is_front_matter_title("Copyright")
+    assert is_front_matter_title("Contents")
+    assert is_front_matter_title("目录")
+    assert not is_front_matter_title("第一章 导论")
+    assert not is_front_matter_title("1.2 Monetary Policy")
+
+
+def test_toc_front_matter_only_like_user_pdf():
+    toc = [
+        [1, "Book Cover", 1],
+        [1, "Title", 2],
+        [1, "Copyright", 3],
+        [1, "Contents", 4],
+    ]
+    assert toc_is_front_matter_only(toc, page_count=342)
+    wins = filter_content_toc_windows(select_toc_window_entries(toc))
+    assert wins == []
+
+
+def test_toc_real_chapters_not_front_only():
+    toc = [
+        [1, "Book Cover", 1],
+        [1, "Contents", 3],
+        [1, "Chapter 1 Introduction", 12],
+        [1, "Chapter 2 Analysis", 40],
+    ]
+    assert not toc_is_front_matter_only(toc, page_count=200)
+    wins = filter_content_toc_windows(select_toc_window_entries(toc))
+    titles = [t for _, _, t, _ in wins]
+    assert "Book Cover" not in titles
+    assert "Contents" not in titles
+    assert "Chapter 1 Introduction" in titles
+
+
 def test_split_text_by_headings_prefers_h2():
     text = """# 大书
 
@@ -51,8 +94,6 @@ def test_split_text_by_headings_prefers_h2():
     wins = split_text_by_headings(text, max_chars=50000)
     titles = [w["title"] for w in wins]
     assert "第一节 甲" in titles
-    assert "第二节 乙" not in titles or "2.1 子节" in titles
-    # 第二节有子节时应跳过「第二节 乙」，只留 2.1
     assert "2.1 子节" in titles
 
 

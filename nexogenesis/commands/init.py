@@ -42,6 +42,20 @@ def init_cmd(root: str):
         if src.exists() and not dst.exists():
             shutil.copy(src, dst)
 
+    # 卡片写法正例（与 body-structure 配套）
+    exemplars_src = scheme_src / "card-exemplars"
+    exemplars_dst = root_path / "01-Cards" / "_meta" / "card-exemplars"
+    if exemplars_src.is_dir():
+        exemplars_dst.mkdir(parents=True, exist_ok=True)
+        for src_file in exemplars_src.iterdir():
+            if src_file.is_file():
+                dst_file = exemplars_dst / src_file.name
+                if not dst_file.exists():
+                    shutil.copy(src_file, dst_file)
+        scheme_ex_dst = scheme_dst / "card-exemplars"
+        if not scheme_ex_dst.exists():
+            shutil.copytree(exemplars_src, scheme_ex_dst)
+
     git_dir = root_path / ".git"
     if git_dir.exists():
         hook_src = root_path / "hooks" / "pre-commit"

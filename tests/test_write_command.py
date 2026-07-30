@@ -141,3 +141,37 @@ def test_write_rejects_system_mature_without_promotion_flag(tmp_path: Path):
     result = runner.invoke(write_cmd, ["--batch", str(batch), "--root", str(tmp_path)])
     assert result.exit_code != 0
     assert not (tmp_path / "01-Cards" / "teaching.md").exists()
+
+
+def test_write_profile_field_appends_section_and_version(tmp_path: Path):
+    runner = CliRunner()
+    runner.invoke(init_cmd, ["--root", str(tmp_path)])
+    # 确保领域理念.md 存在（模板可能在 init 后未生成）
+    ideals_path = tmp_path / "02-Profile" / "领域理念.md"
+    ideals_path.parent.mkdir(parents=True, exist_ok=True)
+    ideals_path.write_text(
+        "---\nid: \"field-ideals\"\ntitle: \"领域理念\"\n---\n\n"
+        "## 核心立场\n\n## 版本记录\n",
+        encoding="utf-8",
+    )
+
+    batch = tmp_path / "profile.yaml"
+    batch.write_text(yaml.safe_dump({
+        "operation": {"id": "op-profile", "source": "消化", "approved_by": "user"},
+        "writes": [
+            {
+                "target": "profile_field",
+                "file": "领域理念.md",
+                "section": "核心立场",
+                "content": "市场化转型国家的制度摩擦常被低估",
+                "sources": ["《某书》第4章"],
+            },
+        ],
+    }, allow_unicode=True), encoding="utf-8")
+    result = runner.invoke(write_cmd, ["--batch", str(batch), "--root", str(tmp_path)])
+    assert result.exit_code == 0, result.output
+
+    text = ideals_path.read_text(encoding="utf-8")
+    assert "市场化转型国家的制度摩擦常被低估" in text
+    assert "《某书》第4章" in text
+    assert "追加「核心立场」" in text

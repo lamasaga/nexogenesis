@@ -17,6 +17,83 @@ from nexogenesis.yaml_utils import atomic_write_file, merge_frontmatter, split_f
 WIKILINK_RE = re.compile(r"\[\[([^\]|#/]+)")
 
 
+# 允许写入的 Profile 文件白名单（相对于 02-Profile/）
+_ALLOWED_PROFILE_FILES = {"领域理念.md", "领域思维模型.md", "问题清单.md"}
+
+
+def _validate_profile_field_file(file_name: str) -> None:
+    if not file_name:
+        raise ValueError("profile_field 缺少 file 字段")
+    if ".." in file_name or "/" in file_name or "\\" in file_name:
+        raise ValueError(f"非法 Profile 文件名：{file_name}")
+    if file_name not in _ALLOWED_PROFILE_FILES:
+        raise ValueError(f"不允许写入的 Profile 文件：{file_name}")
+
+
+def _append_version_record(content: str, section: str, sources: list[str]) -> str:
+    from datetime import date
+
+    today = date.today().isoformat()
+    source_str = " / ".join(sources) if sources else ""
+    entry = f"- {today}: 追加「{section}」"
+    if source_str:
+        entry += f"（来源：{source_str}）"
+
+    lines = content.splitlines()
+    record_idx = None
+    for i, line in enumerate(lines):
+        if line.strip() == "## 版本记录":
+            record_idx = i
+            break
+
+    if record_idx is None:
+        return content + "\n\n## 版本记录\n\n" + entry + "\n"
+
+    insert_idx = len(lines)
+    for i in range(record_idx + 1, len(lines)):
+        if lines[i].strip().startswith("## "):
+            insert_idx = i
+            break
+
+    new_lines = lines[:insert_idx] + [entry, ""] + lines[insert_idx:]
+    return "\n".join(new_lines)
+
+
+def _append_profile_field_content(existing: str | None, item: dict) -> str:
+    file_name = item["file"]
+    section = item["section"]
+    content = item["content"]
+    sources = item.get("sources", [])
+
+    _validate_profile_field_file(file_name)
+
+    if existing is None:
+        existing = f"# {file_name.replace('.md', '')}\n\n## {section}\n\n## 版本记录\n"
+
+    lines = existing.splitlines()
+    section_line = f"## {section}"
+    section_idx = None
+    for i, line in enumerate(lines):
+        if line.strip() == section_line:
+            section_idx = i
+            break
+
+    if section_idx is None:
+        raise ValueError(f"Profile 文件 {file_name} 中不存在 section：{section}")
+
+    insert_idx = len(lines)
+    for i in range(section_idx + 1, len(lines)):
+        if lines[i].strip().startswith("## "):
+            insert_idx = i
+            break
+
+    source_str = " / ".join(sources) if sources else "未标注来源"
+    entry = f"- {content}（来源：{source_str}）"
+
+    new_lines = lines[:insert_idx] + ["", entry] + lines[insert_idx:]
+    return _append_version_record("\n".join(new_lines), section, sources)
+
+
 def _append_profile_question_content(existing: str | None, item: dict) -> str:
     if existing:
         lines = existing.splitlines()
@@ -85,6 +162,7 @@ def write_cmd(batch: str, root: str):
 
     card_writes = [w for w in batch_op.writes if w.get("target", "card") == "card"]
     profile_writes = [w for w in batch_op.writes if w.get("target") == "profile_question"]
+    profile_field_writes = [w for w in batch_op.writes if w.get("target") == "profile_field"]
 
     pre_errors = _check_write_permissions(batch_op)
     if pre_errors:
@@ -132,6 +210,24 @@ def write_cmd(batch: str, root: str):
         staging_profile.mkdir(parents=True, exist_ok=True)
         atomic_write_file(staging_profile / "问题清单.md", staged_profile)
 
+    # 准备 profile_field 更新
+    staged_profile_fields: dict[str, str] = {}
+    if profile_field_writes:
+        profile_dir = root_path / "02-Profile"
+        profile_dir.mkdir(parents=True, exist_ok=True)
+        staging_profile = staging / "02-Profile"
+        staging_profile.mkdir(parents=True, exist_ok=True)
+        for pfw in profile_field_writes:
+            file_name = pfw["file"]
+            _validate_profile_field_file(file_name)
+            file_path = profile_dir / file_name
+            existing = file_path.read_text(encoding="utf-8") if file_path.exists() else None
+            staged_profile_fields[file_name] = _append_profile_field_content(
+                staged_profile_fields.get(file_name, existing), pfw
+            )
+        for file_name, content in staged_profile_fields.items():
+            atomic_write_file(staging_profile / file_name, content)
+
     # 用 staging 作为卡片目录做校验；Buffer 仍读真实 root
     try:
         errors, warnings = run_validate(root_path, cards_dir_override=staging_cards)
@@ -147,6 +243,11 @@ def write_cmd(batch: str, root: str):
         if staged_profile is not None:
             profile_path.parent.mkdir(parents=True, exist_ok=True)
             atomic_write_file(profile_path, staged_profile)
+
+        # 提交：profile_field 更新
+        for file_name, content in staged_profile_fields.items():
+            target_path = profile_path.parent / file_name
+            atomic_write_file(target_path, content)
 
         journal.append(
             root_path,
@@ -174,4 +275,7 @@ def write_cmd(batch: str, root: str):
 
     for w in warnings:
         click.echo(f"WARNING: {w}")
-    click.echo(f"Wrote {len(card_writes)} card(s), {len(profile_writes)} question(s).")
+    click.echo(
+        f"Wrote {len(card_writes)} card(s), {len(profile_writes)} question(s), "
+        f"{len(profile_field_writes)} profile field(s)."
+    )
