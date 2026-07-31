@@ -1,43 +1,44 @@
 ---
 name: nexo-judge
-description: >-
-  Nexogenesis thinking-body judgment under risk: retrieve --mode judge, 2–4
-  relevant lenses, strongest counterexample, locate don't verdict truth. Use for
-  重要决策, 明显争议, 跨域因果, /judge, or when the user asks for deep judgment.
+description: |
+  Nexogenesis 深判：对复杂问题、冲突或决策进行多透镜分析，定位而非裁决。
+  当用户说「深判」「/judge」「怎么判断」「评估一下」或要求多视角分析时触发。
+compatibility: Nexogenesis 项目，已初始化 .agent/reference/ 与 02-Profile/
 ---
 
-# nexo-judge（思维体 · 判断）
+# Grounding（按顺序必读）
 
-## 触发条件
+1. `.agent/reference/constraint-layers.md` — 约束分层与权限。
+2. `.agent/reference/retrieval-design.md` — 双轨检索，尤其 judge 模式。
+3. `.agent/reference/thinking-body.md` — 思维体注意力与会话纪律。
+4. `02-Profile/领域理念.md` — 价值取向与反模式。
+5. `02-Profile/领域思维模型.md` — 决策启发式与透镜。
 
-- 重要决策、明显争议、跨域因果；
-- 用户明确要求深入判断。
+# Workflows
 
-## 步骤
+1. 明确判断对象与用户关心的维度。
+2. 执行检索：
+   ```bash
+   python -m nexogenesis retrieve --query "<判断对象>" --mode judge --root .
+   ```
+3. 选择 2–4 个透镜（如：证据强度、适用边界、学派立场、反事实、长期后果）。
+4. 对每个透镜：
+   - 说明该透镜关注什么；
+   - 从 Context Package 中提取相关卡片/质料；
+   - 给出定位：哪些证据支持、哪些削弱、哪些仍不确定。
+5. 综合：不替用户裁决，而是给出「若接受 A，则需承担 X；若接受 B，则需解释 Y」的结构性结论。
+6. 若涌现值得追踪的问题，追加到 `02-Profile/问题清单.md`（经用户确认后通过 write --batch）。
 
-1. `python -m nexogenesis retrieve --query "…" --mode judge --root .`
-   - 可加 `--seed <card_id>` 聚焦。
-2. 读取 Context Package 与 `02-Profile/领域理念.md`、`02-Profile/领域思维模型.md`。
-3. 从相关角度中选 **2–4** 个真正有用的透镜
-   - 如：组成/机制/证据/演变/反例/行动等；
-   - **不强制六透镜全做**，无助于问题的跳过。
-4. 回答结构：
-   - 直接判断 →
-   - 依据（标归因）→
-   - 最强反例/限制 →
-   - 可选行动代价。
-5. 分析默认留对话；仅当有长期复用价值时建议 `04-OutBox/discussions/`。
-6. 若凝结出可维护主张 → 建议转 `nexo-emerge`（仍须用户确认）。
+# Invariants
 
-## 纪律
+- 深判是「定位」不是「裁决」；最终判断权留给用户。
+- 必须显式区分事实、推断与价值判断。
+- 使用 `conflict` 卡和 `relations` 显化对立，而非模糊调和。
+- 所有引用必须可追溯到 Card id 或 Buffer 路径。
 
-- 区分事实 / 因果 / 价值；事实错误不能包装成「另一视角」。
-- 不模仿用户口吻冒充其信念。
-- system 升格 theory active 须用户批。
-- 定位非裁决：解释什么、何处失效、生成什么，不宣布绝对真假。
+# Anti-patterns
 
-## 必读文档
-
-- `AGENTS.md` §4.1、§4.4
-- `02-Profile/领域理念.md`
-- `02-Profile/领域思维模型.md`
+- 用平均化结论回避张力。
+- 不读 Context 就给出判断。
+- 把推断包装成事实。
+- 自动把判断结论写成 `claim` 卡。
