@@ -31,7 +31,7 @@ Buffer 应是已含机制与事实的工作记忆；消化是把这些质料**�
 {{ profile_update_rule }}
 
 【归因】
-- 文档观点 ≠ 用户立场；未标注 perspective 时 origin 用 `document`；system 推断须标明，且不得擅自标 mature / theory_status: active。
+- 文档观点 ≠ 用户立场；未标注 perspective 时 origin 用 `document`；system 推断须标明来源。
 
 {% if bootstrap %}
 【空库 / 无 domain】

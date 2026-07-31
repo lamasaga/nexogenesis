@@ -3,6 +3,7 @@
 from nexogenesis.ingest.prompts import (
     _load_template,
     card_cheatsheet,
+    format_rules,
     profile_update_rule,
     quality_contract,
     write_discipline,
@@ -16,7 +17,7 @@ def test_compile_prompts_contain_extraction_dimensions():
     """每个 compile prompt 都应要求原文摘录/锚点，并给出体裁特定的提取维度。"""
     for genre in GENRES:
         template = _load_template(f"compile-{genre}")
-        text = template.render(units=[], format_rules="", deep=False)
+        text = template.render(units=[], format_rules=format_rules(), deep=False)
         assert "quote" in text or "摘录" in text, f"{genre} prompt 缺少 quote/摘录 要求"
         assert (
             "机制" in text
@@ -30,7 +31,7 @@ def test_compile_prompts_forbid_empty_slices():
     """compile prompt 应禁止空心摘要或硬凑碎片。"""
     for genre in GENRES:
         template = _load_template(f"compile-{genre}")
-        text = template.render(units=[], format_rules="", deep=False)
+        text = template.render(units=[], format_rules=format_rules(), deep=False)
         assert (
             "空摘要" in text
             or "硬造" in text
