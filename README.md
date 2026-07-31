@@ -1,8 +1,8 @@
 # Nexogenesis
 
-**当前版本：`v0.16`**（git tag；约束分层与 Agent 架构重构锚点）
+**当前版本：`v1.6`**（git tag；约束分层与 Agent 架构重构锚点）
 
-　　查阅历史版本：`git tag -l "v0.*"`。近期锚点：`v0.14` 流水线重定向，`v0.15` 阅读窗，`v0.16` 起 AGENTS.md 瘦身 + `.agent/reference/` 活契约 + PI agent 风格 skills。
+　　查阅历史版本：`git tag -l`。近期锚点：`v1.4` 流水线重定向，`v1.5` 阅读窗，`v1.6` 起 AGENTS.md 瘦身 + `.agent/reference/` 活契约 + PI agent 风格 skills。
 
 面向社科领域的知识架构体系：用大模型把领域思想**结构化**为可支撑推理、分析与判断的知识体，同时沉淀可被思维体复用的领域级思考特质。
 
