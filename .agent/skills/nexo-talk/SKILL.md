@@ -17,6 +17,8 @@ compatibility: Nexogenesis 项目，已初始化 .agent/reference/ 与 02-Profil
 
 # Workflows
 
+> 完整 CLI 参数见 [`.agent/reference/harness-cli.md`](.agent/reference/harness-cli.md)；以下只列出本 skill 的典型调用顺序。
+
 1. 若无活跃 memory session：
    ```bash
    python -m nexogenesis memory start --title "<当前主题>" --root .

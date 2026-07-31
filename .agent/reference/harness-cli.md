@@ -8,6 +8,8 @@ updated: "2026-07-30"
 
 　　本文档是 `AGENTS.md` 的操作参考层，记录所有 `python -m nexogenesis` 命令。修订须经用户确认。
 
+> 各 `.agent/skills/*/SKILL.md` 的 Workflows 只列出与本 skill 相关的典型调用顺序；完整参数、默认值与注意事项均以本文档为准。
+
 ## 底座维护
 
 | 命令 | 常用选项 | 作用 |

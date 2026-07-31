@@ -18,6 +18,8 @@ compatibility: Nexogenesis 项目，已初始化 .agent/reference/card-contracts
 
 # Workflows
 
+> 完整 CLI 参数见 [`.agent/reference/harness-cli.md`](.agent/reference/harness-cli.md)；以下只列出本 skill 的典型调用顺序。
+
 1. 判断来源：
    - 来自用户对话 → `origin: user`；
    - 来自文档/Buffer → `origin: document` 或 `external`；
