@@ -1,0 +1,7 @@
+【写入与权限纪律】
+
+1. 任何实质写入必须通过 `python -m nexogenesis write --batch <file>`；禁止直接修改 `01-Cards/` 或 `02-Profile/` 下的文件。
+2. batch YAML 的 `operation.approved_by` 须正确填写：用户显式确认 → `user`；用户授权 `--auto` 或说「开始消化/建构」→ `agent`。
+3. 禁止物理删除卡片。合并/替代时：主卡 enrich，被合并卡 `lifecycle: superseded` 并写 `superseded_by` 指向主卡 id。
+4. `origin: system` 的产出未经用户批准不得标 `mature` 或 `theory_status: active`。
+5. 新建/修改 Card 必须满足该类型必需语义槽；无幽灵链接；id 使用中文关键词短语。

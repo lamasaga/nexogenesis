@@ -4,6 +4,8 @@
 
 **建构目标**：在已有卡片网上发现、合并、调整、升枢纽与张力——不是消化新文、也不是堆 applies-to。
 
+{{ quality_contract }}
+
 【镜头检查清单】
 对每个镜头，按以下信号扫描全库，列出具体候选动作：
 
@@ -40,6 +42,8 @@
 3. distinguish：conflict 缺 involves；文档主张 vs 事后事实张力 → 点名双方。
 4. articulate：时间线/政策工具箱/变量等应升格为 **entity 或 model 枢纽**；图表 phenomenon 并入依据。
 5. 少建卡、多合并与补语义边；事实序列默认外查。
+
+{{ profile_update_rule }}
 
 卡片目录：
 {% for c in catalog %}

@@ -15,6 +15,7 @@ compatibility: Nexogenesis 项目，已初始化 .agent/reference/card-contracts
 4. `.agent/reference/card-contracts/card-exemplars/` — 写法正例。
 5. `.agent/reference/write-transaction.md` — `write --batch` 事务规则。
 6. `schemes/default/prompts/digest.txt` — 当候选来自 Buffer 时参考消化语义。
+7. `schemes/default/prompts/shared/*.txt` — 写卡时必须遵守的共享约束（结构速查、质量纪律、写入纪律、Profile 更新规则）。
 
 # Workflows
 

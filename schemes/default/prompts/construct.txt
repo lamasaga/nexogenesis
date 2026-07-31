@@ -4,6 +4,10 @@
 原则上不新建 Card：digest 阶段已经建立的对象，由 construct 负责把它们组织成更干净的结构。若通盘考虑后确实缺少某个枢纽（高频术语无 entity/model、关系团未抽成 model），才允许新建，且须在 operation 说明中写清为何 digest 阶段未建。
 若仍有 digested Buffer，用其中质料补全空心卡或升格枢纽——做结构工作，不是形式化补边交差，也不是第二轮「切材料消化」。
 
+{{ quality_contract }}
+
+{{ card_cheatsheet }}
+
 【本镜头优先序】
 按以下顺序执行，不要颠倒：
 
@@ -16,7 +20,6 @@
 7. **补语义边**：在确有思想关联的卡之间补 extends/supports/based-on/conflicts-with 等；避免为补边而补边。
 8. seed-links（空边挂 domain）用 `construct --apply-seed-links`；本镜头勿把 applies-to 当完成态。
 9. 事实序列默认外查，不进库膨胀；system 升 mature / theory active 须用户批。
-10. 单卡可读：写法见 `body-structure.md` 与 `card-exemplars/`；空心 claim 应并入枢纽或 superseded，勿增殖碎片。
 
 【镜头职责】
 - **cluster**：假 domain、空壳领域、孤儿、domains 漂移、可合并的近义卡 → 归属调整 / superseded 合并。
@@ -24,21 +27,10 @@
 - **articulate**：关系团抽 model/method、entity 枢纽、表图并入依据、语义边不足 → 补 based-on/supports/involves；少建碎 claim。
 - **cross_source**：多源互补或对立 → 跨源 relations / conflict / 问题清单。
 
-【领域 Profile 更新】
-若本镜头涌现出新的领域级理念、价值取向、反模式或思维模型，使用 `target: profile_field` 追加到 `02-Profile/领域理念.md` 或 `02-Profile/领域思维范式.md`，并标注来源。
+{{ profile_update_rule }}
 
-【质量标准】
-- 合并/升格后的主卡须「可学习、可参考」：机制可读，不是标题回声。
-- domain 须有领域肖像感（诠释 + 核心问题/肖像），不能只剩枢纽目录。
-- model 组件写职责；conflict 勿开分歧清单瀑布。
-- 变更须可回溯：superseded 卡保留指向；operation 说明写清发现了什么、合并/升格了什么。
-
-【反模式】
-- 为补边而补边（无语义的 applies-to 堆砌）；
-- 把建构当二次 digest；
-- 读完全库 Buffer 重建目录（本系统扁平卡 + 分波，禁止）；
-- 擅自改 Profile / AGENTS；
-- 物理删除卡片。
+【变更可回溯】
+合并/升格后的主卡须「可学习、可参考」：机制可读，不是标题回声。superseded 卡保留指向；operation 说明写清发现了什么、合并/升格了什么、张力如何处理。
 
 本镜头确定性信号：
 {% for s in signals %}
@@ -73,6 +65,8 @@ domains={{ c.domains }}
 - {{ q }}
 {% endfor %}
 
+{{ write_discipline }}
+
 请输出标准 write --batch YAML，包含本镜头所需的：
 - 合并（superseded_by）/ 调整 domain / 升枢纽 model·entity / 补 conflict·involves；
 - 补全语义 relations；maturity 晋升候选（growing）；
@@ -80,6 +74,4 @@ domains={{ c.domains }}
 - 如需更新领域 Profile，使用 target: profile_field。
 operation.approved_by 留 "user"。
 若消费了 digested Buffer，在 operation.consumed_buffers 列出路径。
-先在 YAML 注释或 operation 说明中写清：发现了什么、合并/升格了什么、张力如何处理。
 id 使用中文。禁止删除卡片，只用 lifecycle superseded/archived。
-Card 正文若新建/大改，遵循类型开篇纪律（见 body-structure / exemplars）。

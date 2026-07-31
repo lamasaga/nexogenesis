@@ -56,6 +56,34 @@ source: "paper.pdf / §3.2"
 """
 
 
+def _load_shared_fragment(name: str) -> str:
+    """加载 schemes/default/prompts/shared/ 下的共享片段。"""
+    path = DEFAULT_PROMPTS_DIR / "shared" / f"{name}.txt"
+    if path.exists():
+        return path.read_text(encoding="utf-8")
+    raise FileNotFoundError(f"Shared prompt fragment not found: {name}")
+
+
+def card_cheatsheet() -> str:
+    """七型卡片结构速查，注入 digest/construct/emerge prompt。"""
+    return _load_shared_fragment("card-cheatsheet")
+
+
+def quality_contract() -> str:
+    """质料密度与反模式共享约束。"""
+    return _load_shared_fragment("quality-contract")
+
+
+def write_discipline() -> str:
+    """写入与权限纪律共享约束。"""
+    return _load_shared_fragment("write-discipline")
+
+
+def profile_update_rule() -> str:
+    """领域 Profile 更新规则。"""
+    return _load_shared_fragment("profile-update-rule")
+
+
 def render_compile_prompt(units: list[dict], genre: str | None = None, deep: bool = False) -> str:
     name = f"compile-{genre or 'generic'}"
     try:
@@ -111,6 +139,10 @@ def render_digest_prompt(
         deferred_count=deferred_count,
         index_excerpts=index_excerpts,
         material_excerpts=material_excerpts,
+        card_cheatsheet=card_cheatsheet(),
+        quality_contract=quality_contract(),
+        write_discipline=write_discipline(),
+        profile_update_rule=profile_update_rule(),
     )
 
 
@@ -133,4 +165,8 @@ def render_construct_prompt(
         questions=questions or [],
         lens=lens,
         signals=signals or [],
+        card_cheatsheet=card_cheatsheet(),
+        quality_contract=quality_contract(),
+        write_discipline=write_discipline(),
+        profile_update_rule=profile_update_rule(),
     )

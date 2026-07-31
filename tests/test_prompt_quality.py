@@ -1,6 +1,12 @@
 """Prompt 质量覆盖测试：确保 prompts 包含足够的操作化引导。"""
 
-from nexogenesis.ingest.prompts import _load_template
+from nexogenesis.ingest.prompts import (
+    _load_template,
+    card_cheatsheet,
+    profile_update_rule,
+    quality_contract,
+    write_discipline,
+)
 
 
 GENRES = ["book", "paper", "essay", "dialogue", "scrap", "generic"]
@@ -37,7 +43,13 @@ def test_compile_prompts_forbid_empty_slices():
 def test_digest_prompt_contains_decision_tree():
     """digest prompt 应包含明确的决策树信号。"""
     template = _load_template("digest")
-    text = template.render(buffers=[], catalog=[], deep_cards=[])
+    text = template.render(
+        buffers=[], catalog=[], deep_cards=[],
+        quality_contract=quality_contract(),
+        card_cheatsheet=card_cheatsheet(),
+        write_discipline=write_discipline(),
+        profile_update_rule=profile_update_rule(),
+    )
     assert "是否已有" in text, "digest prompt 缺少「是否已有同主题 Card」判断"
     assert "新建" in text, "digest prompt 缺少「新建 Card」动作"
     assert "enrich" in text, "digest prompt 缺少「enrich」动作"
@@ -47,7 +59,13 @@ def test_digest_prompt_contains_decision_tree():
 def test_digest_prompt_mentions_profile_update():
     """digest prompt 应提示更新领域 Profile。"""
     template = _load_template("digest")
-    text = template.render(buffers=[], catalog=[], deep_cards=[])
+    text = template.render(
+        buffers=[], catalog=[], deep_cards=[],
+        quality_contract=quality_contract(),
+        card_cheatsheet=card_cheatsheet(),
+        write_discipline=write_discipline(),
+        profile_update_rule=profile_update_rule(),
+    )
     assert "profile_field" in text, "digest prompt 缺少 profile_field 更新入口"
     assert "领域理念" in text, "digest prompt 未提及领域理念"
     assert "领域思维范式" in text, "digest prompt 未提及领域思维范式"
@@ -56,7 +74,13 @@ def test_digest_prompt_mentions_profile_update():
 def test_construct_prompt_contains_lens_checklist():
     """construct prompt 应包含四个镜头职责。"""
     template = _load_template("construct")
-    text = template.render(catalog=[], deep_cards=[], signals=[], lens="cluster")
+    text = template.render(
+        catalog=[], deep_cards=[], signals=[], lens="cluster",
+        quality_contract=quality_contract(),
+        card_cheatsheet=card_cheatsheet(),
+        write_discipline=write_discipline(),
+        profile_update_rule=profile_update_rule(),
+    )
     assert "cluster" in text, "construct prompt 缺少 cluster 镜头"
     assert "distinguish" in text, "construct prompt 缺少 distinguish 镜头"
     assert "articulate" in text, "construct prompt 缺少 articulate 镜头"
@@ -66,7 +90,13 @@ def test_construct_prompt_contains_lens_checklist():
 def test_construct_prompt_forbids_bulk_creation():
     """construct prompt 应强调原则上不新建 Card。"""
     template = _load_template("construct")
-    text = template.render(catalog=[], deep_cards=[], signals=[], lens="cluster")
+    text = template.render(
+        catalog=[], deep_cards=[], signals=[], lens="cluster",
+        quality_contract=quality_contract(),
+        card_cheatsheet=card_cheatsheet(),
+        write_discipline=write_discipline(),
+        profile_update_rule=profile_update_rule(),
+    )
     assert "不新建" in text, "construct prompt 未禁止大量新建 Card"
     assert "digest 阶段" in text, "construct prompt 未区分与 digest 的边界"
 
@@ -74,7 +104,11 @@ def test_construct_prompt_forbids_bulk_creation():
 def test_construct_diagnose_has_checklist_signals():
     """construct-diagnose prompt 应给每个镜头具体检查信号。"""
     template = _load_template("construct-diagnose")
-    text = template.render(catalog=[], buffers=[], signals=[], questions=[])
+    text = template.render(
+        catalog=[], buffers=[], signals=[], questions=[],
+        quality_contract=quality_contract(),
+        profile_update_rule=profile_update_rule(),
+    )
     assert "orphan" in text or "空壳 domain" in text, "cluster 镜头缺少具体信号"
     assert "conflict 缺 involves" in text or "互相否定" in text, "distinguish 镜头缺少具体信号"
     assert "高频术语" in text or "关系团" in text, "articulate 镜头缺少具体信号"
