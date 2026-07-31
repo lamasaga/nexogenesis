@@ -12,7 +12,7 @@ compatibility: Nexogenesis 项目，已初始化 .agent/reference/ 与 02-Profil
 2. `.agent/reference/retrieval-design.md` — 双轨检索，尤其 judge 模式。
 3. `.agent/reference/thinking-body.md` — 思维体注意力与会话纪律。
 4. `02-Profile/领域理念.md` — 价值取向与反模式。
-5. `02-Profile/领域思维模型.md` — 决策启发式与透镜。
+5. `02-Profile/领域思维范式.md` — 决策启发式与透镜。
 
 # Workflows
 

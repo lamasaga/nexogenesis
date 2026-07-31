@@ -18,7 +18,7 @@ WIKILINK_RE = re.compile(r"\[\[([^\]|#/]+)")
 
 
 # 允许写入的 Profile 文件白名单（相对于 02-Profile/）
-_ALLOWED_PROFILE_FILES = {"领域理念.md", "领域思维模型.md", "问题清单.md"}
+_ALLOWED_PROFILE_FILES = {"领域理念.md", "领域思维范式.md", "问题清单.md"}
 
 
 def _validate_profile_field_file(file_name: str) -> None:

@@ -25,7 +25,7 @@
 - **cross_source**：多源互补或对立 → 跨源 relations / conflict / 问题清单。
 
 【领域 Profile 更新】
-若本镜头涌现出新的领域级理念、价值取向、反模式或思维模型，使用 `target: profile_field` 追加到 `02-Profile/领域理念.md` 或 `02-Profile/领域思维模型.md`，并标注来源。
+若本镜头涌现出新的领域级理念、价值取向、反模式或思维模型，使用 `target: profile_field` 追加到 `02-Profile/领域理念.md` 或 `02-Profile/领域思维范式.md`，并标注来源。
 
 【质量标准】
 - 合并/升格后的主卡须「可学习、可参考」：机制可读，不是标题回声。

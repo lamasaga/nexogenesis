@@ -50,7 +50,7 @@ def test_digest_prompt_mentions_profile_update():
     text = template.render(buffers=[], catalog=[], deep_cards=[])
     assert "profile_field" in text, "digest prompt 缺少 profile_field 更新入口"
     assert "领域理念" in text, "digest prompt 未提及领域理念"
-    assert "领域思维模型" in text, "digest prompt 未提及领域思维模型"
+    assert "领域思维范式" in text, "digest prompt 未提及领域思维范式"
 
 
 def test_construct_prompt_contains_lens_checklist():
