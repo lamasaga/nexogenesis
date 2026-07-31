@@ -11,8 +11,8 @@ name: "默认沉淀方案"
 - Card：7 种 `type`
 - Buffer：按 `role` 整理质料
 - 关系：8 种
-- 正文契约：`01-Cards/_meta/body-structure.md`
-- 写法正例：`01-Cards/_meta/card-exemplars/`（源：`schemes/default/card-exemplars/`）
+- 正文契约：`.agent/reference/card-contracts/body-structure.md`
+- 写法正例：`.agent/reference/card-contracts/card-exemplars/`（源：`schemes/default/card-exemplars/`）
 
 ## 文档摄入流水线
 

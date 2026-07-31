@@ -44,7 +44,7 @@ def init_cmd(root: str):
 
     # 卡片写法正例（与 body-structure 配套）
     exemplars_src = scheme_src / "card-exemplars"
-    exemplars_dst = root_path / "01-Cards" / "_meta" / "card-exemplars"
+    exemplars_dst = root_path / ".agent" / "reference" / "card-contracts" / "card-exemplars"
     if exemplars_src.is_dir():
         exemplars_dst.mkdir(parents=True, exist_ok=True)
         for src_file in exemplars_src.iterdir():
@@ -65,13 +65,16 @@ def init_cmd(root: str):
             hook_dst.chmod(0o755)
             click.echo("Installed git pre-commit hook.")
 
-    ontology = root_path / "01-Cards" / "_meta" / "ontology.md"
+    contracts_dir = root_path / ".agent" / "reference" / "card-contracts"
+    contracts_dir.mkdir(parents=True, exist_ok=True)
+
+    ontology = contracts_dir / "ontology.md"
     if not ontology.exists():
         template = scheme_dst / "ontology-template.md"
         if template.exists():
             shutil.copy(template, ontology)
 
-    body_structure = root_path / "01-Cards" / "_meta" / "body-structure.md"
+    body_structure = contracts_dir / "body-structure.md"
     if not body_structure.exists():
         # 优先 scheme 模板，其次包内 schemes/default
         for candidate in (

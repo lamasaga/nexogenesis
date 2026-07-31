@@ -5,8 +5,8 @@ updated: "2026-07-30"
 
 # 正文结构契约（body-structure）
 
-　　compile / digest / validate 共同引用的活契约。修改须经用户确认。机制说明见 `docs/2026-07-26-buffer-card-structure-draft.md`。  
-　　写法正例：`01-Cards/_meta/card-exemplars/`（方案源：`schemes/default/card-exemplars/`）。
+　　compile / digest / validate 共同引用的活契约。修改须经用户确认。  
+　　写法正例：`.agent/reference/card-contracts/card-exemplars/`（方案源：`schemes/default/card-exemplars/`）。
 
 ## 1. 两层分工
 
@@ -84,7 +84,7 @@ updated: "2026-07-30"
 | type | 开篇 | 必需语义槽（推荐标题） | 推荐补槽 |
 |---|---|---|---|
 | domain | 诠释 | 核心问题, 边界, 内在张力, 原文摘录 | 领域肖像 |
-| claim | 一句话主张 | 一句话主张, 依据, 已知限制, 原文摘录 | — |
+| claim | 一句话主张 | 一句话主张, 依据, 已知限制, 原文摘录 | 立场/学派来源, 适用条件 |
 | phenomenon | 诠释 | 模式描述, 典型实例, 反例与失效条件, 原文摘录 | — |
 | model | 核心思想 | 核心思想, 关键组件, 结构关系\|因果链条, 失效边界, 原文摘录 | — |
 | method | 输入 | 输入, 步骤, 输出, 适用边界, 原文摘录 | — |
@@ -123,7 +123,7 @@ entity:      定义 → 关键属性 → 边界与局限 → 来源 → 原文�
 
 ### 3.5 写法正例
 
-　　见 `01-Cards/_meta/card-exemplars/README.md`。digest 模仿正例，勿模仿电报式空心卡。
+　　见 `.agent/reference/card-contracts/card-exemplars/README.md`。digest 模仿正例，勿模仿电报式空心卡。
 
 ## 4. Digest
 

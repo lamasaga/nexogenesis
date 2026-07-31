@@ -341,7 +341,7 @@ def card_substance_warnings(
         if not opening:
             warnings.append(
                 f"{card_id}: 建议补「诠释」开篇（一段人话摆正局面）；"
-                "见 01-Cards/_meta/card-exemplars/"
+                "见 .agent/reference/card-contracts/card-exemplars/"
             )
         if card_type == "domain":
             portrait = _section_text(body, ["领域肖像", "肖像"])

@@ -5,8 +5,8 @@ updated: "2026-07-30"
 
 # 正文结构契约（body-structure）
 
-　　compile / digest / validate 共同引用的活契约。修改须经用户确认。机制说明见 `docs/2026-07-26-buffer-card-structure-draft.md`。  
-　　写法正例：`01-Cards/_meta/card-exemplars/`（方案源：`schemes/default/card-exemplars/`）。
+　　compile / digest / validate 共同引用的活契约。修改须经用户确认。  
+　　写法正例：`.agent/reference/card-contracts/card-exemplars/`（方案源：`schemes/default/card-exemplars/`）。
 
 ## 1. 两层分工
 
@@ -124,7 +124,7 @@ entity:      定义 → 关键属性 → 边界与局限 → 来源 → 原文�
 
 ### 3.5 写法正例
 
-　　见 `01-Cards/_meta/card-exemplars/README.md`。digest 模仿正例，勿模仿电报式空心卡。
+　　见 `.agent/reference/card-contracts/card-exemplars/README.md`。digest 模仿正例，勿模仿电报式空心卡。
 
 ## 4. Digest
 

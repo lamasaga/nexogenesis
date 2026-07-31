@@ -1,14 +1,14 @@
 # 卡片写法正例（card-exemplars）
 
 　　本目录是 digest / Agent 的**模仿对象**，不是正式知识库卡片（勿 `write --batch` 把样例 id 当生产卡写入）。  
-　　活契约：`../body-structure.md`（项目内）或 init 后的 `01-Cards/_meta/body-structure.md`。
+　　活契约：`../body-structure.md`。
 
 ## 落点
 
 | 位置 | 用途 |
 |------|------|
 | `schemes/default/card-exemplars/` | 方案源；`init` 复制到项目 |
-| `01-Cards/_meta/card-exemplars/` | 运行时正例（与 body-structure 同级） |
+| `.agent/reference/card-contracts/card-exemplars/` | 运行时正例（与 body-structure 同级） |
 
 ## 一览
 

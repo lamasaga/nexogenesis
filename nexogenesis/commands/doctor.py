@@ -85,14 +85,14 @@ def doctor_cmd(root: str):
         if not role_dir.exists():
             issues.append(f"缺少 Buffer role 目录: 05-Buffer/{role}")
 
-    meta = root_path / "01-Cards" / "_meta"
+    contracts = root_path / ".agent" / "reference" / "card-contracts"
     for name in ("ontology.md", "body-structure.md"):
-        if not (meta / name).exists():
-            issues.append(f"缺少契约文件: 01-Cards/_meta/{name}")
-    exemplars = meta / "card-exemplars"
+        if not (contracts / name).exists():
+            issues.append(f"缺少契约文件: .agent/reference/card-contracts/{name}")
+    exemplars = contracts / "card-exemplars"
     if not exemplars.is_dir() or not any(exemplars.glob("*.md")):
         click.echo(
-            "WARNING: 缺少 01-Cards/_meta/card-exemplars/ "
+            "WARNING: 缺少 .agent/reference/card-contracts/card-exemplars/ "
             "（可从 schemes/default/card-exemplars 复制，或重新 init）"
         )
 
