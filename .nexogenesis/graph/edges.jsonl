@@ -1,12 +1,899 @@
-{"from": "先例失效即止损", "to": "希望与恐惧是投机者的内在敌人", "kind": "relation", "relation_type": "applies-to"}
-{"from": "先例失效即止损", "to": "投机心理学", "kind": "domain"}
-{"from": "希望与恐惧是投机者的内在敌人", "to": "先例失效即止损", "kind": "relation", "relation_type": "supports"}
-{"from": "希望与恐惧是投机者的内在敌人", "to": "投机心理学", "kind": "domain"}
-{"from": "投机心理学", "to": "希望与恐惧是投机者的内在敌人", "kind": "relation", "relation_type": "example-of"}
-{"from": "投机心理学", "to": "先例失效即止损", "kind": "relation", "relation_type": "example-of"}
-{"from": "投机心理学", "to": "赚大钱在于正确且恰逢其时", "kind": "relation", "relation_type": "example-of"}
-{"from": "投机心理学", "to": "等待市场信号而非主动推动", "kind": "relation", "relation_type": "example-of"}
-{"from": "等待市场信号而非主动推动", "to": "赚大钱在于正确且恰逢其时", "kind": "relation", "relation_type": "supports"}
-{"from": "等待市场信号而非主动推动", "to": "投机心理学", "kind": "domain"}
-{"from": "赚大钱在于正确且恰逢其时", "to": "等待市场信号而非主动推动", "kind": "relation", "relation_type": "supports"}
-{"from": "赚大钱在于正确且恰逢其时", "to": "投机心理学", "kind": "domain"}
+{"from": "AD-AS短期波动模型", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
+{"from": "AD-AS短期波动模型", "to": "数量方程与货币中性", "kind": "relation", "relation_type": "based-on"}
+{"from": "AD-AS短期波动模型", "to": "流动性偏好与利率效应", "kind": "relation", "relation_type": "influences"}
+{"from": "AD-AS短期波动模型", "to": "GDP支出四分法恒等式", "kind": "relation", "relation_type": "based-on"}
+{"from": "AD-AS短期波动模型", "to": "菲利普斯曲线与自然率假说", "kind": "relation", "relation_type": "influences"}
+{"from": "AD-AS短期波动模型", "to": "财政乘数与挤出效应", "kind": "relation", "relation_type": "influences"}
+{"from": "AD-AS短期波动模型", "to": "长期增长与生产率", "kind": "relation", "relation_type": "influences"}
+{"from": "AD-AS短期波动模型", "to": "短期波动与AD-AS", "kind": "domain"}
+{"from": "CPI构造与度量偏误", "to": "宏观度量与国民收入", "kind": "relation", "relation_type": "applies-to"}
+{"from": "CPI构造与度量偏误", "to": "名义与真实GDP", "kind": "relation", "relation_type": "extends"}
+{"from": "CPI构造与度量偏误", "to": "名义与实际利率", "kind": "relation", "relation_type": "influences"}
+{"from": "CPI构造与度量偏误", "to": "GDP是福利的良好但不完美度量", "kind": "relation", "relation_type": "influences"}
+{"from": "CPI构造与度量偏误", "to": "宏观度量与国民收入", "kind": "domain"}
+{"from": "EITC等补贴助贫可不扭曲价格信号", "to": "价格管制短缺与过剩", "kind": "relation", "relation_type": "based-on"}
+{"from": "EITC等补贴助贫可不扭曲价格信号", "to": "最低工资助贫与就业代价之争", "kind": "relation", "relation_type": "influences"}
+{"from": "EITC等补贴助贫可不扭曲价格信号", "to": "分配正义三传统之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "EITC等补贴助贫可不扭曲价格信号", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "EITC等补贴助贫可不扭曲价格信号", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "GDP支出四分法恒等式", "to": "宏观度量与国民收入", "kind": "relation", "relation_type": "applies-to"}
+{"from": "GDP支出四分法恒等式", "to": "GDP支出法定义与边界", "kind": "relation", "relation_type": "based-on"}
+{"from": "GDP支出四分法恒等式", "to": "名义与真实GDP", "kind": "relation", "relation_type": "influences"}
+{"from": "GDP支出四分法恒等式", "to": "开放经济流量恒等式", "kind": "relation", "relation_type": "influences"}
+{"from": "GDP支出四分法恒等式", "to": "宏观度量与国民收入", "kind": "domain"}
+{"from": "GDP支出法定义与边界", "to": "宏观度量与国民收入", "kind": "relation", "relation_type": "applies-to"}
+{"from": "GDP支出法定义与边界", "to": "国民收入五层度量", "kind": "relation", "relation_type": "influences"}
+{"from": "GDP支出法定义与边界", "to": "GDP支出四分法恒等式", "kind": "relation", "relation_type": "influences"}
+{"from": "GDP支出法定义与边界", "to": "GDP是福利的良好但不完美度量", "kind": "relation", "relation_type": "influences"}
+{"from": "GDP支出法定义与边界", "to": "宏观度量与国民收入", "kind": "domain"}
+{"from": "GDP是福利的良好但不完美度量", "to": "宏观度量与国民收入", "kind": "relation", "relation_type": "applies-to"}
+{"from": "GDP是福利的良好但不完美度量", "to": "GDP支出法定义与边界", "kind": "relation", "relation_type": "based-on"}
+{"from": "GDP是福利的良好但不完美度量", "to": "名义与真实GDP", "kind": "relation", "relation_type": "based-on"}
+{"from": "GDP是福利的良好但不完美度量", "to": "分配正义三传统之争", "kind": "relation", "relation_type": "influences"}
+{"from": "GDP是福利的良好但不完美度量", "to": "宏观度量与国民收入", "kind": "domain"}
+{"from": "OLS与自然实验识别路径", "to": "微观分析基础", "kind": "relation", "relation_type": "applies-to"}
+{"from": "OLS与自然实验识别路径", "to": "因果识别陷阱", "kind": "relation", "relation_type": "based-on"}
+{"from": "OLS与自然实验识别路径", "to": "经济数据分析四目标", "kind": "relation", "relation_type": "applies-to"}
+{"from": "OLS与自然实验识别路径", "to": "人力资本与信号论之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "OLS与自然实验识别路径", "to": "实证分析与规范判断之分", "kind": "relation", "relation_type": "applies-to"}
+{"from": "OLS与自然实验识别路径", "to": "微观分析基础", "kind": "domain"}
+{"from": "主动稳定化与时滞之争", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
+{"from": "主动稳定化与时滞之争", "to": "应主动用货币财政对冲总需求波动", "kind": "relation", "relation_type": "involves"}
+{"from": "主动稳定化与时滞之争", "to": "政策时滞使主动稳定化常适得其反", "kind": "relation", "relation_type": "involves"}
+{"from": "主动稳定化与时滞之争", "to": "财政乘数与挤出效应", "kind": "relation", "relation_type": "based-on"}
+{"from": "主动稳定化与时滞之争", "to": "流动性偏好与利率效应", "kind": "relation", "relation_type": "based-on"}
+{"from": "主动稳定化与时滞之争", "to": "美联储与货币政策工具", "kind": "relation", "relation_type": "influences"}
+{"from": "主动稳定化与时滞之争", "to": "抗衰退增支与减税之争", "kind": "relation", "relation_type": "influences"}
+{"from": "主动稳定化与时滞之争", "to": "短期波动与AD-AS", "kind": "domain"}
+{"from": "产业政策因度量与俘获而不可靠", "to": "应按外溢大小鼓励高外溢产业", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "产业政策因度量与俘获而不可靠", "to": "正外部性补贴与专利内部化", "kind": "relation", "relation_type": "based-on"}
+{"from": "产业政策因度量与俘获而不可靠", "to": "产业政策外溢普遍论与政治俘获之争", "kind": "relation", "relation_type": "supports"}
+{"from": "产业政策因度量与俘获而不可靠", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "产业政策因度量与俘获而不可靠", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "产业政策外溢普遍论与政治俘获之争", "to": "应按外溢大小鼓励高外溢产业", "kind": "relation", "relation_type": "involves"}
+{"from": "产业政策外溢普遍论与政治俘获之争", "to": "产业政策因度量与俘获而不可靠", "kind": "relation", "relation_type": "involves"}
+{"from": "产业政策外溢普遍论与政治俘获之争", "to": "正外部性补贴与专利内部化", "kind": "relation", "relation_type": "based-on"}
+{"from": "产业政策外溢普遍论与政治俘获之争", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "产业政策外溢普遍论与政治俘获之争", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "人力资本与信号论之争", "to": "教育溢价主要来自生产力提升", "kind": "relation", "relation_type": "involves"}
+{"from": "人力资本与信号论之争", "to": "教育溢价主要来自信号筛选", "kind": "relation", "relation_type": "involves"}
+{"from": "人力资本与信号论之争", "to": "因果识别陷阱", "kind": "relation", "relation_type": "based-on"}
+{"from": "人力资本与信号论之争", "to": "经济数据分析四目标", "kind": "relation", "relation_type": "based-on"}
+{"from": "人力资本与信号论之争", "to": "工资差异与歧视经济学", "kind": "relation", "relation_type": "applies-to"}
+{"from": "人力资本与信号论之争", "to": "要素与收入分配", "kind": "relation", "relation_type": "applies-to"}
+{"from": "人力资本与信号论之争", "to": "要素与收入分配", "kind": "domain"}
+{"from": "价格管制短缺与过剩", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "价格管制短缺与过剩", "to": "最低工资助贫与就业代价之争", "kind": "relation", "relation_type": "influences"}
+{"from": "价格管制短缺与过剩", "to": "竞争市场总剩余最大化", "kind": "relation", "relation_type": "based-on"}
+{"from": "价格管制短缺与过剩", "to": "EITC等补贴助贫可不扭曲价格信号", "kind": "relation", "relation_type": "influences"}
+{"from": "价格管制短缺与过剩", "to": "经济学家共识与政策现实脱节", "kind": "relation", "relation_type": "example-of"}
+{"from": "价格管制短缺与过剩", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "企业与市场结构", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "influences"}
+{"from": "供求均衡与曲线移位", "to": "微观分析基础", "kind": "relation", "relation_type": "applies-to"}
+{"from": "供求均衡与曲线移位", "to": "看不见的手与市场组织", "kind": "relation", "relation_type": "supports"}
+{"from": "供求均衡与曲线移位", "to": "机会成本边际与激励", "kind": "relation", "relation_type": "based-on"}
+{"from": "供求均衡与曲线移位", "to": "需求价格弹性与总收益判别", "kind": "relation", "relation_type": "supports"}
+{"from": "供求均衡与曲线移位", "to": "竞争市场总剩余最大化", "kind": "relation", "relation_type": "supports"}
+{"from": "供求均衡与曲线移位", "to": "价格管制短缺与过剩", "kind": "relation", "relation_type": "influences"}
+{"from": "供求均衡与曲线移位", "to": "比较优势与专业化贸易", "kind": "relation", "relation_type": "supports"}
+{"from": "供求均衡与曲线移位", "to": "经济学图形读法", "kind": "relation", "relation_type": "supports"}
+{"from": "供求均衡与曲线移位", "to": "微观分析基础", "kind": "domain"}
+{"from": "供给价格弹性与市场应用", "to": "需求价格弹性与总收益判别", "kind": "relation", "relation_type": "based-on"}
+{"from": "供给价格弹性与市场应用", "to": "税负更多落在缺乏弹性的一侧", "kind": "relation", "relation_type": "influences"}
+{"from": "供给价格弹性与市场应用", "to": "税收无谓损失机制", "kind": "relation", "relation_type": "influences"}
+{"from": "供给价格弹性与市场应用", "to": "微观分析基础", "kind": "relation", "relation_type": "applies-to"}
+{"from": "供给价格弹性与市场应用", "to": "微观分析基础", "kind": "domain"}
+{"from": "信息不对称-道德风险逆向选择信号筛选", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "信息不对称-道德风险逆向选择信号筛选", "to": "医疗保险道德风险与逆向选择", "kind": "relation", "relation_type": "extends"}
+{"from": "信息不对称-道德风险逆向选择信号筛选", "to": "企业与市场结构", "kind": "relation", "relation_type": "influences"}
+{"from": "信息不对称-道德风险逆向选择信号筛选", "to": "人力资本与信号论之争", "kind": "relation", "relation_type": "influences"}
+{"from": "信息不对称-道德风险逆向选择信号筛选", "to": "社会选择与投票悖论", "kind": "relation", "relation_type": "influences"}
+{"from": "信息不对称-道德风险逆向选择信号筛选", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "储蓄投资与金融体系", "to": "宏观度量与国民收入", "kind": "relation", "relation_type": "extends"}
+{"from": "储蓄投资与金融体系", "to": "金融市场债券股票与中介", "kind": "relation", "relation_type": "applies-to"}
+{"from": "储蓄投资与金融体系", "to": "可贷资金市场与政策冲击", "kind": "relation", "relation_type": "applies-to"}
+{"from": "储蓄投资与金融体系", "to": "现值复利与时间价值", "kind": "relation", "relation_type": "applies-to"}
+{"from": "储蓄投资与金融体系", "to": "风险厌恶与保险分散", "kind": "relation", "relation_type": "applies-to"}
+{"from": "储蓄投资与金融体系", "to": "分散化与风险收益权衡", "kind": "relation", "relation_type": "applies-to"}
+{"from": "储蓄投资与金融体系", "to": "有效市场假说与基本面估值", "kind": "relation", "relation_type": "applies-to"}
+{"from": "储蓄投资与金融体系", "to": "有效市场与市场非理性之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "储蓄投资与金融体系", "to": "储蓄激励促增长与效果公平之疑", "kind": "relation", "relation_type": "applies-to"}
+{"from": "储蓄激励促增长与效果公平之疑", "to": "鼓励储蓄税制改革可降利率提投资", "kind": "relation", "relation_type": "involves"}
+{"from": "储蓄激励促增长与效果公平之疑", "to": "储蓄激励效果有限且受益偏富人", "kind": "relation", "relation_type": "involves"}
+{"from": "储蓄激励促增长与效果公平之疑", "to": "储蓄投资与金融体系", "kind": "relation", "relation_type": "applies-to"}
+{"from": "储蓄激励促增长与效果公平之疑", "to": "可贷资金市场与政策冲击", "kind": "relation", "relation_type": "based-on"}
+{"from": "储蓄激励促增长与效果公平之疑", "to": "平衡预算与可持续赤字之争", "kind": "relation", "relation_type": "influences"}
+{"from": "储蓄激励促增长与效果公平之疑", "to": "储蓄投资与金融体系", "kind": "domain"}
+{"from": "储蓄激励效果有限且受益偏富人", "to": "鼓励储蓄税制改革可降利率提投资", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "储蓄激励效果有限且受益偏富人", "to": "储蓄投资与金融体系", "kind": "relation", "relation_type": "applies-to"}
+{"from": "储蓄激励效果有限且受益偏富人", "to": "储蓄激励促增长与效果公平之疑", "kind": "relation", "relation_type": "applies-to"}
+{"from": "储蓄激励效果有限且受益偏富人", "to": "平衡预算与可持续赤字之争", "kind": "relation", "relation_type": "influences"}
+{"from": "储蓄激励效果有限且受益偏富人", "to": "储蓄投资与金融体系", "kind": "domain"}
+{"from": "公地悲剧与产权解决", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "公地悲剧与产权解决", "to": "排他性与竞争性四类物品", "kind": "relation", "relation_type": "based-on"}
+{"from": "公地悲剧与产权解决", "to": "市场势力与外部性动摇竞争效率", "kind": "relation", "relation_type": "supports"}
+{"from": "公地悲剧与产权解决", "to": "正外部性补贴与专利内部化", "kind": "relation", "relation_type": "influences"}
+{"from": "公地悲剧与产权解决", "to": "外部性内部化-矫正税与排污许可", "kind": "relation", "relation_type": "influences"}
+{"from": "公地悲剧与产权解决", "to": "科斯定理与交易成本边界", "kind": "relation", "relation_type": "influences"}
+{"from": "公地悲剧与产权解决", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "减税可处拉弗下倾段而增收", "to": "整体减税通常减少税收收入", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "减税可处拉弗下倾段而增收", "to": "税收无谓损失机制", "kind": "relation", "relation_type": "based-on"}
+{"from": "减税可处拉弗下倾段而增收", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "减税可处拉弗下倾段而增收", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "减税是抗衰退更好财政工具", "to": "增支比减税更能抬升衰退中AD", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "减税是抗衰退更好财政工具", "to": "抗衰退增支与减税之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "减税是抗衰退更好财政工具", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
+{"from": "减税是抗衰退更好财政工具", "to": "财政乘数与挤出效应", "kind": "relation", "relation_type": "based-on"}
+{"from": "减税是抗衰退更好财政工具", "to": "应主动用货币财政对冲总需求波动", "kind": "relation", "relation_type": "supports"}
+{"from": "减税是抗衰退更好财政工具", "to": "短期波动与AD-AS", "kind": "domain"}
+{"from": "分散化与风险收益权衡", "to": "储蓄投资与金融体系", "kind": "relation", "relation_type": "applies-to"}
+{"from": "分散化与风险收益权衡", "to": "风险厌恶与保险分散", "kind": "relation", "relation_type": "extends"}
+{"from": "分散化与风险收益权衡", "to": "有效市场假说与基本面估值", "kind": "relation", "relation_type": "influences"}
+{"from": "分散化与风险收益权衡", "to": "储蓄投资与金融体系", "kind": "domain"}
+{"from": "分配正义三传统之争", "to": "功利主义支持有损耗再分配但不求均分", "kind": "relation", "relation_type": "involves"}
+{"from": "分配正义三传统之争", "to": "最大最小化要求比功利主义更多再分配", "kind": "relation", "relation_type": "involves"}
+{"from": "分配正义三传统之争", "to": "过程公正则结果不平等亦可接受", "kind": "relation", "relation_type": "involves"}
+{"from": "分配正义三传统之争", "to": "要素与收入分配", "kind": "relation", "relation_type": "applies-to"}
+{"from": "分配正义三传统之争", "to": "要素与收入分配", "kind": "domain"}
+{"from": "功利主义支持有损耗再分配但不求均分", "to": "最大最小化要求比功利主义更多再分配", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "功利主义支持有损耗再分配但不求均分", "to": "分配正义三传统之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "功利主义支持有损耗再分配但不求均分", "to": "要素与收入分配", "kind": "relation", "relation_type": "applies-to"}
+{"from": "功利主义支持有损耗再分配但不求均分", "to": "税收无谓损失机制", "kind": "relation", "relation_type": "influences"}
+{"from": "功利主义支持有损耗再分配但不求均分", "to": "要素与收入分配", "kind": "domain"}
+{"from": "劳动供给后弯与收入替代效应", "to": "机会成本边际与激励", "kind": "relation", "relation_type": "based-on"}
+{"from": "劳动供给后弯与收入替代效应", "to": "消费者选择-预算约束与无差异曲线", "kind": "relation", "relation_type": "based-on"}
+{"from": "劳动供给后弯与收入替代效应", "to": "税负更多落在缺乏弹性的一侧", "kind": "relation", "relation_type": "applies-to"}
+{"from": "劳动供给后弯与收入替代效应", "to": "最低工资助贫与就业代价之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "劳动供给后弯与收入替代效应", "to": "要素与收入分配", "kind": "relation", "relation_type": "applies-to"}
+{"from": "劳动供给后弯与收入替代效应", "to": "行为经济学-有限理性公平与跨时", "kind": "relation", "relation_type": "influences"}
+{"from": "劳动供给后弯与收入替代效应", "to": "要素与收入分配", "kind": "domain"}
+{"from": "医疗保健市场与政策", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "based-on"}
+{"from": "医疗保健市场与政策", "to": "信息不对称-道德风险逆向选择信号筛选", "kind": "relation", "relation_type": "extends"}
+{"from": "医疗保健市场与政策", "to": "医疗市场五项偏离与规制回应", "kind": "relation", "relation_type": "applies-to"}
+{"from": "医疗保健市场与政策", "to": "医疗保险道德风险与逆向选择", "kind": "relation", "relation_type": "applies-to"}
+{"from": "医疗保健市场与政策", "to": "医疗支出份额攀升与Baumol成本病", "kind": "relation", "relation_type": "applies-to"}
+{"from": "医疗保健市场与政策", "to": "医疗政府角色扩大与收缩之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "医疗保险道德风险与逆向选择", "to": "医疗保健市场与政策", "kind": "relation", "relation_type": "applies-to"}
+{"from": "医疗保险道德风险与逆向选择", "to": "医疗市场五项偏离与规制回应", "kind": "relation", "relation_type": "based-on"}
+{"from": "医疗保险道德风险与逆向选择", "to": "竞争市场总剩余最大化", "kind": "relation", "relation_type": "influences"}
+{"from": "医疗保险道德风险与逆向选择", "to": "税负更多落在缺乏弹性的一侧", "kind": "relation", "relation_type": "influences"}
+{"from": "医疗保险道德风险与逆向选择", "to": "医疗支出份额攀升与Baumol成本病", "kind": "relation", "relation_type": "influences"}
+{"from": "医疗保险道德风险与逆向选择", "to": "医疗保健市场与政策", "kind": "domain"}
+{"from": "医疗市场五项偏离与规制回应", "to": "医疗保健市场与政策", "kind": "relation", "relation_type": "applies-to"}
+{"from": "医疗市场五项偏离与规制回应", "to": "市场势力与外部性动摇竞争效率", "kind": "relation", "relation_type": "based-on"}
+{"from": "医疗市场五项偏离与规制回应", "to": "医疗保险道德风险与逆向选择", "kind": "relation", "relation_type": "influences"}
+{"from": "医疗市场五项偏离与规制回应", "to": "正外部性补贴与专利内部化", "kind": "relation", "relation_type": "influences"}
+{"from": "医疗市场五项偏离与规制回应", "to": "医疗政府角色扩大与收缩之争", "kind": "relation", "relation_type": "influences"}
+{"from": "医疗市场五项偏离与规制回应", "to": "医疗支出份额攀升与Baumol成本病", "kind": "relation", "relation_type": "influences"}
+{"from": "医疗市场五项偏离与规制回应", "to": "医疗保健市场与政策", "kind": "domain"}
+{"from": "医疗支出份额攀升与Baumol成本病", "to": "医疗保健市场与政策", "kind": "relation", "relation_type": "applies-to"}
+{"from": "医疗支出份额攀升与Baumol成本病", "to": "医疗市场五项偏离与规制回应", "kind": "relation", "relation_type": "influences"}
+{"from": "医疗支出份额攀升与Baumol成本病", "to": "医疗保险道德风险与逆向选择", "kind": "relation", "relation_type": "influences"}
+{"from": "医疗支出份额攀升与Baumol成本病", "to": "医疗保健市场与政策", "kind": "domain"}
+{"from": "医疗政府角色扩大与收缩之争", "to": "左翼倾向扩大医疗政府角色", "kind": "relation", "relation_type": "involves"}
+{"from": "医疗政府角色扩大与收缩之争", "to": "右翼倾向收缩医疗政府角色", "kind": "relation", "relation_type": "involves"}
+{"from": "医疗政府角色扩大与收缩之争", "to": "医疗市场五项偏离与规制回应", "kind": "relation", "relation_type": "based-on"}
+{"from": "医疗政府角色扩大与收缩之争", "to": "医疗保健市场与政策", "kind": "relation", "relation_type": "applies-to"}
+{"from": "医疗政府角色扩大与收缩之争", "to": "医疗保健市场与政策", "kind": "domain"}
+{"from": "单边与多边通向自由贸易", "to": "开放贸易的福利与关税无谓损失", "kind": "relation", "relation_type": "based-on"}
+{"from": "单边与多边通向自由贸易", "to": "限制贸易的五类论据与回应", "kind": "relation", "relation_type": "influences"}
+{"from": "单边与多边通向自由贸易", "to": "贸易补偿可能性与现实分配之争", "kind": "relation", "relation_type": "influences"}
+{"from": "单边与多边通向自由贸易", "to": "贸易与相互依存", "kind": "relation", "relation_type": "applies-to"}
+{"from": "单边与多边通向自由贸易", "to": "贸易与相互依存", "kind": "domain"}
+{"from": "反垄断消费者福利与民主关切之争", "to": "竞争市场总剩余最大化", "kind": "relation", "relation_type": "involves"}
+{"from": "反垄断消费者福利与民主关切之争", "to": "市场势力与外部性动摇竞争效率", "kind": "relation", "relation_type": "involves"}
+{"from": "反垄断消费者福利与民主关切之争", "to": "垄断定价与价格歧视", "kind": "relation", "relation_type": "involves"}
+{"from": "反垄断消费者福利与民主关切之争", "to": "垄断产量定价与无谓损失", "kind": "relation", "relation_type": "involves"}
+{"from": "反垄断消费者福利与民主关切之争", "to": "寡头合谋与囚徒困境", "kind": "relation", "relation_type": "involves"}
+{"from": "反垄断消费者福利与民主关切之争", "to": "自然垄断管制两难题", "kind": "relation", "relation_type": "involves"}
+{"from": "反垄断消费者福利与民主关切之争", "to": "企业与市场结构", "kind": "relation", "relation_type": "applies-to"}
+{"from": "反垄断消费者福利与民主关切之争", "to": "企业与市场结构", "kind": "domain"}
+{"from": "反通胀牺牲率与理性预期", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
+{"from": "反通胀牺牲率与理性预期", "to": "菲利普斯曲线与自然率假说", "kind": "relation", "relation_type": "based-on"}
+{"from": "反通胀牺牲率与理性预期", "to": "长期不存在通胀失业稳定权衡", "kind": "relation", "relation_type": "supports"}
+{"from": "反通胀牺牲率与理性预期", "to": "美联储与货币政策工具", "kind": "relation", "relation_type": "influences"}
+{"from": "反通胀牺牲率与理性预期", "to": "近零通胀与中等通胀之争", "kind": "relation", "relation_type": "influences"}
+{"from": "反通胀牺牲率与理性预期", "to": "短期波动与AD-AS", "kind": "domain"}
+{"from": "可持续赤字不必追求零赤字", "to": "应平衡预算以免债务转嫁后代", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "可持续赤字不必追求零赤字", "to": "平衡预算与可持续赤字之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "可持续赤字不必追求零赤字", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
+{"from": "可持续赤字不必追求零赤字", "to": "主动稳定化与时滞之争", "kind": "relation", "relation_type": "influences"}
+{"from": "可持续赤字不必追求零赤字", "to": "短期波动与AD-AS", "kind": "domain"}
+{"from": "可贷资金市场与政策冲击", "to": "储蓄投资与金融体系", "kind": "relation", "relation_type": "applies-to"}
+{"from": "可贷资金市场与政策冲击", "to": "金融市场债券股票与中介", "kind": "relation", "relation_type": "based-on"}
+{"from": "可贷资金市场与政策冲击", "to": "鼓励储蓄税制改革可降利率提投资", "kind": "relation", "relation_type": "supports"}
+{"from": "可贷资金市场与政策冲击", "to": "生产率决定因素与生产函数", "kind": "relation", "relation_type": "influences"}
+{"from": "可贷资金市场与政策冲击", "to": "名义与实际利率", "kind": "relation", "relation_type": "extends"}
+{"from": "可贷资金市场与政策冲击", "to": "开放经济流量恒等式", "kind": "relation", "relation_type": "influences"}
+{"from": "可贷资金市场与政策冲击", "to": "开放经济双市场模型", "kind": "relation", "relation_type": "influences"}
+{"from": "可贷资金市场与政策冲击", "to": "储蓄投资与金融体系", "kind": "domain"}
+{"from": "右翼倾向收缩医疗政府角色", "to": "左翼倾向扩大医疗政府角色", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "右翼倾向收缩医疗政府角色", "to": "医疗政府角色扩大与收缩之争", "kind": "relation", "relation_type": "supports"}
+{"from": "右翼倾向收缩医疗政府角色", "to": "医疗市场五项偏离与规制回应", "kind": "relation", "relation_type": "based-on"}
+{"from": "右翼倾向收缩医疗政府角色", "to": "医疗保健市场与政策", "kind": "relation", "relation_type": "applies-to"}
+{"from": "右翼倾向收缩医疗政府角色", "to": "医疗保健市场与政策", "kind": "domain"}
+{"from": "名义与实际利率", "to": "宏观度量与国民收入", "kind": "relation", "relation_type": "applies-to"}
+{"from": "名义与实际利率", "to": "CPI构造与度量偏误", "kind": "relation", "relation_type": "based-on"}
+{"from": "名义与实际利率", "to": "名义与真实GDP", "kind": "relation", "relation_type": "extends"}
+{"from": "名义与实际利率", "to": "现值复利与时间价值", "kind": "relation", "relation_type": "influences"}
+{"from": "名义与实际利率", "to": "通胀税与费雪效应", "kind": "relation", "relation_type": "extends"}
+{"from": "名义与实际利率", "to": "可贷资金市场与政策冲击", "kind": "relation", "relation_type": "influences"}
+{"from": "名义与实际利率", "to": "宏观度量与国民收入", "kind": "domain"}
+{"from": "名义与实际汇率", "to": "开放经济宏观基础", "kind": "relation", "relation_type": "applies-to"}
+{"from": "名义与实际汇率", "to": "开放经济流量恒等式", "kind": "relation", "relation_type": "influences"}
+{"from": "名义与实际汇率", "to": "购买力平价与一价定律", "kind": "relation", "relation_type": "influences"}
+{"from": "名义与实际汇率", "to": "CPI构造与度量偏误", "kind": "relation", "relation_type": "based-on"}
+{"from": "名义与实际汇率", "to": "开放经济双市场模型", "kind": "relation", "relation_type": "based-on"}
+{"from": "名义与实际汇率", "to": "开放经济宏观基础", "kind": "domain"}
+{"from": "名义与真实GDP", "to": "宏观度量与国民收入", "kind": "relation", "relation_type": "applies-to"}
+{"from": "名义与真实GDP", "to": "GDP支出法定义与边界", "kind": "relation", "relation_type": "based-on"}
+{"from": "名义与真实GDP", "to": "GDP支出四分法恒等式", "kind": "relation", "relation_type": "extends"}
+{"from": "名义与真实GDP", "to": "GDP是福利的良好但不完美度量", "kind": "relation", "relation_type": "supports"}
+{"from": "名义与真实GDP", "to": "CPI构造与度量偏误", "kind": "relation", "relation_type": "influences"}
+{"from": "名义与真实GDP", "to": "宏观度量与国民收入", "kind": "domain"}
+{"from": "因果识别陷阱", "to": "微观分析基础", "kind": "relation", "relation_type": "applies-to"}
+{"from": "因果识别陷阱", "to": "实证分析与规范判断之分", "kind": "relation", "relation_type": "applies-to"}
+{"from": "因果识别陷阱", "to": "经济模型与生产可能性边界", "kind": "relation", "relation_type": "applies-to"}
+{"from": "因果识别陷阱", "to": "经济学图形读法", "kind": "relation", "relation_type": "applies-to"}
+{"from": "因果识别陷阱", "to": "经济数据分析四目标", "kind": "relation", "relation_type": "supports"}
+{"from": "因果识别陷阱", "to": "OLS与自然实验识别路径", "kind": "relation", "relation_type": "influences"}
+{"from": "因果识别陷阱", "to": "人力资本与信号论之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "因果识别陷阱", "to": "微观分析基础", "kind": "domain"}
+{"from": "国民收入五层度量", "to": "宏观度量与国民收入", "kind": "relation", "relation_type": "applies-to"}
+{"from": "国民收入五层度量", "to": "GDP支出法定义与边界", "kind": "relation", "relation_type": "based-on"}
+{"from": "国民收入五层度量", "to": "宏观度量与国民收入", "kind": "domain"}
+{"from": "垄断产量定价与无谓损失", "to": "竞争市场总剩余最大化", "kind": "relation", "relation_type": "based-on"}
+{"from": "垄断产量定价与无谓损失", "to": "完全竞争企业供给与进退", "kind": "relation", "relation_type": "extends"}
+{"from": "垄断产量定价与无谓损失", "to": "垄断定价与价格歧视", "kind": "relation", "relation_type": "based-on"}
+{"from": "垄断产量定价与无谓损失", "to": "市场势力与外部性动摇竞争效率", "kind": "relation", "relation_type": "example-of"}
+{"from": "垄断产量定价与无谓损失", "to": "税收无谓损失机制", "kind": "relation", "relation_type": "based-on"}
+{"from": "垄断产量定价与无谓损失", "to": "自然垄断管制两难题", "kind": "relation", "relation_type": "extends"}
+{"from": "垄断产量定价与无谓损失", "to": "企业与市场结构", "kind": "relation", "relation_type": "applies-to"}
+{"from": "垄断产量定价与无谓损失", "to": "企业与市场结构", "kind": "domain"}
+{"from": "垄断定价与价格歧视", "to": "竞争市场总剩余最大化", "kind": "relation", "relation_type": "based-on"}
+{"from": "垄断定价与价格歧视", "to": "市场势力与外部性动摇竞争效率", "kind": "relation", "relation_type": "based-on"}
+{"from": "垄断定价与价格歧视", "to": "反垄断消费者福利与民主关切之争", "kind": "relation", "relation_type": "influences"}
+{"from": "垄断定价与价格歧视", "to": "看不见的手与市场组织", "kind": "relation", "relation_type": "extends"}
+{"from": "垄断定价与价格歧视", "to": "完全竞争企业供给与进退", "kind": "relation", "relation_type": "extends"}
+{"from": "垄断定价与价格歧视", "to": "垄断产量定价与无谓损失", "kind": "relation", "relation_type": "extends"}
+{"from": "垄断定价与价格歧视", "to": "垄断竞争短期与长期", "kind": "relation", "relation_type": "extends"}
+{"from": "垄断定价与价格歧视", "to": "自然垄断管制两难题", "kind": "relation", "relation_type": "based-on"}
+{"from": "垄断定价与价格歧视", "to": "企业与市场结构", "kind": "relation", "relation_type": "applies-to"}
+{"from": "垄断定价与价格歧视", "to": "企业与市场结构", "kind": "domain"}
+{"from": "垄断竞争短期与长期", "to": "完全竞争企业供给与进退", "kind": "relation", "relation_type": "extends"}
+{"from": "垄断竞争短期与长期", "to": "垄断定价与价格歧视", "kind": "relation", "relation_type": "extends"}
+{"from": "垄断竞争短期与长期", "to": "垄断产量定价与无谓损失", "kind": "relation", "relation_type": "based-on"}
+{"from": "垄断竞争短期与长期", "to": "寡头合谋与囚徒困境", "kind": "relation", "relation_type": "extends"}
+{"from": "垄断竞争短期与长期", "to": "企业与市场结构", "kind": "relation", "relation_type": "applies-to"}
+{"from": "垄断竞争短期与长期", "to": "企业与市场结构", "kind": "domain"}
+{"from": "增支比减税更能抬升衰退中AD", "to": "减税是抗衰退更好财政工具", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "增支比减税更能抬升衰退中AD", "to": "抗衰退增支与减税之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "增支比减税更能抬升衰退中AD", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
+{"from": "增支比减税更能抬升衰退中AD", "to": "财政乘数与挤出效应", "kind": "relation", "relation_type": "based-on"}
+{"from": "增支比减税更能抬升衰退中AD", "to": "应主动用货币财政对冲总需求波动", "kind": "relation", "relation_type": "supports"}
+{"from": "增支比减税更能抬升衰退中AD", "to": "美联储与货币政策工具", "kind": "relation", "relation_type": "influences"}
+{"from": "增支比减税更能抬升衰退中AD", "to": "短期波动与AD-AS", "kind": "domain"}
+{"from": "外部性内部化-矫正税与排污许可", "to": "市场势力与外部性动摇竞争效率", "kind": "relation", "relation_type": "based-on"}
+{"from": "外部性内部化-矫正税与排污许可", "to": "正外部性补贴与专利内部化", "kind": "relation", "relation_type": "influences"}
+{"from": "外部性内部化-矫正税与排污许可", "to": "税收无谓损失机制", "kind": "relation", "relation_type": "influences"}
+{"from": "外部性内部化-矫正税与排污许可", "to": "公地悲剧与产权解决", "kind": "relation", "relation_type": "influences"}
+{"from": "外部性内部化-矫正税与排污许可", "to": "科斯定理与交易成本边界", "kind": "relation", "relation_type": "influences"}
+{"from": "外部性内部化-矫正税与排污许可", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "外部性内部化-矫正税与排污许可", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "央行应保留货币裁量灵活性", "to": "央行应承诺遵循货币规则", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "央行应保留货币裁量灵活性", "to": "货币政策规则与裁量之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "央行应保留货币裁量灵活性", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
+{"from": "央行应保留货币裁量灵活性", "to": "美联储与货币政策工具", "kind": "relation", "relation_type": "influences"}
+{"from": "央行应保留货币裁量灵活性", "to": "短期波动与AD-AS", "kind": "domain"}
+{"from": "央行应承诺遵循货币规则", "to": "央行应保留货币裁量灵活性", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "央行应承诺遵循货币规则", "to": "货币政策规则与裁量之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "央行应承诺遵循货币规则", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
+{"from": "央行应承诺遵循货币规则", "to": "美联储与货币政策工具", "kind": "relation", "relation_type": "influences"}
+{"from": "央行应承诺遵循货币规则", "to": "长期不存在通胀失业稳定权衡", "kind": "relation", "relation_type": "based-on"}
+{"from": "央行应承诺遵循货币规则", "to": "短期波动与AD-AS", "kind": "domain"}
+{"from": "央行应瞄准近零通胀", "to": "应容忍中等正通胀", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "央行应瞄准近零通胀", "to": "近零通胀与中等通胀之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "央行应瞄准近零通胀", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
+{"from": "央行应瞄准近零通胀", "to": "反通胀牺牲率与理性预期", "kind": "relation", "relation_type": "based-on"}
+{"from": "央行应瞄准近零通胀", "to": "通胀的社会成本", "kind": "relation", "relation_type": "based-on"}
+{"from": "央行应瞄准近零通胀", "to": "长期不存在通胀失业稳定权衡", "kind": "relation", "relation_type": "supports"}
+{"from": "央行应瞄准近零通胀", "to": "短期波动与AD-AS", "kind": "domain"}
+{"from": "失业与劳动力市场", "to": "要素与收入分配", "kind": "relation", "relation_type": "extends"}
+{"from": "失业与劳动力市场", "to": "最低工资助贫与就业代价之争", "kind": "relation", "relation_type": "influences"}
+{"from": "失业与劳动力市场", "to": "贸易与相互依存", "kind": "relation", "relation_type": "influences"}
+{"from": "失业度量与自然率", "to": "失业与劳动力市场", "kind": "relation", "relation_type": "applies-to"}
+{"from": "失业度量与自然率", "to": "摩擦性与结构性失业", "kind": "relation", "relation_type": "influences"}
+{"from": "失业度量与自然率", "to": "效率工资五渠道", "kind": "relation", "relation_type": "influences"}
+{"from": "失业度量与自然率", "to": "要素与收入分配", "kind": "relation", "relation_type": "influences"}
+{"from": "失业度量与自然率", "to": "菲利普斯曲线与自然率假说", "kind": "relation", "relation_type": "influences"}
+{"from": "失业度量与自然率", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "influences"}
+{"from": "失业度量与自然率", "to": "失业与劳动力市场", "kind": "domain"}
+{"from": "完全竞争企业供给与进退", "to": "生产成本与机会成本", "kind": "relation", "relation_type": "based-on"}
+{"from": "完全竞争企业供给与进退", "to": "竞争市场总剩余最大化", "kind": "relation", "relation_type": "based-on"}
+{"from": "完全竞争企业供给与进退", "to": "市场势力与外部性动摇竞争效率", "kind": "relation", "relation_type": "extends"}
+{"from": "完全竞争企业供给与进退", "to": "供求均衡与曲线移位", "kind": "relation", "relation_type": "applies-to"}
+{"from": "完全竞争企业供给与进退", "to": "机会成本边际与激励", "kind": "relation", "relation_type": "based-on"}
+{"from": "完全竞争企业供给与进退", "to": "垄断竞争短期与长期", "kind": "relation", "relation_type": "extends"}
+{"from": "完全竞争企业供给与进退", "to": "企业与市场结构", "kind": "relation", "relation_type": "applies-to"}
+{"from": "完全竞争企业供给与进退", "to": "企业与市场结构", "kind": "domain"}
+{"from": "宏观度量与国民收入", "to": "微观与宏观经济学分科", "kind": "relation", "relation_type": "extends"}
+{"from": "宏观度量与国民收入", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "influences"}
+{"from": "宏观度量与国民收入", "to": "GDP支出法定义与边界", "kind": "relation", "relation_type": "applies-to"}
+{"from": "宏观度量与国民收入", "to": "GDP支出四分法恒等式", "kind": "relation", "relation_type": "applies-to"}
+{"from": "宏观度量与国民收入", "to": "国民收入五层度量", "kind": "relation", "relation_type": "applies-to"}
+{"from": "宏观度量与国民收入", "to": "名义与真实GDP", "kind": "relation", "relation_type": "applies-to"}
+{"from": "宏观度量与国民收入", "to": "GDP是福利的良好但不完美度量", "kind": "relation", "relation_type": "applies-to"}
+{"from": "宏观度量与国民收入", "to": "CPI构造与度量偏误", "kind": "relation", "relation_type": "applies-to"}
+{"from": "宏观度量与国民收入", "to": "名义与实际利率", "kind": "relation", "relation_type": "applies-to"}
+{"from": "实证分析与规范判断之分", "to": "微观分析基础", "kind": "relation", "relation_type": "applies-to"}
+{"from": "实证分析与规范判断之分", "to": "因果识别陷阱", "kind": "relation", "relation_type": "applies-to"}
+{"from": "实证分析与规范判断之分", "to": "最低工资助贫与就业代价之争", "kind": "relation", "relation_type": "example-of"}
+{"from": "实证分析与规范判断之分", "to": "贸易补偿可能性与现实分配之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "实证分析与规范判断之分", "to": "经济模型与生产可能性边界", "kind": "relation", "relation_type": "applies-to"}
+{"from": "实证分析与规范判断之分", "to": "经济学家共识与政策现实脱节", "kind": "relation", "relation_type": "applies-to"}
+{"from": "实证分析与规范判断之分", "to": "微观分析基础", "kind": "domain"}
+{"from": "寡头合谋与囚徒困境", "to": "垄断产量定价与无谓损失", "kind": "relation", "relation_type": "based-on"}
+{"from": "寡头合谋与囚徒困境", "to": "垄断竞争短期与长期", "kind": "relation", "relation_type": "extends"}
+{"from": "寡头合谋与囚徒困境", "to": "反垄断消费者福利与民主关切之争", "kind": "relation", "relation_type": "influences"}
+{"from": "寡头合谋与囚徒困境", "to": "竞争市场总剩余最大化", "kind": "relation", "relation_type": "based-on"}
+{"from": "寡头合谋与囚徒困境", "to": "公地悲剧与产权解决", "kind": "relation", "relation_type": "extends"}
+{"from": "寡头合谋与囚徒困境", "to": "供给价格弹性与市场应用", "kind": "relation", "relation_type": "extends"}
+{"from": "寡头合谋与囚徒困境", "to": "开放贸易的福利与关税无谓损失", "kind": "relation", "relation_type": "extends"}
+{"from": "寡头合谋与囚徒困境", "to": "企业与市场结构", "kind": "relation", "relation_type": "applies-to"}
+{"from": "寡头合谋与囚徒困境", "to": "企业与市场结构", "kind": "domain"}
+{"from": "工会制衡买方势力改善条件", "to": "工会抬薪制造局内人局外人失业", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "工会制衡买方势力改善条件", "to": "工会卡特尔与买方势力制衡之争", "kind": "relation", "relation_type": "supports"}
+{"from": "工会制衡买方势力改善条件", "to": "失业与劳动力市场", "kind": "relation", "relation_type": "applies-to"}
+{"from": "工会制衡买方势力改善条件", "to": "失业与劳动力市场", "kind": "domain"}
+{"from": "工会卡特尔与买方势力制衡之争", "to": "工会抬薪制造局内人局外人失业", "kind": "relation", "relation_type": "involves"}
+{"from": "工会卡特尔与买方势力制衡之争", "to": "工会制衡买方势力改善条件", "kind": "relation", "relation_type": "involves"}
+{"from": "工会卡特尔与买方势力制衡之争", "to": "摩擦性与结构性失业", "kind": "relation", "relation_type": "based-on"}
+{"from": "工会卡特尔与买方势力制衡之争", "to": "失业与劳动力市场", "kind": "relation", "relation_type": "applies-to"}
+{"from": "工会卡特尔与买方势力制衡之争", "to": "失业与劳动力市场", "kind": "domain"}
+{"from": "工会抬薪制造局内人局外人失业", "to": "工会制衡买方势力改善条件", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "工会抬薪制造局内人局外人失业", "to": "工会卡特尔与买方势力制衡之争", "kind": "relation", "relation_type": "supports"}
+{"from": "工会抬薪制造局内人局外人失业", "to": "摩擦性与结构性失业", "kind": "relation", "relation_type": "supports"}
+{"from": "工会抬薪制造局内人局外人失业", "to": "失业与劳动力市场", "kind": "relation", "relation_type": "applies-to"}
+{"from": "工会抬薪制造局内人局外人失业", "to": "失业与劳动力市场", "kind": "domain"}
+{"from": "工资差异与歧视经济学", "to": "要素需求与边际产值", "kind": "relation", "relation_type": "based-on"}
+{"from": "工资差异与歧视经济学", "to": "人力资本与信号论之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "工资差异与歧视经济学", "to": "劳动供给后弯与收入替代效应", "kind": "relation", "relation_type": "applies-to"}
+{"from": "工资差异与歧视经济学", "to": "最低工资助贫与就业代价之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "工资差异与歧视经济学", "to": "垄断产量定价与无谓损失", "kind": "relation", "relation_type": "based-on"}
+{"from": "工资差异与歧视经济学", "to": "群体平均工资差不能度量劳动市场歧视", "kind": "relation", "relation_type": "supports"}
+{"from": "工资差异与歧视经济学", "to": "要素与收入分配", "kind": "relation", "relation_type": "applies-to"}
+{"from": "工资差异与歧视经济学", "to": "要素与收入分配", "kind": "domain"}
+{"from": "左翼倾向扩大医疗政府角色", "to": "右翼倾向收缩医疗政府角色", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "左翼倾向扩大医疗政府角色", "to": "医疗政府角色扩大与收缩之争", "kind": "relation", "relation_type": "supports"}
+{"from": "左翼倾向扩大医疗政府角色", "to": "医疗市场五项偏离与规制回应", "kind": "relation", "relation_type": "based-on"}
+{"from": "左翼倾向扩大医疗政府角色", "to": "医疗保健市场与政策", "kind": "relation", "relation_type": "applies-to"}
+{"from": "左翼倾向扩大医疗政府角色", "to": "医疗保健市场与政策", "kind": "domain"}
+{"from": "市场势力与外部性动摇竞争效率", "to": "竞争市场总剩余最大化", "kind": "relation", "relation_type": "based-on"}
+{"from": "市场势力与外部性动摇竞争效率", "to": "排他性与竞争性四类物品", "kind": "relation", "relation_type": "supports"}
+{"from": "市场势力与外部性动摇竞争效率", "to": "正外部性补贴与专利内部化", "kind": "relation", "relation_type": "supports"}
+{"from": "市场势力与外部性动摇竞争效率", "to": "外部性内部化-矫正税与排污许可", "kind": "relation", "relation_type": "supports"}
+{"from": "市场势力与外部性动摇竞争效率", "to": "公地悲剧与产权解决", "kind": "relation", "relation_type": "supports"}
+{"from": "市场势力与外部性动摇竞争效率", "to": "开放贸易的福利与关税无谓损失", "kind": "relation", "relation_type": "influences"}
+{"from": "市场势力与外部性动摇竞争效率", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "市场势力与外部性动摇竞争效率", "to": "看不见的手与市场组织", "kind": "relation", "relation_type": "based-on"}
+{"from": "市场势力与外部性动摇竞争效率", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "市场常呈难用新闻解释的非理性波动", "to": "有效市场假说与基本面估值", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "市场常呈难用新闻解释的非理性波动", "to": "储蓄投资与金融体系", "kind": "relation", "relation_type": "applies-to"}
+{"from": "市场常呈难用新闻解释的非理性波动", "to": "储蓄投资与金融体系", "kind": "domain"}
+{"from": "市场效率与政策干预", "to": "微观分析基础", "kind": "relation", "relation_type": "based-on"}
+{"from": "市场效率与政策干预", "to": "企业与市场结构", "kind": "relation", "relation_type": "influences"}
+{"from": "市场效率与政策干预", "to": "要素与收入分配", "kind": "relation", "relation_type": "influences"}
+{"from": "市场效率与政策干预", "to": "贸易与相互依存", "kind": "relation", "relation_type": "influences"}
+{"from": "市场效率与政策干预", "to": "宏观度量与国民收入", "kind": "relation", "relation_type": "influences"}
+{"from": "市场效率与政策干预", "to": "信息不对称-道德风险逆向选择信号筛选", "kind": "relation", "relation_type": "applies-to"}
+{"from": "市场效率与政策干预", "to": "社会选择与投票悖论", "kind": "relation", "relation_type": "applies-to"}
+{"from": "市场效率与政策干预", "to": "竞争市场总剩余最大化", "kind": "relation", "relation_type": "applies-to"}
+{"from": "市场效率与政策干预", "to": "税收无谓损失机制", "kind": "relation", "relation_type": "applies-to"}
+{"from": "市场效率与政策干预", "to": "价格管制短缺与过剩", "kind": "relation", "relation_type": "applies-to"}
+{"from": "市场效率与政策干预", "to": "医疗保健市场与政策", "kind": "relation", "relation_type": "influences"}
+{"from": "平衡预算与可持续赤字之争", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
+{"from": "平衡预算与可持续赤字之争", "to": "应平衡预算以免债务转嫁后代", "kind": "relation", "relation_type": "involves"}
+{"from": "平衡预算与可持续赤字之争", "to": "可持续赤字不必追求零赤字", "kind": "relation", "relation_type": "involves"}
+{"from": "平衡预算与可持续赤字之争", "to": "可贷资金市场与政策冲击", "kind": "relation", "relation_type": "based-on"}
+{"from": "平衡预算与可持续赤字之争", "to": "主动稳定化与时滞之争", "kind": "relation", "relation_type": "influences"}
+{"from": "平衡预算与可持续赤字之争", "to": "短期波动与AD-AS", "kind": "domain"}
+{"from": "应主动用货币财政对冲总需求波动", "to": "政策时滞使主动稳定化常适得其反", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "应主动用货币财政对冲总需求波动", "to": "主动稳定化与时滞之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "应主动用货币财政对冲总需求波动", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
+{"from": "应主动用货币财政对冲总需求波动", "to": "财政乘数与挤出效应", "kind": "relation", "relation_type": "based-on"}
+{"from": "应主动用货币财政对冲总需求波动", "to": "流动性偏好与利率效应", "kind": "relation", "relation_type": "based-on"}
+{"from": "应主动用货币财政对冲总需求波动", "to": "短期波动与AD-AS", "kind": "domain"}
+{"from": "应容忍中等正通胀", "to": "央行应瞄准近零通胀", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "应容忍中等正通胀", "to": "近零通胀与中等通胀之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "应容忍中等正通胀", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
+{"from": "应容忍中等正通胀", "to": "反通胀牺牲率与理性预期", "kind": "relation", "relation_type": "based-on"}
+{"from": "应容忍中等正通胀", "to": "美联储与货币政策工具", "kind": "relation", "relation_type": "influences"}
+{"from": "应容忍中等正通胀", "to": "短期波动与AD-AS", "kind": "domain"}
+{"from": "应平衡预算以免债务转嫁后代", "to": "可持续赤字不必追求零赤字", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "应平衡预算以免债务转嫁后代", "to": "平衡预算与可持续赤字之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "应平衡预算以免债务转嫁后代", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
+{"from": "应平衡预算以免债务转嫁后代", "to": "可贷资金市场与政策冲击", "kind": "relation", "relation_type": "based-on"}
+{"from": "应平衡预算以免债务转嫁后代", "to": "储蓄投资与金融体系", "kind": "relation", "relation_type": "influences"}
+{"from": "应平衡预算以免债务转嫁后代", "to": "短期波动与AD-AS", "kind": "domain"}
+{"from": "应按外溢大小鼓励高外溢产业", "to": "产业政策因度量与俘获而不可靠", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "应按外溢大小鼓励高外溢产业", "to": "正外部性补贴与专利内部化", "kind": "relation", "relation_type": "based-on"}
+{"from": "应按外溢大小鼓励高外溢产业", "to": "产业政策外溢普遍论与政治俘获之争", "kind": "relation", "relation_type": "supports"}
+{"from": "应按外溢大小鼓励高外溢产业", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "应按外溢大小鼓励高外溢产业", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "开放经济双市场模型", "to": "开放经济宏观基础", "kind": "relation", "relation_type": "applies-to"}
+{"from": "开放经济双市场模型", "to": "开放经济流量恒等式", "kind": "relation", "relation_type": "based-on"}
+{"from": "开放经济双市场模型", "to": "可贷资金市场与政策冲击", "kind": "relation", "relation_type": "extends"}
+{"from": "开放经济双市场模型", "to": "名义与实际汇率", "kind": "relation", "relation_type": "influences"}
+{"from": "开放经济双市场模型", "to": "购买力平价与一价定律", "kind": "relation", "relation_type": "influences"}
+{"from": "开放经济双市场模型", "to": "贸易政策不改总体贸易余额", "kind": "relation", "relation_type": "supports"}
+{"from": "开放经济双市场模型", "to": "开放经济宏观基础", "kind": "domain"}
+{"from": "开放经济宏观基础", "to": "贸易与相互依存", "kind": "relation", "relation_type": "extends"}
+{"from": "开放经济宏观基础", "to": "宏观度量与国民收入", "kind": "relation", "relation_type": "based-on"}
+{"from": "开放经济宏观基础", "to": "储蓄投资与金融体系", "kind": "relation", "relation_type": "influences"}
+{"from": "开放经济宏观基础", "to": "货币制度与银行体系", "kind": "relation", "relation_type": "influences"}
+{"from": "开放经济宏观基础", "to": "开放经济双市场模型", "kind": "relation", "relation_type": "influences"}
+{"from": "开放经济宏观基础", "to": "贸易政策不改总体贸易余额", "kind": "relation", "relation_type": "influences"}
+{"from": "开放经济流量恒等式", "to": "开放经济宏观基础", "kind": "relation", "relation_type": "applies-to"}
+{"from": "开放经济流量恒等式", "to": "GDP支出四分法恒等式", "kind": "relation", "relation_type": "based-on"}
+{"from": "开放经济流量恒等式", "to": "可贷资金市场与政策冲击", "kind": "relation", "relation_type": "extends"}
+{"from": "开放经济流量恒等式", "to": "贸易与相互依存", "kind": "relation", "relation_type": "influences"}
+{"from": "开放经济流量恒等式", "to": "名义与实际汇率", "kind": "relation", "relation_type": "influences"}
+{"from": "开放经济流量恒等式", "to": "开放经济宏观基础", "kind": "domain"}
+{"from": "开放贸易的福利与关税无谓损失", "to": "竞争市场总剩余最大化", "kind": "relation", "relation_type": "based-on"}
+{"from": "开放贸易的福利与关税无谓损失", "to": "税收无谓损失机制", "kind": "relation", "relation_type": "influences"}
+{"from": "开放贸易的福利与关税无谓损失", "to": "贸易补偿可能性与现实分配之争", "kind": "relation", "relation_type": "supports"}
+{"from": "开放贸易的福利与关税无谓损失", "to": "贸易因补偿可能性而能使人人更好", "kind": "relation", "relation_type": "supports"}
+{"from": "开放贸易的福利与关税无谓损失", "to": "贸易无补偿时常使部分人分到更小一块", "kind": "relation", "relation_type": "supports"}
+{"from": "开放贸易的福利与关税无谓损失", "to": "限制贸易的五类论据与回应", "kind": "relation", "relation_type": "influences"}
+{"from": "开放贸易的福利与关税无谓损失", "to": "市场势力与外部性动摇竞争效率", "kind": "relation", "relation_type": "influences"}
+{"from": "开放贸易的福利与关税无谓损失", "to": "贸易与相互依存", "kind": "relation", "relation_type": "applies-to"}
+{"from": "开放贸易的福利与关税无谓损失", "to": "贸易与相互依存", "kind": "domain"}
+{"from": "微观与宏观经济学分科", "to": "微观分析基础", "kind": "relation", "relation_type": "applies-to"}
+{"from": "微观与宏观经济学分科", "to": "经济模型与生产可能性边界", "kind": "relation", "relation_type": "applies-to"}
+{"from": "微观与宏观经济学分科", "to": "供求均衡与曲线移位", "kind": "relation", "relation_type": "applies-to"}
+{"from": "微观与宏观经济学分科", "to": "实证分析与规范判断之分", "kind": "relation", "relation_type": "applies-to"}
+{"from": "微观与宏观经济学分科", "to": "宏观度量与国民收入", "kind": "relation", "relation_type": "influences"}
+{"from": "微观与宏观经济学分科", "to": "微观分析基础", "kind": "domain"}
+{"from": "微观分析基础", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "influences"}
+{"from": "微观分析基础", "to": "消费者选择-预算约束与无差异曲线", "kind": "relation", "relation_type": "applies-to"}
+{"from": "微观分析基础", "to": "行为经济学-有限理性公平与跨时", "kind": "relation", "relation_type": "applies-to"}
+{"from": "微观分析基础", "to": "因果识别陷阱", "kind": "relation", "relation_type": "applies-to"}
+{"from": "微观分析基础", "to": "经济数据分析四目标", "kind": "relation", "relation_type": "applies-to"}
+{"from": "微观分析基础", "to": "实证分析与规范判断之分", "kind": "relation", "relation_type": "applies-to"}
+{"from": "抗衰退增支与减税之争", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
+{"from": "抗衰退增支与减税之争", "to": "增支比减税更能抬升衰退中AD", "kind": "relation", "relation_type": "involves"}
+{"from": "抗衰退增支与减税之争", "to": "减税是抗衰退更好财政工具", "kind": "relation", "relation_type": "involves"}
+{"from": "抗衰退增支与减税之争", "to": "主动稳定化与时滞之争", "kind": "relation", "relation_type": "based-on"}
+{"from": "抗衰退增支与减税之争", "to": "财政乘数与挤出效应", "kind": "relation", "relation_type": "based-on"}
+{"from": "抗衰退增支与减税之争", "to": "短期波动与AD-AS", "kind": "domain"}
+{"from": "拉弗曲线减税增收之争", "to": "减税可处拉弗下倾段而增收", "kind": "relation", "relation_type": "involves"}
+{"from": "拉弗曲线减税增收之争", "to": "整体减税通常减少税收收入", "kind": "relation", "relation_type": "involves"}
+{"from": "拉弗曲线减税增收之争", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "拉弗曲线减税增收之争", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "排他性与竞争性四类物品", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "排他性与竞争性四类物品", "to": "市场势力与外部性动摇竞争效率", "kind": "relation", "relation_type": "based-on"}
+{"from": "排他性与竞争性四类物品", "to": "竞争市场总剩余最大化", "kind": "relation", "relation_type": "based-on"}
+{"from": "排他性与竞争性四类物品", "to": "正外部性补贴与专利内部化", "kind": "relation", "relation_type": "influences"}
+{"from": "排他性与竞争性四类物品", "to": "公地悲剧与产权解决", "kind": "relation", "relation_type": "influences"}
+{"from": "排他性与竞争性四类物品", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "提高最低工资可抬升低薪工人收入", "to": "最低工资因就业与瞄准问题未必有效助贫", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "提高最低工资可抬升低薪工人收入", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "提高最低工资可抬升低薪工人收入", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "摩擦性与结构性失业", "to": "失业与劳动力市场", "kind": "relation", "relation_type": "applies-to"}
+{"from": "摩擦性与结构性失业", "to": "失业度量与自然率", "kind": "relation", "relation_type": "based-on"}
+{"from": "摩擦性与结构性失业", "to": "效率工资五渠道", "kind": "relation", "relation_type": "extends"}
+{"from": "摩擦性与结构性失业", "to": "最低工资助贫与就业代价之争", "kind": "relation", "relation_type": "influences"}
+{"from": "摩擦性与结构性失业", "to": "工会抬薪制造局内人局外人失业", "kind": "relation", "relation_type": "supports"}
+{"from": "摩擦性与结构性失业", "to": "失业与劳动力市场", "kind": "domain"}
+{"from": "收入不平等度量与贫困率", "to": "要素与收入分配", "kind": "relation", "relation_type": "applies-to"}
+{"from": "收入不平等度量与贫困率", "to": "分配正义三传统之争", "kind": "relation", "relation_type": "influences"}
+{"from": "收入不平等度量与贫困率", "to": "EITC等补贴助贫可不扭曲价格信号", "kind": "relation", "relation_type": "influences"}
+{"from": "收入不平等度量与贫困率", "to": "最低工资助贫与就业代价之争", "kind": "relation", "relation_type": "influences"}
+{"from": "收入不平等度量与贫困率", "to": "要素与收入分配", "kind": "domain"}
+{"from": "政策时滞使主动稳定化常适得其反", "to": "应主动用货币财政对冲总需求波动", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "政策时滞使主动稳定化常适得其反", "to": "主动稳定化与时滞之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "政策时滞使主动稳定化常适得其反", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
+{"from": "政策时滞使主动稳定化常适得其反", "to": "美联储与货币政策工具", "kind": "relation", "relation_type": "influences"}
+{"from": "政策时滞使主动稳定化常适得其反", "to": "流动性偏好与利率效应", "kind": "relation", "relation_type": "based-on"}
+{"from": "政策时滞使主动稳定化常适得其反", "to": "短期波动与AD-AS", "kind": "domain"}
+{"from": "效率工资五渠道", "to": "失业与劳动力市场", "kind": "relation", "relation_type": "applies-to"}
+{"from": "效率工资五渠道", "to": "摩擦性与结构性失业", "kind": "relation", "relation_type": "extends"}
+{"from": "效率工资五渠道", "to": "信息不对称-道德风险逆向选择信号筛选", "kind": "relation", "relation_type": "influences"}
+{"from": "效率工资五渠道", "to": "行为经济学-有限理性公平与跨时", "kind": "relation", "relation_type": "influences"}
+{"from": "效率工资五渠道", "to": "失业与劳动力市场", "kind": "domain"}
+{"from": "教育溢价主要来自信号筛选", "to": "教育溢价主要来自生产力提升", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "教育溢价主要来自信号筛选", "to": "人力资本与信号论之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "教育溢价主要来自信号筛选", "to": "要素与收入分配", "kind": "relation", "relation_type": "applies-to"}
+{"from": "教育溢价主要来自信号筛选", "to": "要素与收入分配", "kind": "domain"}
+{"from": "教育溢价主要来自生产力提升", "to": "教育溢价主要来自信号筛选", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "教育溢价主要来自生产力提升", "to": "人力资本与信号论之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "教育溢价主要来自生产力提升", "to": "要素与收入分配", "kind": "relation", "relation_type": "applies-to"}
+{"from": "教育溢价主要来自生产力提升", "to": "要素与收入分配", "kind": "domain"}
+{"from": "数量方程与货币中性", "to": "货币增长与通货膨胀", "kind": "relation", "relation_type": "applies-to"}
+{"from": "数量方程与货币中性", "to": "货币供求与物价水平", "kind": "relation", "relation_type": "extends"}
+{"from": "数量方程与货币中性", "to": "购买力平价与一价定律", "kind": "relation", "relation_type": "influences"}
+{"from": "数量方程与货币中性", "to": "通胀的社会成本", "kind": "relation", "relation_type": "influences"}
+{"from": "数量方程与货币中性", "to": "货币增长与通货膨胀", "kind": "domain"}
+{"from": "整体减税通常减少税收收入", "to": "减税可处拉弗下倾段而增收", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "整体减税通常减少税收收入", "to": "税收无谓损失机制", "kind": "relation", "relation_type": "based-on"}
+{"from": "整体减税通常减少税收收入", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "整体减税通常减少税收收入", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "最低工资助贫与就业代价之争", "to": "提高最低工资可抬升低薪工人收入", "kind": "relation", "relation_type": "involves"}
+{"from": "最低工资助贫与就业代价之争", "to": "最低工资因就业与瞄准问题未必有效助贫", "kind": "relation", "relation_type": "involves"}
+{"from": "最低工资助贫与就业代价之争", "to": "价格管制短缺与过剩", "kind": "relation", "relation_type": "based-on"}
+{"from": "最低工资助贫与就业代价之争", "to": "EITC等补贴助贫可不扭曲价格信号", "kind": "relation", "relation_type": "influences"}
+{"from": "最低工资助贫与就业代价之争", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "最低工资助贫与就业代价之争", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "最低工资因就业与瞄准问题未必有效助贫", "to": "提高最低工资可抬升低薪工人收入", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "最低工资因就业与瞄准问题未必有效助贫", "to": "EITC等补贴助贫可不扭曲价格信号", "kind": "relation", "relation_type": "supports"}
+{"from": "最低工资因就业与瞄准问题未必有效助贫", "to": "摩擦性与结构性失业", "kind": "relation", "relation_type": "influences"}
+{"from": "最低工资因就业与瞄准问题未必有效助贫", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "最低工资因就业与瞄准问题未必有效助贫", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "最大最小化要求比功利主义更多再分配", "to": "边际生产力定价不保证公平分配", "kind": "relation", "relation_type": "supports"}
+{"from": "最大最小化要求比功利主义更多再分配", "to": "要素与收入分配", "kind": "relation", "relation_type": "applies-to"}
+{"from": "最大最小化要求比功利主义更多再分配", "to": "实证分析与规范判断之分", "kind": "relation", "relation_type": "based-on"}
+{"from": "最大最小化要求比功利主义更多再分配", "to": "分配正义三传统之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "最大最小化要求比功利主义更多再分配", "to": "要素与收入分配", "kind": "domain"}
+{"from": "有效市场与市场非理性之争", "to": "有效市场假说与基本面估值", "kind": "relation", "relation_type": "involves"}
+{"from": "有效市场与市场非理性之争", "to": "市场常呈难用新闻解释的非理性波动", "kind": "relation", "relation_type": "involves"}
+{"from": "有效市场与市场非理性之争", "to": "储蓄投资与金融体系", "kind": "relation", "relation_type": "applies-to"}
+{"from": "有效市场与市场非理性之争", "to": "储蓄投资与金融体系", "kind": "domain"}
+{"from": "有效市场假说与基本面估值", "to": "储蓄投资与金融体系", "kind": "relation", "relation_type": "applies-to"}
+{"from": "有效市场假说与基本面估值", "to": "现值复利与时间价值", "kind": "relation", "relation_type": "based-on"}
+{"from": "有效市场假说与基本面估值", "to": "分散化与风险收益权衡", "kind": "relation", "relation_type": "extends"}
+{"from": "有效市场假说与基本面估值", "to": "市场常呈难用新闻解释的非理性波动", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "有效市场假说与基本面估值", "to": "储蓄投资与金融体系", "kind": "domain"}
+{"from": "机会成本边际与激励", "to": "微观分析基础", "kind": "relation", "relation_type": "applies-to"}
+{"from": "机会成本边际与激励", "to": "比较优势与专业化贸易", "kind": "relation", "relation_type": "supports"}
+{"from": "机会成本边际与激励", "to": "税负更多落在缺乏弹性的一侧", "kind": "relation", "relation_type": "influences"}
+{"from": "机会成本边际与激励", "to": "供求均衡与曲线移位", "kind": "relation", "relation_type": "supports"}
+{"from": "机会成本边际与激励", "to": "经济模型与生产可能性边界", "kind": "relation", "relation_type": "based-on"}
+{"from": "机会成本边际与激励", "to": "生产成本与机会成本", "kind": "relation", "relation_type": "supports"}
+{"from": "机会成本边际与激励", "to": "微观分析基础", "kind": "domain"}
+{"from": "正外部性补贴与专利内部化", "to": "市场势力与外部性动摇竞争效率", "kind": "relation", "relation_type": "based-on"}
+{"from": "正外部性补贴与专利内部化", "to": "排他性与竞争性四类物品", "kind": "relation", "relation_type": "influences"}
+{"from": "正外部性补贴与专利内部化", "to": "产业政策外溢普遍论与政治俘获之争", "kind": "relation", "relation_type": "influences"}
+{"from": "正外部性补贴与专利内部化", "to": "外部性内部化-矫正税与排污许可", "kind": "relation", "relation_type": "influences"}
+{"from": "正外部性补贴与专利内部化", "to": "科斯定理与交易成本边界", "kind": "relation", "relation_type": "influences"}
+{"from": "正外部性补贴与专利内部化", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "正外部性补贴与专利内部化", "to": "医疗市场五项偏离与规制回应", "kind": "relation", "relation_type": "influences"}
+{"from": "正外部性补贴与专利内部化", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "比较优势与专业化贸易", "to": "开放贸易的福利与关税无谓损失", "kind": "relation", "relation_type": "based-on"}
+{"from": "比较优势与专业化贸易", "to": "贸易因补偿可能性而能使人人更好", "kind": "relation", "relation_type": "supports"}
+{"from": "比较优势与专业化贸易", "to": "贸易补偿可能性与现实分配之争", "kind": "relation", "relation_type": "influences"}
+{"from": "比较优势与专业化贸易", "to": "竞争市场总剩余最大化", "kind": "relation", "relation_type": "applies-to"}
+{"from": "比较优势与专业化贸易", "to": "单边与多边通向自由贸易", "kind": "relation", "relation_type": "supports"}
+{"from": "比较优势与专业化贸易", "to": "限制贸易的五类论据与回应", "kind": "relation", "relation_type": "influences"}
+{"from": "比较优势与专业化贸易", "to": "机会成本边际与激励", "kind": "relation", "relation_type": "based-on"}
+{"from": "比较优势与专业化贸易", "to": "看不见的手与市场组织", "kind": "relation", "relation_type": "supports"}
+{"from": "比较优势与专业化贸易", "to": "供求均衡与曲线移位", "kind": "relation", "relation_type": "influences"}
+{"from": "比较优势与专业化贸易", "to": "经济模型与生产可能性边界", "kind": "relation", "relation_type": "based-on"}
+{"from": "比较优势与专业化贸易", "to": "贸易与相互依存", "kind": "relation", "relation_type": "applies-to"}
+{"from": "比较优势与专业化贸易", "to": "贸易与相互依存", "kind": "domain"}
+{"from": "流动性偏好与利率效应", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
+{"from": "流动性偏好与利率效应", "to": "可贷资金市场与政策冲击", "kind": "relation", "relation_type": "extends"}
+{"from": "流动性偏好与利率效应", "to": "美联储与货币政策工具", "kind": "relation", "relation_type": "based-on"}
+{"from": "流动性偏好与利率效应", "to": "货币供求与物价水平", "kind": "relation", "relation_type": "influences"}
+{"from": "流动性偏好与利率效应", "to": "财政乘数与挤出效应", "kind": "relation", "relation_type": "influences"}
+{"from": "流动性偏好与利率效应", "to": "AD-AS短期波动模型", "kind": "relation", "relation_type": "based-on"}
+{"from": "流动性偏好与利率效应", "to": "短期波动与AD-AS", "kind": "domain"}
+{"from": "消费者选择-预算约束与无差异曲线", "to": "微观分析基础", "kind": "relation", "relation_type": "applies-to"}
+{"from": "消费者选择-预算约束与无差异曲线", "to": "供求均衡与曲线移位", "kind": "relation", "relation_type": "extends"}
+{"from": "消费者选择-预算约束与无差异曲线", "to": "机会成本边际与激励", "kind": "relation", "relation_type": "based-on"}
+{"from": "消费者选择-预算约束与无差异曲线", "to": "劳动供给后弯与收入替代效应", "kind": "relation", "relation_type": "influences"}
+{"from": "消费者选择-预算约束与无差异曲线", "to": "需求价格弹性与总收益判别", "kind": "relation", "relation_type": "influences"}
+{"from": "消费者选择-预算约束与无差异曲线", "to": "行为经济学-有限理性公平与跨时", "kind": "relation", "relation_type": "influences"}
+{"from": "消费者选择-预算约束与无差异曲线", "to": "微观分析基础", "kind": "domain"}
+{"from": "现值复利与时间价值", "to": "储蓄投资与金融体系", "kind": "relation", "relation_type": "applies-to"}
+{"from": "现值复利与时间价值", "to": "名义与实际利率", "kind": "relation", "relation_type": "based-on"}
+{"from": "现值复利与时间价值", "to": "有效市场假说与基本面估值", "kind": "relation", "relation_type": "influences"}
+{"from": "现值复利与时间价值", "to": "储蓄投资与金融体系", "kind": "domain"}
+{"from": "生产成本与机会成本", "to": "机会成本边际与激励", "kind": "relation", "relation_type": "based-on"}
+{"from": "生产成本与机会成本", "to": "企业与市场结构", "kind": "relation", "relation_type": "applies-to"}
+{"from": "生产成本与机会成本", "to": "供求均衡与曲线移位", "kind": "relation", "relation_type": "supports"}
+{"from": "生产成本与机会成本", "to": "竞争市场总剩余最大化", "kind": "relation", "relation_type": "influences"}
+{"from": "生产成本与机会成本", "to": "完全竞争企业供给与进退", "kind": "relation", "relation_type": "supports"}
+{"from": "生产成本与机会成本", "to": "经济学图形读法", "kind": "relation", "relation_type": "supports"}
+{"from": "生产成本与机会成本", "to": "税收无谓损失机制", "kind": "relation", "relation_type": "supports"}
+{"from": "生产成本与机会成本", "to": "企业与市场结构", "kind": "domain"}
+{"from": "生产率决定因素与生产函数", "to": "长期增长与生产率", "kind": "relation", "relation_type": "applies-to"}
+{"from": "生产率决定因素与生产函数", "to": "资本积累报酬递减与赶超", "kind": "relation", "relation_type": "influences"}
+{"from": "生产率决定因素与生产函数", "to": "长期增长政策菜单", "kind": "relation", "relation_type": "influences"}
+{"from": "生产率决定因素与生产函数", "to": "可贷资金市场与政策冲击", "kind": "relation", "relation_type": "influences"}
+{"from": "生产率决定因素与生产函数", "to": "CPI构造与度量偏误", "kind": "relation", "relation_type": "influences"}
+{"from": "生产率决定因素与生产函数", "to": "长期增长与生产率", "kind": "domain"}
+{"from": "看不见的手与市场组织", "to": "微观分析基础", "kind": "relation", "relation_type": "applies-to"}
+{"from": "看不见的手与市场组织", "to": "竞争市场总剩余最大化", "kind": "relation", "relation_type": "supports"}
+{"from": "看不见的手与市场组织", "to": "市场势力与外部性动摇竞争效率", "kind": "relation", "relation_type": "influences"}
+{"from": "看不见的手与市场组织", "to": "价格管制短缺与过剩", "kind": "relation", "relation_type": "supports"}
+{"from": "看不见的手与市场组织", "to": "比较优势与专业化贸易", "kind": "relation", "relation_type": "based-on"}
+{"from": "看不见的手与市场组织", "to": "供求均衡与曲线移位", "kind": "relation", "relation_type": "supports"}
+{"from": "看不见的手与市场组织", "to": "经济模型与生产可能性边界", "kind": "relation", "relation_type": "based-on"}
+{"from": "看不见的手与市场组织", "to": "微观分析基础", "kind": "domain"}
+{"from": "短期波动与AD-AS", "to": "货币增长与通货膨胀", "kind": "relation", "relation_type": "extends"}
+{"from": "短期波动与AD-AS", "to": "失业与劳动力市场", "kind": "relation", "relation_type": "influences"}
+{"from": "短期波动与AD-AS", "to": "货币制度与银行体系", "kind": "relation", "relation_type": "influences"}
+{"from": "短期波动与AD-AS", "to": "宏观度量与国民收入", "kind": "relation", "relation_type": "based-on"}
+{"from": "短期波动与AD-AS", "to": "长期增长与生产率", "kind": "relation", "relation_type": "influences"}
+{"from": "短期波动与AD-AS", "to": "开放经济双市场模型", "kind": "relation", "relation_type": "influences"}
+{"from": "短期波动与AD-AS", "to": "主动稳定化与时滞之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "短期波动与AD-AS", "to": "抗衰退增支与减税之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "短期波动与AD-AS", "to": "货币政策规则与裁量之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "短期波动与AD-AS", "to": "近零通胀与中等通胀之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "短期波动与AD-AS", "to": "平衡预算与可持续赤字之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "社会选择与投票悖论", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "社会选择与投票悖论", "to": "联邦经济政策机构网络", "kind": "relation", "relation_type": "influences"}
+{"from": "社会选择与投票悖论", "to": "信息不对称-道德风险逆向选择信号筛选", "kind": "relation", "relation_type": "influences"}
+{"from": "社会选择与投票悖论", "to": "排他性与竞争性四类物品", "kind": "relation", "relation_type": "influences"}
+{"from": "社会选择与投票悖论", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "科斯定理与交易成本边界", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "科斯定理与交易成本边界", "to": "市场势力与外部性动摇竞争效率", "kind": "relation", "relation_type": "based-on"}
+{"from": "科斯定理与交易成本边界", "to": "外部性内部化-矫正税与排污许可", "kind": "relation", "relation_type": "influences"}
+{"from": "科斯定理与交易成本边界", "to": "正外部性补贴与专利内部化", "kind": "relation", "relation_type": "influences"}
+{"from": "科斯定理与交易成本边界", "to": "公地悲剧与产权解决", "kind": "relation", "relation_type": "influences"}
+{"from": "科斯定理与交易成本边界", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "移民劳动服务进口与净收益再分配", "to": "开放贸易的福利与关税无谓损失", "kind": "relation", "relation_type": "based-on"}
+{"from": "移民劳动服务进口与净收益再分配", "to": "要素需求与边际产值", "kind": "relation", "relation_type": "applies-to"}
+{"from": "移民劳动服务进口与净收益再分配", "to": "劳动供给后弯与收入替代效应", "kind": "relation", "relation_type": "applies-to"}
+{"from": "移民劳动服务进口与净收益再分配", "to": "工资差异与歧视经济学", "kind": "relation", "relation_type": "applies-to"}
+{"from": "移民劳动服务进口与净收益再分配", "to": "要素与收入分配", "kind": "relation", "relation_type": "applies-to"}
+{"from": "移民劳动服务进口与净收益再分配", "to": "要素与收入分配", "kind": "domain"}
+{"from": "税制效率与公平权衡", "to": "税收无谓损失机制", "kind": "relation", "relation_type": "involves"}
+{"from": "税制效率与公平权衡", "to": "税负更多落在缺乏弹性的一侧", "kind": "relation", "relation_type": "involves"}
+{"from": "税制效率与公平权衡", "to": "竞争市场总剩余最大化", "kind": "relation", "relation_type": "involves"}
+{"from": "税制效率与公平权衡", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "税制效率与公平权衡", "to": "整体减税通常减少税收收入", "kind": "relation", "relation_type": "involves"}
+{"from": "税制效率与公平权衡", "to": "EITC等补贴助贫可不扭曲价格信号", "kind": "relation", "relation_type": "applies-to"}
+{"from": "税制效率与公平权衡", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "税收无谓损失机制", "to": "税负更多落在缺乏弹性的一侧", "kind": "relation", "relation_type": "based-on"}
+{"from": "税收无谓损失机制", "to": "竞争市场总剩余最大化", "kind": "relation", "relation_type": "based-on"}
+{"from": "税收无谓损失机制", "to": "开放贸易的福利与关税无谓损失", "kind": "relation", "relation_type": "influences"}
+{"from": "税收无谓损失机制", "to": "税制效率与公平权衡", "kind": "relation", "relation_type": "influences"}
+{"from": "税收无谓损失机制", "to": "外部性内部化-矫正税与排污许可", "kind": "relation", "relation_type": "applies-to"}
+{"from": "税收无谓损失机制", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "税收无谓损失机制", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "税负更多落在缺乏弹性的一侧", "to": "税收无谓损失机制", "kind": "relation", "relation_type": "based-on"}
+{"from": "税负更多落在缺乏弹性的一侧", "to": "供给价格弹性与市场应用", "kind": "relation", "relation_type": "based-on"}
+{"from": "税负更多落在缺乏弹性的一侧", "to": "需求价格弹性与总收益判别", "kind": "relation", "relation_type": "based-on"}
+{"from": "税负更多落在缺乏弹性的一侧", "to": "价格管制短缺与过剩", "kind": "relation", "relation_type": "influences"}
+{"from": "税负更多落在缺乏弹性的一侧", "to": "经济数据分析四目标", "kind": "relation", "relation_type": "based-on"}
+{"from": "税负更多落在缺乏弹性的一侧", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "税负更多落在缺乏弹性的一侧", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "竞争市场总剩余最大化", "to": "税收无谓损失机制", "kind": "relation", "relation_type": "influences"}
+{"from": "竞争市场总剩余最大化", "to": "开放贸易的福利与关税无谓损失", "kind": "relation", "relation_type": "influences"}
+{"from": "竞争市场总剩余最大化", "to": "黄牛把稀缺票配置给估价最高者", "kind": "relation", "relation_type": "supports"}
+{"from": "竞争市场总剩余最大化", "to": "市场势力与外部性动摇竞争效率", "kind": "relation", "relation_type": "influences"}
+{"from": "竞争市场总剩余最大化", "to": "比较优势与专业化贸易", "kind": "relation", "relation_type": "influences"}
+{"from": "竞争市场总剩余最大化", "to": "完全竞争企业供给与进退", "kind": "relation", "relation_type": "based-on"}
+{"from": "竞争市场总剩余最大化", "to": "垄断定价与价格歧视", "kind": "relation", "relation_type": "influences"}
+{"from": "竞争市场总剩余最大化", "to": "垄断产量定价与无谓损失", "kind": "relation", "relation_type": "influences"}
+{"from": "竞争市场总剩余最大化", "to": "寡头合谋与囚徒困境", "kind": "relation", "relation_type": "influences"}
+{"from": "竞争市场总剩余最大化", "to": "自然垄断管制两难题", "kind": "relation", "relation_type": "influences"}
+{"from": "竞争市场总剩余最大化", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "竞争市场总剩余最大化", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "经济学图形读法", "to": "微观分析基础", "kind": "relation", "relation_type": "applies-to"}
+{"from": "经济学图形读法", "to": "经济模型与生产可能性边界", "kind": "relation", "relation_type": "supports"}
+{"from": "经济学图形读法", "to": "供求均衡与曲线移位", "kind": "relation", "relation_type": "supports"}
+{"from": "经济学图形读法", "to": "因果识别陷阱", "kind": "relation", "relation_type": "supports"}
+{"from": "经济学图形读法", "to": "实证分析与规范判断之分", "kind": "relation", "relation_type": "supports"}
+{"from": "经济学图形读法", "to": "微观分析基础", "kind": "domain"}
+{"from": "经济学家共识与政策现实脱节", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "经济学家共识与政策现实脱节", "to": "实证分析与规范判断之分", "kind": "relation", "relation_type": "example-of"}
+{"from": "经济学家共识与政策现实脱节", "to": "价格管制短缺与过剩", "kind": "relation", "relation_type": "example-of"}
+{"from": "经济学家共识与政策现实脱节", "to": "税制效率与公平权衡", "kind": "relation", "relation_type": "example-of"}
+{"from": "经济学家共识与政策现实脱节", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "经济数据分析四目标", "to": "微观分析基础", "kind": "relation", "relation_type": "applies-to"}
+{"from": "经济数据分析四目标", "to": "因果识别陷阱", "kind": "relation", "relation_type": "based-on"}
+{"from": "经济数据分析四目标", "to": "OLS与自然实验识别路径", "kind": "relation", "relation_type": "based-on"}
+{"from": "经济数据分析四目标", "to": "实证分析与规范判断之分", "kind": "relation", "relation_type": "applies-to"}
+{"from": "经济数据分析四目标", "to": "税负更多落在缺乏弹性的一侧", "kind": "relation", "relation_type": "applies-to"}
+{"from": "经济数据分析四目标", "to": "人力资本与信号论之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "经济数据分析四目标", "to": "美联储与货币政策工具", "kind": "relation", "relation_type": "example-of"}
+{"from": "经济数据分析四目标", "to": "微观分析基础", "kind": "domain"}
+{"from": "经济模型与生产可能性边界", "to": "微观分析基础", "kind": "relation", "relation_type": "applies-to"}
+{"from": "经济模型与生产可能性边界", "to": "机会成本边际与激励", "kind": "relation", "relation_type": "supports"}
+{"from": "经济模型与生产可能性边界", "to": "比较优势与专业化贸易", "kind": "relation", "relation_type": "supports"}
+{"from": "经济模型与生产可能性边界", "to": "看不见的手与市场组织", "kind": "relation", "relation_type": "supports"}
+{"from": "经济模型与生产可能性边界", "to": "实证分析与规范判断之分", "kind": "relation", "relation_type": "supports"}
+{"from": "经济模型与生产可能性边界", "to": "因果识别陷阱", "kind": "relation", "relation_type": "supports"}
+{"from": "经济模型与生产可能性边界", "to": "微观分析基础", "kind": "domain"}
+{"from": "美联储与货币政策工具", "to": "货币制度与银行体系", "kind": "relation", "relation_type": "applies-to"}
+{"from": "美联储与货币政策工具", "to": "部分准备金与货币乘数", "kind": "relation", "relation_type": "influences"}
+{"from": "美联储与货币政策工具", "to": "联邦经济政策机构网络", "kind": "relation", "relation_type": "extends"}
+{"from": "美联储与货币政策工具", "to": "货币供求与物价水平", "kind": "relation", "relation_type": "influences"}
+{"from": "美联储与货币政策工具", "to": "流动性偏好与利率效应", "kind": "relation", "relation_type": "influences"}
+{"from": "美联储与货币政策工具", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "influences"}
+{"from": "美联储与货币政策工具", "to": "经济数据分析四目标", "kind": "relation", "relation_type": "based-on"}
+{"from": "美联储与货币政策工具", "to": "货币政策规则与裁量之争", "kind": "relation", "relation_type": "influences"}
+{"from": "美联储与货币政策工具", "to": "货币制度与银行体系", "kind": "domain"}
+{"from": "群体平均工资差不能度量劳动市场歧视", "to": "工资差异与歧视经济学", "kind": "relation", "relation_type": "based-on"}
+{"from": "群体平均工资差不能度量劳动市场歧视", "to": "因果识别陷阱", "kind": "relation", "relation_type": "applies-to"}
+{"from": "群体平均工资差不能度量劳动市场歧视", "to": "要素与收入分配", "kind": "relation", "relation_type": "applies-to"}
+{"from": "群体平均工资差不能度量劳动市场歧视", "to": "要素与收入分配", "kind": "domain"}
+{"from": "联邦经济政策机构网络", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "联邦经济政策机构网络", "to": "实证分析与规范判断之分", "kind": "relation", "relation_type": "example-of"}
+{"from": "联邦经济政策机构网络", "to": "美联储与货币政策工具", "kind": "relation", "relation_type": "influences"}
+{"from": "联邦经济政策机构网络", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "自然垄断管制两难题", "to": "垄断产量定价与无谓损失", "kind": "relation", "relation_type": "extends"}
+{"from": "自然垄断管制两难题", "to": "垄断定价与价格歧视", "kind": "relation", "relation_type": "based-on"}
+{"from": "自然垄断管制两难题", "to": "竞争市场总剩余最大化", "kind": "relation", "relation_type": "based-on"}
+{"from": "自然垄断管制两难题", "to": "税收无谓损失机制", "kind": "relation", "relation_type": "based-on"}
+{"from": "自然垄断管制两难题", "to": "价格管制短缺与过剩", "kind": "relation", "relation_type": "extends"}
+{"from": "自然垄断管制两难题", "to": "反垄断消费者福利与民主关切之争", "kind": "relation", "relation_type": "influences"}
+{"from": "自然垄断管制两难题", "to": "企业与市场结构", "kind": "relation", "relation_type": "applies-to"}
+{"from": "自然垄断管制两难题", "to": "企业与市场结构", "kind": "domain"}
+{"from": "菲利普斯曲线与自然率假说", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
+{"from": "菲利普斯曲线与自然率假说", "to": "失业度量与自然率", "kind": "relation", "relation_type": "based-on"}
+{"from": "菲利普斯曲线与自然率假说", "to": "数量方程与货币中性", "kind": "relation", "relation_type": "based-on"}
+{"from": "菲利普斯曲线与自然率假说", "to": "货币增长与通货膨胀", "kind": "relation", "relation_type": "influences"}
+{"from": "菲利普斯曲线与自然率假说", "to": "长期不存在通胀失业稳定权衡", "kind": "relation", "relation_type": "supports"}
+{"from": "菲利普斯曲线与自然率假说", "to": "反通胀牺牲率与理性预期", "kind": "relation", "relation_type": "influences"}
+{"from": "菲利普斯曲线与自然率假说", "to": "流动性偏好与利率效应", "kind": "relation", "relation_type": "influences"}
+{"from": "菲利普斯曲线与自然率假说", "to": "短期波动与AD-AS", "kind": "domain"}
+{"from": "行为经济学-有限理性公平与跨时", "to": "微观分析基础", "kind": "relation", "relation_type": "applies-to"}
+{"from": "行为经济学-有限理性公平与跨时", "to": "机会成本边际与激励", "kind": "relation", "relation_type": "influences"}
+{"from": "行为经济学-有限理性公平与跨时", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "influences"}
+{"from": "行为经济学-有限理性公平与跨时", "to": "劳动供给后弯与收入替代效应", "kind": "relation", "relation_type": "influences"}
+{"from": "行为经济学-有限理性公平与跨时", "to": "要素与收入分配", "kind": "relation", "relation_type": "influences"}
+{"from": "行为经济学-有限理性公平与跨时", "to": "微观分析基础", "kind": "domain"}
+{"from": "要素与收入分配", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "influences"}
+{"from": "要素与收入分配", "to": "收入不平等度量与贫困率", "kind": "relation", "relation_type": "applies-to"}
+{"from": "要素与收入分配", "to": "分配正义三传统之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "要素需求与边际产值", "to": "完全竞争企业供给与进退", "kind": "relation", "relation_type": "based-on"}
+{"from": "要素需求与边际产值", "to": "机会成本边际与激励", "kind": "relation", "relation_type": "based-on"}
+{"from": "要素需求与边际产值", "to": "工资差异与歧视经济学", "kind": "relation", "relation_type": "extends"}
+{"from": "要素需求与边际产值", "to": "边际生产力定价不保证公平分配", "kind": "relation", "relation_type": "supports"}
+{"from": "要素需求与边际产值", "to": "要素与收入分配", "kind": "relation", "relation_type": "applies-to"}
+{"from": "要素需求与边际产值", "to": "要素与收入分配", "kind": "domain"}
+{"from": "财政乘数与挤出效应", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
+{"from": "财政乘数与挤出效应", "to": "流动性偏好与利率效应", "kind": "relation", "relation_type": "influences"}
+{"from": "财政乘数与挤出效应", "to": "可贷资金市场与政策冲击", "kind": "relation", "relation_type": "influences"}
+{"from": "财政乘数与挤出效应", "to": "主动稳定化与时滞之争", "kind": "relation", "relation_type": "influences"}
+{"from": "财政乘数与挤出效应", "to": "AD-AS短期波动模型", "kind": "relation", "relation_type": "influences"}
+{"from": "财政乘数与挤出效应", "to": "短期波动与AD-AS", "kind": "domain"}
+{"from": "货币三职能与流动性", "to": "货币制度与银行体系", "kind": "relation", "relation_type": "applies-to"}
+{"from": "货币三职能与流动性", "to": "货币种类与货币存量", "kind": "relation", "relation_type": "influences"}
+{"from": "货币三职能与流动性", "to": "名义与实际利率", "kind": "relation", "relation_type": "influences"}
+{"from": "货币三职能与流动性", "to": "储蓄投资与金融体系", "kind": "relation", "relation_type": "influences"}
+{"from": "货币三职能与流动性", "to": "货币制度与银行体系", "kind": "domain"}
+{"from": "货币供求与物价水平", "to": "货币增长与通货膨胀", "kind": "relation", "relation_type": "applies-to"}
+{"from": "货币供求与物价水平", "to": "数量方程与货币中性", "kind": "relation", "relation_type": "influences"}
+{"from": "货币供求与物价水平", "to": "美联储与货币政策工具", "kind": "relation", "relation_type": "based-on"}
+{"from": "货币供求与物价水平", "to": "CPI构造与度量偏误", "kind": "relation", "relation_type": "influences"}
+{"from": "货币供求与物价水平", "to": "货币增长与通货膨胀", "kind": "domain"}
+{"from": "货币制度与银行体系", "to": "储蓄投资与金融体系", "kind": "relation", "relation_type": "extends"}
+{"from": "货币制度与银行体系", "to": "宏观度量与国民收入", "kind": "relation", "relation_type": "influences"}
+{"from": "货币制度与银行体系", "to": "联邦经济政策机构网络", "kind": "relation", "relation_type": "influences"}
+{"from": "货币制度与银行体系", "to": "货币增长与通货膨胀", "kind": "relation", "relation_type": "influences"}
+{"from": "货币增长与通货膨胀", "to": "货币制度与银行体系", "kind": "relation", "relation_type": "based-on"}
+{"from": "货币增长与通货膨胀", "to": "宏观度量与国民收入", "kind": "relation", "relation_type": "influences"}
+{"from": "货币增长与通货膨胀", "to": "开放经济宏观基础", "kind": "relation", "relation_type": "influences"}
+{"from": "货币增长与通货膨胀", "to": "储蓄投资与金融体系", "kind": "relation", "relation_type": "influences"}
+{"from": "货币政策规则与裁量之争", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
+{"from": "货币政策规则与裁量之争", "to": "央行应承诺遵循货币规则", "kind": "relation", "relation_type": "involves"}
+{"from": "货币政策规则与裁量之争", "to": "央行应保留货币裁量灵活性", "kind": "relation", "relation_type": "involves"}
+{"from": "货币政策规则与裁量之争", "to": "美联储与货币政策工具", "kind": "relation", "relation_type": "based-on"}
+{"from": "货币政策规则与裁量之争", "to": "菲利普斯曲线与自然率假说", "kind": "relation", "relation_type": "based-on"}
+{"from": "货币政策规则与裁量之争", "to": "短期波动与AD-AS", "kind": "domain"}
+{"from": "货币种类与货币存量", "to": "货币制度与银行体系", "kind": "relation", "relation_type": "applies-to"}
+{"from": "货币种类与货币存量", "to": "货币三职能与流动性", "kind": "relation", "relation_type": "based-on"}
+{"from": "货币种类与货币存量", "to": "部分准备金与货币乘数", "kind": "relation", "relation_type": "influences"}
+{"from": "货币种类与货币存量", "to": "货币制度与银行体系", "kind": "domain"}
+{"from": "购买力平价与一价定律", "to": "开放经济宏观基础", "kind": "relation", "relation_type": "applies-to"}
+{"from": "购买力平价与一价定律", "to": "名义与实际汇率", "kind": "relation", "relation_type": "based-on"}
+{"from": "购买力平价与一价定律", "to": "数量方程与货币中性", "kind": "relation", "relation_type": "based-on"}
+{"from": "购买力平价与一价定律", "to": "货币制度与银行体系", "kind": "relation", "relation_type": "influences"}
+{"from": "购买力平价与一价定律", "to": "开放经济双市场模型", "kind": "relation", "relation_type": "example-of"}
+{"from": "购买力平价与一价定律", "to": "开放经济宏观基础", "kind": "domain"}
+{"from": "贸易与相互依存", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "influences"}
+{"from": "贸易与相互依存", "to": "开放经济宏观基础", "kind": "relation", "relation_type": "influences"}
+{"from": "贸易因补偿可能性而能使人人更好", "to": "贸易无补偿时常使部分人分到更小一块", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "贸易因补偿可能性而能使人人更好", "to": "比较优势与专业化贸易", "kind": "relation", "relation_type": "based-on"}
+{"from": "贸易因补偿可能性而能使人人更好", "to": "竞争市场总剩余最大化", "kind": "relation", "relation_type": "based-on"}
+{"from": "贸易因补偿可能性而能使人人更好", "to": "开放贸易的福利与关税无谓损失", "kind": "relation", "relation_type": "based-on"}
+{"from": "贸易因补偿可能性而能使人人更好", "to": "贸易与相互依存", "kind": "relation", "relation_type": "applies-to"}
+{"from": "贸易因补偿可能性而能使人人更好", "to": "贸易与相互依存", "kind": "domain"}
+{"from": "贸易政策不改总体贸易余额", "to": "开放经济双市场模型", "kind": "relation", "relation_type": "based-on"}
+{"from": "贸易政策不改总体贸易余额", "to": "开放经济流量恒等式", "kind": "relation", "relation_type": "supports"}
+{"from": "贸易政策不改总体贸易余额", "to": "开放贸易的福利与关税无谓损失", "kind": "relation", "relation_type": "influences"}
+{"from": "贸易政策不改总体贸易余额", "to": "开放经济宏观基础", "kind": "relation", "relation_type": "applies-to"}
+{"from": "贸易政策不改总体贸易余额", "to": "开放经济宏观基础", "kind": "domain"}
+{"from": "贸易无补偿时常使部分人分到更小一块", "to": "贸易因补偿可能性而能使人人更好", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "贸易无补偿时常使部分人分到更小一块", "to": "限制贸易的五类论据与回应", "kind": "relation", "relation_type": "influences"}
+{"from": "贸易无补偿时常使部分人分到更小一块", "to": "比较优势与专业化贸易", "kind": "relation", "relation_type": "based-on"}
+{"from": "贸易无补偿时常使部分人分到更小一块", "to": "贸易与相互依存", "kind": "relation", "relation_type": "applies-to"}
+{"from": "贸易无补偿时常使部分人分到更小一块", "to": "贸易与相互依存", "kind": "domain"}
+{"from": "贸易补偿可能性与现实分配之争", "to": "贸易因补偿可能性而能使人人更好", "kind": "relation", "relation_type": "involves"}
+{"from": "贸易补偿可能性与现实分配之争", "to": "贸易无补偿时常使部分人分到更小一块", "kind": "relation", "relation_type": "involves"}
+{"from": "贸易补偿可能性与现实分配之争", "to": "比较优势与专业化贸易", "kind": "relation", "relation_type": "based-on"}
+{"from": "贸易补偿可能性与现实分配之争", "to": "开放贸易的福利与关税无谓损失", "kind": "relation", "relation_type": "based-on"}
+{"from": "贸易补偿可能性与现实分配之争", "to": "限制贸易的五类论据与回应", "kind": "relation", "relation_type": "influences"}
+{"from": "贸易补偿可能性与现实分配之争", "to": "贸易与相互依存", "kind": "relation", "relation_type": "applies-to"}
+{"from": "贸易补偿可能性与现实分配之争", "to": "贸易与相互依存", "kind": "domain"}
+{"from": "资本积累报酬递减与赶超", "to": "长期增长与生产率", "kind": "relation", "relation_type": "applies-to"}
+{"from": "资本积累报酬递减与赶超", "to": "生产率决定因素与生产函数", "kind": "relation", "relation_type": "extends"}
+{"from": "资本积累报酬递减与赶超", "to": "可贷资金市场与政策冲击", "kind": "relation", "relation_type": "based-on"}
+{"from": "资本积累报酬递减与赶超", "to": "长期增长与生产率", "kind": "domain"}
+{"from": "边际生产力定价不保证公平分配", "to": "要素需求与边际产值", "kind": "relation", "relation_type": "based-on"}
+{"from": "边际生产力定价不保证公平分配", "to": "实证分析与规范判断之分", "kind": "relation", "relation_type": "supports"}
+{"from": "边际生产力定价不保证公平分配", "to": "工资差异与歧视经济学", "kind": "relation", "relation_type": "applies-to"}
+{"from": "边际生产力定价不保证公平分配", "to": "要素与收入分配", "kind": "relation", "relation_type": "applies-to"}
+{"from": "边际生产力定价不保证公平分配", "to": "要素与收入分配", "kind": "domain"}
+{"from": "过程公正则结果不平等亦可接受", "to": "最大最小化要求比功利主义更多再分配", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "过程公正则结果不平等亦可接受", "to": "功利主义支持有损耗再分配但不求均分", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "过程公正则结果不平等亦可接受", "to": "分配正义三传统之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "过程公正则结果不平等亦可接受", "to": "要素与收入分配", "kind": "relation", "relation_type": "applies-to"}
+{"from": "过程公正则结果不平等亦可接受", "to": "要素与收入分配", "kind": "domain"}
+{"from": "近零通胀与中等通胀之争", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
+{"from": "近零通胀与中等通胀之争", "to": "央行应瞄准近零通胀", "kind": "relation", "relation_type": "involves"}
+{"from": "近零通胀与中等通胀之争", "to": "应容忍中等正通胀", "kind": "relation", "relation_type": "involves"}
+{"from": "近零通胀与中等通胀之争", "to": "反通胀牺牲率与理性预期", "kind": "relation", "relation_type": "based-on"}
+{"from": "近零通胀与中等通胀之争", "to": "通胀的社会成本", "kind": "relation", "relation_type": "based-on"}
+{"from": "近零通胀与中等通胀之争", "to": "菲利普斯曲线与自然率假说", "kind": "relation", "relation_type": "based-on"}
+{"from": "近零通胀与中等通胀之争", "to": "货币政策规则与裁量之争", "kind": "relation", "relation_type": "influences"}
+{"from": "近零通胀与中等通胀之争", "to": "短期波动与AD-AS", "kind": "domain"}
+{"from": "通胀的社会成本", "to": "货币增长与通货膨胀", "kind": "relation", "relation_type": "applies-to"}
+{"from": "通胀的社会成本", "to": "数量方程与货币中性", "kind": "relation", "relation_type": "based-on"}
+{"from": "通胀的社会成本", "to": "通胀税与费雪效应", "kind": "relation", "relation_type": "extends"}
+{"from": "通胀的社会成本", "to": "鼓励储蓄税制改革可降利率提投资", "kind": "relation", "relation_type": "influences"}
+{"from": "通胀的社会成本", "to": "货币增长与通货膨胀", "kind": "domain"}
+{"from": "通胀税与费雪效应", "to": "货币增长与通货膨胀", "kind": "relation", "relation_type": "applies-to"}
+{"from": "通胀税与费雪效应", "to": "数量方程与货币中性", "kind": "relation", "relation_type": "based-on"}
+{"from": "通胀税与费雪效应", "to": "名义与实际利率", "kind": "relation", "relation_type": "extends"}
+{"from": "通胀税与费雪效应", "to": "税收无谓损失机制", "kind": "relation", "relation_type": "influences"}
+{"from": "通胀税与费雪效应", "to": "货币增长与通货膨胀", "kind": "domain"}
+{"from": "部分准备金与货币乘数", "to": "货币制度与银行体系", "kind": "relation", "relation_type": "applies-to"}
+{"from": "部分准备金与货币乘数", "to": "货币种类与货币存量", "kind": "relation", "relation_type": "based-on"}
+{"from": "部分准备金与货币乘数", "to": "美联储与货币政策工具", "kind": "relation", "relation_type": "influences"}
+{"from": "部分准备金与货币乘数", "to": "金融市场债券股票与中介", "kind": "relation", "relation_type": "influences"}
+{"from": "部分准备金与货币乘数", "to": "货币制度与银行体系", "kind": "domain"}
+{"from": "金融市场债券股票与中介", "to": "储蓄投资与金融体系", "kind": "relation", "relation_type": "applies-to"}
+{"from": "金融市场债券股票与中介", "to": "可贷资金市场与政策冲击", "kind": "relation", "relation_type": "influences"}
+{"from": "金融市场债券股票与中介", "to": "分散化与风险收益权衡", "kind": "relation", "relation_type": "influences"}
+{"from": "金融市场债券股票与中介", "to": "有效市场假说与基本面估值", "kind": "relation", "relation_type": "influences"}
+{"from": "金融市场债券股票与中介", "to": "储蓄投资与金融体系", "kind": "domain"}
+{"from": "长期不存在通胀失业稳定权衡", "to": "菲利普斯曲线与自然率假说", "kind": "relation", "relation_type": "based-on"}
+{"from": "长期不存在通胀失业稳定权衡", "to": "数量方程与货币中性", "kind": "relation", "relation_type": "supports"}
+{"from": "长期不存在通胀失业稳定权衡", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
+{"from": "长期不存在通胀失业稳定权衡", "to": "失业度量与自然率", "kind": "relation", "relation_type": "influences"}
+{"from": "长期不存在通胀失业稳定权衡", "to": "反通胀牺牲率与理性预期", "kind": "relation", "relation_type": "influences"}
+{"from": "长期不存在通胀失业稳定权衡", "to": "短期波动与AD-AS", "kind": "domain"}
+{"from": "长期增长与生产率", "to": "宏观度量与国民收入", "kind": "relation", "relation_type": "extends"}
+{"from": "长期增长与生产率", "to": "储蓄投资与金融体系", "kind": "relation", "relation_type": "influences"}
+{"from": "长期增长与生产率", "to": "生产率决定因素与生产函数", "kind": "relation", "relation_type": "applies-to"}
+{"from": "长期增长与生产率", "to": "资本积累报酬递减与赶超", "kind": "relation", "relation_type": "applies-to"}
+{"from": "长期增长与生产率", "to": "长期增长政策菜单", "kind": "relation", "relation_type": "applies-to"}
+{"from": "长期增长政策菜单", "to": "长期增长与生产率", "kind": "relation", "relation_type": "applies-to"}
+{"from": "长期增长政策菜单", "to": "生产率决定因素与生产函数", "kind": "relation", "relation_type": "extends"}
+{"from": "长期增长政策菜单", "to": "资本积累报酬递减与赶超", "kind": "relation", "relation_type": "extends"}
+{"from": "长期增长政策菜单", "to": "正外部性补贴与专利内部化", "kind": "relation", "relation_type": "influences"}
+{"from": "长期增长政策菜单", "to": "开放贸易的福利与关税无谓损失", "kind": "relation", "relation_type": "influences"}
+{"from": "长期增长政策菜单", "to": "产业政策外溢普遍论与政治俘获之争", "kind": "relation", "relation_type": "influences"}
+{"from": "长期增长政策菜单", "to": "长期增长与生产率", "kind": "domain"}
+{"from": "限制贸易的五类论据与回应", "to": "开放贸易的福利与关税无谓损失", "kind": "relation", "relation_type": "based-on"}
+{"from": "限制贸易的五类论据与回应", "to": "贸易补偿可能性与现实分配之争", "kind": "relation", "relation_type": "influences"}
+{"from": "限制贸易的五类论据与回应", "to": "产业政策外溢普遍论与政治俘获之争", "kind": "relation", "relation_type": "influences"}
+{"from": "限制贸易的五类论据与回应", "to": "单边与多边通向自由贸易", "kind": "relation", "relation_type": "influences"}
+{"from": "限制贸易的五类论据与回应", "to": "贸易与相互依存", "kind": "relation", "relation_type": "applies-to"}
+{"from": "限制贸易的五类论据与回应", "to": "经济学家共识与政策现实脱节", "kind": "relation", "relation_type": "example-of"}
+{"from": "限制贸易的五类论据与回应", "to": "贸易与相互依存", "kind": "domain"}
+{"from": "需求价格弹性与总收益判别", "to": "税负更多落在缺乏弹性的一侧", "kind": "relation", "relation_type": "influences"}
+{"from": "需求价格弹性与总收益判别", "to": "税收无谓损失机制", "kind": "relation", "relation_type": "influences"}
+{"from": "需求价格弹性与总收益判别", "to": "供给价格弹性与市场应用", "kind": "relation", "relation_type": "influences"}
+{"from": "需求价格弹性与总收益判别", "to": "微观分析基础", "kind": "relation", "relation_type": "applies-to"}
+{"from": "需求价格弹性与总收益判别", "to": "微观分析基础", "kind": "domain"}
+{"from": "风险厌恶与保险分散", "to": "储蓄投资与金融体系", "kind": "relation", "relation_type": "applies-to"}
+{"from": "风险厌恶与保险分散", "to": "信息不对称-道德风险逆向选择信号筛选", "kind": "relation", "relation_type": "extends"}
+{"from": "风险厌恶与保险分散", "to": "医疗保险道德风险与逆向选择", "kind": "relation", "relation_type": "influences"}
+{"from": "风险厌恶与保险分散", "to": "分散化与风险收益权衡", "kind": "relation", "relation_type": "influences"}
+{"from": "风险厌恶与保险分散", "to": "储蓄投资与金融体系", "kind": "domain"}
+{"from": "黄牛把稀缺票配置给估价最高者", "to": "竞争市场总剩余最大化", "kind": "relation", "relation_type": "based-on"}
+{"from": "黄牛把稀缺票配置给估价最高者", "to": "价格管制短缺与过剩", "kind": "relation", "relation_type": "influences"}
+{"from": "黄牛把稀缺票配置给估价最高者", "to": "实证分析与规范判断之分", "kind": "relation", "relation_type": "influences"}
+{"from": "黄牛把稀缺票配置给估价最高者", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "黄牛把稀缺票配置给估价最高者", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "鼓励储蓄税制改革可降利率提投资", "to": "储蓄激励效果有限且受益偏富人", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "鼓励储蓄税制改革可降利率提投资", "to": "可贷资金市场与政策冲击", "kind": "relation", "relation_type": "based-on"}
+{"from": "鼓励储蓄税制改革可降利率提投资", "to": "储蓄投资与金融体系", "kind": "relation", "relation_type": "applies-to"}
+{"from": "鼓励储蓄税制改革可降利率提投资", "to": "储蓄激励促增长与效果公平之疑", "kind": "relation", "relation_type": "applies-to"}
+{"from": "鼓励储蓄税制改革可降利率提投资", "to": "储蓄投资与金融体系", "kind": "domain"}

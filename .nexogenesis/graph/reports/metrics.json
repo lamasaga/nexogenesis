@@ -1,0 +1,13 @@
+{
+  "node_count": 134,
+  "edge_count": 775,
+  "orphan_count": 0,
+  "empty_domain_count": 0,
+  "conflict_gap_count": 0,
+  "no_relation_count": 0,
+  "bridge_count": 0,
+  "orphans": [],
+  "empty_domains": [],
+  "conflict_gaps": [],
+  "bridges": []
+}

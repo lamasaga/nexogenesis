@@ -383,7 +383,8 @@ def write_buffer(buffer: dict, subtype: str | None = None, buffer_dir: Path | No
     seq = 0
     while True:
         seq += 1
-        filename = now.strftime(f"%Y-%m-%d-%H%M%S-{seq:02d}-{safe_title}.md")
+        # 时间戳与标题分开拼：标题中的 %（如 55%）不可进入 strftime 格式串
+        filename = f"{now.strftime('%Y-%m-%d-%H%M%S')}-{seq:02d}-{safe_title}.md"
         target = target_dir / filename
         if not target.exists():
             break

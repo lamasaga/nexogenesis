@@ -1,9 +1,9 @@
 {
-  "node_count": 5,
-  "edge_count": 12,
+  "node_count": 150,
+  "edge_count": 899,
   "edges_by_kind": {
-    "relation": 8,
-    "domain": 4
+    "relation": 763,
+    "domain": 136
   },
-  "built_at": "2026-07-30T18:35:49Z"
+  "built_at": "2026-08-01T19:27:16Z"
 }
