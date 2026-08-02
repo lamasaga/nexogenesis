@@ -1,4 +1,8 @@
 version: 1
-current_session_id: null
-sessions: []
+current_session_id: 20260802-030901-286f3b
+sessions:
+- id: 20260802-030901-286f3b
+  title: 知识库内在张力讨论
+  created: '2026-08-02T03:09:01Z'
+  status: open
 fossils: []

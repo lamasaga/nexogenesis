@@ -16,6 +16,7 @@ sources:
 - 05-Buffer/meaning-unit/2026-08-01-214644-01-复习题锚定：篮子权重、三偏误、进口酒、糖果实际价、名义与实际利率.md
 - 05-Buffer/meaning-unit/2026-08-01-214644-01-应用题提炼：CPI偏误配对、鸡蛋工时购买力、社保挂钩与意外通胀债权转移.md
 - 05-Buffer/meaning-unit/2026-08-01-214644-01-应用题提炼：Vegopia与球拍饮料算CPI、质量新品种、Voice国平减对比.md
+- 05-Buffer/tension/2026-08-01-214536-01-CPI偏高之争牵动社保挂钩：削减自动调增-vs-老年人医疗权重更高.md
 relations:
 - target: 宏观度量与国民收入
   type: applies-to
@@ -25,8 +26,11 @@ relations:
   type: influences
 - target: GDP是福利的良好但不完美度量
   type: influences
+- target: CPI社保挂钩矫正与老年篮子之争
+  type: influences
+  note: 指数化政策争论由偏误度量引出
 created: '2026-08-01'
-updated: '2026-08-01'
+updated: '2026-08-02'
 ---
 
 ## 核心思想

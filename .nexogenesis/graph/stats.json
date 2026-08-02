@@ -1,9 +1,10 @@
 {
-  "node_count": 150,
-  "edge_count": 899,
+  "node_count": 290,
+  "edge_count": 1438,
   "edges_by_kind": {
-    "relation": 763,
-    "domain": 136
+    "relation": 1141,
+    "domain": 291,
+    "wikilink": 6
   },
-  "built_at": "2026-08-01T19:27:16Z"
+  "built_at": "2026-08-02T05:19:03Z"
 }

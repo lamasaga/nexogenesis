@@ -38,6 +38,9 @@ relations:
   type: applies-to
 - target: 平衡预算与可持续赤字之争
   type: applies-to
+- target: 金融权力投机与内生不稳定
+  type: influences
+  note: 跨源枢纽衔接
 created: '2026-08-02'
 updated: '2026-08-02'
 ---
@@ -72,3 +75,7 @@ updated: '2026-08-02'
 > If they appear to be offering you a free lunch, look for the hidden price tag.
 
 > By clarifying the trade-offs that policymakers face, it can make choices more difficult.
+
+## 跨源衔接
+
+　　跨源衔接：明斯基融资层级、大政府稳定与通胀倾向、危机救市叙事见枢纽「金融权力投机与内生不稳定」。本域继续以 AD/AS 组织短期波动与政策时滞；新枢纽提供金融内生不稳的制度—行为微观基础，而非替代 AD-AS 总框架。

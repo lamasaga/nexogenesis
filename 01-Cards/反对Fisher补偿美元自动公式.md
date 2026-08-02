@@ -1,0 +1,48 @@
+---
+id: 反对Fisher补偿美元自动公式
+title: 反对 Fisher 补偿美元自动公式
+type: claim
+maturity: growing
+lifecycle: active
+domains:
+- 货币增长与通货膨胀
+origin: document
+sources:
+- John_Maynard_Keynes_A_Tract_on_Monetary_Reform.txt / 片段 9/11
+relations:
+- target: 货币增长与通货膨胀
+  type: applies-to
+  note: 讨论价格指数挂钩的调控方案
+- target: 货币数量论的正式表述
+  type: based-on
+  note: 涉及货币数量与价格水平关系
+created: '2026-07-28'
+updated: '2026-08-02'
+---
+
+### 一句话主张
+
+Fisher 的"补偿美元"自动按价格指数调整的做法过于机械；更好的做法是以官方编制的标准商品指数为价值基准，由当局综合就业、生产、信贷需求、利率、发行量、外贸和汇率等数据作出判断。
+
+### 依据
+
+- **Fisher 方案**：通过指数自动调整美元含金量，无需人为判断；凯恩斯认为其优点是可嫁接到战前的黄金储备体系上。
+- **反对理由**：
+  - 等待价格变动实际发生再采取行动可能为时已晚。
+  - 信贷周期具有累积性，"需要抵消的是未来的价格上涨，而非过去的价格上涨"。
+  - Fisher 方法适用于黄金的长期趋势，但难以应对更具破坏性的短期信贷周期波动。
+- **替代方案**：
+  - 编制官方商品指数，代表一篮子标准复合商品。
+  - 当局承诺动用资源防止该指数价格偏离正常水平超过某一百分比（类比战前防止黄金价格偏离）。
+  - 指数构成可根据各组成商品相对经济重要性的变化而调整。
+- **其他判断指标**：就业状况、生产量、信贷有效需求、各类投资利率、新发行量、现金流入流通量、外贸统计和汇率水平。
+
+### 已知限制
+
+凯恩斯未给出具体指数公式和允许偏离幅度；这些留待制度设计时确定。
+
+### 原文摘录
+
+> "It is not the past rise in prices but the future rise that has to be counteracted."
+> "It would promote confidence and furnish an objective standard of value, if, an official index number having been compiled of such a character as to register the price of a standard composite commodity, the authorities were to adopt this composite commodity as their standard of value."
+> "The main point is that the objective of the authorities, pursued with such means as are at their command, should be the stability of prices."

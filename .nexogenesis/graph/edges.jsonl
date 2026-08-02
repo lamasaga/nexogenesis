@@ -1,3 +1,36 @@
+{"from": "1834年与1837年调整美国金币重量成色", "to": "货币形态史与本位制度", "kind": "relation", "relation_type": "applies-to"}
+{"from": "1834年与1837年调整美国金币重量成色", "to": "铸币技术演进", "kind": "relation", "relation_type": "supports"}
+{"from": "1834年与1837年调整美国金币重量成色", "to": "货币形态史与本位制度", "kind": "domain"}
+{"from": "1873年铸币法案作者归因争议", "to": "货币形态史与本位制度", "kind": "relation", "relation_type": "applies-to"}
+{"from": "1873年铸币法案作者归因争议", "to": "传记颂扬性叙事可能遮蔽政策争议", "kind": "relation", "relation_type": "example-of"}
+{"from": "1873年铸币法案作者归因争议", "to": "Knox编纂1873铸币法案说", "kind": "relation", "relation_type": "involves"}
+{"from": "1873年铸币法案作者归因争议", "to": "Linderman设计1873铸币法案说", "kind": "relation", "relation_type": "involves"}
+{"from": "1873年铸币法案作者归因争议", "to": "货币形态史与本位制度", "kind": "domain"}
+{"from": "1873年铸币法案作者归因争议", "to": "Knox编纂1873铸币法案说", "kind": "wikilink"}
+{"from": "1873年铸币法案作者归因争议", "to": "Linderman设计1873铸币法案说", "kind": "wikilink"}
+{"from": "1873年铸币法案民主合法性与作者归因争议", "to": "货币形态史与本位制度", "kind": "relation", "relation_type": "applies-to"}
+{"from": "1873年铸币法案民主合法性与作者归因争议", "to": "1873年铸币法案作者归因争议", "kind": "relation", "relation_type": "extends"}
+{"from": "1873年铸币法案民主合法性与作者归因争议", "to": "货币形态史与本位制度", "kind": "domain"}
+{"from": "1886-1887年银价下跌与银本位国家贬值", "to": "货币形态史与本位制度", "kind": "relation", "relation_type": "applies-to"}
+{"from": "1886-1887年银价下跌与银本位国家贬值", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "applies-to"}
+{"from": "1886-1887年银价下跌与银本位国家贬值", "to": "货币形态史与本位制度", "kind": "domain"}
+{"from": "1886-1887年银价下跌与银本位国家贬值", "to": "国际货币秩序与汇率清算", "kind": "domain"}
+{"from": "1907-年-10-月-24-日-J-P-Morgan-救市", "to": "金融权力投机与内生不稳定", "kind": "relation", "relation_type": "applies-to"}
+{"from": "1907-年-10-月-24-日-J-P-Morgan-救市", "to": "金融权力投机与内生不稳定", "kind": "relation", "relation_type": "influences"}
+{"from": "1907-年-10-月-24-日-J-P-Morgan-救市", "to": "市场危机中的投机教训-1901-1907", "kind": "relation", "relation_type": "supports"}
+{"from": "1907-年-10-月-24-日-J-P-Morgan-救市", "to": "金融权力投机与内生不稳定", "kind": "domain"}
+{"from": "19世纪各国对金币流通迷恋源于误读英国制度", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "applies-to"}
+{"from": "19世纪各国对金币流通迷恋源于误读英国制度", "to": "英国货币制度的独特性在于支票体系与银行利率", "kind": "relation", "relation_type": "supports"}
+{"from": "19世纪各国对金币流通迷恋源于误读英国制度", "to": "金本位普及而金币流通成为例外", "kind": "relation", "relation_type": "supports"}
+{"from": "19世纪各国对金币流通迷恋源于误读英国制度", "to": "国际货币秩序与汇率清算", "kind": "domain"}
+{"from": "19世纪各国对金币流通迷恋源于误读英国制度", "to": "货币形态史与本位制度", "kind": "domain"}
+{"from": "2022-2026美元黄金走势的管理货币张力诠释", "to": "价格稳定应优先于汇率稳定", "kind": "relation", "relation_type": "based-on"}
+{"from": "2022-2026美元黄金走势的管理货币张力诠释", "to": "美国实际已建立美元标准而非真正金本位", "kind": "relation", "relation_type": "based-on"}
+{"from": "2022-2026美元黄金走势的管理货币张力诠释", "to": "黄金已成为依赖少数央行政策的管理货币", "kind": "relation", "relation_type": "supports"}
+{"from": "2022-2026美元黄金走势的管理货币张力诠释", "to": "远期汇率决定的利率平价模型", "kind": "relation", "relation_type": "supports"}
+{"from": "2022-2026美元黄金走势的管理货币张力诠释", "to": "战前金本位与战后浮动汇率调整机制对比", "kind": "relation", "relation_type": "supports"}
+{"from": "2022-2026美元黄金走势的管理货币张力诠释", "to": "管理货币与金本位恢复的制度路径之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "2022-2026美元黄金走势的管理货币张力诠释", "to": "国际货币秩序与汇率清算", "kind": "domain"}
 {"from": "AD-AS短期波动模型", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
 {"from": "AD-AS短期波动模型", "to": "数量方程与货币中性", "kind": "relation", "relation_type": "based-on"}
 {"from": "AD-AS短期波动模型", "to": "流动性偏好与利率效应", "kind": "relation", "relation_type": "influences"}
@@ -6,16 +39,37 @@
 {"from": "AD-AS短期波动模型", "to": "财政乘数与挤出效应", "kind": "relation", "relation_type": "influences"}
 {"from": "AD-AS短期波动模型", "to": "长期增长与生产率", "kind": "relation", "relation_type": "influences"}
 {"from": "AD-AS短期波动模型", "to": "短期波动与AD-AS", "kind": "domain"}
+{"from": "Ambedkar与Keynes在印度金汇兑本位上的冲突", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "applies-to"}
+{"from": "Ambedkar与Keynes在印度金汇兑本位上的冲突", "to": "金汇兑本位制的定义与核心逻辑", "kind": "relation", "relation_type": "involves"}
+{"from": "Ambedkar与Keynes在印度金汇兑本位上的冲突", "to": "Ambedkar主张无金币流通则非真正金本位", "kind": "relation", "relation_type": "involves"}
+{"from": "Ambedkar与Keynes在印度金汇兑本位上的冲突", "to": "国际货币秩序与汇率清算", "kind": "domain"}
+{"from": "Ambedkar主张无金币流通则非真正金本位", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "applies-to"}
+{"from": "Ambedkar主张无金币流通则非真正金本位", "to": "金汇兑本位制的定义与核心逻辑", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "Ambedkar主张无金币流通则非真正金本位", "to": "国际货币秩序与汇率清算", "kind": "domain"}
 {"from": "CPI构造与度量偏误", "to": "宏观度量与国民收入", "kind": "relation", "relation_type": "applies-to"}
 {"from": "CPI构造与度量偏误", "to": "名义与真实GDP", "kind": "relation", "relation_type": "extends"}
 {"from": "CPI构造与度量偏误", "to": "名义与实际利率", "kind": "relation", "relation_type": "influences"}
 {"from": "CPI构造与度量偏误", "to": "GDP是福利的良好但不完美度量", "kind": "relation", "relation_type": "influences"}
+{"from": "CPI构造与度量偏误", "to": "CPI社保挂钩矫正与老年篮子之争", "kind": "relation", "relation_type": "influences"}
 {"from": "CPI构造与度量偏误", "to": "宏观度量与国民收入", "kind": "domain"}
+{"from": "CPI社保挂钩矫正与老年篮子之争", "to": "宏观度量与国民收入", "kind": "relation", "relation_type": "applies-to"}
+{"from": "CPI社保挂钩矫正与老年篮子之争", "to": "CPI高估应下调社保自动调增说", "kind": "relation", "relation_type": "involves"}
+{"from": "CPI社保挂钩矫正与老年篮子之争", "to": "老年医疗权重更高不宜贸然削减CPI挂钩说", "kind": "relation", "relation_type": "involves"}
+{"from": "CPI社保挂钩矫正与老年篮子之争", "to": "CPI构造与度量偏误", "kind": "relation", "relation_type": "based-on"}
+{"from": "CPI社保挂钩矫正与老年篮子之争", "to": "宏观度量与国民收入", "kind": "domain"}
+{"from": "CPI高估应下调社保自动调增说", "to": "宏观度量与国民收入", "kind": "relation", "relation_type": "applies-to"}
+{"from": "CPI高估应下调社保自动调增说", "to": "CPI构造与度量偏误", "kind": "relation", "relation_type": "based-on"}
+{"from": "CPI高估应下调社保自动调增说", "to": "老年医疗权重更高不宜贸然削减CPI挂钩说", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "CPI高估应下调社保自动调增说", "to": "宏观度量与国民收入", "kind": "domain"}
 {"from": "EITC等补贴助贫可不扭曲价格信号", "to": "价格管制短缺与过剩", "kind": "relation", "relation_type": "based-on"}
 {"from": "EITC等补贴助贫可不扭曲价格信号", "to": "最低工资助贫与就业代价之争", "kind": "relation", "relation_type": "influences"}
 {"from": "EITC等补贴助贫可不扭曲价格信号", "to": "分配正义三传统之争", "kind": "relation", "relation_type": "applies-to"}
 {"from": "EITC等补贴助贫可不扭曲价格信号", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
 {"from": "EITC等补贴助贫可不扭曲价格信号", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "Fowler委员会主张印度推行金币流通", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "applies-to"}
+{"from": "Fowler委员会主张印度推行金币流通", "to": "19世纪各国对金币流通迷恋源于误读英国制度", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "Fowler委员会主张印度推行金币流通", "to": "国际货币秩序与汇率清算", "kind": "domain"}
+{"from": "Fowler委员会主张印度推行金币流通", "to": "货币形态史与本位制度", "kind": "domain"}
 {"from": "GDP支出四分法恒等式", "to": "宏观度量与国民收入", "kind": "relation", "relation_type": "applies-to"}
 {"from": "GDP支出四分法恒等式", "to": "GDP支出法定义与边界", "kind": "relation", "relation_type": "based-on"}
 {"from": "GDP支出四分法恒等式", "to": "名义与真实GDP", "kind": "relation", "relation_type": "influences"}
@@ -31,12 +85,48 @@
 {"from": "GDP是福利的良好但不完美度量", "to": "名义与真实GDP", "kind": "relation", "relation_type": "based-on"}
 {"from": "GDP是福利的良好但不完美度量", "to": "分配正义三传统之争", "kind": "relation", "relation_type": "influences"}
 {"from": "GDP是福利的良好但不完美度量", "to": "宏观度量与国民收入", "kind": "domain"}
+{"from": "Henry-R-Linderman-被描绘为1873年法案与贸易银元的设计师", "to": "货币形态史与本位制度", "kind": "relation", "relation_type": "applies-to"}
+{"from": "Henry-R-Linderman-被描绘为1873年法案与贸易银元的设计师", "to": "1873年铸币法案作者归因争议", "kind": "relation", "relation_type": "example-of"}
+{"from": "Henry-R-Linderman-被描绘为1873年法案与贸易银元的设计师", "to": "美国贸易银元", "kind": "relation", "relation_type": "based-on"}
+{"from": "Henry-R-Linderman-被描绘为1873年法案与贸易银元的设计师", "to": "传记颂扬性叙事可能遮蔽政策争议", "kind": "relation", "relation_type": "example-of"}
+{"from": "Henry-R-Linderman-被描绘为1873年法案与贸易银元的设计师", "to": "货币形态史与本位制度", "kind": "domain"}
+{"from": "John-Jay-Knox-编纂了1873年铸币法案", "to": "货币形态史与本位制度", "kind": "relation", "relation_type": "applies-to"}
+{"from": "John-Jay-Knox-编纂了1873年铸币法案", "to": "1873年铸币法案作者归因争议", "kind": "relation", "relation_type": "example-of"}
+{"from": "John-Jay-Knox-编纂了1873年铸币法案", "to": "传记颂扬性叙事可能遮蔽政策争议", "kind": "relation", "relation_type": "example-of"}
+{"from": "John-Jay-Knox-编纂了1873年铸币法案", "to": "货币形态史与本位制度", "kind": "domain"}
+{"from": "Knox编纂1873铸币法案说", "to": "货币形态史与本位制度", "kind": "relation", "relation_type": "applies-to"}
+{"from": "Knox编纂1873铸币法案说", "to": "John-Jay-Knox-编纂了1873年铸币法案", "kind": "relation", "relation_type": "based-on"}
+{"from": "Knox编纂1873铸币法案说", "to": "1873年铸币法案作者归因争议", "kind": "relation", "relation_type": "supports"}
+{"from": "Knox编纂1873铸币法案说", "to": "货币形态史与本位制度", "kind": "domain"}
+{"from": "Linderman设计1873铸币法案说", "to": "货币形态史与本位制度", "kind": "relation", "relation_type": "applies-to"}
+{"from": "Linderman设计1873铸币法案说", "to": "Henry-R-Linderman-被描绘为1873年法案与贸易银元的设计师", "kind": "relation", "relation_type": "based-on"}
+{"from": "Linderman设计1873铸币法案说", "to": "1873年铸币法案作者归因争议", "kind": "relation", "relation_type": "supports"}
+{"from": "Linderman设计1873铸币法案说", "to": "货币形态史与本位制度", "kind": "domain"}
+{"from": "Lindsay的金汇兑本位方案最初被英国金融界质疑", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "applies-to"}
+{"from": "Lindsay的金汇兑本位方案最初被英国金融界质疑", "to": "金汇兑本位制的历史演进从荷兰到印度", "kind": "relation", "relation_type": "extends"}
+{"from": "Lindsay的金汇兑本位方案最初被英国金融界质疑", "to": "国际货币秩序与汇率清算", "kind": "domain"}
 {"from": "OLS与自然实验识别路径", "to": "微观分析基础", "kind": "relation", "relation_type": "applies-to"}
 {"from": "OLS与自然实验识别路径", "to": "因果识别陷阱", "kind": "relation", "relation_type": "based-on"}
 {"from": "OLS与自然实验识别路径", "to": "经济数据分析四目标", "kind": "relation", "relation_type": "applies-to"}
 {"from": "OLS与自然实验识别路径", "to": "人力资本与信号论之争", "kind": "relation", "relation_type": "applies-to"}
 {"from": "OLS与自然实验识别路径", "to": "实证分析与规范判断之分", "kind": "relation", "relation_type": "applies-to"}
 {"from": "OLS与自然实验识别路径", "to": "微观分析基础", "kind": "domain"}
+{"from": "William-E-Du-Bois-创办费城铸币局钱币柜", "to": "货币形态史与本位制度", "kind": "relation", "relation_type": "applies-to"}
+{"from": "William-E-Du-Bois-创办费城铸币局钱币柜", "to": "费城铸币厂钱币柜", "kind": "relation", "relation_type": "supports"}
+{"from": "William-E-Du-Bois-创办费城铸币局钱币柜", "to": "1834年与1837年调整美国金币重量成色", "kind": "relation", "relation_type": "supports"}
+{"from": "William-E-Du-Bois-创办费城铸币局钱币柜", "to": "货币形态史与本位制度", "kind": "domain"}
+{"from": "不可兑换纸币发行加速定律", "to": "货币增长与通货膨胀", "kind": "relation", "relation_type": "applies-to"}
+{"from": "不可兑换纸币发行加速定律", "to": "货币增长与通货膨胀", "kind": "domain"}
+{"from": "世界主要文明货币形态", "to": "货币形态史与本位制度", "kind": "relation", "relation_type": "applies-to"}
+{"from": "世界主要文明货币形态", "to": "货币形态史与本位制度", "kind": "domain"}
+{"from": "中日材料战的管理-替代困境与供应链去耦合", "to": "管理-替代困境-关键资源的获取性管理加速替代", "kind": "relation", "relation_type": "based-on"}
+{"from": "中日材料战的管理-替代困境与供应链去耦合", "to": "经济制度的获取性-生产性二分", "kind": "relation", "relation_type": "based-on"}
+{"from": "中日材料战的管理-替代困境与供应链去耦合", "to": "金融寡头通过三重功能集中控制美国商业", "kind": "relation", "relation_type": "based-on"}
+{"from": "中日材料战的管理-替代困境与供应链去耦合", "to": "市场大趋势源于基本条件还是操纵", "kind": "relation", "relation_type": "supports"}
+{"from": "中日材料战的管理-替代困境与供应链去耦合", "to": "制度整体性阻碍局部改革", "kind": "relation", "relation_type": "supports"}
+{"from": "中日材料战的管理-替代困境与供应链去耦合", "to": "货币数量论与弹性信用理论的对立模型", "kind": "relation", "relation_type": "supports"}
+{"from": "中日材料战的管理-替代困境与供应链去耦合", "to": "金融权力投机与内生不稳定", "kind": "domain"}
+{"from": "中日材料战的管理-替代困境与供应链去耦合", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
 {"from": "主动稳定化与时滞之争", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
 {"from": "主动稳定化与时滞之争", "to": "应主动用货币财政对冲总需求波动", "kind": "relation", "relation_type": "involves"}
 {"from": "主动稳定化与时滞之争", "to": "政策时滞使主动稳定化常适得其反", "kind": "relation", "relation_type": "involves"}
@@ -45,6 +135,12 @@
 {"from": "主动稳定化与时滞之争", "to": "美联储与货币政策工具", "kind": "relation", "relation_type": "influences"}
 {"from": "主动稳定化与时滞之争", "to": "抗衰退增支与减税之争", "kind": "relation", "relation_type": "influences"}
 {"from": "主动稳定化与时滞之争", "to": "短期波动与AD-AS", "kind": "domain"}
+{"from": "交易中的风险控制与仓位管理原则", "to": "读带交易到趋势预判的方法论升级", "kind": "relation", "relation_type": "extends"}
+{"from": "交易中的风险控制与仓位管理原则", "to": "赚大钱靠坐得住而非判断正确", "kind": "relation", "relation_type": "supports"}
+{"from": "交易中的风险控制与仓位管理原则", "to": "金融权力投机与内生不稳定", "kind": "domain"}
+{"from": "交易心理学-独立判断与自律", "to": "读带交易到趋势预判的方法论升级", "kind": "relation", "relation_type": "based-on"}
+{"from": "交易心理学-独立判断与自律", "to": "从个股到基本条件思维的投机升级", "kind": "relation", "relation_type": "supports"}
+{"from": "交易心理学-独立判断与自律", "to": "金融权力投机与内生不稳定", "kind": "domain"}
 {"from": "产业政策因度量与俘获而不可靠", "to": "应按外溢大小鼓励高外溢产业", "kind": "relation", "relation_type": "conflicts-with"}
 {"from": "产业政策因度量与俘获而不可靠", "to": "正外部性补贴与专利内部化", "kind": "relation", "relation_type": "based-on"}
 {"from": "产业政策因度量与俘获而不可靠", "to": "产业政策外溢普遍论与政治俘获之争", "kind": "relation", "relation_type": "supports"}
@@ -62,13 +158,36 @@
 {"from": "人力资本与信号论之争", "to": "工资差异与歧视经济学", "kind": "relation", "relation_type": "applies-to"}
 {"from": "人力资本与信号论之争", "to": "要素与收入分配", "kind": "relation", "relation_type": "applies-to"}
 {"from": "人力资本与信号论之争", "to": "要素与收入分配", "kind": "domain"}
+{"from": "从个股到基本条件思维的投机升级", "to": "金融权力投机与内生不稳定", "kind": "relation", "relation_type": "applies-to"}
+{"from": "从个股到基本条件思维的投机升级", "to": "读带交易到趋势预判的方法论升级", "kind": "relation", "relation_type": "extends"}
+{"from": "从个股到基本条件思维的投机升级", "to": "赚大钱靠坐得住而非判断正确", "kind": "relation", "relation_type": "supports"}
+{"from": "从个股到基本条件思维的投机升级", "to": "金融权力投机与内生不稳定", "kind": "domain"}
+{"from": "价格稳定应优先于汇率稳定", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "applies-to"}
+{"from": "价格稳定应优先于汇率稳定", "to": "理想货币制度的双重目标", "kind": "relation", "relation_type": "extends"}
+{"from": "价格稳定应优先于汇率稳定", "to": "国际货币秩序与汇率清算", "kind": "domain"}
 {"from": "价格管制短缺与过剩", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
 {"from": "价格管制短缺与过剩", "to": "最低工资助贫与就业代价之争", "kind": "relation", "relation_type": "influences"}
 {"from": "价格管制短缺与过剩", "to": "竞争市场总剩余最大化", "kind": "relation", "relation_type": "based-on"}
 {"from": "价格管制短缺与过剩", "to": "EITC等补贴助贫可不扭曲价格信号", "kind": "relation", "relation_type": "influences"}
 {"from": "价格管制短缺与过剩", "to": "经济学家共识与政策现实脱节", "kind": "relation", "relation_type": "example-of"}
+{"from": "价格管制短缺与过剩", "to": "租金管制助贫叙事与专家共识之争", "kind": "relation", "relation_type": "influences"}
 {"from": "价格管制短缺与过剩", "to": "市场效率与政策干预", "kind": "domain"}
 {"from": "企业与市场结构", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "influences"}
+{"from": "传记颂扬性叙事可能遮蔽政策争议", "to": "货币形态史与本位制度", "kind": "relation", "relation_type": "applies-to"}
+{"from": "传记颂扬性叙事可能遮蔽政策争议", "to": "1873年铸币法案作者归因争议", "kind": "relation", "relation_type": "example-of"}
+{"from": "传记颂扬性叙事可能遮蔽政策争议", "to": "论战性历史叙事的普遍化机制", "kind": "relation", "relation_type": "extends"}
+{"from": "传记颂扬性叙事可能遮蔽政策争议", "to": "货币形态史与本位制度", "kind": "domain"}
+{"from": "体育促进workmanship说", "to": "炫耀性消费与工业社会的道德经济", "kind": "relation", "relation_type": "applies-to"}
+{"from": "体育促进workmanship说", "to": "体育是掠夺性现代仪式说", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "体育促进workmanship说", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
+{"from": "体育是掠夺性现代仪式说", "to": "炫耀性消费与工业社会的道德经济", "kind": "relation", "relation_type": "applies-to"}
+{"from": "体育是掠夺性现代仪式说", "to": "体育促进workmanship说", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "体育是掠夺性现代仪式说", "to": "大学体育与宗教狂热相互强化", "kind": "relation", "relation_type": "supports"}
+{"from": "体育是掠夺性现代仪式说", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
+{"from": "体育的workmanship辩护与掠夺性仪式解释之争", "to": "炫耀性消费与工业社会的道德经济", "kind": "relation", "relation_type": "applies-to"}
+{"from": "体育的workmanship辩护与掠夺性仪式解释之争", "to": "体育促进workmanship说", "kind": "relation", "relation_type": "involves"}
+{"from": "体育的workmanship辩护与掠夺性仪式解释之争", "to": "体育是掠夺性现代仪式说", "kind": "relation", "relation_type": "involves"}
+{"from": "体育的workmanship辩护与掠夺性仪式解释之争", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
 {"from": "供求均衡与曲线移位", "to": "微观分析基础", "kind": "relation", "relation_type": "applies-to"}
 {"from": "供求均衡与曲线移位", "to": "看不见的手与市场组织", "kind": "relation", "relation_type": "supports"}
 {"from": "供求均衡与曲线移位", "to": "机会成本边际与激励", "kind": "relation", "relation_type": "based-on"}
@@ -98,6 +217,7 @@
 {"from": "储蓄投资与金融体系", "to": "有效市场假说与基本面估值", "kind": "relation", "relation_type": "applies-to"}
 {"from": "储蓄投资与金融体系", "to": "有效市场与市场非理性之争", "kind": "relation", "relation_type": "applies-to"}
 {"from": "储蓄投资与金融体系", "to": "储蓄激励促增长与效果公平之疑", "kind": "relation", "relation_type": "applies-to"}
+{"from": "储蓄投资与金融体系", "to": "金融权力投机与内生不稳定", "kind": "relation", "relation_type": "influences"}
 {"from": "储蓄激励促增长与效果公平之疑", "to": "鼓励储蓄税制改革可降利率提投资", "kind": "relation", "relation_type": "involves"}
 {"from": "储蓄激励促增长与效果公平之疑", "to": "储蓄激励效果有限且受益偏富人", "kind": "relation", "relation_type": "involves"}
 {"from": "储蓄激励促增长与效果公平之疑", "to": "储蓄投资与金融体系", "kind": "relation", "relation_type": "applies-to"}
@@ -116,6 +236,18 @@
 {"from": "公地悲剧与产权解决", "to": "外部性内部化-矫正税与排污许可", "kind": "relation", "relation_type": "influences"}
 {"from": "公地悲剧与产权解决", "to": "科斯定理与交易成本边界", "kind": "relation", "relation_type": "influences"}
 {"from": "公地悲剧与产权解决", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "其他国家模仿英国货币制度形式失substance", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "applies-to"}
+{"from": "其他国家模仿英国货币制度形式失substance", "to": "英国货币制度的独特性在于支票体系与银行利率", "kind": "relation", "relation_type": "supports"}
+{"from": "其他国家模仿英国货币制度形式失substance", "to": "金汇兑本位制的定义与核心逻辑", "kind": "relation", "relation_type": "supports"}
+{"from": "其他国家模仿英国货币制度形式失substance", "to": "国际货币秩序与汇率清算", "kind": "domain"}
+{"from": "其他国家模仿英国货币制度形式失substance", "to": "金融权力投机与内生不稳定", "kind": "domain"}
+{"from": "内生金融不稳定说", "to": "金融权力投机与内生不稳定", "kind": "relation", "relation_type": "applies-to"}
+{"from": "内生金融不稳定说", "to": "经济不稳定根源之争", "kind": "relation", "relation_type": "supports"}
+{"from": "内生金融不稳定说", "to": "大政府三重稳定效应", "kind": "relation", "relation_type": "based-on"}
+{"from": "内生金融不稳定说", "to": "金融权力投机与内生不稳定", "kind": "domain"}
+{"from": "再分配提高平等但可能缩小蛋糕说", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "再分配提高平等但可能缩小蛋糕说", "to": "效率目标优先于均分激励扭曲说", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "再分配提高平等但可能缩小蛋糕说", "to": "市场效率与政策干预", "kind": "domain"}
 {"from": "减税可处拉弗下倾段而增收", "to": "整体减税通常减少税收收入", "kind": "relation", "relation_type": "conflicts-with"}
 {"from": "减税可处拉弗下倾段而增收", "to": "税收无谓损失机制", "kind": "relation", "relation_type": "based-on"}
 {"from": "减税可处拉弗下倾段而增收", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
@@ -126,6 +258,11 @@
 {"from": "减税是抗衰退更好财政工具", "to": "财政乘数与挤出效应", "kind": "relation", "relation_type": "based-on"}
 {"from": "减税是抗衰退更好财政工具", "to": "应主动用货币财政对冲总需求波动", "kind": "relation", "relation_type": "supports"}
 {"from": "减税是抗衰退更好财政工具", "to": "短期波动与AD-AS", "kind": "domain"}
+{"from": "凯恩斯主张部分纸币准备金短期贷出", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "applies-to"}
+{"from": "凯恩斯主张部分纸币准备金短期贷出", "to": "印度货币体系内部缺乏弹性三大制度根源", "kind": "relation", "relation_type": "applies-to"}
+{"from": "凯恩斯主张部分纸币准备金短期贷出", "to": "印度纸币发行准备制度演变", "kind": "relation", "relation_type": "extends"}
+{"from": "凯恩斯主张部分纸币准备金短期贷出", "to": "国际货币秩序与汇率清算", "kind": "domain"}
+{"from": "凯恩斯主张部分纸币准备金短期贷出", "to": "金融权力投机与内生不稳定", "kind": "domain"}
 {"from": "分散化与风险收益权衡", "to": "储蓄投资与金融体系", "kind": "relation", "relation_type": "applies-to"}
 {"from": "分散化与风险收益权衡", "to": "风险厌恶与保险分散", "kind": "relation", "relation_type": "extends"}
 {"from": "分散化与风险收益权衡", "to": "有效市场假说与基本面估值", "kind": "relation", "relation_type": "influences"}
@@ -135,6 +272,9 @@
 {"from": "分配正义三传统之争", "to": "过程公正则结果不平等亦可接受", "kind": "relation", "relation_type": "involves"}
 {"from": "分配正义三传统之争", "to": "要素与收入分配", "kind": "relation", "relation_type": "applies-to"}
 {"from": "分配正义三传统之争", "to": "要素与收入分配", "kind": "domain"}
+{"from": "制度整体性阻碍局部改革", "to": "炫耀性消费与工业社会的道德经济", "kind": "relation", "relation_type": "based-on"}
+{"from": "制度整体性阻碍局部改革", "to": "有闲阶级作为保守力量", "kind": "relation", "relation_type": "extends"}
+{"from": "制度整体性阻碍局部改革", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
 {"from": "功利主义支持有损耗再分配但不求均分", "to": "最大最小化要求比功利主义更多再分配", "kind": "relation", "relation_type": "conflicts-with"}
 {"from": "功利主义支持有损耗再分配但不求均分", "to": "分配正义三传统之争", "kind": "relation", "relation_type": "applies-to"}
 {"from": "功利主义支持有损耗再分配但不求均分", "to": "要素与收入分配", "kind": "relation", "relation_type": "applies-to"}
@@ -146,7 +286,21 @@
 {"from": "劳动供给后弯与收入替代效应", "to": "最低工资助贫与就业代价之争", "kind": "relation", "relation_type": "applies-to"}
 {"from": "劳动供给后弯与收入替代效应", "to": "要素与收入分配", "kind": "relation", "relation_type": "applies-to"}
 {"from": "劳动供给后弯与收入替代效应", "to": "行为经济学-有限理性公平与跨时", "kind": "relation", "relation_type": "influences"}
+{"from": "劳动供给后弯与收入替代效应", "to": "劳动税无谓损失大小取决于供给弹性之争", "kind": "relation", "relation_type": "influences"}
 {"from": "劳动供给后弯与收入替代效应", "to": "要素与收入分配", "kind": "domain"}
+{"from": "劳动供给敏感群体使劳动税无谓损失大说", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "劳动供给敏感群体使劳动税无谓损失大说", "to": "劳动供给缺乏弹性故劳动税无谓损失小说", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "劳动供给敏感群体使劳动税无谓损失大说", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "劳动供给缺乏弹性故劳动税无谓损失小说", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "劳动供给缺乏弹性故劳动税无谓损失小说", "to": "税收无谓损失机制", "kind": "relation", "relation_type": "based-on"}
+{"from": "劳动供给缺乏弹性故劳动税无谓损失小说", "to": "劳动供给敏感群体使劳动税无谓损失大说", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "劳动供给缺乏弹性故劳动税无谓损失小说", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "劳动税无谓损失大小取决于供给弹性之争", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "劳动税无谓损失大小取决于供给弹性之争", "to": "劳动供给缺乏弹性故劳动税无谓损失小说", "kind": "relation", "relation_type": "involves"}
+{"from": "劳动税无谓损失大小取决于供给弹性之争", "to": "劳动供给敏感群体使劳动税无谓损失大说", "kind": "relation", "relation_type": "involves"}
+{"from": "劳动税无谓损失大小取决于供给弹性之争", "to": "税收无谓损失机制", "kind": "relation", "relation_type": "based-on"}
+{"from": "劳动税无谓损失大小取决于供给弹性之争", "to": "劳动供给后弯与收入替代效应", "kind": "relation", "relation_type": "influences"}
+{"from": "劳动税无谓损失大小取决于供给弹性之争", "to": "市场效率与政策干预", "kind": "domain"}
 {"from": "医疗保健市场与政策", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "based-on"}
 {"from": "医疗保健市场与政策", "to": "信息不对称-道德风险逆向选择信号筛选", "kind": "relation", "relation_type": "extends"}
 {"from": "医疗保健市场与政策", "to": "医疗市场五项偏离与规制回应", "kind": "relation", "relation_type": "applies-to"}
@@ -180,6 +334,36 @@
 {"from": "单边与多边通向自由贸易", "to": "贸易补偿可能性与现实分配之争", "kind": "relation", "relation_type": "influences"}
 {"from": "单边与多边通向自由贸易", "to": "贸易与相互依存", "kind": "relation", "relation_type": "applies-to"}
 {"from": "单边与多边通向自由贸易", "to": "贸易与相互依存", "kind": "domain"}
+{"from": "印度纸币发行从分圈制度走向全国统一", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "applies-to"}
+{"from": "印度纸币发行从分圈制度走向全国统一", "to": "印度纸币发行准备制度演变", "kind": "relation", "relation_type": "extends"}
+{"from": "印度纸币发行从分圈制度走向全国统一", "to": "国际货币秩序与汇率清算", "kind": "domain"}
+{"from": "印度纸币发行从分圈制度走向全国统一", "to": "金融权力投机与内生不稳定", "kind": "domain"}
+{"from": "印度纸币发行准备制度演变", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "applies-to"}
+{"from": "印度纸币发行准备制度演变", "to": "凯恩斯主张部分纸币准备金短期贷出", "kind": "relation", "relation_type": "extends"}
+{"from": "印度纸币发行准备制度演变", "to": "国际货币秩序与汇率清算", "kind": "domain"}
+{"from": "印度纸币发行准备制度演变", "to": "金融权力投机与内生不稳定", "kind": "domain"}
+{"from": "印度货币与汇率标准", "to": "Ambedkar与Keynes在印度金汇兑本位上的冲突", "kind": "relation", "relation_type": "example-of"}
+{"from": "印度货币与汇率标准", "to": "金汇兑本位制的定义与核心逻辑", "kind": "relation", "relation_type": "based-on"}
+{"from": "印度货币体系内部缺乏弹性三大制度根源", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "applies-to"}
+{"from": "印度货币体系内部缺乏弹性三大制度根源", "to": "凯恩斯主张部分纸币准备金短期贷出", "kind": "relation", "relation_type": "supports"}
+{"from": "印度货币体系内部缺乏弹性三大制度根源", "to": "金融权力投机与内生不稳定", "kind": "relation", "relation_type": "applies-to"}
+{"from": "印度货币体系内部缺乏弹性三大制度根源", "to": "国际货币秩序与汇率清算", "kind": "domain"}
+{"from": "印度货币体系内部缺乏弹性三大制度根源", "to": "金融权力投机与内生不稳定", "kind": "domain"}
+{"from": "印度货币制度从自由银本位演变为金汇兑本位", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "applies-to"}
+{"from": "印度货币制度从自由银本位演变为金汇兑本位", "to": "金汇兑本位制的定义与核心逻辑", "kind": "relation", "relation_type": "based-on"}
+{"from": "印度货币制度从自由银本位演变为金汇兑本位", "to": "国际货币秩序与汇率清算", "kind": "domain"}
+{"from": "印度金币流通之争-Fowler委员会建议-vs-凯恩斯反对", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "applies-to"}
+{"from": "印度金币流通之争-Fowler委员会建议-vs-凯恩斯反对", "to": "货币形态史与本位制度", "kind": "relation", "relation_type": "applies-to"}
+{"from": "印度金币流通之争-Fowler委员会建议-vs-凯恩斯反对", "to": "Fowler委员会主张印度推行金币流通", "kind": "relation", "relation_type": "involves"}
+{"from": "印度金币流通之争-Fowler委员会建议-vs-凯恩斯反对", "to": "19世纪各国对金币流通迷恋源于误读英国制度", "kind": "relation", "relation_type": "involves"}
+{"from": "印度金币流通之争-Fowler委员会建议-vs-凯恩斯反对", "to": "国际货币秩序与汇率清算", "kind": "domain"}
+{"from": "印度金币流通之争-Fowler委员会建议-vs-凯恩斯反对", "to": "货币形态史与本位制度", "kind": "domain"}
+{"from": "印度金币流通困境与凯恩斯反对", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "applies-to"}
+{"from": "印度金币流通困境与凯恩斯反对", "to": "金本位普及而金币流通成为例外", "kind": "relation", "relation_type": "supports"}
+{"from": "印度金币流通困境与凯恩斯反对", "to": "19世纪各国对金币流通迷恋源于误读英国制度", "kind": "relation", "relation_type": "supports"}
+{"from": "印度金币流通困境与凯恩斯反对", "to": "印度金币流通之争-Fowler委员会建议-vs-凯恩斯反对", "kind": "relation", "relation_type": "example-of"}
+{"from": "印度金币流通困境与凯恩斯反对", "to": "国际货币秩序与汇率清算", "kind": "domain"}
+{"from": "印度金币流通困境与凯恩斯反对", "to": "货币形态史与本位制度", "kind": "domain"}
 {"from": "反垄断消费者福利与民主关切之争", "to": "竞争市场总剩余最大化", "kind": "relation", "relation_type": "involves"}
 {"from": "反垄断消费者福利与民主关切之争", "to": "市场势力与外部性动摇竞争效率", "kind": "relation", "relation_type": "involves"}
 {"from": "反垄断消费者福利与民主关切之争", "to": "垄断定价与价格歧视", "kind": "relation", "relation_type": "involves"}
@@ -188,12 +372,25 @@
 {"from": "反垄断消费者福利与民主关切之争", "to": "自然垄断管制两难题", "kind": "relation", "relation_type": "involves"}
 {"from": "反垄断消费者福利与民主关切之争", "to": "企业与市场结构", "kind": "relation", "relation_type": "applies-to"}
 {"from": "反垄断消费者福利与民主关切之争", "to": "企业与市场结构", "kind": "domain"}
+{"from": "反对Fisher补偿美元自动公式", "to": "货币增长与通货膨胀", "kind": "relation", "relation_type": "applies-to"}
+{"from": "反对Fisher补偿美元自动公式", "to": "货币数量论的正式表述", "kind": "relation", "relation_type": "based-on"}
+{"from": "反对Fisher补偿美元自动公式", "to": "货币增长与通货膨胀", "kind": "domain"}
 {"from": "反通胀牺牲率与理性预期", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
 {"from": "反通胀牺牲率与理性预期", "to": "菲利普斯曲线与自然率假说", "kind": "relation", "relation_type": "based-on"}
 {"from": "反通胀牺牲率与理性预期", "to": "长期不存在通胀失业稳定权衡", "kind": "relation", "relation_type": "supports"}
 {"from": "反通胀牺牲率与理性预期", "to": "美联储与货币政策工具", "kind": "relation", "relation_type": "influences"}
 {"from": "反通胀牺牲率与理性预期", "to": "近零通胀与中等通胀之争", "kind": "relation", "relation_type": "influences"}
 {"from": "反通胀牺牲率与理性预期", "to": "短期波动与AD-AS", "kind": "domain"}
+{"from": "古典学问作为炫耀性浪费凭证", "to": "高等学问起源于神职代理闲暇", "kind": "relation", "relation_type": "based-on"}
+{"from": "古典学问作为炫耀性浪费凭证", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
+{"from": "古典学问认知价值与炫耀性浪费功能之争", "to": "古典学问作为炫耀性浪费凭证", "kind": "relation", "relation_type": "involves"}
+{"from": "古典学问认知价值与炫耀性浪费功能之争", "to": "高等学问起源于神职代理闲暇", "kind": "relation", "relation_type": "involves"}
+{"from": "古典学问认知价值与炫耀性浪费功能之争", "to": "有闲阶级作为保守力量", "kind": "relation", "relation_type": "involves"}
+{"from": "古典学问认知价值与炫耀性浪费功能之争", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
+{"from": "古雅措辞与繁冗正字法作为炫耀性浪费", "to": "古典学问作为炫耀性浪费凭证", "kind": "relation", "relation_type": "example-of"}
+{"from": "古雅措辞与繁冗正字法作为炫耀性浪费", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
+{"from": "可兑换纸币替代金银与产业基金扩充机制", "to": "货币制度与银行体系", "kind": "relation", "relation_type": "applies-to"}
+{"from": "可兑换纸币替代金银与产业基金扩充机制", "to": "货币制度与银行体系", "kind": "domain"}
 {"from": "可持续赤字不必追求零赤字", "to": "应平衡预算以免债务转嫁后代", "kind": "relation", "relation_type": "conflicts-with"}
 {"from": "可持续赤字不必追求零赤字", "to": "平衡预算与可持续赤字之争", "kind": "relation", "relation_type": "applies-to"}
 {"from": "可持续赤字不必追求零赤字", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
@@ -231,6 +428,20 @@
 {"from": "名义与真实GDP", "to": "GDP是福利的良好但不完美度量", "kind": "relation", "relation_type": "supports"}
 {"from": "名义与真实GDP", "to": "CPI构造与度量偏误", "kind": "relation", "relation_type": "influences"}
 {"from": "名义与真实GDP", "to": "宏观度量与国民收入", "kind": "domain"}
+{"from": "器官交易厌恶与公平异议", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "器官交易厌恶与公平异议", "to": "器官市场化可消除短缺并提高配置效率说", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "器官交易厌恶与公平异议", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "器官市场化可消除短缺并提高配置效率说", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "器官市场化可消除短缺并提高配置效率说", "to": "竞争市场总剩余最大化", "kind": "relation", "relation_type": "based-on"}
+{"from": "器官市场化可消除短缺并提高配置效率说", "to": "价格管制短缺与过剩", "kind": "relation", "relation_type": "based-on"}
+{"from": "器官市场化可消除短缺并提高配置效率说", "to": "器官交易厌恶与公平异议", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "器官市场化可消除短缺并提高配置效率说", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "器官市场效率与厌恶公平之争", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "器官市场效率与厌恶公平之争", "to": "器官市场化可消除短缺并提高配置效率说", "kind": "relation", "relation_type": "involves"}
+{"from": "器官市场效率与厌恶公平之争", "to": "器官交易厌恶与公平异议", "kind": "relation", "relation_type": "involves"}
+{"from": "器官市场效率与厌恶公平之争", "to": "价格管制短缺与过剩", "kind": "relation", "relation_type": "based-on"}
+{"from": "器官市场效率与厌恶公平之争", "to": "竞争市场总剩余最大化", "kind": "relation", "relation_type": "based-on"}
+{"from": "器官市场效率与厌恶公平之争", "to": "市场效率与政策干预", "kind": "domain"}
 {"from": "因果识别陷阱", "to": "微观分析基础", "kind": "relation", "relation_type": "applies-to"}
 {"from": "因果识别陷阱", "to": "实证分析与规范判断之分", "kind": "relation", "relation_type": "applies-to"}
 {"from": "因果识别陷阱", "to": "经济模型与生产可能性边界", "kind": "relation", "relation_type": "applies-to"}
@@ -239,9 +450,19 @@
 {"from": "因果识别陷阱", "to": "OLS与自然实验识别路径", "kind": "relation", "relation_type": "influences"}
 {"from": "因果识别陷阱", "to": "人力资本与信号论之争", "kind": "relation", "relation_type": "applies-to"}
 {"from": "因果识别陷阱", "to": "微观分析基础", "kind": "domain"}
+{"from": "国民年产物价值分解与净收入模型", "to": "宏观度量与国民收入", "kind": "relation", "relation_type": "applies-to"}
+{"from": "国民年产物价值分解与净收入模型", "to": "宏观度量与国民收入", "kind": "domain"}
 {"from": "国民收入五层度量", "to": "宏观度量与国民收入", "kind": "relation", "relation_type": "applies-to"}
 {"from": "国民收入五层度量", "to": "GDP支出法定义与边界", "kind": "relation", "relation_type": "based-on"}
 {"from": "国民收入五层度量", "to": "宏观度量与国民收入", "kind": "domain"}
+{"from": "国际货币秩序与汇率清算", "to": "开放经济宏观基础", "kind": "relation", "relation_type": "influences"}
+{"from": "国际货币秩序与汇率清算", "to": "开放经济双市场模型", "kind": "relation", "relation_type": "influences"}
+{"from": "国际货币秩序与汇率清算", "to": "购买力平价与一价定律", "kind": "relation", "relation_type": "influences"}
+{"from": "国际货币秩序与汇率清算", "to": "名义与实际汇率", "kind": "relation", "relation_type": "influences"}
+{"from": "国际货币秩序与汇率清算", "to": "货币形态史与本位制度", "kind": "relation", "relation_type": "extends"}
+{"from": "图表分析与历史先例的局限", "to": "读带交易到趋势预判的方法论升级", "kind": "relation", "relation_type": "supports"}
+{"from": "图表分析与历史先例的局限", "to": "从个股到基本条件思维的投机升级", "kind": "relation", "relation_type": "supports"}
+{"from": "图表分析与历史先例的局限", "to": "金融权力投机与内生不稳定", "kind": "domain"}
 {"from": "垄断产量定价与无谓损失", "to": "竞争市场总剩余最大化", "kind": "relation", "relation_type": "based-on"}
 {"from": "垄断产量定价与无谓损失", "to": "完全竞争企业供给与进退", "kind": "relation", "relation_type": "extends"}
 {"from": "垄断产量定价与无谓损失", "to": "垄断定价与价格歧视", "kind": "relation", "relation_type": "based-on"}
@@ -273,6 +494,9 @@
 {"from": "增支比减税更能抬升衰退中AD", "to": "应主动用货币财政对冲总需求波动", "kind": "relation", "relation_type": "supports"}
 {"from": "增支比减税更能抬升衰退中AD", "to": "美联储与货币政策工具", "kind": "relation", "relation_type": "influences"}
 {"from": "增支比减税更能抬升衰退中AD", "to": "短期波动与AD-AS", "kind": "domain"}
+{"from": "外生冲击均衡倾向说", "to": "金融权力投机与内生不稳定", "kind": "relation", "relation_type": "applies-to"}
+{"from": "外生冲击均衡倾向说", "to": "经济不稳定根源之争", "kind": "relation", "relation_type": "supports"}
+{"from": "外生冲击均衡倾向说", "to": "金融权力投机与内生不稳定", "kind": "domain"}
 {"from": "外部性内部化-矫正税与排污许可", "to": "市场势力与外部性动摇竞争效率", "kind": "relation", "relation_type": "based-on"}
 {"from": "外部性内部化-矫正税与排污许可", "to": "正外部性补贴与专利内部化", "kind": "relation", "relation_type": "influences"}
 {"from": "外部性内部化-矫正税与排污许可", "to": "税收无谓损失机制", "kind": "relation", "relation_type": "influences"}
@@ -280,6 +504,20 @@
 {"from": "外部性内部化-矫正税与排污许可", "to": "科斯定理与交易成本边界", "kind": "relation", "relation_type": "influences"}
 {"from": "外部性内部化-矫正税与排污许可", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
 {"from": "外部性内部化-矫正税与排污许可", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "大学体育与宗教狂热相互强化", "to": "炫耀性消费与工业社会的道德经济", "kind": "relation", "relation_type": "applies-to"}
+{"from": "大学体育与宗教狂热相互强化", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
+{"from": "大政府三重稳定效应", "to": "金融权力投机与内生不稳定", "kind": "relation", "relation_type": "applies-to"}
+{"from": "大政府三重稳定效应", "to": "金融权力投机与内生不稳定", "kind": "domain"}
+{"from": "大政府稳定功能与通胀倾向", "to": "金融权力投机与内生不稳定", "kind": "relation", "relation_type": "applies-to"}
+{"from": "大政府稳定功能与通胀倾向", "to": "大政府三重稳定效应", "kind": "relation", "relation_type": "involves"}
+{"from": "大政府稳定功能与通胀倾向", "to": "大政府结构通胀倾向说", "kind": "relation", "relation_type": "involves"}
+{"from": "大政府稳定功能与通胀倾向", "to": "金融权力投机与内生不稳定", "kind": "domain"}
+{"from": "大政府稳定功能与通胀倾向", "to": "大政府三重稳定效应", "kind": "wikilink"}
+{"from": "大政府稳定功能与通胀倾向", "to": "大政府结构通胀倾向说", "kind": "wikilink"}
+{"from": "大政府结构通胀倾向说", "to": "金融权力投机与内生不稳定", "kind": "relation", "relation_type": "applies-to"}
+{"from": "大政府结构通胀倾向说", "to": "大政府稳定功能与通胀倾向", "kind": "relation", "relation_type": "supports"}
+{"from": "大政府结构通胀倾向说", "to": "大政府三重稳定效应", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "大政府结构通胀倾向说", "to": "金融权力投机与内生不稳定", "kind": "domain"}
 {"from": "央行应保留货币裁量灵活性", "to": "央行应承诺遵循货币规则", "kind": "relation", "relation_type": "conflicts-with"}
 {"from": "央行应保留货币裁量灵活性", "to": "货币政策规则与裁量之争", "kind": "relation", "relation_type": "applies-to"}
 {"from": "央行应保留货币裁量灵活性", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
@@ -308,6 +546,31 @@
 {"from": "失业度量与自然率", "to": "菲利普斯曲线与自然率假说", "kind": "relation", "relation_type": "influences"}
 {"from": "失业度量与自然率", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "influences"}
 {"from": "失业度量与自然率", "to": "失业与劳动力市场", "kind": "domain"}
+{"from": "存储高价环境的AI需求与寡头供给管理共谋模型", "to": "经济制度的获取性-生产性二分", "kind": "relation", "relation_type": "based-on"}
+{"from": "存储高价环境的AI需求与寡头供给管理共谋模型", "to": "市场大趋势源于基本条件还是操纵", "kind": "relation", "relation_type": "based-on"}
+{"from": "存储高价环境的AI需求与寡头供给管理共谋模型", "to": "从个股到基本条件思维的投机升级", "kind": "relation", "relation_type": "supports"}
+{"from": "存储高价环境的AI需求与寡头供给管理共谋模型", "to": "货币数量论与弹性信用理论的对立模型", "kind": "relation", "relation_type": "based-on"}
+{"from": "存储高价环境的AI需求与寡头供给管理共谋模型", "to": "制度整体性阻碍局部改革", "kind": "relation", "relation_type": "supports"}
+{"from": "存储高价环境的AI需求与寡头供给管理共谋模型", "to": "金融权力投机与内生不稳定", "kind": "domain"}
+{"from": "存储高价环境的AI需求与寡头供给管理共谋模型", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
+{"from": "学术仪式遗存", "to": "高等学问起源于神职代理闲暇", "kind": "relation", "relation_type": "supports"}
+{"from": "学术仪式遗存", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
+{"from": "安全带法主要通过降低每事故死亡提升安全说", "to": "微观分析基础", "kind": "relation", "relation_type": "applies-to"}
+{"from": "安全带法主要通过降低每事故死亡提升安全说", "to": "安全带法通过激励反弹可能增加事故与行人受害说", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "安全带法主要通过降低每事故死亡提升安全说", "to": "微观分析基础", "kind": "domain"}
+{"from": "安全带法直接安全效应与激励反弹之争", "to": "微观分析基础", "kind": "relation", "relation_type": "applies-to"}
+{"from": "安全带法直接安全效应与激励反弹之争", "to": "安全带法主要通过降低每事故死亡提升安全说", "kind": "relation", "relation_type": "involves"}
+{"from": "安全带法直接安全效应与激励反弹之争", "to": "安全带法通过激励反弹可能增加事故与行人受害说", "kind": "relation", "relation_type": "involves"}
+{"from": "安全带法直接安全效应与激励反弹之争", "to": "机会成本边际与激励", "kind": "relation", "relation_type": "based-on"}
+{"from": "安全带法直接安全效应与激励反弹之争", "to": "微观分析基础", "kind": "domain"}
+{"from": "安全带法通过激励反弹可能增加事故与行人受害说", "to": "微观分析基础", "kind": "relation", "relation_type": "applies-to"}
+{"from": "安全带法通过激励反弹可能增加事故与行人受害说", "to": "机会成本边际与激励", "kind": "relation", "relation_type": "based-on"}
+{"from": "安全带法通过激励反弹可能增加事故与行人受害说", "to": "微观分析基础", "kind": "domain"}
+{"from": "安全时间购买论", "to": "炫耀性消费与工业社会的道德经济", "kind": "relation", "relation_type": "applies-to"}
+{"from": "安全时间购买论", "to": "金融权力投机与内生不稳定", "kind": "relation", "relation_type": "applies-to"}
+{"from": "安全时间购买论", "to": "管理-替代困境-关键资源的获取性管理加速替代", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "安全时间购买论", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
+{"from": "安全时间购买论", "to": "金融权力投机与内生不稳定", "kind": "domain"}
 {"from": "完全竞争企业供给与进退", "to": "生产成本与机会成本", "kind": "relation", "relation_type": "based-on"}
 {"from": "完全竞争企业供给与进退", "to": "竞争市场总剩余最大化", "kind": "relation", "relation_type": "based-on"}
 {"from": "完全竞争企业供给与进退", "to": "市场势力与外部性动摇竞争效率", "kind": "relation", "relation_type": "extends"}
@@ -333,14 +596,22 @@
 {"from": "实证分析与规范判断之分", "to": "经济学家共识与政策现实脱节", "kind": "relation", "relation_type": "applies-to"}
 {"from": "实证分析与规范判断之分", "to": "微观分析基础", "kind": "domain"}
 {"from": "寡头合谋与囚徒困境", "to": "垄断产量定价与无谓损失", "kind": "relation", "relation_type": "based-on"}
-{"from": "寡头合谋与囚徒困境", "to": "垄断竞争短期与长期", "kind": "relation", "relation_type": "extends"}
-{"from": "寡头合谋与囚徒困境", "to": "反垄断消费者福利与民主关切之争", "kind": "relation", "relation_type": "influences"}
 {"from": "寡头合谋与囚徒困境", "to": "竞争市场总剩余最大化", "kind": "relation", "relation_type": "based-on"}
 {"from": "寡头合谋与囚徒困境", "to": "公地悲剧与产权解决", "kind": "relation", "relation_type": "extends"}
-{"from": "寡头合谋与囚徒困境", "to": "供给价格弹性与市场应用", "kind": "relation", "relation_type": "extends"}
 {"from": "寡头合谋与囚徒困境", "to": "开放贸易的福利与关税无谓损失", "kind": "relation", "relation_type": "extends"}
+{"from": "寡头合谋与囚徒困境", "to": "反垄断消费者福利与民主关切之争", "kind": "relation", "relation_type": "influences"}
 {"from": "寡头合谋与囚徒困境", "to": "企业与市场结构", "kind": "relation", "relation_type": "applies-to"}
 {"from": "寡头合谋与囚徒困境", "to": "企业与市场结构", "kind": "domain"}
+{"from": "对赌行操纵与驱逐赢家机制", "to": "金融权力投机与内生不稳定", "kind": "relation", "relation_type": "applies-to"}
+{"from": "对赌行操纵与驱逐赢家机制", "to": "读带交易到趋势预判的方法论升级", "kind": "relation", "relation_type": "influences"}
+{"from": "对赌行操纵与驱逐赢家机制", "to": "金融权力投机与内生不稳定", "kind": "domain"}
+{"from": "小院高墙作为获取性战略的解释模型", "to": "经济制度的获取性-生产性二分", "kind": "relation", "relation_type": "based-on"}
+{"from": "小院高墙作为获取性战略的解释模型", "to": "金融寡头通过三重功能集中控制美国商业", "kind": "relation", "relation_type": "based-on"}
+{"from": "小院高墙作为获取性战略的解释模型", "to": "从个股到基本条件思维的投机升级", "kind": "relation", "relation_type": "supports"}
+{"from": "小院高墙作为获取性战略的解释模型", "to": "市场大趋势源于基本条件还是操纵", "kind": "relation", "relation_type": "supports"}
+{"from": "小院高墙作为获取性战略的解释模型", "to": "制度整体性阻碍局部改革", "kind": "relation", "relation_type": "supports"}
+{"from": "小院高墙作为获取性战略的解释模型", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
+{"from": "小院高墙作为获取性战略的解释模型", "to": "金融权力投机与内生不稳定", "kind": "domain"}
 {"from": "工会制衡买方势力改善条件", "to": "工会抬薪制造局内人局外人失业", "kind": "relation", "relation_type": "conflicts-with"}
 {"from": "工会制衡买方势力改善条件", "to": "工会卡特尔与买方势力制衡之争", "kind": "relation", "relation_type": "supports"}
 {"from": "工会制衡买方势力改善条件", "to": "失业与劳动力市场", "kind": "relation", "relation_type": "applies-to"}
@@ -377,9 +648,22 @@
 {"from": "市场势力与外部性动摇竞争效率", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
 {"from": "市场势力与外部性动摇竞争效率", "to": "看不见的手与市场组织", "kind": "relation", "relation_type": "based-on"}
 {"from": "市场势力与外部性动摇竞争效率", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "市场危机中的投机教训-1901-1907", "to": "金融权力投机与内生不稳定", "kind": "relation", "relation_type": "applies-to"}
+{"from": "市场危机中的投机教训-1901-1907", "to": "读带交易到趋势预判的方法论升级", "kind": "relation", "relation_type": "supports"}
+{"from": "市场危机中的投机教训-1901-1907", "to": "1907-年-10-月-24-日-J-P-Morgan-救市", "kind": "relation", "relation_type": "supports"}
+{"from": "市场危机中的投机教训-1901-1907", "to": "金融权力投机与内生不稳定", "kind": "domain"}
+{"from": "市场大趋势源于基本条件还是操纵", "to": "金融权力投机与内生不稳定", "kind": "relation", "relation_type": "applies-to"}
+{"from": "市场大趋势源于基本条件还是操纵", "to": "从个股到基本条件思维的投机升级", "kind": "relation", "relation_type": "involves"}
+{"from": "市场大趋势源于基本条件还是操纵", "to": "市场操纵可扭曲价格并掠夺参与者说", "kind": "relation", "relation_type": "involves"}
+{"from": "市场大趋势源于基本条件还是操纵", "to": "金融寡头通过三重功能集中控制美国商业", "kind": "relation", "relation_type": "involves"}
+{"from": "市场大趋势源于基本条件还是操纵", "to": "金融权力投机与内生不稳定", "kind": "domain"}
 {"from": "市场常呈难用新闻解释的非理性波动", "to": "有效市场假说与基本面估值", "kind": "relation", "relation_type": "conflicts-with"}
 {"from": "市场常呈难用新闻解释的非理性波动", "to": "储蓄投资与金融体系", "kind": "relation", "relation_type": "applies-to"}
 {"from": "市场常呈难用新闻解释的非理性波动", "to": "储蓄投资与金融体系", "kind": "domain"}
+{"from": "市场操纵可扭曲价格并掠夺参与者说", "to": "金融权力投机与内生不稳定", "kind": "relation", "relation_type": "applies-to"}
+{"from": "市场操纵可扭曲价格并掠夺参与者说", "to": "对赌行操纵与驱逐赢家机制", "kind": "relation", "relation_type": "based-on"}
+{"from": "市场操纵可扭曲价格并掠夺参与者说", "to": "从个股到基本条件思维的投机升级", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "市场操纵可扭曲价格并掠夺参与者说", "to": "金融权力投机与内生不稳定", "kind": "domain"}
 {"from": "市场效率与政策干预", "to": "微观分析基础", "kind": "relation", "relation_type": "based-on"}
 {"from": "市场效率与政策干预", "to": "企业与市场结构", "kind": "relation", "relation_type": "influences"}
 {"from": "市场效率与政策干预", "to": "要素与收入分配", "kind": "relation", "relation_type": "influences"}
@@ -391,12 +675,24 @@
 {"from": "市场效率与政策干预", "to": "税收无谓损失机制", "kind": "relation", "relation_type": "applies-to"}
 {"from": "市场效率与政策干预", "to": "价格管制短缺与过剩", "kind": "relation", "relation_type": "applies-to"}
 {"from": "市场效率与政策干预", "to": "医疗保健市场与政策", "kind": "relation", "relation_type": "influences"}
+{"from": "市政债券柜台直销可绕开投资银行家", "to": "金融权力投机与内生不稳定", "kind": "relation", "relation_type": "applies-to"}
+{"from": "市政债券柜台直销可绕开投资银行家", "to": "金融寡头通过三重功能集中控制美国商业", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "市政债券柜台直销可绕开投资银行家", "to": "市政债券直销绕开银行家与金融寡头控制之争", "kind": "relation", "relation_type": "example-of"}
+{"from": "市政债券柜台直销可绕开投资银行家", "to": "金融权力投机与内生不稳定", "kind": "domain"}
+{"from": "市政债券直销绕开银行家与金融寡头控制之争", "to": "金融权力投机与内生不稳定", "kind": "relation", "relation_type": "applies-to"}
+{"from": "市政债券直销绕开银行家与金融寡头控制之争", "to": "市政债券柜台直销可绕开投资银行家", "kind": "relation", "relation_type": "involves"}
+{"from": "市政债券直销绕开银行家与金融寡头控制之争", "to": "金融寡头通过三重功能集中控制美国商业", "kind": "relation", "relation_type": "involves"}
+{"from": "市政债券直销绕开银行家与金融寡头控制之争", "to": "投资银行家仅具三项正当功能说", "kind": "relation", "relation_type": "involves"}
+{"from": "市政债券直销绕开银行家与金融寡头控制之争", "to": "金融权力投机与内生不稳定", "kind": "domain"}
 {"from": "平衡预算与可持续赤字之争", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
 {"from": "平衡预算与可持续赤字之争", "to": "应平衡预算以免债务转嫁后代", "kind": "relation", "relation_type": "involves"}
 {"from": "平衡预算与可持续赤字之争", "to": "可持续赤字不必追求零赤字", "kind": "relation", "relation_type": "involves"}
 {"from": "平衡预算与可持续赤字之争", "to": "可贷资金市场与政策冲击", "kind": "relation", "relation_type": "based-on"}
 {"from": "平衡预算与可持续赤字之争", "to": "主动稳定化与时滞之争", "kind": "relation", "relation_type": "influences"}
 {"from": "平衡预算与可持续赤字之争", "to": "短期波动与AD-AS", "kind": "domain"}
+{"from": "幼儿园运动作为女性反攀比出口", "to": "新女性运动作为返祖", "kind": "relation", "relation_type": "influences"}
+{"from": "幼儿园运动作为女性反攀比出口", "to": "炫耀性消费与工业社会的道德经济", "kind": "relation", "relation_type": "applies-to"}
+{"from": "幼儿园运动作为女性反攀比出口", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
 {"from": "应主动用货币财政对冲总需求波动", "to": "政策时滞使主动稳定化常适得其反", "kind": "relation", "relation_type": "conflicts-with"}
 {"from": "应主动用货币财政对冲总需求波动", "to": "主动稳定化与时滞之争", "kind": "relation", "relation_type": "applies-to"}
 {"from": "应主动用货币财政对冲总需求波动", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
@@ -433,6 +729,7 @@
 {"from": "开放经济宏观基础", "to": "货币制度与银行体系", "kind": "relation", "relation_type": "influences"}
 {"from": "开放经济宏观基础", "to": "开放经济双市场模型", "kind": "relation", "relation_type": "influences"}
 {"from": "开放经济宏观基础", "to": "贸易政策不改总体贸易余额", "kind": "relation", "relation_type": "influences"}
+{"from": "开放经济宏观基础", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "influences"}
 {"from": "开放经济流量恒等式", "to": "开放经济宏观基础", "kind": "relation", "relation_type": "applies-to"}
 {"from": "开放经济流量恒等式", "to": "GDP支出四分法恒等式", "kind": "relation", "relation_type": "based-on"}
 {"from": "开放经济流量恒等式", "to": "可贷资金市场与政策冲击", "kind": "relation", "relation_type": "extends"}
@@ -460,6 +757,32 @@
 {"from": "微观分析基础", "to": "因果识别陷阱", "kind": "relation", "relation_type": "applies-to"}
 {"from": "微观分析基础", "to": "经济数据分析四目标", "kind": "relation", "relation_type": "applies-to"}
 {"from": "微观分析基础", "to": "实证分析与规范判断之分", "kind": "relation", "relation_type": "applies-to"}
+{"from": "恢复战前金本位将把英国价格与信贷调控权让渡给美联储", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "applies-to"}
+{"from": "恢复战前金本位将把英国价格与信贷调控权让渡给美联储", "to": "国际货币秩序与汇率清算", "kind": "domain"}
+{"from": "慈善中非攀比性残余说", "to": "炫耀性消费与工业社会的道德经济", "kind": "relation", "relation_type": "applies-to"}
+{"from": "慈善中非攀比性残余说", "to": "慈善改良组织攀比动机污染", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "慈善中非攀比性残余说", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
+{"from": "慈善建筑中的荣誉性浪费", "to": "慈善改良组织攀比动机污染", "kind": "relation", "relation_type": "example-of"}
+{"from": "慈善建筑中的荣誉性浪费", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
+{"from": "慈善改良中的攀比与非攀比动机之争", "to": "炫耀性消费与工业社会的道德经济", "kind": "relation", "relation_type": "applies-to"}
+{"from": "慈善改良中的攀比与非攀比动机之争", "to": "慈善中非攀比性残余说", "kind": "relation", "relation_type": "involves"}
+{"from": "慈善改良中的攀比与非攀比动机之争", "to": "慈善改良组织攀比动机污染", "kind": "relation", "relation_type": "involves"}
+{"from": "慈善改良中的攀比与非攀比动机之争", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
+{"from": "慈善改良组织攀比动机污染", "to": "慈善改良中的攀比与非攀比动机之争", "kind": "relation", "relation_type": "example-of"}
+{"from": "慈善改良组织攀比动机污染", "to": "慈善中非攀比性残余说", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "慈善改良组织攀比动机污染", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
+{"from": "战前金本位与战后浮动汇率调整机制对比", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "applies-to"}
+{"from": "战前金本位与战后浮动汇率调整机制对比", "to": "价格稳定应优先于汇率稳定", "kind": "relation", "relation_type": "supports"}
+{"from": "战前金本位与战后浮动汇率调整机制对比", "to": "理想货币制度的双重目标", "kind": "relation", "relation_type": "based-on"}
+{"from": "战前金本位与战后浮动汇率调整机制对比", "to": "国际货币秩序与汇率清算", "kind": "domain"}
+{"from": "投资银行家仅具三项正当功能说", "to": "金融权力投机与内生不稳定", "kind": "relation", "relation_type": "applies-to"}
+{"from": "投资银行家仅具三项正当功能说", "to": "金融寡头通过三重功能集中控制美国商业", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "投资银行家仅具三项正当功能说", "to": "市政债券柜台直销可绕开投资银行家", "kind": "relation", "relation_type": "supports"}
+{"from": "投资银行家仅具三项正当功能说", "to": "金融权力投机与内生不稳定", "kind": "domain"}
+{"from": "投资银行家同时控制发行定价与购买方的利益冲突", "to": "金融权力投机与内生不稳定", "kind": "relation", "relation_type": "applies-to"}
+{"from": "投资银行家同时控制发行定价与购买方的利益冲突", "to": "投资银行家仅具三项正当功能说", "kind": "relation", "relation_type": "involves"}
+{"from": "投资银行家同时控制发行定价与购买方的利益冲突", "to": "金融寡头通过三重功能集中控制美国商业", "kind": "relation", "relation_type": "involves"}
+{"from": "投资银行家同时控制发行定价与购买方的利益冲突", "to": "金融权力投机与内生不稳定", "kind": "domain"}
 {"from": "抗衰退增支与减税之争", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
 {"from": "抗衰退增支与减税之争", "to": "增支比减税更能抬升衰退中AD", "kind": "relation", "relation_type": "involves"}
 {"from": "抗衰退增支与减税之争", "to": "减税是抗衰退更好财政工具", "kind": "relation", "relation_type": "involves"}
@@ -496,11 +819,19 @@
 {"from": "政策时滞使主动稳定化常适得其反", "to": "美联储与货币政策工具", "kind": "relation", "relation_type": "influences"}
 {"from": "政策时滞使主动稳定化常适得其反", "to": "流动性偏好与利率效应", "kind": "relation", "relation_type": "based-on"}
 {"from": "政策时滞使主动稳定化常适得其反", "to": "短期波动与AD-AS", "kind": "domain"}
+{"from": "效率与平等权衡之争", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "效率与平等权衡之争", "to": "再分配提高平等但可能缩小蛋糕说", "kind": "relation", "relation_type": "involves"}
+{"from": "效率与平等权衡之争", "to": "效率目标优先于均分激励扭曲说", "kind": "relation", "relation_type": "involves"}
+{"from": "效率与平等权衡之争", "to": "税制效率与公平权衡", "kind": "relation", "relation_type": "extends"}
+{"from": "效率与平等权衡之争", "to": "市场效率与政策干预", "kind": "domain"}
 {"from": "效率工资五渠道", "to": "失业与劳动力市场", "kind": "relation", "relation_type": "applies-to"}
 {"from": "效率工资五渠道", "to": "摩擦性与结构性失业", "kind": "relation", "relation_type": "extends"}
 {"from": "效率工资五渠道", "to": "信息不对称-道德风险逆向选择信号筛选", "kind": "relation", "relation_type": "influences"}
 {"from": "效率工资五渠道", "to": "行为经济学-有限理性公平与跨时", "kind": "relation", "relation_type": "influences"}
 {"from": "效率工资五渠道", "to": "失业与劳动力市场", "kind": "domain"}
+{"from": "效率目标优先于均分激励扭曲说", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "效率目标优先于均分激励扭曲说", "to": "再分配提高平等但可能缩小蛋糕说", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "效率目标优先于均分激励扭曲说", "to": "市场效率与政策干预", "kind": "domain"}
 {"from": "教育溢价主要来自信号筛选", "to": "教育溢价主要来自生产力提升", "kind": "relation", "relation_type": "conflicts-with"}
 {"from": "教育溢价主要来自信号筛选", "to": "人力资本与信号论之争", "kind": "relation", "relation_type": "applies-to"}
 {"from": "教育溢价主要来自信号筛选", "to": "要素与收入分配", "kind": "relation", "relation_type": "applies-to"}
@@ -518,6 +849,8 @@
 {"from": "整体减税通常减少税收收入", "to": "税收无谓损失机制", "kind": "relation", "relation_type": "based-on"}
 {"from": "整体减税通常减少税收收入", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
 {"from": "整体减税通常减少税收收入", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "新女性运动作为返祖", "to": "炫耀性消费与工业社会的道德经济", "kind": "relation", "relation_type": "applies-to"}
+{"from": "新女性运动作为返祖", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
 {"from": "最低工资助贫与就业代价之争", "to": "提高最低工资可抬升低薪工人收入", "kind": "relation", "relation_type": "involves"}
 {"from": "最低工资助贫与就业代价之争", "to": "最低工资因就业与瞄准问题未必有效助贫", "kind": "relation", "relation_type": "involves"}
 {"from": "最低工资助贫与就业代价之争", "to": "价格管制短缺与过剩", "kind": "relation", "relation_type": "based-on"}
@@ -543,13 +876,33 @@
 {"from": "有效市场假说与基本面估值", "to": "分散化与风险收益权衡", "kind": "relation", "relation_type": "extends"}
 {"from": "有效市场假说与基本面估值", "to": "市场常呈难用新闻解释的非理性波动", "kind": "relation", "relation_type": "conflicts-with"}
 {"from": "有效市场假说与基本面估值", "to": "储蓄投资与金融体系", "kind": "domain"}
+{"from": "有闲阶级作为保守力量", "to": "炫耀性消费与工业社会的道德经济", "kind": "relation", "relation_type": "applies-to"}
+{"from": "有闲阶级作为保守力量", "to": "高等学府对创新的保守抵制", "kind": "relation", "relation_type": "example-of"}
+{"from": "有闲阶级作为保守力量", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
+{"from": "有闲阶级对科学认知兴趣的结构性偏转", "to": "炫耀性消费与工业社会的道德经济", "kind": "relation", "relation_type": "applies-to"}
+{"from": "有闲阶级对科学认知兴趣的结构性偏转", "to": "高等学府对创新的保守抵制", "kind": "relation", "relation_type": "supports"}
+{"from": "有闲阶级对科学认知兴趣的结构性偏转", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
 {"from": "机会成本边际与激励", "to": "微观分析基础", "kind": "relation", "relation_type": "applies-to"}
 {"from": "机会成本边际与激励", "to": "比较优势与专业化贸易", "kind": "relation", "relation_type": "supports"}
 {"from": "机会成本边际与激励", "to": "税负更多落在缺乏弹性的一侧", "kind": "relation", "relation_type": "influences"}
 {"from": "机会成本边际与激励", "to": "供求均衡与曲线移位", "kind": "relation", "relation_type": "supports"}
 {"from": "机会成本边际与激励", "to": "经济模型与生产可能性边界", "kind": "relation", "relation_type": "based-on"}
 {"from": "机会成本边际与激励", "to": "生产成本与机会成本", "kind": "relation", "relation_type": "supports"}
+{"from": "机会成本边际与激励", "to": "安全带法直接安全效应与激励反弹之争", "kind": "relation", "relation_type": "example-of"}
+{"from": "机会成本边际与激励", "to": "安全带法通过激励反弹可能增加事故与行人受害说", "kind": "relation", "relation_type": "supports"}
 {"from": "机会成本边际与激励", "to": "微观分析基础", "kind": "domain"}
+{"from": "机械工业与运气信仰之争", "to": "炫耀性消费与工业社会的道德经济", "kind": "relation", "relation_type": "applies-to"}
+{"from": "机械工业与运气信仰之争", "to": "机械工业瓦解泛灵论说", "kind": "relation", "relation_type": "involves"}
+{"from": "机械工业与运气信仰之争", "to": "运气信仰削弱工业效率说", "kind": "relation", "relation_type": "involves"}
+{"from": "机械工业与运气信仰之争", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
+{"from": "机械工业瓦解泛灵论说", "to": "炫耀性消费与工业社会的道德经济", "kind": "relation", "relation_type": "applies-to"}
+{"from": "机械工业瓦解泛灵论说", "to": "运气信仰削弱工业效率说", "kind": "relation", "relation_type": "supports"}
+{"from": "机械工业瓦解泛灵论说", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
+{"from": "欧洲中央银行日益依赖外国汇票与国外余额", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "applies-to"}
+{"from": "欧洲中央银行日益依赖外国汇票与国外余额", "to": "英国货币制度的独特性在于支票体系与银行利率", "kind": "relation", "relation_type": "extends"}
+{"from": "欧洲中央银行日益依赖外国汇票与国外余额", "to": "金汇兑本位制的定义与核心逻辑", "kind": "relation", "relation_type": "supports"}
+{"from": "欧洲中央银行日益依赖外国汇票与国外余额", "to": "国际货币秩序与汇率清算", "kind": "domain"}
+{"from": "欧洲中央银行日益依赖外国汇票与国外余额", "to": "金融权力投机与内生不稳定", "kind": "domain"}
 {"from": "正外部性补贴与专利内部化", "to": "市场势力与外部性动摇竞争效率", "kind": "relation", "relation_type": "based-on"}
 {"from": "正外部性补贴与专利内部化", "to": "排他性与竞争性四类物品", "kind": "relation", "relation_type": "influences"}
 {"from": "正外部性补贴与专利内部化", "to": "产业政策外溢普遍论与政治俘获之争", "kind": "relation", "relation_type": "influences"}
@@ -570,6 +923,10 @@
 {"from": "比较优势与专业化贸易", "to": "经济模型与生产可能性边界", "kind": "relation", "relation_type": "based-on"}
 {"from": "比较优势与专业化贸易", "to": "贸易与相互依存", "kind": "relation", "relation_type": "applies-to"}
 {"from": "比较优势与专业化贸易", "to": "贸易与相互依存", "kind": "domain"}
+{"from": "民族服饰与服装三重规范之争", "to": "炫耀性消费与工业社会的道德经济", "kind": "relation", "relation_type": "applies-to"}
+{"from": "民族服饰与服装三重规范之争", "to": "稳定民族服饰源于闲暇竞争说", "kind": "relation", "relation_type": "involves"}
+{"from": "民族服饰与服装三重规范之争", "to": "现代服装三重规范说", "kind": "relation", "relation_type": "involves"}
+{"from": "民族服饰与服装三重规范之争", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
 {"from": "流动性偏好与利率效应", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
 {"from": "流动性偏好与利率效应", "to": "可贷资金市场与政策冲击", "kind": "relation", "relation_type": "extends"}
 {"from": "流动性偏好与利率效应", "to": "美联储与货币政策工具", "kind": "relation", "relation_type": "based-on"}
@@ -584,10 +941,18 @@
 {"from": "消费者选择-预算约束与无差异曲线", "to": "需求价格弹性与总收益判别", "kind": "relation", "relation_type": "influences"}
 {"from": "消费者选择-预算约束与无差异曲线", "to": "行为经济学-有限理性公平与跨时", "kind": "relation", "relation_type": "influences"}
 {"from": "消费者选择-预算约束与无差异曲线", "to": "微观分析基础", "kind": "domain"}
+{"from": "炫耀性消费与工业社会的道德经济", "to": "金融权力投机与内生不稳定", "kind": "relation", "relation_type": "influences"}
+{"from": "炫耀性消费与工业社会的道德经济", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "influences"}
+{"from": "现代服装三重规范说", "to": "炫耀性消费与工业社会的道德经济", "kind": "relation", "relation_type": "applies-to"}
+{"from": "现代服装三重规范说", "to": "稳定民族服饰源于闲暇竞争说", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "现代服装三重规范说", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
 {"from": "现值复利与时间价值", "to": "储蓄投资与金融体系", "kind": "relation", "relation_type": "applies-to"}
 {"from": "现值复利与时间价值", "to": "名义与实际利率", "kind": "relation", "relation_type": "based-on"}
 {"from": "现值复利与时间价值", "to": "有效市场假说与基本面估值", "kind": "relation", "relation_type": "influences"}
 {"from": "现值复利与时间价值", "to": "储蓄投资与金融体系", "kind": "domain"}
+{"from": "理想货币制度的双重目标", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "applies-to"}
+{"from": "理想货币制度的双重目标", "to": "价格稳定应优先于汇率稳定", "kind": "relation", "relation_type": "based-on"}
+{"from": "理想货币制度的双重目标", "to": "国际货币秩序与汇率清算", "kind": "domain"}
 {"from": "生产成本与机会成本", "to": "机会成本边际与激励", "kind": "relation", "relation_type": "based-on"}
 {"from": "生产成本与机会成本", "to": "企业与市场结构", "kind": "relation", "relation_type": "applies-to"}
 {"from": "生产成本与机会成本", "to": "供求均衡与曲线移位", "kind": "relation", "relation_type": "supports"}
@@ -621,6 +986,11 @@
 {"from": "短期波动与AD-AS", "to": "货币政策规则与裁量之争", "kind": "relation", "relation_type": "applies-to"}
 {"from": "短期波动与AD-AS", "to": "近零通胀与中等通胀之争", "kind": "relation", "relation_type": "applies-to"}
 {"from": "短期波动与AD-AS", "to": "平衡预算与可持续赤字之争", "kind": "relation", "relation_type": "applies-to"}
+{"from": "短期波动与AD-AS", "to": "金融权力投机与内生不稳定", "kind": "relation", "relation_type": "influences"}
+{"from": "硬币与奖章作为历史证据", "to": "货币形态史与本位制度", "kind": "relation", "relation_type": "applies-to"}
+{"from": "硬币与奖章作为历史证据", "to": "费城铸币厂钱币柜", "kind": "relation", "relation_type": "example-of"}
+{"from": "硬币与奖章作为历史证据", "to": "货币形态史与本位制度", "kind": "relation", "relation_type": "based-on"}
+{"from": "硬币与奖章作为历史证据", "to": "货币形态史与本位制度", "kind": "domain"}
 {"from": "社会选择与投票悖论", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
 {"from": "社会选择与投票悖论", "to": "联邦经济政策机构网络", "kind": "relation", "relation_type": "influences"}
 {"from": "社会选择与投票悖论", "to": "信息不对称-道德风险逆向选择信号筛选", "kind": "relation", "relation_type": "influences"}
@@ -632,6 +1002,19 @@
 {"from": "科斯定理与交易成本边界", "to": "正外部性补贴与专利内部化", "kind": "relation", "relation_type": "influences"}
 {"from": "科斯定理与交易成本边界", "to": "公地悲剧与产权解决", "kind": "relation", "relation_type": "influences"}
 {"from": "科斯定理与交易成本边界", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "租金上限可持续改善可负担住房说", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "租金上限可持续改善可负担住房说", "to": "租金上限损害住房供给与质量说", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "租金上限可持续改善可负担住房说", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "租金上限损害住房供给与质量说", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "租金上限损害住房供给与质量说", "to": "价格管制短缺与过剩", "kind": "relation", "relation_type": "based-on"}
+{"from": "租金上限损害住房供给与质量说", "to": "租金上限可持续改善可负担住房说", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "租金上限损害住房供给与质量说", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "租金管制助贫叙事与专家共识之争", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "租金管制助贫叙事与专家共识之争", "to": "租金上限可持续改善可负担住房说", "kind": "relation", "relation_type": "involves"}
+{"from": "租金管制助贫叙事与专家共识之争", "to": "租金上限损害住房供给与质量说", "kind": "relation", "relation_type": "involves"}
+{"from": "租金管制助贫叙事与专家共识之争", "to": "价格管制短缺与过剩", "kind": "relation", "relation_type": "based-on"}
+{"from": "租金管制助贫叙事与专家共识之争", "to": "经济学家共识与政策现实脱节", "kind": "relation", "relation_type": "supports"}
+{"from": "租金管制助贫叙事与专家共识之争", "to": "市场效率与政策干预", "kind": "domain"}
 {"from": "移民劳动服务进口与净收益再分配", "to": "开放贸易的福利与关税无谓损失", "kind": "relation", "relation_type": "based-on"}
 {"from": "移民劳动服务进口与净收益再分配", "to": "要素需求与边际产值", "kind": "relation", "relation_type": "applies-to"}
 {"from": "移民劳动服务进口与净收益再分配", "to": "劳动供给后弯与收入替代效应", "kind": "relation", "relation_type": "applies-to"}
@@ -651,6 +1034,7 @@
 {"from": "税收无谓损失机制", "to": "税制效率与公平权衡", "kind": "relation", "relation_type": "influences"}
 {"from": "税收无谓损失机制", "to": "外部性内部化-矫正税与排污许可", "kind": "relation", "relation_type": "applies-to"}
 {"from": "税收无谓损失机制", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "税收无谓损失机制", "to": "劳动税无谓损失大小取决于供给弹性之争", "kind": "relation", "relation_type": "influences"}
 {"from": "税收无谓损失机制", "to": "市场效率与政策干预", "kind": "domain"}
 {"from": "税负更多落在缺乏弹性的一侧", "to": "税收无谓损失机制", "kind": "relation", "relation_type": "based-on"}
 {"from": "税负更多落在缺乏弹性的一侧", "to": "供给价格弹性与市场应用", "kind": "relation", "relation_type": "based-on"}
@@ -659,6 +1043,9 @@
 {"from": "税负更多落在缺乏弹性的一侧", "to": "经济数据分析四目标", "kind": "relation", "relation_type": "based-on"}
 {"from": "税负更多落在缺乏弹性的一侧", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
 {"from": "税负更多落在缺乏弹性的一侧", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "稳定民族服饰源于闲暇竞争说", "to": "炫耀性消费与工业社会的道德经济", "kind": "relation", "relation_type": "applies-to"}
+{"from": "稳定民族服饰源于闲暇竞争说", "to": "现代服装三重规范说", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "稳定民族服饰源于闲暇竞争说", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
 {"from": "竞争市场总剩余最大化", "to": "税收无谓损失机制", "kind": "relation", "relation_type": "influences"}
 {"from": "竞争市场总剩余最大化", "to": "开放贸易的福利与关税无谓损失", "kind": "relation", "relation_type": "influences"}
 {"from": "竞争市场总剩余最大化", "to": "黄牛把稀缺票配置给估价最高者", "kind": "relation", "relation_type": "supports"}
@@ -670,7 +1057,46 @@
 {"from": "竞争市场总剩余最大化", "to": "寡头合谋与囚徒困境", "kind": "relation", "relation_type": "influences"}
 {"from": "竞争市场总剩余最大化", "to": "自然垄断管制两难题", "kind": "relation", "relation_type": "influences"}
 {"from": "竞争市场总剩余最大化", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
+{"from": "竞争市场总剩余最大化", "to": "器官市场效率与厌恶公平之争", "kind": "relation", "relation_type": "influences"}
 {"from": "竞争市场总剩余最大化", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "管理-替代困境-关键资源的获取性管理加速替代", "to": "经济制度的获取性-生产性二分", "kind": "relation", "relation_type": "based-on"}
+{"from": "管理-替代困境-关键资源的获取性管理加速替代", "to": "金融寡头通过三重功能集中控制美国商业", "kind": "relation", "relation_type": "based-on"}
+{"from": "管理-替代困境-关键资源的获取性管理加速替代", "to": "市场大趋势源于基本条件还是操纵", "kind": "relation", "relation_type": "supports"}
+{"from": "管理-替代困境-关键资源的获取性管理加速替代", "to": "制度整体性阻碍局部改革", "kind": "relation", "relation_type": "supports"}
+{"from": "管理-替代困境-关键资源的获取性管理加速替代", "to": "2022-2026美元黄金走势的管理货币张力诠释", "kind": "relation", "relation_type": "example-of"}
+{"from": "管理-替代困境-关键资源的获取性管理加速替代", "to": "小院高墙作为获取性战略的解释模型", "kind": "relation", "relation_type": "example-of"}
+{"from": "管理-替代困境-关键资源的获取性管理加速替代", "to": "存储高价环境的AI需求与寡头供给管理共谋模型", "kind": "relation", "relation_type": "example-of"}
+{"from": "管理-替代困境-关键资源的获取性管理加速替代", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
+{"from": "管理-替代困境-关键资源的获取性管理加速替代", "to": "金融权力投机与内生不稳定", "kind": "domain"}
+{"from": "管理-替代困境-关键资源的获取性管理加速替代", "to": "国际货币秩序与汇率清算", "kind": "domain"}
+{"from": "管理-替代困境与安全-时间购买论之争", "to": "管理-替代困境-关键资源的获取性管理加速替代", "kind": "relation", "relation_type": "involves"}
+{"from": "管理-替代困境与安全-时间购买论之争", "to": "安全时间购买论", "kind": "relation", "relation_type": "involves"}
+{"from": "管理-替代困境与安全-时间购买论之争", "to": "小院高墙作为获取性战略的解释模型", "kind": "relation", "relation_type": "involves"}
+{"from": "管理-替代困境与安全-时间购买论之争", "to": "存储高价环境的AI需求与寡头供给管理共谋模型", "kind": "relation", "relation_type": "involves"}
+{"from": "管理-替代困境与安全-时间购买论之争", "to": "中日材料战的管理-替代困境与供应链去耦合", "kind": "relation", "relation_type": "involves"}
+{"from": "管理-替代困境与安全-时间购买论之争", "to": "2022-2026美元黄金走势的管理货币张力诠释", "kind": "relation", "relation_type": "involves"}
+{"from": "管理-替代困境与安全-时间购买论之争", "to": "高等学府对创新的保守抵制", "kind": "relation", "relation_type": "involves"}
+{"from": "管理-替代困境与安全-时间购买论之争", "to": "图表分析与历史先例的局限", "kind": "relation", "relation_type": "involves"}
+{"from": "管理-替代困境与安全-时间购买论之争", "to": "经济制度的获取性-生产性二分", "kind": "relation", "relation_type": "involves"}
+{"from": "管理-替代困境与安全-时间购买论之争", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
+{"from": "管理-替代困境与安全-时间购买论之争", "to": "金融权力投机与内生不稳定", "kind": "domain"}
+{"from": "管理货币与金本位恢复的制度路径之争", "to": "恢复战前金本位将把英国价格与信贷调控权让渡给美联储", "kind": "relation", "relation_type": "involves"}
+{"from": "管理货币与金本位恢复的制度路径之争", "to": "理想货币制度的双重目标", "kind": "relation", "relation_type": "involves"}
+{"from": "管理货币与金本位恢复的制度路径之争", "to": "国际货币秩序与汇率清算", "kind": "domain"}
+{"from": "纸币扩张收益与过度发行风险", "to": "可兑换纸币替代金银与产业基金扩充机制", "kind": "relation", "relation_type": "involves"}
+{"from": "纸币扩张收益与过度发行风险", "to": "银行适宜垫支与短期风控原则", "kind": "relation", "relation_type": "involves"}
+{"from": "纸币扩张收益与过度发行风险", "to": "货币制度与银行体系", "kind": "domain"}
+{"from": "纸币通胀侵蚀节俭与公共道德", "to": "货币增长与通货膨胀", "kind": "relation", "relation_type": "extends"}
+{"from": "纸币通胀侵蚀节俭与公共道德", "to": "货币增长与通货膨胀", "kind": "domain"}
+{"from": "经济不稳定根源之争", "to": "金融权力投机与内生不稳定", "kind": "relation", "relation_type": "applies-to"}
+{"from": "经济不稳定根源之争", "to": "外生冲击均衡倾向说", "kind": "relation", "relation_type": "involves"}
+{"from": "经济不稳定根源之争", "to": "内生金融不稳定说", "kind": "relation", "relation_type": "involves"}
+{"from": "经济不稳定根源之争", "to": "大政府三重稳定效应", "kind": "relation", "relation_type": "based-on"}
+{"from": "经济不稳定根源之争", "to": "金融权力投机与内生不稳定", "kind": "domain"}
+{"from": "经济不稳定根源之争", "to": "外生冲击均衡倾向说", "kind": "wikilink"}
+{"from": "经济不稳定根源之争", "to": "内生金融不稳定说", "kind": "wikilink"}
+{"from": "经济制度的获取性-生产性二分", "to": "炫耀性消费与工业社会的道德经济", "kind": "relation", "relation_type": "applies-to"}
+{"from": "经济制度的获取性-生产性二分", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
 {"from": "经济学图形读法", "to": "微观分析基础", "kind": "relation", "relation_type": "applies-to"}
 {"from": "经济学图形读法", "to": "经济模型与生产可能性边界", "kind": "relation", "relation_type": "supports"}
 {"from": "经济学图形读法", "to": "供求均衡与曲线移位", "kind": "relation", "relation_type": "supports"}
@@ -681,6 +1107,7 @@
 {"from": "经济学家共识与政策现实脱节", "to": "实证分析与规范判断之分", "kind": "relation", "relation_type": "example-of"}
 {"from": "经济学家共识与政策现实脱节", "to": "价格管制短缺与过剩", "kind": "relation", "relation_type": "example-of"}
 {"from": "经济学家共识与政策现实脱节", "to": "税制效率与公平权衡", "kind": "relation", "relation_type": "example-of"}
+{"from": "经济学家共识与政策现实脱节", "to": "租金管制助贫叙事与专家共识之争", "kind": "relation", "relation_type": "supports"}
 {"from": "经济学家共识与政策现实脱节", "to": "市场效率与政策干预", "kind": "domain"}
 {"from": "经济数据分析四目标", "to": "微观分析基础", "kind": "relation", "relation_type": "applies-to"}
 {"from": "经济数据分析四目标", "to": "因果识别陷阱", "kind": "relation", "relation_type": "based-on"}
@@ -697,6 +1124,24 @@
 {"from": "经济模型与生产可能性边界", "to": "实证分析与规范判断之分", "kind": "relation", "relation_type": "supports"}
 {"from": "经济模型与生产可能性边界", "to": "因果识别陷阱", "kind": "relation", "relation_type": "supports"}
 {"from": "经济模型与生产可能性边界", "to": "微观分析基础", "kind": "domain"}
+{"from": "美国冗余黄金无法通过真实储蓄贷款或自然贸易分散", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "applies-to"}
+{"from": "美国冗余黄金无法通过真实储蓄贷款或自然贸易分散", "to": "美国实际已建立美元标准而非真正金本位", "kind": "relation", "relation_type": "supports"}
+{"from": "美国冗余黄金无法通过真实储蓄贷款或自然贸易分散", "to": "黄金已成为依赖少数央行政策的管理货币", "kind": "relation", "relation_type": "extends"}
+{"from": "美国冗余黄金无法通过真实储蓄贷款或自然贸易分散", "to": "国际货币秩序与汇率清算", "kind": "domain"}
+{"from": "美国实际已建立美元标准而非真正金本位", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "applies-to"}
+{"from": "美国实际已建立美元标准而非真正金本位", "to": "黄金已成为依赖少数央行政策的管理货币", "kind": "relation", "relation_type": "supports"}
+{"from": "美国实际已建立美元标准而非真正金本位", "to": "美国冗余黄金无法通过真实储蓄贷款或自然贸易分散", "kind": "relation", "relation_type": "based-on"}
+{"from": "美国实际已建立美元标准而非真正金本位", "to": "国际货币秩序与汇率清算", "kind": "domain"}
+{"from": "美国早期铜币设计承载独立与联邦认同", "to": "货币形态史与本位制度", "kind": "relation", "relation_type": "applies-to"}
+{"from": "美国早期铜币设计承载独立与联邦认同", "to": "英属北美殖民地货币多样性与政治张力", "kind": "relation", "relation_type": "extends"}
+{"from": "美国早期铜币设计承载独立与联邦认同", "to": "硬币与奖章作为历史证据", "kind": "relation", "relation_type": "supports"}
+{"from": "美国早期铜币设计承载独立与联邦认同", "to": "货币形态史与本位制度", "kind": "domain"}
+{"from": "美国贸易银元", "to": "货币形态史与本位制度", "kind": "relation", "relation_type": "applies-to"}
+{"from": "美国贸易银元", "to": "世界主要文明货币形态", "kind": "relation", "relation_type": "example-of"}
+{"from": "美国贸易银元", "to": "Henry-R-Linderman-被描绘为1873年法案与贸易银元的设计师", "kind": "relation", "relation_type": "based-on"}
+{"from": "美国贸易银元", "to": "货币形态史与本位制度", "kind": "domain"}
+{"from": "美国铸币局术语表界定标准币辅币小面额硬币", "to": "货币形态史与本位制度", "kind": "relation", "relation_type": "applies-to"}
+{"from": "美国铸币局术语表界定标准币辅币小面额硬币", "to": "货币形态史与本位制度", "kind": "domain"}
 {"from": "美联储与货币政策工具", "to": "货币制度与银行体系", "kind": "relation", "relation_type": "applies-to"}
 {"from": "美联储与货币政策工具", "to": "部分准备金与货币乘数", "kind": "relation", "relation_type": "influences"}
 {"from": "美联储与货币政策工具", "to": "联邦经济政策机构网络", "kind": "relation", "relation_type": "extends"}
@@ -710,6 +1155,9 @@
 {"from": "群体平均工资差不能度量劳动市场歧视", "to": "因果识别陷阱", "kind": "relation", "relation_type": "applies-to"}
 {"from": "群体平均工资差不能度量劳动市场歧视", "to": "要素与收入分配", "kind": "relation", "relation_type": "applies-to"}
 {"from": "群体平均工资差不能度量劳动市场歧视", "to": "要素与收入分配", "kind": "domain"}
+{"from": "老年医疗权重更高不宜贸然削减CPI挂钩说", "to": "宏观度量与国民收入", "kind": "relation", "relation_type": "applies-to"}
+{"from": "老年医疗权重更高不宜贸然削减CPI挂钩说", "to": "CPI高估应下调社保自动调增说", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "老年医疗权重更高不宜贸然削减CPI挂钩说", "to": "宏观度量与国民收入", "kind": "domain"}
 {"from": "联邦经济政策机构网络", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
 {"from": "联邦经济政策机构网络", "to": "实证分析与规范判断之分", "kind": "relation", "relation_type": "example-of"}
 {"from": "联邦经济政策机构网络", "to": "美联储与货币政策工具", "kind": "relation", "relation_type": "influences"}
@@ -722,6 +1170,22 @@
 {"from": "自然垄断管制两难题", "to": "反垄断消费者福利与民主关切之争", "kind": "relation", "relation_type": "influences"}
 {"from": "自然垄断管制两难题", "to": "企业与市场结构", "kind": "relation", "relation_type": "applies-to"}
 {"from": "自然垄断管制两难题", "to": "企业与市场结构", "kind": "domain"}
+{"from": "英国私人银行的组织困境与治理风险", "to": "金融权力投机与内生不稳定", "kind": "relation", "relation_type": "applies-to"}
+{"from": "英国私人银行的组织困境与治理风险", "to": "金融权力投机与内生不稳定", "kind": "domain"}
+{"from": "英国货币制度的独特性在于支票体系与银行利率", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "applies-to"}
+{"from": "英国货币制度的独特性在于支票体系与银行利率", "to": "其他国家模仿英国货币制度形式失substance", "kind": "relation", "relation_type": "supports"}
+{"from": "英国货币制度的独特性在于支票体系与银行利率", "to": "金融权力投机与内生不稳定", "kind": "relation", "relation_type": "applies-to"}
+{"from": "英国货币制度的独特性在于支票体系与银行利率", "to": "国际货币秩序与汇率清算", "kind": "domain"}
+{"from": "英国货币制度的独特性在于支票体系与银行利率", "to": "金融权力投机与内生不稳定", "kind": "domain"}
+{"from": "英国银行信贷创造由四因素共同决定", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "applies-to"}
+{"from": "英国银行信贷创造由四因素共同决定", "to": "货币数量论的正式表述", "kind": "relation", "relation_type": "based-on"}
+{"from": "英国银行信贷创造由四因素共同决定", "to": "国际货币秩序与汇率清算", "kind": "domain"}
+{"from": "英属北美殖民地货币多样性与政治张力", "to": "货币形态史与本位制度", "kind": "relation", "relation_type": "applies-to"}
+{"from": "英属北美殖民地货币多样性与政治张力", "to": "世界主要文明货币形态", "kind": "relation", "relation_type": "example-of"}
+{"from": "英属北美殖民地货币多样性与政治张力", "to": "货币形态史与本位制度", "kind": "domain"}
+{"from": "英美应各自管理本币再通过自由合作实现汇率稳定", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "applies-to"}
+{"from": "英美应各自管理本币再通过自由合作实现汇率稳定", "to": "理想货币制度的双重目标", "kind": "relation", "relation_type": "supports"}
+{"from": "英美应各自管理本币再通过自由合作实现汇率稳定", "to": "国际货币秩序与汇率清算", "kind": "domain"}
 {"from": "菲利普斯曲线与自然率假说", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
 {"from": "菲利普斯曲线与自然率假说", "to": "失业度量与自然率", "kind": "relation", "relation_type": "based-on"}
 {"from": "菲利普斯曲线与自然率假说", "to": "数量方程与货币中性", "kind": "relation", "relation_type": "based-on"}
@@ -745,6 +1209,12 @@
 {"from": "要素需求与边际产值", "to": "边际生产力定价不保证公平分配", "kind": "relation", "relation_type": "supports"}
 {"from": "要素需求与边际产值", "to": "要素与收入分配", "kind": "relation", "relation_type": "applies-to"}
 {"from": "要素需求与边际产值", "to": "要素与收入分配", "kind": "domain"}
+{"from": "论战性历史叙事的普遍化机制", "to": "货币形态史与本位制度", "kind": "relation", "relation_type": "applies-to"}
+{"from": "论战性历史叙事的普遍化机制", "to": "货币形态史与本位制度", "kind": "domain"}
+{"from": "读带交易到趋势预判的方法论升级", "to": "金融权力投机与内生不稳定", "kind": "relation", "relation_type": "applies-to"}
+{"from": "读带交易到趋势预判的方法论升级", "to": "从个股到基本条件思维的投机升级", "kind": "relation", "relation_type": "extends"}
+{"from": "读带交易到趋势预判的方法论升级", "to": "图表分析与历史先例的局限", "kind": "relation", "relation_type": "supports"}
+{"from": "读带交易到趋势预判的方法论升级", "to": "金融权力投机与内生不稳定", "kind": "domain"}
 {"from": "财政乘数与挤出效应", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
 {"from": "财政乘数与挤出效应", "to": "流动性偏好与利率效应", "kind": "relation", "relation_type": "influences"}
 {"from": "财政乘数与挤出效应", "to": "可贷资金市场与政策冲击", "kind": "relation", "relation_type": "influences"}
@@ -765,16 +1235,28 @@
 {"from": "货币制度与银行体系", "to": "宏观度量与国民收入", "kind": "relation", "relation_type": "influences"}
 {"from": "货币制度与银行体系", "to": "联邦经济政策机构网络", "kind": "relation", "relation_type": "influences"}
 {"from": "货币制度与银行体系", "to": "货币增长与通货膨胀", "kind": "relation", "relation_type": "influences"}
+{"from": "货币制度与银行体系", "to": "货币形态史与本位制度", "kind": "relation", "relation_type": "influences"}
+{"from": "货币制度与银行体系", "to": "金融权力投机与内生不稳定", "kind": "relation", "relation_type": "influences"}
 {"from": "货币增长与通货膨胀", "to": "货币制度与银行体系", "kind": "relation", "relation_type": "based-on"}
 {"from": "货币增长与通货膨胀", "to": "宏观度量与国民收入", "kind": "relation", "relation_type": "influences"}
 {"from": "货币增长与通货膨胀", "to": "开放经济宏观基础", "kind": "relation", "relation_type": "influences"}
 {"from": "货币增长与通货膨胀", "to": "储蓄投资与金融体系", "kind": "relation", "relation_type": "influences"}
+{"from": "货币增长与通货膨胀", "to": "货币形态史与本位制度", "kind": "relation", "relation_type": "influences"}
+{"from": "货币形态史与本位制度", "to": "货币制度与银行体系", "kind": "relation", "relation_type": "influences"}
+{"from": "货币形态史与本位制度", "to": "货币增长与通货膨胀", "kind": "relation", "relation_type": "influences"}
+{"from": "货币形态史与本位制度", "to": "宏观度量与国民收入", "kind": "relation", "relation_type": "extends"}
+{"from": "货币形态史与本位制度", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "influences"}
 {"from": "货币政策规则与裁量之争", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
 {"from": "货币政策规则与裁量之争", "to": "央行应承诺遵循货币规则", "kind": "relation", "relation_type": "involves"}
 {"from": "货币政策规则与裁量之争", "to": "央行应保留货币裁量灵活性", "kind": "relation", "relation_type": "involves"}
 {"from": "货币政策规则与裁量之争", "to": "美联储与货币政策工具", "kind": "relation", "relation_type": "based-on"}
 {"from": "货币政策规则与裁量之争", "to": "菲利普斯曲线与自然率假说", "kind": "relation", "relation_type": "based-on"}
 {"from": "货币政策规则与裁量之争", "to": "短期波动与AD-AS", "kind": "domain"}
+{"from": "货币数量论与弹性信用理论的对立模型", "to": "货币增长与通货膨胀", "kind": "relation", "relation_type": "applies-to"}
+{"from": "货币数量论与弹性信用理论的对立模型", "to": "货币增长与通货膨胀", "kind": "domain"}
+{"from": "货币数量论的正式表述", "to": "货币增长与通货膨胀", "kind": "relation", "relation_type": "supports"}
+{"from": "货币数量论的正式表述", "to": "货币数量论与弹性信用理论的对立模型", "kind": "relation", "relation_type": "extends"}
+{"from": "货币数量论的正式表述", "to": "货币增长与通货膨胀", "kind": "domain"}
 {"from": "货币种类与货币存量", "to": "货币制度与银行体系", "kind": "relation", "relation_type": "applies-to"}
 {"from": "货币种类与货币存量", "to": "货币三职能与流动性", "kind": "relation", "relation_type": "based-on"}
 {"from": "货币种类与货币存量", "to": "部分准备金与货币乘数", "kind": "relation", "relation_type": "influences"}
@@ -785,6 +1267,8 @@
 {"from": "购买力平价与一价定律", "to": "货币制度与银行体系", "kind": "relation", "relation_type": "influences"}
 {"from": "购买力平价与一价定律", "to": "开放经济双市场模型", "kind": "relation", "relation_type": "example-of"}
 {"from": "购买力平价与一价定律", "to": "开放经济宏观基础", "kind": "domain"}
+{"from": "购买力平价理论的实用边界", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "supports"}
+{"from": "购买力平价理论的实用边界", "to": "国际货币秩序与汇率清算", "kind": "domain"}
 {"from": "贸易与相互依存", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "influences"}
 {"from": "贸易与相互依存", "to": "开放经济宏观基础", "kind": "relation", "relation_type": "influences"}
 {"from": "贸易因补偿可能性而能使人人更好", "to": "贸易无补偿时常使部分人分到更小一块", "kind": "relation", "relation_type": "conflicts-with"}
@@ -810,10 +1294,22 @@
 {"from": "贸易补偿可能性与现实分配之争", "to": "限制贸易的五类论据与回应", "kind": "relation", "relation_type": "influences"}
 {"from": "贸易补偿可能性与现实分配之争", "to": "贸易与相互依存", "kind": "relation", "relation_type": "applies-to"}
 {"from": "贸易补偿可能性与现实分配之争", "to": "贸易与相互依存", "kind": "domain"}
+{"from": "费城铸币厂", "to": "货币形态史与本位制度", "kind": "relation", "relation_type": "applies-to"}
+{"from": "费城铸币厂", "to": "货币形态史与本位制度", "kind": "domain"}
+{"from": "费城铸币厂化验与精炼工艺", "to": "费城铸币厂", "kind": "relation", "relation_type": "applies-to"}
+{"from": "费城铸币厂化验与精炼工艺", "to": "货币形态史与本位制度", "kind": "domain"}
+{"from": "费城铸币厂钱币柜", "to": "费城铸币厂", "kind": "relation", "relation_type": "applies-to"}
+{"from": "费城铸币厂钱币柜", "to": "硬币与奖章作为历史证据", "kind": "relation", "relation_type": "supports"}
+{"from": "费城铸币厂钱币柜", "to": "William-E-Du-Bois-创办费城铸币局钱币柜", "kind": "relation", "relation_type": "based-on"}
+{"from": "费城铸币厂钱币柜", "to": "货币形态史与本位制度", "kind": "domain"}
 {"from": "资本积累报酬递减与赶超", "to": "长期增长与生产率", "kind": "relation", "relation_type": "applies-to"}
 {"from": "资本积累报酬递减与赶超", "to": "生产率决定因素与生产函数", "kind": "relation", "relation_type": "extends"}
 {"from": "资本积累报酬递减与赶超", "to": "可贷资金市场与政策冲击", "kind": "relation", "relation_type": "based-on"}
 {"from": "资本积累报酬递减与赶超", "to": "长期增长与生产率", "kind": "domain"}
+{"from": "赚大钱靠坐得住而非判断正确", "to": "金融权力投机与内生不稳定", "kind": "relation", "relation_type": "applies-to"}
+{"from": "赚大钱靠坐得住而非判断正确", "to": "从个股到基本条件思维的投机升级", "kind": "relation", "relation_type": "supports"}
+{"from": "赚大钱靠坐得住而非判断正确", "to": "交易心理学-独立判断与自律", "kind": "relation", "relation_type": "supports"}
+{"from": "赚大钱靠坐得住而非判断正确", "to": "金融权力投机与内生不稳定", "kind": "domain"}
 {"from": "边际生产力定价不保证公平分配", "to": "要素需求与边际产值", "kind": "relation", "relation_type": "based-on"}
 {"from": "边际生产力定价不保证公平分配", "to": "实证分析与规范判断之分", "kind": "relation", "relation_type": "supports"}
 {"from": "边际生产力定价不保证公平分配", "to": "工资差异与歧视经济学", "kind": "relation", "relation_type": "applies-to"}
@@ -824,6 +1320,9 @@
 {"from": "过程公正则结果不平等亦可接受", "to": "分配正义三传统之争", "kind": "relation", "relation_type": "applies-to"}
 {"from": "过程公正则结果不平等亦可接受", "to": "要素与收入分配", "kind": "relation", "relation_type": "applies-to"}
 {"from": "过程公正则结果不平等亦可接受", "to": "要素与收入分配", "kind": "domain"}
+{"from": "运气信仰削弱工业效率说", "to": "炫耀性消费与工业社会的道德经济", "kind": "relation", "relation_type": "applies-to"}
+{"from": "运气信仰削弱工业效率说", "to": "机械工业瓦解泛灵论说", "kind": "relation", "relation_type": "supports"}
+{"from": "运气信仰削弱工业效率说", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
 {"from": "近零通胀与中等通胀之争", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
 {"from": "近零通胀与中等通胀之争", "to": "央行应瞄准近零通胀", "kind": "relation", "relation_type": "involves"}
 {"from": "近零通胀与中等通胀之争", "to": "应容忍中等正通胀", "kind": "relation", "relation_type": "involves"}
@@ -832,6 +1331,8 @@
 {"from": "近零通胀与中等通胀之争", "to": "菲利普斯曲线与自然率假说", "kind": "relation", "relation_type": "based-on"}
 {"from": "近零通胀与中等通胀之争", "to": "货币政策规则与裁量之争", "kind": "relation", "relation_type": "influences"}
 {"from": "近零通胀与中等通胀之争", "to": "短期波动与AD-AS", "kind": "domain"}
+{"from": "远期汇率决定的利率平价模型", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "supports"}
+{"from": "远期汇率决定的利率平价模型", "to": "国际货币秩序与汇率清算", "kind": "domain"}
 {"from": "通胀的社会成本", "to": "货币增长与通货膨胀", "kind": "relation", "relation_type": "applies-to"}
 {"from": "通胀的社会成本", "to": "数量方程与货币中性", "kind": "relation", "relation_type": "based-on"}
 {"from": "通胀的社会成本", "to": "通胀税与费雪效应", "kind": "relation", "relation_type": "extends"}
@@ -847,11 +1348,40 @@
 {"from": "部分准备金与货币乘数", "to": "美联储与货币政策工具", "kind": "relation", "relation_type": "influences"}
 {"from": "部分准备金与货币乘数", "to": "金融市场债券股票与中介", "kind": "relation", "relation_type": "influences"}
 {"from": "部分准备金与货币乘数", "to": "货币制度与银行体系", "kind": "domain"}
+{"from": "金本位普及而金币流通成为例外", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "applies-to"}
+{"from": "金本位普及而金币流通成为例外", "to": "金汇兑本位制的定义与核心逻辑", "kind": "relation", "relation_type": "supports"}
+{"from": "金本位普及而金币流通成为例外", "to": "19世纪各国对金币流通迷恋源于误读英国制度", "kind": "relation", "relation_type": "extends"}
+{"from": "金本位普及而金币流通成为例外", "to": "国际货币秩序与汇率清算", "kind": "domain"}
+{"from": "金本位普及而金币流通成为例外", "to": "货币形态史与本位制度", "kind": "domain"}
+{"from": "金汇兑本位制的历史演进从荷兰到印度", "to": "金汇兑本位制的定义与核心逻辑", "kind": "relation", "relation_type": "example-of"}
+{"from": "金汇兑本位制的历史演进从荷兰到印度", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "applies-to"}
+{"from": "金汇兑本位制的历史演进从荷兰到印度", "to": "Lindsay的金汇兑本位方案最初被英国金融界质疑", "kind": "relation", "relation_type": "extends"}
+{"from": "金汇兑本位制的历史演进从荷兰到印度", "to": "国际货币秩序与汇率清算", "kind": "domain"}
+{"from": "金汇兑本位制的定义与核心逻辑", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "applies-to"}
+{"from": "金汇兑本位制的定义与核心逻辑", "to": "英国货币制度的独特性在于支票体系与银行利率", "kind": "relation", "relation_type": "extends"}
+{"from": "金汇兑本位制的定义与核心逻辑", "to": "金汇兑本位制的历史演进从荷兰到印度", "kind": "relation", "relation_type": "extends"}
+{"from": "金汇兑本位制的定义与核心逻辑", "to": "国际货币秩序与汇率清算", "kind": "domain"}
+{"from": "金融寡头通过三重功能集中控制美国商业", "to": "金融权力投机与内生不稳定", "kind": "relation", "relation_type": "applies-to"}
+{"from": "金融寡头通过三重功能集中控制美国商业", "to": "投资银行家同时控制发行定价与购买方的利益冲突", "kind": "relation", "relation_type": "supports"}
+{"from": "金融寡头通过三重功能集中控制美国商业", "to": "市政债券直销绕开银行家与金融寡头控制之争", "kind": "relation", "relation_type": "example-of"}
+{"from": "金融寡头通过三重功能集中控制美国商业", "to": "投资银行家仅具三项正当功能说", "kind": "relation", "relation_type": "conflicts-with"}
+{"from": "金融寡头通过三重功能集中控制美国商业", "to": "金融权力投机与内生不稳定", "kind": "domain"}
 {"from": "金融市场债券股票与中介", "to": "储蓄投资与金融体系", "kind": "relation", "relation_type": "applies-to"}
 {"from": "金融市场债券股票与中介", "to": "可贷资金市场与政策冲击", "kind": "relation", "relation_type": "influences"}
 {"from": "金融市场债券股票与中介", "to": "分散化与风险收益权衡", "kind": "relation", "relation_type": "influences"}
 {"from": "金融市场债券股票与中介", "to": "有效市场假说与基本面估值", "kind": "relation", "relation_type": "influences"}
 {"from": "金融市场债券股票与中介", "to": "储蓄投资与金融体系", "kind": "domain"}
+{"from": "金融权力投机与内生不稳定", "to": "储蓄投资与金融体系", "kind": "relation", "relation_type": "influences"}
+{"from": "金融权力投机与内生不稳定", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "influences"}
+{"from": "金融权力投机与内生不稳定", "to": "货币制度与银行体系", "kind": "relation", "relation_type": "influences"}
+{"from": "金融权力投机与内生不稳定", "to": "有效市场与市场非理性之争", "kind": "relation", "relation_type": "influences"}
+{"from": "银行内生扩张与货币控制博弈", "to": "金融权力投机与内生不稳定", "kind": "relation", "relation_type": "applies-to"}
+{"from": "银行内生扩张与货币控制博弈", "to": "金融权力投机与内生不稳定", "kind": "domain"}
+{"from": "银行适宜垫支与短期风控原则", "to": "可兑换纸币替代金银与产业基金扩充机制", "kind": "relation", "relation_type": "based-on"}
+{"from": "银行适宜垫支与短期风控原则", "to": "货币制度与银行体系", "kind": "domain"}
+{"from": "铸币技术演进", "to": "货币形态史与本位制度", "kind": "relation", "relation_type": "applies-to"}
+{"from": "铸币技术演进", "to": "费城铸币厂", "kind": "relation", "relation_type": "applies-to"}
+{"from": "铸币技术演进", "to": "货币形态史与本位制度", "kind": "domain"}
 {"from": "长期不存在通胀失业稳定权衡", "to": "菲利普斯曲线与自然率假说", "kind": "relation", "relation_type": "based-on"}
 {"from": "长期不存在通胀失业稳定权衡", "to": "数量方程与货币中性", "kind": "relation", "relation_type": "supports"}
 {"from": "长期不存在通胀失业稳定权衡", "to": "短期波动与AD-AS", "kind": "relation", "relation_type": "applies-to"}
@@ -887,11 +1417,20 @@
 {"from": "风险厌恶与保险分散", "to": "医疗保险道德风险与逆向选择", "kind": "relation", "relation_type": "influences"}
 {"from": "风险厌恶与保险分散", "to": "分散化与风险收益权衡", "kind": "relation", "relation_type": "influences"}
 {"from": "风险厌恶与保险分散", "to": "储蓄投资与金融体系", "kind": "domain"}
+{"from": "高等学府对创新的保守抵制", "to": "有闲阶级作为保守力量", "kind": "relation", "relation_type": "example-of"}
+{"from": "高等学府对创新的保守抵制", "to": "炫耀性消费与工业社会的道德经济", "kind": "relation", "relation_type": "applies-to"}
+{"from": "高等学府对创新的保守抵制", "to": "有闲阶级对科学认知兴趣的结构性偏转", "kind": "relation", "relation_type": "supports"}
+{"from": "高等学府对创新的保守抵制", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
+{"from": "高等学问起源于神职代理闲暇", "to": "学术仪式遗存", "kind": "relation", "relation_type": "supports"}
+{"from": "高等学问起源于神职代理闲暇", "to": "炫耀性消费与工业社会的道德经济", "kind": "domain"}
 {"from": "黄牛把稀缺票配置给估价最高者", "to": "竞争市场总剩余最大化", "kind": "relation", "relation_type": "based-on"}
 {"from": "黄牛把稀缺票配置给估价最高者", "to": "价格管制短缺与过剩", "kind": "relation", "relation_type": "influences"}
 {"from": "黄牛把稀缺票配置给估价最高者", "to": "实证分析与规范判断之分", "kind": "relation", "relation_type": "influences"}
 {"from": "黄牛把稀缺票配置给估价最高者", "to": "市场效率与政策干预", "kind": "relation", "relation_type": "applies-to"}
 {"from": "黄牛把稀缺票配置给估价最高者", "to": "市场效率与政策干预", "kind": "domain"}
+{"from": "黄金已成为依赖少数央行政策的管理货币", "to": "国际货币秩序与汇率清算", "kind": "relation", "relation_type": "applies-to"}
+{"from": "黄金已成为依赖少数央行政策的管理货币", "to": "美国实际已建立美元标准而非真正金本位", "kind": "relation", "relation_type": "supports"}
+{"from": "黄金已成为依赖少数央行政策的管理货币", "to": "国际货币秩序与汇率清算", "kind": "domain"}
 {"from": "鼓励储蓄税制改革可降利率提投资", "to": "储蓄激励效果有限且受益偏富人", "kind": "relation", "relation_type": "conflicts-with"}
 {"from": "鼓励储蓄税制改革可降利率提投资", "to": "可贷资金市场与政策冲击", "kind": "relation", "relation_type": "based-on"}
 {"from": "鼓励储蓄税制改革可降利率提投资", "to": "储蓄投资与金融体系", "kind": "relation", "relation_type": "applies-to"}

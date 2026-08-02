@@ -1,13 +1,64 @@
 {
-  "node_count": 134,
-  "edge_count": 775,
-  "orphan_count": 0,
-  "empty_domain_count": 0,
-  "conflict_gap_count": 0,
-  "no_relation_count": 0,
+  "node_count": 273,
+  "edge_count": 1366,
+  "orphan_count": 7,
+  "empty_domain_count": 15,
+  "conflict_gap_count": 1,
+  "no_relation_count": 7,
   "bridge_count": 0,
-  "orphans": [],
-  "empty_domains": [],
-  "conflict_gaps": [],
+  "orphans": [
+    {
+      "id": "体育的workmanship辩护与掠夺性仪式解释之争",
+      "type": "conflict"
+    },
+    {
+      "id": "可兑换纸币替代金银与产业基金扩充机制",
+      "type": "model"
+    },
+    {
+      "id": "国民年产物价值分解与净收入模型",
+      "type": "model"
+    },
+    {
+      "id": "大学体育与宗教狂热相互强化",
+      "type": "phenomenon"
+    },
+    {
+      "id": "新女性运动作为返祖",
+      "type": "model"
+    },
+    {
+      "id": "经济制度的获取性-生产性二分",
+      "type": "model"
+    },
+    {
+      "id": "论战性历史叙事的普遍化机制",
+      "type": "model"
+    }
+  ],
+  "empty_domains": [
+    "不可兑换纸币与通货膨胀",
+    "中央银行治理与最后贷款人职责",
+    "印度货币与汇率标准",
+    "国民财富构成与资本配置",
+    "国际清算与黄金市场",
+    "复本位与国际金银标准",
+    "战后货币重建中的汇率与物价稳定",
+    "投机行为与市场心理",
+    "明斯基金融不稳定理论",
+    "美国银行体系结构与监管",
+    "货币史叙事的客观性与论战立场",
+    "货币形态与铸币史",
+    "货币数量论与信用理论",
+    "金融权力集中与利益冲突监管",
+    "银行信用与纸币理论"
+  ],
+  "conflict_gaps": [
+    {
+      "from": "市政债券柜台直销可绕开投资银行家",
+      "to": "金融寡头通过三重功能集中控制美国商业",
+      "suggest": "suggest_conflict_card"
+    }
+  ],
   "bridges": []
 }
