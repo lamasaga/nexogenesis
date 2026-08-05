@@ -84,6 +84,7 @@ def structure_ops_to_signals(ops: list[dict[str, Any]]) -> dict[str, list[str]]:
         "distinguish": [],
         "articulate": [],
         "cross_source": [],
+        "cross_domain": [],
     }
     for op in ops:
         kind = op.get("op", "")

@@ -24,6 +24,10 @@ _STOP = {
     "经济", "市场", "政策", "之争", "收入", "成本",
 }
 
+DOMAIN_OVERLOAD_MEMBERS = 50
+DOMAIN_OVERLOAD_RELATIONS = 12
+DOMAIN_OVERLOAD_BODY_CHARS = 3000
+
 
 def _terms_from_text(text: str) -> list[str]:
     """英文/数字 token + 连续汉字的 2–4 字 n-gram（便于无空格中文标题抽枢纽）。"""
@@ -147,9 +151,9 @@ def build_involves_semantic_ops(store: Store) -> list[dict[str, Any]]:
 def find_overloaded_domains(
     store: Store,
     *,
-    max_members: int = 25,
-    max_relations: int = 12,
-    max_body: int = 3000,
+    max_members: int = DOMAIN_OVERLOAD_MEMBERS,
+    max_relations: int = DOMAIN_OVERLOAD_RELATIONS,
+    max_body: int = DOMAIN_OVERLOAD_BODY_CHARS,
 ) -> list[dict[str, Any]]:
     """挂靠过多 / 边过多 / 正文过长的 domain → domain_overloaded（cluster 应优先）。"""
     out: list[dict[str, Any]] = []
@@ -167,6 +171,79 @@ def find_overloaded_domains(
                 "body_chars": n_body,
             })
     return out
+
+
+def suggest_domain_splits(
+    store: Store,
+    *,
+    max_members: int = DOMAIN_OVERLOAD_MEMBERS,
+    top_n: int = 3,
+    min_coverage: int = 3,
+) -> list[dict[str, Any]]:
+    """
+    对过载 domain，从成员标题/id 中提取共现子主题术语，
+    作为 sibling domain 拆分候选。不自动建卡，只供 cluster 镜头决策。
+    """
+    ops: list[dict[str, Any]] = []
+    seen_terms: set[str] = set()
+    for item in find_overloaded_domains(store, max_members=max_members):
+        did = item["id"]
+        members = [
+            store.cards[mid]
+            for mid in store.by_domain.get(did, [])
+            if mid != did and mid in store.cards
+        ]
+        if len(members) < max_members:
+            continue
+        counter: Counter[str] = Counter()
+        term_cards: dict[str, list[str]] = {}
+        for c in members:
+            text = f"{c.id} {c.title}"
+            for term in _terms_from_text(text):
+                counter[term] += 1
+                term_cards.setdefault(term, []).append(c.id)
+        ranked = sorted(
+            counter.items(),
+            key=lambda kv: (-kv[1], -len(kv[0]), kv[0]),
+        )
+        found = 0
+        for term, cnt in ranked:
+            if cnt < min_coverage:
+                continue
+            if term in seen_terms:
+                continue
+            if term in store.cards:
+                continue
+            # 已被更长名的卡覆盖 → 抑制短词
+            if any(term in cid and term != cid for cid in store.cards):
+                continue
+            cards = uniq(term_cards.get(term) or [])
+            if len(cards) < min_coverage:
+                continue
+            if any(
+                term != t
+                and term in t
+                and set(cards).issubset(set(term_cards.get(t) or []))
+                for t in seen_terms
+            ):
+                continue
+            seen_terms.add(term)
+            ops.append({
+                "op": "suggest_domain_split",
+                "reason": (
+                    f"domain `{did}` 已过载（成员 {len(members)} 张）；"
+                    f"成员标题/id 中「{term}」覆盖 {len(cards)} 张卡，"
+                    "可作为 sibling domain 候选并把这些实例重挂过去"
+                ),
+                "cards": cards[:8],
+                "term": term,
+                "domain": did,
+                "lens": "cluster",
+            })
+            found += 1
+            if found >= top_n:
+                break
+    return ops
 
 
 def find_hub_term_candidates(
@@ -247,13 +324,15 @@ def build_structure_action_plan(store: Store) -> dict[str, Any]:
     involves_ops = build_involves_stub_ops(store) + build_involves_semantic_ops(store)
     hub_ops = find_hub_term_candidates(store)
     overloaded = find_overloaded_domains(store)
+    split_ops = suggest_domain_splits(store)
     return {
         "seed_link_writes": seed_writes,
-        "ops_need_llm": involves_ops + hub_ops,
+        "ops_need_llm": involves_ops + hub_ops + split_ops,
         "stats": {
             "seed_link_count": len(seed_writes),
             "require_involves_count": len(involves_ops),
             "hub_candidate_count": len(hub_ops),
+            "domain_split_candidates": len(split_ops),
             "overloaded_domains": overloaded,
         },
     }
@@ -299,13 +378,15 @@ def write_construct_action_artifacts(
     n_seeds = plan["stats"]["seed_link_count"]
     n_involves = plan["stats"]["require_involves_count"]
     n_hubs = plan["stats"]["hub_candidate_count"]
+    n_splits = plan["stats"].get("domain_split_candidates", 0)
     # 动态顺序：按真实债务置顶；无债务的镜头不出现在顺序里（假待办与错候选一样消耗信任）
     priority: list[str] = []
     step = 1
     if overloaded:
         names = "、".join(f"`{d['id']}`" for d in overloaded[:5])
+        split_hint = f"（含 {n_splits} 个 sibling 拆分候选）" if n_splits else ""
         priority.append(
-            f"{step}. cluster 优先：domain 过载 {names}——分裂 sibling domain 并重挂实例"
+            f"{step}. cluster 优先：domain 过载 {names}{split_hint}——分裂 sibling domain 并重挂实例"
         )
         step += 1
     if n_seeds:
@@ -345,6 +426,7 @@ def write_construct_action_artifacts(
         f"- 确定性补边（seed-links）：**{plan['stats']['seed_link_count']}** 张",
         f"- involves 问题（缺失/语义错配）的 conflict：**{plan['stats']['require_involves_count']}** 张",
         f"- 枢纽概念候选（升格 entity/model）：**{plan['stats']['hub_candidate_count']}** 个（默认只读，入 batch 前须筛选）",
+        f"- domain 过载 sibling 拆分候选：**{plan['stats'].get('domain_split_candidates', 0)}** 个",
         f"- 图分析其它 ops：{len(graph_ops)}",
     ]
     if overloaded:
@@ -375,7 +457,18 @@ def write_construct_action_artifacts(
     else:
         lines.append("（无空 relations 可自动挂 domain 的卡）")
 
-    lines.extend(["", "## 1. distinguish：conflict 必须 involves（存在性 + 语义合法性）", ""])
+    lines.extend(["", "## 1. cluster：domain 过载拆分候选（必须重挂实例，禁止只新建不重挂）", ""])
+    split_ops = [op for op in plan["ops_need_llm"] if op.get("op") == "suggest_domain_split"]
+    if split_ops:
+        for op in split_ops:
+            lines.append(
+                f"- 术语「**{op.get('term')}**」（domain `{op.get('domain')}`）："
+                f"{op.get('reason')}；涉及 {', '.join(f'`{c}`' for c in op.get('cards') or [])}"
+            )
+    else:
+        lines.append("- （无过载 domain 或过滤后无候选）")
+
+    lines.extend(["", "## 2. distinguish：conflict 必须 involves（存在性 + 语义合法性）", ""])
     for op in plan["ops_need_llm"]:
         if op.get("op") == "require_involves":
             lines.append(f"- `{op['cards'][0]}`：{op.get('reason')}")
@@ -384,7 +477,7 @@ def write_construct_action_artifacts(
     if plan["stats"]["require_involves_count"] == 0:
         lines.append("- （无）")
 
-    lines.extend(["", "## 2. articulate：枢纽升格（不是新类型「概念」）", ""])
+    lines.extend(["", "## 3. articulate：枢纽升格（不是新类型「概念」）", ""])
     for op in plan["ops_need_llm"]:
         if op.get("op") != "suggest_entity_hub":
             continue
@@ -395,7 +488,7 @@ def write_construct_action_artifacts(
     if plan["stats"]["hub_candidate_count"] == 0:
         lines.append("- （过滤后无候选——本轮建议跳过 articulate 镜头）")
 
-    lines.extend(["", "## 3. 图分析遗留", ""])
+    lines.extend(["", "## 4. 图分析遗留", ""])
     if graph_ops:
         for op in graph_ops[:20]:
             lines.append(
@@ -406,7 +499,7 @@ def write_construct_action_artifacts(
 
     lines.extend([
         "",
-        "## 4. 建议镜头顺序",
+        "## 5. 建议镜头顺序",
         "",
         *priority,
         "",
@@ -426,6 +519,7 @@ def merge_action_ops_into_graph_signals(
         "distinguish": [],
         "articulate": [],
         "cross_source": [],
+        "cross_domain": [],
     }
     for op in ops_need_llm:
         lens = op.get("lens") or "articulate"

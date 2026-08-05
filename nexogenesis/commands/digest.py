@@ -52,6 +52,11 @@ from nexogenesis.ingest.context_pack import (
 
 )
 
+from nexogenesis.ingest.construct_ops import (
+    DOMAIN_OVERLOAD_BODY_CHARS,
+    DOMAIN_OVERLOAD_MEMBERS,
+    DOMAIN_OVERLOAD_RELATIONS,
+)
 from nexogenesis.ingest.prompts import render_digest_prompt
 from nexogenesis.retrieve.context_package import (
     build_context_package,
@@ -310,7 +315,11 @@ def digest_cmd(root, status, wave_buffers, deep_cards, all_scratch, plan, apply,
             )
             n_rel = len(dc.relations or [])
             n_body = len(dc.body or "")
-            overloaded = attached > 25 or n_rel > 12 or n_body > 3000
+            overloaded = (
+                attached > DOMAIN_OVERLOAD_MEMBERS
+                or n_rel > DOMAIN_OVERLOAD_RELATIONS
+                or n_body > DOMAIN_OVERLOAD_BODY_CHARS
+            )
             line = (
                 f"  [domain健康] {dc.id}: 挂靠={attached} "
                 f"relations={n_rel} body≈{n_body}字"

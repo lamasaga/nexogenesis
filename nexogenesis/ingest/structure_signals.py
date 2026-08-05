@@ -8,9 +8,14 @@ from nexogenesis.models import CardType, Lifecycle, RelationType
 from nexogenesis.store import Store
 from nexogenesis.yaml_utils import split_frontmatter
 from nexogenesis.ingest.edge_quality import edge_quality_signals
+from nexogenesis.ingest.construct_ops import (
+    DOMAIN_OVERLOAD_BODY_CHARS,
+    DOMAIN_OVERLOAD_MEMBERS,
+    DOMAIN_OVERLOAD_RELATIONS,
+)
 
 
-LENSES = ("cluster", "distinguish", "articulate", "cross_source")
+LENSES = ("cluster", "distinguish", "articulate", "cross_source", "cross_domain")
 
 
 def collect_structure_signals(
@@ -48,7 +53,11 @@ def collect_structure_signals(
         members = [x for x in store.by_domain.get(did, []) if x != did]
         n_rel = len(dc.relations or [])
         n_body = len(dc.body or "")
-        if len(members) > 25 or n_rel > 12 or n_body > 3000:
+        if (
+            len(members) > DOMAIN_OVERLOAD_MEMBERS
+            or n_rel > DOMAIN_OVERLOAD_RELATIONS
+            or n_body > DOMAIN_OVERLOAD_BODY_CHARS
+        ):
             signals["cluster"].append(
                 f"domain `{did}` 过载（domain_overloaded）：挂靠={len(members)} "
                 f"relations={n_rel} body≈{n_body}字——考虑分裂 sibling domain 并重挂实例，"
@@ -201,6 +210,52 @@ def collect_structure_signals(
     else:
         signals["cross_source"].append("当前 Buffer 来源较单一；跨源镜头可暂缓或扩大材料后再跑")
 
+    # --- cross_domain ---
+    cross_signals: set[str] = set()
+    for cid, c in store.cards.items():
+        if c.type == CardType.DOMAIN:
+            continue
+        ds = set(c.domains)
+        if len(ds) >= 2:
+            for d1 in sorted(ds):
+                for d2 in sorted(ds):
+                    if d1 >= d2:
+                        continue
+                    if d1 in domain_ids and d2 in domain_ids:
+                        cross_signals.add(
+                            f"domain `{d1}` 与 `{d2}` 共享实例 `{cid}`({c.type.value})；"
+                            "可显式写 extends/influences/based-on 或建跨域 analogy/conflict"
+                        )
+        for rel in c.relations:
+            if rel.target not in store.cards:
+                continue
+            tgt = store.cards[rel.target]
+            if tgt.type == CardType.DOMAIN:
+                continue
+            if rel.type.value not in (
+                "supports",
+                "extends",
+                "based-on",
+                "influences",
+                "conflicts-with",
+                "example-of",
+            ):
+                continue
+            src_domains = set(c.domains)
+            tgt_domains = set(tgt.domains)
+            if not src_domains or not tgt_domains:
+                continue
+            if src_domains & tgt_domains:
+                continue
+            for sdom in sorted(src_domains):
+                for tdom in sorted(tgt_domains):
+                    cross_signals.add(
+                        f"`{sdom}` 的 `{cid}`({c.type.value}) 通过 `{rel.type.value}` "
+                        f"指向 `{tdom}` 的 `{rel.target}`；可能构成跨域影响/类比"
+                    )
+    if cross_signals:
+        signals["cross_domain"].extend(sorted(cross_signals))
+
     return signals
 
 
@@ -257,7 +312,9 @@ def render_diagnose_report(
                 lines.append(f"- {it}")
         lines.append("")
     lines.append("下一步：`python -m nexogenesis construct --lens <name>`，一次只跑一个镜头。")
-    lines.append("禁止 `--lens all`。跨源请用 `--lens cross_source` 并依赖本报告点名的来源。")
+    lines.append(
+        "禁止 `--lens all`。跨源用 `--lens cross_source`，跨域关联用 `--lens cross_domain`。"
+    )
     return "\n".join(lines) + "\n"
 
 
@@ -302,6 +359,11 @@ def suggest_ids_for_lens(
         for b in buffer_records:
             if b.get("role") == "meaning-unit":
                 buf_paths.append(b["path"])
+    if lens == "cross_domain":
+        # cross_domain 信号已含 domain id 与桥接卡 id；兜底把所有 domain 都放进候选
+        for cid, c in store.cards.items():
+            if c.type == CardType.DOMAIN:
+                card_ids.append(cid)
 
     # 去重保序
     def uniq(xs: list[str]) -> list[str]:

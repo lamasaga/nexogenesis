@@ -8,7 +8,10 @@ from nexogenesis.ingest.construct_ops import (
     build_seed_link_writes,
     build_structure_action_plan,
     find_hub_term_candidates,
+    find_overloaded_domains,
+    suggest_domain_splits,
 )
+from nexogenesis.ingest.structure_signals import collect_structure_signals
 from nexogenesis.store import Store
 
 
@@ -128,3 +131,57 @@ def test_apply_seed_links(tmp_path: Path):
     )
     assert result2.exit_code == 0, result2.output
     assert "无 seed-links" in result2.output
+
+
+def test_overload_threshold_uses_50_not_25(tmp_path: Path):
+    runner = CliRunner()
+    runner.invoke(init_cmd, ["--root", str(tmp_path)])
+    cards = tmp_path / "01-Cards"
+    _write_card(cards, "宏观经济学", ctype="domain", domains=["宏观经济学"])
+    for i in range(49):
+        _write_card(cards, f"主张{i}", domains=["宏观经济学"])
+    store = Store(cards).load()
+    assert not find_overloaded_domains(store)
+
+    _write_card(cards, "主张49", domains=["宏观经济学"])
+    _write_card(cards, "主张50", domains=["宏观经济学"])
+    store = Store(cards).load()
+    overloaded = find_overloaded_domains(store)
+    assert any(d["id"] == "宏观经济学" for d in overloaded)
+
+
+def test_suggest_domain_splits_from_member_titles(tmp_path: Path):
+    runner = CliRunner()
+    runner.invoke(init_cmd, ["--root", str(tmp_path)])
+    cards = tmp_path / "01-Cards"
+    _write_card(cards, "宏观经济学", ctype="domain", domains=["宏观经济学"])
+    for i in range(55):
+        _write_card(
+            cards,
+            f"货币{i}",
+            title=f"货币政策工具{i}",
+            domains=["宏观经济学"],
+        )
+    store = Store(cards).load()
+    splits = suggest_domain_splits(store, top_n=3)
+    assert any(op.get("term") == "货币政策" for op in splits)
+    assert all(op["lens"] == "cluster" for op in splits)
+    assert all(op["domain"] == "宏观经济学" for op in splits)
+
+
+def test_cross_domain_signal_shared_instance(tmp_path: Path):
+    runner = CliRunner()
+    runner.invoke(init_cmd, ["--root", str(tmp_path)])
+    cards = tmp_path / "01-Cards"
+    _write_card(cards, "物理学", ctype="domain", domains=["物理学"])
+    _write_card(cards, "经济学", ctype="domain", domains=["经济学"])
+    _write_card(
+        cards,
+        "均衡概念",
+        title="均衡概念",
+        domains=["物理学", "经济学"],
+    )
+    store = Store(cards).load()
+    signals = collect_structure_signals(store, [])
+    cross = signals.get("cross_domain", [])
+    assert any("物理学" in s and "经济学" in s for s in cross), cross

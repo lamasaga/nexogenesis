@@ -237,6 +237,10 @@ def suggest_lenses(signals: dict[str, list[str]], *, max_lenses: int = 3) -> lis
             k in blob for k in ("domain_overloaded", "过载", "单点挂靠")
         ):
             weight += 5
+        if lens == "cross_domain" and any(
+            k in blob for k in ("共享实例", "跨域影响", "跨域类比")
+        ):
+            weight += 3
         scored.append((weight, lens))
     scored.sort(key=lambda x: (-x[0], LENSES.index(x[1])))
     return [lens for _, lens in scored[:max_lenses]]
