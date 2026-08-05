@@ -25,7 +25,7 @@ compatibility: Nexogenesis 项目，已初始化 .agent/reference/ 与 schemes/d
    ```bash
    python -m nexogenesis compile --root .
    ```
-3. 串行调用 LLM，保存 response 到 `.nexogenesis/tmp/compile/batch-XXX-response.md`。
+3. 串行调用 LLM，保存 response 到 `.nexogenesis/tmp/compile/batch-XXX-<genre>-response.md`。**response 必须与 prompt 同 stem**：看 tmp 目录里的真实 prompt 名（如 `batch-001-essay-prompt.md`），只把 `-prompt` 换成 `-response`，其余字符一字不动。
 4. 检查 response 格式：
    ```bash
    python -m nexogenesis compile --check-responses --root .

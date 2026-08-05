@@ -37,6 +37,7 @@ compatibility: Nexogenesis 项目，已初始化 .agent/reference/ 与 02-Profil
 - 必须显式区分事实、推断与价值判断。
 - 使用 `conflict` 卡和 `relations` 显化对立，而非模糊调和。
 - 所有引用必须可追溯到 Card id 或 Buffer 路径。
+- 每个透镜用一段连贯叙述，不堆子弹列表；综合前自检：删去所有卡片 id 与英文缩写后，用户是否仍能复述结论依据？不能则重写。
 
 # Anti-patterns
 
@@ -44,3 +45,4 @@ compatibility: Nexogenesis 项目，已初始化 .agent/reference/ 与 02-Profil
 - 不读 Context 就给出判断。
 - 把推断包装成事实。
 - 自动把判断结论写成 `claim` 卡。
+- 用术语串代替推理过程；评判过早收束成口号。

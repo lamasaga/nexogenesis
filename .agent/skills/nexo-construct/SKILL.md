@@ -62,3 +62,9 @@ compatibility: Nexogenesis 项目，已初始化 .agent/reference/ 与 schemes/d
 - 一次使用多个 lens（`--lens all`）。
 - 把 seed-links 当成完整关系网。
 - 删除卡片而不是标记 superseded。
+
+# 怀疑清单（行动单全绿 ≠ 结构健康）
+
+- 行动单全绿仍抽查最近 conflict 的 involves 目标类型（须为 claim/model）。
+- 诊断「involves 已齐」不等于可跳过 distinguish——数量闸门挡不住语义错配。
+- 诊断候选（枢纽术语、同域卡）默认不信任，入 batch 前逐条过「是否正文对立方/是否真枢纽」。

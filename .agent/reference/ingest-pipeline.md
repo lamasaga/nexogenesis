@@ -13,7 +13,8 @@ updated: "2026-07-30"
 ```bash
 python -m nexogenesis compile --plan --root .    # 预览分波计划
 python -m nexogenesis compile --root .           # 生成本波 prompt
-# Agent 串行调用 LLM，保存 response 到 .nexogenesis/tmp/compile/batch-XXX-response.md
+# Agent 串行调用 LLM，保存 response 到 .nexogenesis/tmp/compile/batch-XXX-<genre>-response.md
+# 命名铁律：与 prompt 同 stem，只把 -prompt 换成 -response（如 batch-001-essay-prompt.md → batch-001-essay-response.md）
 python -m nexogenesis compile --check-responses  # 落盘前检查
 python -m nexogenesis compile --apply --root .   # 按文件部分成功写入 Buffer
 
@@ -41,7 +42,7 @@ python -m nexogenesis construct --apply --root . # 结构优化
   - 窗内产出 1～6 个有命名、含质料的 Buffer，块数由模型按内容定；
 - 书默认一窗一 prompt，减少赶工薄片；
 - LLM 输出极简 frontmatter（`title`/`role`/`source`）+ 自由充实正文；不强制四级槽；
-- response 命名 `batch-XXX-response.md`；串行生成；`--strict-body` 拦过短/空正文。
+- response 命名 `batch-XXX-<genre>-response.md`，与 prompt 同 stem（只把 `-prompt` 换成 `-response`，genre 段一字不动）；串行生成；`--strict-body` 拦过短/空正文。
 
 ## /digest
 

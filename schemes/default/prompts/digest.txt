@@ -17,9 +17,11 @@ Buffer 应是已含机制与事实的工作记忆；消化是把这些质料**�
 2. 这一簇质料是否真正新、重要且可独立复用？
    → 否 → **skip**，或**并入**最接近的 Card（在 operation 说明中写清并入理由）。
    → 是 → **新建对应类型 Card**。消化阶段不要怕新建；疑似重复或可以合并的对象，留到 construct 阶段通盘处理。
+   **成熟度纪律**：规律候选/首轮新建的 claim 默认 `maturity: growing`（或更低），禁止首轮摄入标 `mature`——须经多轮事件或对话检验后才可升格。
 
 3. 新建前检查：是否与现有 Card/主张/模型直接对立？
    → 是 → 优先新建 `conflict Card` 来显化张力，或在新建 claim/model 时立即标注 `conflicts-with`；核心分歧钉 1～2 处，`involves` 指向两造 claim/model/entity。
+   **新建 conflict 的硬条件**：本批或库内须有 ≥2 个可 involves 的立场对象（优先 claim–claim）；没有两造就先同批建两造，或暂缓该 conflict——禁止留下「有 tension、无两造」的结构债。
    → 否 → 按类型最小内容要求正常新建。
    - 领域骨架 → `domain`
    - 可争辩判断/原则/立场 → `claim`（可用 `school` 标注学派来源，用 `## 立场/学派来源` 展开）
@@ -29,6 +31,19 @@ Buffer 应是已含机制与事实的工作记忆；消化是把这些质料**�
    - 关键对象/学派/制度 → `entity`
 
 {{ profile_update_rule }}
+
+【Domain 粒度：分裂判定与 enrich 边界】
+Domain 是导航单元，不是全书垃圾桶。「禁止幽灵」≠「禁止第二张」：domains 可引用本批新建或目录已有的任一合法 domain id（可多值）；默认挂「与本波核心问题最贴」的一张，勿为省事一律挂同一张。
+
+满足以下任一 → 新建 1 张 sibling domain（通常每波 ≤1）：
+1. 现有 domain 的核心问题列表中，没有任何一条能以「是/否」覆盖本波主问题；或
+2. 本波主机制所属的篇级主题与现有 domain 标题/边界明显错位；或
+3. 强制挂靠时只能写出空心边界段。
+否则挂最贴的一张，可用 applies-to 弱连相邻 domain（勿堆 hub 边）。
+
+enrich domain 时：
+- 允许：核心问题微调、边界澄清、与本波直接相关的 1 条内在张力、压缩 sources。
+- 禁止：把整章摘要/政策菜单/进度表灌进 domain；仅为挂靠新增 >2 条 applies-to；用 enrich「内在张力」代替本该独立的领域入口。
 
 【归因】
 - 文档观点 ≠ 用户立场；未标注 perspective 时 origin 用 `document`；system 推断须标明来源。

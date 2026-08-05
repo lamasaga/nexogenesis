@@ -54,7 +54,7 @@ updated: "2026-07-30"
 ```bash
 python -m nexogenesis compile --plan --root .
 python -m nexogenesis compile --root .
-# LLM → batch-XXX-response.md → compile --check-responses → compile --apply
+# LLM → batch-XXX-<genre>-response.md（与 prompt 同 stem，仅 -prompt 换 -response）→ compile --check-responses → compile --apply
 
 python -m nexogenesis digest --plan --root .
 python -m nexogenesis digest --root .
@@ -77,6 +77,8 @@ python -m nexogenesis construct --root .
 | `rag stats` | `--root` | 语料块数与索引时间 |
 | `rag search` | `--query` `--kinds` `--top` `--root` | 质料检索 |
 | `retrieve` | `--query` `--mode talk\|answer\|digest\|construct\|judge` | 统一双轨入口：结构子图 + RAG 质料 |
+| | `--seed <id>`（多值） | 显式钉住结构种子（已知关键卡时避免宽词噪声） |
+| | `--excerpt-chars N` | 单卡摘录字符上限（默认 800；深思场景可调大） |
 | `memory start\|status\|update\|override\|end` | `--focus` `--cite` `--tension` | 短期记忆会话卷 |
 | `attention show\|validate` | `--profile` `--print-yaml` | 注意力配置 |
 | `signal` | `--text` `--bump-turn` | 强信号评估（只建议，不写卡） |

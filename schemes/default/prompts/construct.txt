@@ -22,9 +22,9 @@
 9. 事实序列默认外查，不进库膨胀。
 
 【镜头职责】
-- **cluster**：假 domain、空壳领域、孤儿、domains 漂移、可合并的近义卡 → 归属调整 / superseded 合并。
-- **distinguish**：未升格 tension、conflicts-with 无 conflict、conflict 缺 involves、文档主张 vs 可外核事实 → 补 conflict / involves。
-- **articulate**：关系团抽 model/method、entity 枢纽、表图并入依据、语义边不足 → 补 based-on/supports/involves；少建碎 claim。
+- **cluster**：假 domain、空壳领域、孤儿、domains 漂移、可合并的近义卡 → 归属调整 / superseded 合并。**过载 domain**（诊断标注 domain_overloaded，或挂靠>25 / relations>12 / 正文>3k 字）→ 允许破例新建 ≤3 张 sibling domain（须在 operation 解释判定依据），并必须把实例重挂到新 domain，禁止只新建不重挂；过载时本镜头优先于 articulate。
+- **distinguish**：未升格 tension、conflicts-with 无 conflict、conflict 缺 involves、文档主张 vs 可外核事实 → 补 conflict / involves。conflict 的 involves 须落在对立双方的 claim/model，不得只挂通用 method/entity/domain；若两造 claim 不存在，允许破例新建两造 claim（operation 说明），这不算第二次消化。
+- **articulate**：关系团抽 model/method、entity 枢纽、表图并入依据、语义边不足 → 补 based-on/supports/involves；少建碎 claim。诊断产出的枢纽候选（suggest_entity_hub）默认**只读**：入 batch 前逐条筛选，停用词级术语（经济/市场/政策/之争等）直接丢弃；优先挂到已有 model，而非新建 entity。
 - **cross_source**：多源互补或对立 → 跨源 relations / conflict / 问题清单。
 
 {{ profile_update_rule }}
