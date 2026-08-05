@@ -1,0 +1,51 @@
+# 检索题：对 tests/evaluation/gold_cards 迷你金库（8 卡：1 domain / 1 conflict /
+# 2 claim / 1 model / 1 method / 1 phenomenon / 1 entity）跑 build_context_package。
+# expect 字段：
+#   nodes_contain:   节点或种子必须命中这些卡 id
+#   nodes_empty:     true 时要求零节点（盲区题：检索不到就说不到，禁止硬答）
+#   relevant + seeds_max_noise: 种子噪声率闸门（seeds 中不在 relevant 内的数量上限）
+questions:
+  - id: r-easy-1
+    task: retrieve
+    difficulty: easy
+    query: 制度摩擦
+    mode: talk
+    expect:
+      nodes_contain: [制度摩擦]
+
+  - id: r-easy-2
+    task: retrieve
+    difficulty: easy
+    query: 可操作反馈
+    mode: talk
+    expect:
+      nodes_contain: [可操作反馈]
+
+  - id: r-medium-1
+    task: retrieve
+    difficulty: medium
+    # 冲突检索：两造与 covering conflict 应同现
+    query: 事后解释与反条件的对立
+    mode: talk
+    expect:
+      nodes_contain: [事后解释与反条件之争]
+      relevant: [事后解释与反条件之争, 反条件原则, 可操作反馈, 制度经济学, 制度摩擦]
+      seeds_max_noise: 2
+
+  - id: r-hard-1
+    task: retrieve
+    difficulty: hard
+    # 抽象提问：不带卡名；宽词不应单独带偏种子（复盘：古典/现代分野类提问混入跑题枢纽）
+    query: 为什么同样的规则在不同环境中落地效果完全不同
+    mode: talk
+    expect:
+      nodes_contain: [制度摩擦]
+
+  - id: r-hard-2
+    task: retrieve
+    difficulty: hard
+    # 盲区题：与金库完全无关的提问不得硬凑节点
+    query: 量子引力与弦论景观
+    mode: talk
+    expect:
+      nodes_empty: true

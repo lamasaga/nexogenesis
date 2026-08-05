@@ -1,0 +1,158 @@
+# 写入红队题：对 self_check_batch 投喂问题 batch，断言拦截/放行。
+# expect 字段：
+#   expect_ok: true       期望自检通过（合法契约不得误拦）
+#   errors_contain: [...] 期望错误列表中包含这些片段
+questions:
+  - id: w-easy-1
+    task: write_redteam
+    difficulty: easy
+    mode: digest
+    # YAML 冒号陷阱：sources 条目未加引号 → 静默解析成 mapping
+    batch:
+      operation: {id: rt1, source: redteam, approved_by: agent, consumed_buffers: [b1]}
+      writes:
+        - target: card
+          id: 测试卡
+          title: t
+          type: claim
+          maturity: growing
+          lifecycle: active
+          domains: [d]
+          origin: user
+          body: 正文
+          created: '2026-08-04'
+          updated: '2026-08-04'
+          sources:
+            - 第07章 / 7-4 Conclusion: Market Efficiency
+    expect:
+      errors_contain: ["sources[0] 须为字符串"]
+
+  - id: w-easy-2
+    task: write_redteam
+    difficulty: easy
+    mode: digest
+    batch:
+      operation: {id: rt2, source: redteam, approved_by: agent, consumed_buffers: [b1]}
+      writes:
+        - target: hologram
+          id: x
+    expect:
+      errors_contain: ["未知 target"]
+
+  - id: w-easy-3
+    task: write_redteam
+    difficulty: easy
+    mode: digest
+    # 合法 profile_field 写入不得被自检误拦（契约裂缝回归）
+    batch:
+      operation: {id: rt3, source: redteam, approved_by: agent, consumed_buffers: [b1]}
+      writes:
+        - target: profile_field
+          file: 领域理念.md
+          section: 理念
+          content: 测试理念条目
+    expect:
+      expect_ok: true
+
+  - id: w-medium-1
+    task: write_redteam
+    difficulty: medium
+    mode: digest
+    bootstrap: true
+    # 空库 bootstrap：第一个 card write 必须是 domain
+    batch:
+      operation: {id: rt4, source: redteam, approved_by: agent, consumed_buffers: [b1]}
+      writes:
+        - target: card
+          id: 实例卡
+          title: t
+          type: claim
+          maturity: growing
+          lifecycle: active
+          domains: [d]
+          origin: user
+          body: 正文
+          created: '2026-08-04'
+          updated: '2026-08-04'
+    expect:
+      errors_contain: ["至少一张 domain"]
+
+  - id: w-medium-2
+    task: write_redteam
+    difficulty: medium
+    mode: digest
+    batch:
+      operation: {id: rt5, source: redteam, approved_by: agent, consumed_buffers: [b1]}
+      writes: []
+    expect:
+      errors_contain: ["writes 为空"]
+
+  - id: w-hard-1
+    task: write_redteam
+    difficulty: hard
+    mode: digest
+    # origin=system 未经用户批准不得进入 mature
+    batch:
+      operation: {id: rt6, source: redteam, approved_by: agent, consumed_buffers: [b1]}
+      writes:
+        - target: card
+          id: 系统卡
+          title: t
+          type: claim
+          maturity: mature
+          lifecycle: active
+          domains: [d]
+          origin: system
+          body: 正文
+          created: '2026-08-04'
+          updated: '2026-08-04'
+    expect:
+      errors_contain: ["origin=system"]
+
+  - id: w-hard-2
+    task: write_redteam
+    difficulty: hard
+    mode: digest
+    # 全角冒号 id（曾致当波写入落空）
+    batch:
+      operation: {id: rt7, source: redteam, approved_by: agent, consumed_buffers: [b1]}
+      writes:
+        - target: card
+          id: 外部性：内部化
+          title: t
+          type: model
+          maturity: growing
+          lifecycle: active
+          domains: [d]
+          origin: user
+          body: 正文
+          created: '2026-08-04'
+          updated: '2026-08-04'
+    expect:
+      errors_contain: ["非法字符"]
+
+  - id: w-hard-3
+    task: write_redteam
+    difficulty: hard
+    mode: digest
+    # 子代理发明的近义关系类型 relates-to（自检未拦、写入才炸的同类裂缝）
+    batch:
+      operation: {id: rt8, source: redteam, approved_by: agent, consumed_buffers: [b1]}
+      writes:
+        - target: card
+          id: 测试卡
+          title: t
+          type: claim
+          maturity: growing
+          lifecycle: active
+          domains: [d]
+          origin: user
+          body: 正文
+          created: '2026-08-04'
+          updated: '2026-08-04'
+          relations:
+            - target: 某卡
+              type: relates-to
+              note: 杜撰类型
+    expect:
+      errors_contain: ["非法关系类型"]

@@ -1,0 +1,25 @@
+# 对话/STM 固定轮题：首轮 memory start/update 注入焦点与已引卡，
+# 续轮 retrieve 应体现 STM 影响（已引卡进入注意力视野）。
+# setup 字段：title / focus / cites（memory update 参数）
+questions:
+  - id: d-medium-1
+    task: dialogue_stm
+    difficulty: medium
+    setup:
+      title: 制度讨论
+      focus: 可操作反馈与制度摩擦
+      cites: [可操作反馈]
+    query: 反馈机制如何改变规则设计
+    expect:
+      nodes_contain: [可操作反馈]
+
+  - id: d-medium-2
+    task: dialogue_stm
+    difficulty: medium
+    # 只记焦点不引卡：焦点词应能把相关卡拉进视野
+    setup:
+      title: 反条件讨论
+      focus: 事后解释与反条件之争
+    query: 继续刚才的争论
+    expect:
+      nodes_contain: [事后解释与反条件之争]
