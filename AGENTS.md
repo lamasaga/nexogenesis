@@ -1,6 +1,6 @@
-# AGENTS.md — Nexogenesis v1.6 运行时契约
+# AGENTS.md — Nexogenesis v1.7 运行时契约
 
-> 版本：v1.6（2026-07-30 约束分层）
+> 版本：v1.7（2026-07-30 约束分层）
 > 作用：宪法层——底座主权、权限分层、.agent/ 索引。修订须经用户确认。
 > 约束分层：`.agent/reference/constraint-layers.md`
 
