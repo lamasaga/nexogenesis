@@ -26,6 +26,19 @@ ROLE_PRIORITY = {
     "profile-seed": 7,
 }
 
+# 空库 bootstrap：先机制后张力。conflict 需要两造 claim/model，
+# tension 先抽只会被迫 skip 或过早建冲突结构。
+ROLE_PRIORITY_BOOTSTRAP = {
+    "meaning-unit": 0,
+    "profile-seed": 1,
+    "link-hypothesis": 2,
+    "artifact-table": 3,
+    "artifact-figure": 4,
+    "evidence": 5,
+    "detail": 6,
+    "tension": 7,
+}
+
 BOLD_RE = re.compile(r"\*\*([^*]+)\*\*")
 
 
@@ -93,12 +106,14 @@ def select_digest_buffer_wave(
     *,
     max_buffers: int = DEFAULT_WAVE_BUFFERS,
     all_scratch: bool = False,
+    bootstrap: bool = False,
 ) -> tuple[list[dict], list[dict]]:
-    """选择本波 Buffer；返回 (selected, deferred)。"""
+    """选择本波 Buffer；返回 (selected, deferred)。bootstrap 时机制类优先、tension 降权。"""
+    priority = ROLE_PRIORITY_BOOTSTRAP if bootstrap else ROLE_PRIORITY
     ordered = sorted(
         records,
         key=lambda b: (
-            ROLE_PRIORITY.get(b["role"], 99),
+            priority.get(b["role"], 99),
             b["path"],
         ),
     )

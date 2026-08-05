@@ -44,6 +44,7 @@ def build_context_package(
     use_rag: bool = True,
     use_attention: bool = True,
     use_stm: bool = True,
+    excerpt_chars: int | None = None,
 ) -> dict[str, Any]:
     root = root.resolve()
     mode = mode if mode in MODES else "talk"
@@ -61,6 +62,7 @@ def build_context_package(
             use_stm=use_stm,
             use_graph=use_graph,
             use_rag=use_rag,
+            **({"excerpt_chars": excerpt_chars} if excerpt_chars else {}),
         )
         # CLI 显式预算可收紧 rag_top / chars（不破坏双账户）
         if rag_top is not None and pkg.get("material"):
@@ -86,6 +88,7 @@ def build_context_package(
             max_nodes=graph_nodes,
             max_chars=budget_chars // 2,
             rebuild=False,
+            **({"excerpt_per_card": excerpt_chars} if excerpt_chars else {}),
         )
         status = structure.get("status", "ok")
         if status == "empty-graph":

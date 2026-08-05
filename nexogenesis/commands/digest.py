@@ -235,9 +235,11 @@ def digest_cmd(root, status, wave_buffers, deep_cards, all_scratch, plan, apply,
 
     all_records = load_buffer_records(buffer_paths, root_path)
 
+    bootstrap = not any(c.type == CardType.DOMAIN for c in store.cards.values())
+
     selected, deferred = select_digest_buffer_wave(
 
-        all_records, max_buffers=wave_buffers, all_scratch=all_scratch
+        all_records, max_buffers=wave_buffers, all_scratch=all_scratch, bootstrap=bootstrap
 
     )
 
@@ -246,8 +248,6 @@ def digest_cmd(root, status, wave_buffers, deep_cards, all_scratch, plan, apply,
     deep = select_deep_cards(store, selected, max_deep=deep_cards, root=root_path)
 
     questions = _parse_questions(profile_path)
-
-    bootstrap = not any(c.type == CardType.DOMAIN for c in store.cards.values())
 
     index_excerpts = "\n".join(
 
@@ -300,6 +300,35 @@ def digest_cmd(root, status, wave_buffers, deep_cards, all_scratch, plan, apply,
             click.echo(f"  ... 另有 {len(deferred) - 20} 片暂缓")
         for c in deep:
             click.echo(f"  [深读] {c['id']} ({c['type']})")
+        # Domain 健康度：把「该不该分裂」变成可观测信号
+        domain_cards = [c for c in store.cards.values() if c.type == CardType.DOMAIN]
+        for dc in sorted(domain_cards, key=lambda c: c.id):
+            attached = sum(
+                1
+                for c in store.cards.values()
+                if c.type != CardType.DOMAIN and dc.id in (c.domains or [])
+            )
+            n_rel = len(dc.relations or [])
+            n_body = len(dc.body or "")
+            overloaded = attached > 25 or n_rel > 12 or n_body > 3000
+            line = (
+                f"  [domain健康] {dc.id}: 挂靠={attached} "
+                f"relations={n_rel} body≈{n_body}字"
+            )
+            if overloaded:
+                line += " ⚠ domain_overloaded（考虑分裂 sibling domain，见 digest prompt 判定）"
+            click.echo(line)
+        if len(domain_cards) == 1 and not bootstrap:
+            total_attached = sum(
+                1
+                for c in store.cards.values()
+                if c.type != CardType.DOMAIN and domain_cards[0].id in (c.domains or [])
+            )
+            if total_attached > 0:
+                click.echo(
+                    "  提示：库内仅 1 张 domain。若本波质料的核心问题无法被其覆盖，"
+                    "允许新建 sibling domain（勿把一切挂同一张）。"
+                )
         click.echo("=== 计划结束 ===")
         return
 
@@ -327,6 +356,12 @@ def digest_cmd(root, status, wave_buffers, deep_cards, all_scratch, plan, apply,
         return
 
 
+
+    if batch_path.exists():
+        click.echo(
+            f"WARNING: {batch_path} 已存在。若上次 apply 失败，请先修 batch 再 --apply；"
+            "重新生成本波 prompt 前请自行备份 batch，避免已修好的内容被覆盖。"
+        )
 
     material_excerpts = ""
     try:

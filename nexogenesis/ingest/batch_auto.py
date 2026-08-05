@@ -2,12 +2,14 @@
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
 from typing import Any
 
 import yaml
 
 from nexogenesis.ingest.structure_signals import LENSES
+from nexogenesis.models import RelationType
 from nexogenesis.yaml_utils import atomic_write_file
 
 CARD_REQUIRED = (
@@ -22,6 +24,10 @@ CARD_REQUIRED = (
     "created",
     "updated",
 )
+
+# 卡片 id 字符集：汉字/字母/数字/连字符。全角冒号等曾导致当波写入落空。
+_ID_RE = re.compile(r"^[一-鿿A-Za-z0-9\-]+$")
+_VALID_REL_TYPES = {r.value for r in RelationType}
 
 
 def load_batch_data(path: Path) -> dict[str, Any]:
@@ -91,15 +97,75 @@ def self_check_batch(
             if not str(item.get("question") or "").strip():
                 errors.append(f"writes[{i}] profile_question 缺少 question")
             continue
+        if target == "profile_field":
+            for key in ("file", "section", "content"):
+                if not str(item.get(key) or "").strip():
+                    errors.append(f"writes[{i}] profile_field 缺少 {key}")
+            continue
         if target != "card":
             errors.append(f"writes[{i}] 未知 target={target!r}")
             continue
         for key in CARD_REQUIRED:
             if key not in item or item[key] is None or item[key] == "":
                 errors.append(f"writes[{i}] card 缺少 {key}")
+
+        # YAML 类型闸门：含冒号的标量未加引号会被静默解析成 mapping，
+        # schema 到 write --batch 才报错（整批回滚）。此处提前拦截并报可读错误。
+        for key in ("id", "title", "type"):
+            v = item.get(key)
+            if v is not None and not isinstance(v, str):
+                errors.append(
+                    f"writes[{i}].{key} 须为字符串，实为 {type(v).__name__}"
+                    "（疑似冒号未加引号，请给该值加双引号）"
+                )
+        cid = item.get("id")
+        if isinstance(cid, str) and cid and not _ID_RE.match(cid):
+            errors.append(
+                f"writes[{i}].id 含非法字符：{cid!r}（仅允许汉字/字母/数字/连字符；"
+                "全角冒号：等会导致写入落空）"
+            )
+        sources = item.get("sources")
+        if sources is not None:
+            if not isinstance(sources, list):
+                errors.append(f"writes[{i}].sources 须为列表")
+            else:
+                for j, s in enumerate(sources):
+                    if not isinstance(s, str):
+                        errors.append(
+                            f"writes[{i}].sources[{j}] 须为字符串，实为 {type(s).__name__}"
+                            "（疑似冒号未加引号，请给该行加双引号）"
+                        )
+        relations = item.get("relations")
+        if relations is not None:
+            if not isinstance(relations, list):
+                errors.append(f"writes[{i}].relations 须为列表")
+            else:
+                for j, r in enumerate(relations):
+                    if not isinstance(r, dict):
+                        errors.append(f"writes[{i}].relations[{j}] 须为 mapping")
+                        continue
+                    rtype = r.get("type")
+                    if rtype is not None and rtype not in _VALID_REL_TYPES:
+                        errors.append(
+                            f"writes[{i}].relations[{j}].type={rtype!r} 非法关系类型"
+                            f"（合法值：{'/'.join(sorted(_VALID_REL_TYPES))}）"
+                        )
+                    note = r.get("note")
+                    if note is not None and not isinstance(note, str):
+                        errors.append(
+                            f"writes[{i}].relations[{j}].note 须为字符串，实为 {type(note).__name__}"
+                            "（疑似冒号未加引号）"
+                        )
         domains = item.get("domains")
         if domains is not None and (not isinstance(domains, list) or not domains):
             errors.append(f"writes[{i}] domains 须为非空列表")
+        elif isinstance(domains, list):
+            for j, d in enumerate(domains):
+                if not isinstance(d, str):
+                    errors.append(
+                        f"writes[{i}].domains[{j}] 须为字符串，实为 {type(d).__name__}"
+                        "（疑似冒号未加引号）"
+                    )
 
         ctype = str(item.get("type") or "")
         if ctype == "domain":
@@ -167,6 +233,10 @@ def suggest_lenses(signals: dict[str, list[str]], *, max_lenses: int = 3) -> lis
             k in blob for k in ("空壳", "无成员", "suggest_link_or_enrich", "orphan", "过载")
         ):
             weight += 1
+        if lens == "cluster" and any(
+            k in blob for k in ("domain_overloaded", "过载", "单点挂靠")
+        ):
+            weight += 5
         scored.append((weight, lens))
     scored.sort(key=lambda x: (-x[0], LENSES.index(x[1])))
     return [lens for _, lens in scored[:max_lenses]]

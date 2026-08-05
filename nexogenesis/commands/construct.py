@@ -71,7 +71,9 @@ def _run_construct_apply(
 
     digested = load_buffer_paths_by_status(buffer_dir, "digested")
     batch_op = BatchOperation.from_file(batch_path)
-    consumed = resolve_consumed_buffers(root_path, batch_op, digested)
+    consumed = resolve_consumed_buffers(
+        root_path, batch_op, digested, include_source_hints=False
+    )
     marked = 0
     for p in consumed:
         if set_buffer_status(p, "digested", "constructed"):
@@ -155,6 +157,31 @@ def _run_diagnose(
     merged = merge_structure_signals(merged, action_signals)
 
     report = render_diagnose_report(store, buffer_records, merged)
+
+    # 会话焦点（STM）：让「刚讨论过什么」进入建构视野，
+    # 缓解「对话涌现 → construct 缺口全靠 Agent 手工编译」的断裂
+    try:
+        from nexogenesis.thinking.stm import STMStore
+
+        stm_ctx = STMStore(root_path).attention_context()
+        slots = stm_ctx.get("slots") or {}
+        focus = slots.get("focus") or ""
+        cited = [c for c in (stm_ctx.get("all_cited") or []) if c in store.cards]
+        tensions = list(stm_ctx.get("all_tensions") or [])
+        if focus or cited or tensions:
+            stm_lines = ["\n\n---\n\n## 会话焦点（STM，供镜头选择参考）\n"]
+            if focus:
+                stm_lines.append(f"- 当前焦点：{focus}")
+            for t in tensions[:5]:
+                stm_lines.append(f"- 未决张力：{t}")
+            if cited:
+                stm_lines.append(
+                    "- 本会话已引卡：" + ", ".join(f"`{c}`" for c in cited[:10])
+                )
+            report += "\n".join(stm_lines) + "\n"
+    except Exception:
+        pass
+
     graph_summary = root_path / ".nexogenesis" / "graph" / "reports" / "latest-summary.md"
     if graph_summary.exists():
         report += "\n\n---\n\n## 图分析（graph analyze）\n\n"
@@ -332,6 +359,20 @@ def construct_cmd(
         max_cards=deep_cards,
         max_buffers=wave_buffers,
     )
+
+    # STM 已引卡前置进深读候选：本会话刚讨论过的卡优先进入镜头视野
+    try:
+        from nexogenesis.thinking.stm import STMStore
+
+        stm_cited = [
+            c
+            for c in (STMStore(root_path).attention_context().get("all_cited") or [])
+            if c in store.cards
+        ]
+        if stm_cited:
+            card_ids = list(dict.fromkeys(list(stm_cited) + list(card_ids)))
+    except Exception:
+        pass
 
     try:
         from nexogenesis.retrieve.context_package import build_context_package

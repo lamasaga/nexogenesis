@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from nexogenesis.models import CardType, RelationType
+from nexogenesis.models import CardType, Lifecycle, RelationType
 from nexogenesis.store import Store
 from nexogenesis.yaml_utils import split_frontmatter
 from nexogenesis.ingest.edge_quality import edge_quality_signals
@@ -41,6 +41,26 @@ def collect_structure_signals(
                     signals["cluster"].append(f"`{cid}` 的 domains 引用不存在的 `{d}`")
                 elif d not in domain_ids:
                     signals["cluster"].append(f"`{cid}` 的 `{d}` 不是 domain 卡")
+
+    # domain 过载 / 单点挂靠：领域粒度是一等信号，不只是边与空壳
+    for did in sorted(domain_ids):
+        dc = store.cards[did]
+        members = [x for x in store.by_domain.get(did, []) if x != did]
+        n_rel = len(dc.relations or [])
+        n_body = len(dc.body or "")
+        if len(members) > 25 or n_rel > 12 or n_body > 3000:
+            signals["cluster"].append(
+                f"domain `{did}` 过载（domain_overloaded）：挂靠={len(members)} "
+                f"relations={n_rel} body≈{n_body}字——考虑分裂 sibling domain 并重挂实例，"
+                "过载时 cluster 应优先于 articulate"
+            )
+    non_domain_count = sum(1 for c in store.cards.values() if c.type != CardType.DOMAIN)
+    if len(domain_ids) == 1 and non_domain_count >= 8:
+        only = next(iter(domain_ids))
+        signals["cluster"].append(
+            f"全库仅 1 张 domain（`{only}`）而实例卡 {non_domain_count} 张：疑似单点挂靠，"
+            "评估主题漂移并考虑分裂 sibling domain（禁止幽灵 ≠ 禁止第二张）"
+        )
 
     # 孤儿 / 链接空洞：非 domain 无 outgoing relations（汇总，避免刷屏）
     hollow: list[str] = []
@@ -79,9 +99,13 @@ def collect_structure_signals(
             )
 
     # --- distinguish ---
-    conflict_ids = {cid for cid, c in store.cards.items() if c.type == CardType.CONFLICT}
+    conflict_ids = {
+        cid
+        for cid, c in store.cards.items()
+        if c.type == CardType.CONFLICT and c.lifecycle == Lifecycle.ACTIVE
+    }
     for cid, c in store.cards.items():
-        if c.type == CardType.CONFLICT:
+        if c.type == CardType.CONFLICT and c.lifecycle == Lifecycle.ACTIVE:
             involves = [r for r in c.relations if r.type == RelationType.INVOLVES]
             if not involves:
                 only_domain = all(
@@ -94,6 +118,26 @@ def collect_structure_signals(
                     else ""
                 )
                 signals["distinguish"].append(f"conflict `{cid}` 缺少 involves{tip}")
+            else:
+                # 语义闸门：有 involves ≠ involves 挂对——数量闸门挡不住类型错配
+                bad = [
+                    r.target
+                    for r in involves
+                    if r.target in store.cards
+                    and store.cards[r.target].type not in (CardType.CLAIM, CardType.MODEL)
+                ]
+                if bad:
+                    signals["distinguish"].append(
+                        f"conflict `{cid}` 的 involves 指向非 claim/model："
+                        + ", ".join(f"`{t}`" for t in bad)
+                        + "（involves 应落到对立双方的 claim/model，勿挂 method/entity/domain；"
+                        "缺两造时允许破例新建两造 claim）"
+                    )
+                if not (2 <= len(involves) <= 4):
+                    signals["distinguish"].append(
+                        f"conflict `{cid}` 的 involves 数={len(involves)}"
+                        "（建议 2–4：过少不像两造，过多像枢纽，考虑收窄或拆分）"
+                    )
         for rel in c.relations:
             if rel.type != RelationType.CONFLICTS_WITH:
                 continue
@@ -165,10 +209,32 @@ def render_diagnose_report(
     buffer_records: list[dict],
     signals: dict[str, list[str]],
 ) -> str:
+    domain_count = sum(1 for c in store.cards.values() if c.type == CardType.DOMAIN)
+    alerts = [
+        s
+        for s in signals.get("cluster", [])
+        if "domain_overloaded" in s or "单点挂靠" in s
+    ] + [
+        s
+        for s in signals.get("distinguish", [])
+        if "involves 指向非" in s or "involves 数=" in s
+    ]
     lines = [
         "# construct 结构诊断报告（自动生成）",
         "",
-        f"卡片数：{len(store.cards)}；Buffer 索引条数：{len(buffer_records)}",
+        "## 摘要（先看这里）",
+        "",
+        f"- 卡片数：{len(store.cards)}；domain 数：{domain_count}；Buffer 索引条数：{len(buffer_records)}",
+    ]
+    if alerts:
+        for a in alerts[:8]:
+            lines.append(f"- ⚠ {a}")
+    else:
+        lines.append("- 无 domain 过载 / conflict involves 语义告警")
+    lines.append("- 镜头建议：过载/单点挂靠 → cluster 优先；其次 distinguish；articulate 候选默认只读须筛选")
+    lines += [
+        "",
+        "---",
         "",
         "## 卡片目录（无正文）",
     ]

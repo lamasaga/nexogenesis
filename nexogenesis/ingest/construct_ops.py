@@ -10,7 +10,7 @@ from typing import Any
 
 import yaml
 
-from nexogenesis.models import CardType, RelationType
+from nexogenesis.models import CardType, Lifecycle, RelationType
 from nexogenesis.store import Store
 from nexogenesis.yaml_utils import atomic_write_file
 
@@ -20,6 +20,8 @@ _STOP = {
     "与", "的", "和", "或", "及", "在", "对", "之", "及其", "以及",
     "是否", "如何", "什么", "一个", "一种", "可以", "应当", "必须",
     "conflict", "claim", "model", "domain", "vs", "versus",
+    # 停用词级噪声：高频但无枢纽语义（复盘：经济/市场/之争/政策曾淹没候选列表）
+    "经济", "市场", "政策", "之争", "收入", "成本",
 }
 
 
@@ -73,30 +75,98 @@ def build_seed_link_writes(store: Store, *, today: str | None = None) -> list[di
 
 
 def build_involves_stub_ops(store: Store) -> list[dict[str, Any]]:
-    """conflict 缺 involves → 需 LLM 填双方 claim/model 的 ops。"""
+    """conflict 缺 involves → 需 LLM 填双方 claim/model 的 ops。
+
+    不再给「同域热门卡」候选（复盘：同域共现 ≠ 同争议，候选有害）；
+    改为要求从 conflict 正文抽对立双方，无匹配则新建两造 claim。
+    superseded/archived 的 conflict 不报（假待办）。
+    """
     ops: list[dict[str, Any]] = []
     for cid, c in sorted(store.cards.items()):
         if c.type != CardType.CONFLICT:
             continue
+        if c.lifecycle != Lifecycle.ACTIVE:
+            continue
         involves = [r for r in c.relations if r.type == RelationType.INVOLVES]
         if involves:
             continue
-        members = [
-            m
-            for d in c.domains
-            for m in store.by_domain.get(d, [])
-            if m != cid and m in store.cards and store.cards[m].type in (
-                CardType.CLAIM, CardType.MODEL
-            )
-        ]
         ops.append({
             "op": "require_involves",
-            "reason": "conflict 缺 involves；须指向对立双方 claim/model，勿只用 applies-to domain",
+            "reason": (
+                "conflict 缺 involves：从正文/sources 抽出对立双方；"
+                "匹配到现有 claim/model 则改挂，无合适对象则新建两造 claim 再 involves"
+                "（结构必需，不算第二次消化）"
+            ),
             "cards": [cid],
-            "candidate_members": members[:12],
             "lens": "distinguish",
         })
     return ops
+
+
+def build_involves_semantic_ops(store: Store) -> list[dict[str, Any]]:
+    """conflict 有 involves 但挂错类型/数量异常 → 语义修正 ops（数量闸门 ≠ 语义闸门）。"""
+    ops: list[dict[str, Any]] = []
+    for cid, c in sorted(store.cards.items()):
+        if c.type != CardType.CONFLICT:
+            continue
+        if c.lifecycle != Lifecycle.ACTIVE:
+            continue
+        involves = [r for r in c.relations if r.type == RelationType.INVOLVES]
+        if not involves:
+            continue
+        bad = [
+            r.target
+            for r in involves
+            if r.target in store.cards
+            and store.cards[r.target].type not in (CardType.CLAIM, CardType.MODEL)
+        ]
+        if bad:
+            ops.append({
+                "op": "fix_involves_semantics",
+                "reason": (
+                    "involves 指向非 claim/model："
+                    + ", ".join(bad)
+                    + "；应改挂对立双方 claim/model（缺两造时允许破例新建两造 claim）"
+                ),
+                "cards": [cid] + bad,
+                "lens": "distinguish",
+            })
+        elif not (2 <= len(involves) <= 4):
+            ops.append({
+                "op": "fix_involves_count",
+                "reason": (
+                    f"involves 数={len(involves)}（建议 2–4）："
+                    "过少不像两造，过多像枢纽，考虑收窄或拆分"
+                ),
+                "cards": [cid],
+                "lens": "distinguish",
+            })
+    return ops
+
+
+def find_overloaded_domains(
+    store: Store,
+    *,
+    max_members: int = 25,
+    max_relations: int = 12,
+    max_body: int = 3000,
+) -> list[dict[str, Any]]:
+    """挂靠过多 / 边过多 / 正文过长的 domain → domain_overloaded（cluster 应优先）。"""
+    out: list[dict[str, Any]] = []
+    for cid, c in sorted(store.cards.items()):
+        if c.type != CardType.DOMAIN:
+            continue
+        members = [x for x in store.by_domain.get(cid, []) if x != cid]
+        n_rel = len(c.relations or [])
+        n_body = len(c.body or "")
+        if len(members) > max_members or n_rel > max_relations or n_body > max_body:
+            out.append({
+                "id": cid,
+                "members": len(members),
+                "relations": n_rel,
+                "body_chars": n_body,
+            })
+    return out
 
 
 def find_hub_term_candidates(
@@ -141,6 +211,9 @@ def find_hub_term_candidates(
                 continue
             if term in store.cards:
                 continue
+            # 已是某张卡 id 的子串 → 概念已被更长名的卡覆盖，抑制
+            if any(term in cid for cid in store.cards):
+                continue
             cards = uniq(term_cards.get(term) or [])
             if len(cards) < min_count:
                 continue
@@ -171,8 +244,9 @@ def find_hub_term_candidates(
 def build_structure_action_plan(store: Store) -> dict[str, Any]:
     """汇总确定性动作 + 需 LLM 的 ops。"""
     seed_writes = build_seed_link_writes(store)
-    involves_ops = build_involves_stub_ops(store)
+    involves_ops = build_involves_stub_ops(store) + build_involves_semantic_ops(store)
     hub_ops = find_hub_term_candidates(store)
+    overloaded = find_overloaded_domains(store)
     return {
         "seed_link_writes": seed_writes,
         "ops_need_llm": involves_ops + hub_ops,
@@ -180,6 +254,7 @@ def build_structure_action_plan(store: Store) -> dict[str, Any]:
             "seed_link_count": len(seed_writes),
             "require_involves_count": len(involves_ops),
             "hub_candidate_count": len(hub_ops),
+            "overloaded_domains": overloaded,
         },
     }
 
@@ -220,15 +295,41 @@ def write_construct_action_artifacts(
     )
     paths["seed_links"] = seed_path
 
+    overloaded = plan["stats"].get("overloaded_domains") or []
+    n_seeds = plan["stats"]["seed_link_count"]
+    n_involves = plan["stats"]["require_involves_count"]
+    n_hubs = plan["stats"]["hub_candidate_count"]
+    # 动态顺序：按真实债务置顶；无债务的镜头不出现在顺序里（假待办与错候选一样消耗信任）
+    priority: list[str] = []
+    step = 1
+    if overloaded:
+        names = "、".join(f"`{d['id']}`" for d in overloaded[:5])
+        priority.append(
+            f"{step}. cluster 优先：domain 过载 {names}——分裂 sibling domain 并重挂实例"
+        )
+        step += 1
+    if n_seeds:
+        priority.append(
+            f"{step}. 先 construct --apply-seed-links（{n_seeds} 张空边；重挂/新建后常见，有数量时置顶）"
+        )
+        step += 1
+    if n_involves:
+        priority.append(
+            f"{step}. distinguish：处理 require_involves / fix_involves_semantics（{n_involves} 项）"
+        )
+        step += 1
+    if n_hubs:
+        priority.append(
+            f"{step}. articulate：处理 suggest_entity_hub（{n_hubs} 个候选；默认只读，入 batch 前须筛选）"
+        )
+        step += 1
+    tail = "按需 cross_source" if overloaded else "按需 cluster / cross_source"
+    priority.append(f"{step}. {tail}；无债务的镜头直接跳过，勿当完成态")
+
     llm_path = out_dir / "structure-ops-llm.yaml"
     llm_doc = {
         "note": "以下 ops 不能直接 apply；请按 lens 生成完整 write --batch（batch.yaml）",
-        "priority": [
-            "1. 若 seed-links 非空：先 construct --apply-seed-links（或确认后 write 该 yaml）",
-            "2. distinguish：处理 require_involves",
-            "3. articulate：处理 suggest_entity_hub 与链接空洞",
-            "4. cluster / cross_source：按需",
-        ],
+        "priority": priority,
         "ops": plan["ops_need_llm"] + graph_ops,
     }
     atomic_write_file(
@@ -242,9 +343,19 @@ def write_construct_action_artifacts(
         "# construct 结构行动单（可执行，非空谈）",
         "",
         f"- 确定性补边（seed-links）：**{plan['stats']['seed_link_count']}** 张",
-        f"- 待补 involves 的 conflict：**{plan['stats']['require_involves_count']}** 张",
-        f"- 枢纽概念候选（升格 entity/model）：**{plan['stats']['hub_candidate_count']}** 个",
+        f"- involves 问题（缺失/语义错配）的 conflict：**{plan['stats']['require_involves_count']}** 张",
+        f"- 枢纽概念候选（升格 entity/model）：**{plan['stats']['hub_candidate_count']}** 个（默认只读，入 batch 前须筛选）",
         f"- 图分析其它 ops：{len(graph_ops)}",
+    ]
+    if overloaded:
+        lines.append(
+            f"- ⚠ domain 过载：**{len(overloaded)}** 张——"
+            + "、".join(
+                f"`{d['id']}`(挂靠={d['members']},边={d['relations']})" for d in overloaded[:5]
+            )
+            + "；cluster 应优先"
+        )
+    lines += [
         "",
         "## 0. 立刻可做（无需 LLM）",
         "",
@@ -264,15 +375,12 @@ def write_construct_action_artifacts(
     else:
         lines.append("（无空 relations 可自动挂 domain 的卡）")
 
-    lines.extend(["", "## 1. distinguish：conflict 必须 involves", ""])
+    lines.extend(["", "## 1. distinguish：conflict 必须 involves（存在性 + 语义合法性）", ""])
     for op in plan["ops_need_llm"]:
-        if op.get("op") != "require_involves":
-            continue
-        cands = ", ".join(f"`{x}`" for x in (op.get("candidate_members") or [])[:6])
-        lines.append(
-            f"- `{op['cards'][0]}`：补 involves 双方。"
-            f" 同域候选：{cands or '（请从目录另选 claim/model）'}"
-        )
+        if op.get("op") == "require_involves":
+            lines.append(f"- `{op['cards'][0]}`：{op.get('reason')}")
+        elif op.get("op") in ("fix_involves_semantics", "fix_involves_count"):
+            lines.append(f"- `{op['cards'][0]}`：{op.get('reason')}")
     if plan["stats"]["require_involves_count"] == 0:
         lines.append("- （无）")
 
@@ -285,7 +393,7 @@ def write_construct_action_artifacts(
             f"考虑新建 entity 或挂到已有 model；涉及 {', '.join(f'`{c}`' for c in op.get('cards') or [])}"
         )
     if plan["stats"]["hub_candidate_count"] == 0:
-        lines.append("- （无高频未升格枢纽）")
+        lines.append("- （过滤后无候选——本轮建议跳过 articulate 镜头）")
 
     lines.extend(["", "## 3. 图分析遗留", ""])
     if graph_ops:
@@ -300,10 +408,7 @@ def write_construct_action_artifacts(
         "",
         "## 4. 建议镜头顺序",
         "",
-        "1. `construct --apply-seed-links`（若第 0 步有数量）",
-        "2. `construct --lens distinguish`",
-        "3. `construct --lens articulate`",
-        "4. 按需 `cluster` / `cross_source`",
+        *priority,
         "",
         f"机器可读：`{llm_path.name}` / `{seed_path.name}`",
         "",

@@ -71,6 +71,11 @@ class Store:
                 warnings.append(f"{card.id}: sources 数量 {len(card.sources)} 超过建议值 12")
             if len(card.relations) > 12:
                 warnings.append(f"{card.id}: relations 数量 {len(card.relations)} 超过建议值 12")
+            if len(card.body or "") > 4000:
+                warnings.append(
+                    f"{card.id}: 正文 {len(card.body)} 字超过建议值 4000"
+                    "（疑似章级百科：enrich 应改写机制段，而非文末叠加；考虑拆分或留给 construct）"
+                )
             # 正文幽灵链接
             for m in WIKILINK_RE.finditer(card.body or ""):
                 target = m.group(1).strip()

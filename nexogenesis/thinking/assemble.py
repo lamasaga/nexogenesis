@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Any
 
 from nexogenesis.graph.build import load_snapshot, rebuild_graph
-from nexogenesis.graph.retrieve import excerpt_body, pick_seeds, tokenize
+from nexogenesis.graph.retrieve import excerpt_body, pick_seeds, query_tokens, tokenize
 from nexogenesis.graph.traverse import expand_subgraph
 from nexogenesis.models import CardType, RelationType
 from nexogenesis.rag.search import rag_search, rag_search_for_cards
@@ -33,6 +33,7 @@ def assemble_working_set(
     use_rag: bool = True,
     session_overrides: dict[str, Any] | None = None,
     config: dict[str, Any] | None = None,
+    excerpt_chars: int = 800,
 ) -> dict[str, Any]:
     root = root.resolve()
     raw_cfg = config if config is not None else load_attention_config(root)
@@ -74,7 +75,7 @@ def assemble_working_set(
     )
 
     stm_tokens = tokenize(stm_ctx.get("focus_tokens") or "")
-    all_tokens = set(buffer_tokens or set()) | stm_tokens | tokenize(query)
+    all_tokens = set(buffer_tokens or set()) | stm_tokens | query_tokens(query)
     cited = list(stm_ctx.get("all_cited") or [])
     tensions = list(stm_ctx.get("all_tensions") or [])
     bridge_hints = list((stm_ctx.get("slots") or {}).get("bridge_hints") or [])
@@ -114,6 +115,11 @@ def assemble_working_set(
             type_priors=type_priors,
         )
         structure["seeds"] = seed_ids
+        if not seed_ids and (query or all_tokens):
+            structure["status"] = "no-seeds"
+            blind_spots.append(
+                "结构检索无命中：库内可能缺少相关卡片（盲区）；请明示「检索不到」，不要硬答。"
+            )
 
         max_nodes = max(total_card_budget * 3, 24)
         visited = expand_subgraph(
@@ -161,7 +167,7 @@ def assemble_working_set(
             if len(nodes_out) >= total_card_budget:
                 break
             c = store.cards[nid]
-            excerpt = excerpt_body(c.body, 800)
+            excerpt = excerpt_body(c.body, excerpt_chars)
             cost = len(excerpt) + len(c.title)
             if used_chars + cost > half and nodes_out:
                 break
@@ -317,7 +323,7 @@ def _dual_account_select(
     w_conf = weights.get("conflict") or {}
     tension_blob = " ".join(tensions)
     tension_toks = tokenize(tension_blob)
-    q_toks = tokenize(query) | tokens
+    q_toks = query_tokens(query) | tokens
 
     selected: list[tuple[str, str]] = []
     used: set[str] = set()

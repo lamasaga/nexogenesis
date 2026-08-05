@@ -28,8 +28,15 @@ def resolve_consumed_buffers(
     root: Path,
     batch: BatchOperation | Path,
     candidates: list[Path],
+    *,
+    include_source_hints: bool = True,
 ) -> list[Path]:
-    """根据 operation.consumed_buffers 与 writes.sources 匹配候选 Buffer。"""
+    """根据 operation.consumed_buffers 与 writes.sources 匹配候选 Buffer。
+
+    include_source_hints=False 时只认显式声明（consumed_buffers / consumed_from /
+    buffer_path）：结构重挂类 batch 保留的 sources 是归因而非消费，
+    不应把大批 Buffer 标成 constructed。
+    """
     if isinstance(batch, Path):
         batch_op = BatchOperation.from_file(batch)
         raw = yaml.safe_load(batch.read_text(encoding="utf-8")) or {}
@@ -39,9 +46,10 @@ def resolve_consumed_buffers(
 
     hints: list[str] = list(batch_op.consumed_buffers)
     for w in batch_op.writes:
-        for src in w.get("sources") or []:
-            if isinstance(src, str):
-                hints.append(src)
+        if include_source_hints:
+            for src in w.get("sources") or []:
+                if isinstance(src, str):
+                    hints.append(src)
         for key in ("consumed_from", "buffer_path"):
             val = w.get(key)
             if isinstance(val, str):

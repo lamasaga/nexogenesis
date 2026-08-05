@@ -11,9 +11,37 @@ from nexogenesis.store import Store
 
 _TOKEN_RE = re.compile(r"[\w\u4e00-\u9fff]+", re.UNICODE)
 
+# 宽词：几乎出现在所有社科卡上，作为 query token 只会给 pick_seeds 注入种子噪声
+# （复盘：「古典/现代分野」「不稳定根源」类抽象提问多次召回微观跑题枢纽）
+_QUERY_STOP = {
+    "经济", "市场", "政策", "之争", "问题", "理论", "影响", "研究",
+    "社会", "管理", "分析", "机制",
+    "为什么", "什么", "如何", "怎么", "怎样", "是否",
+}
+
+_CJK_RUN_RE = re.compile(r"[一-鿿]+")
+
 
 def tokenize(text: str) -> set[str]:
     return {t for t in _TOKEN_RE.findall(text) if len(t) >= 2}
+
+
+def query_tokens(text: str) -> set[str]:
+    """query 侧 token：过滤宽词；长段中文补 2–4 字 n-gram。
+
+    中文 query 无空格，整句会被 _TOKEN_RE 当成单个 token 而零命中；
+    n-gram 让「事后解释与反条件的对立」能命中「事后解释」「反条件」。
+    """
+    toks = {t for t in tokenize(text) if t not in _QUERY_STOP}
+    for run in _CJK_RUN_RE.findall(text):
+        if len(run) < 4:
+            continue
+        for n in (2, 3, 4):
+            for i in range(len(run) - n + 1):
+                gram = run[i : i + n]
+                if gram not in _QUERY_STOP:
+                    toks.add(gram)
+    return toks
 
 
 def pick_seeds(
@@ -37,36 +65,37 @@ def pick_seeds(
     for sid in explicit or []:
         add(sid)
 
-    q_tokens = tokenize(query)
+    q_tokens = query_tokens(query)
     btokens = buffer_tokens or set()
 
     scored: list[tuple[int, str]] = []
     for cid, card in store.cards.items():
         if card.lifecycle.value == "archived":
             continue
-        score = 0
         hay = f"{cid} {card.title} {(card.body or '')[:600]}"
+        rel = 0
         for t in q_tokens | btokens:
             if t in hay:
-                score += 3
-        if card.type == CardType.DOMAIN:
-            score += 1
+                rel += 3
         for d in card.domains:
             if d in q_tokens or d in btokens:
-                score += 4
-        score += type_prior_seed_boost(card, type_priors)
-        if score > 0:
-            scored.append((score, cid))
+                rel += 4
+        # 类型先验与 domain 加分只能放大有相关性的卡，不能凭空制造种子
+        # （否则无关提问也全库皆种子，盲区探测与种子去噪都失效）
+        if rel <= 0:
+            continue
+        score = rel + type_prior_seed_boost(card, type_priors)
+        if card.type == CardType.DOMAIN:
+            score += 1
+        scored.append((score, cid))
 
     scored.sort(key=lambda x: (-x[0], x[1]))
     for _, cid in scored[:8]:
         add(cid)
 
-    if not seeds and scored:
-        for _, cid in scored[:3]:
-            add(cid)
-
-    if not seeds:
+    # 完全无相关性依据（空 query 且无 buffer/STM token）时，才兜底 pin domain 骨架；
+    # 有 query 但零命中是真盲区，不兜底——让上层报告「检索不到」。
+    if not seeds and not (q_tokens or btokens):
         for cid, card in store.cards.items():
             if card.type == CardType.DOMAIN:
                 add(cid)
@@ -83,7 +112,7 @@ def rank_nodes(
     query: str = "",
     buffer_tokens: set[str] | None = None,
 ) -> list[str]:
-    q_tokens = tokenize(query)
+    q_tokens = query_tokens(query)
     btokens = buffer_tokens or set()
 
     def score_nid(nid: str) -> int:

@@ -141,10 +141,22 @@ def _check_responses(tmp_dir: Path, *, strict_body: bool) -> int:
     if not files:
         click.echo("未找到 batch-*-response.* 文件。")
         return 1
+    try:
+        expected = set(load_wave_manifest(tmp_dir).get("batch_files") or [])
+    except FileNotFoundError:
+        expected = set()
     hard_total = 0
     soft_total = 0
     for rf in files:
         buffers, hard, soft = check_response_file(rf, strict_body=strict_body)
+        if expected:
+            mapped = _response_to_prompt_name(rf.name)
+            if mapped not in expected:
+                hard = list(hard) + [
+                    f"文件名与本波 prompt 不对齐：映射得到 {mapped}，不在 manifest 的 batch_files 中。"
+                    "response 必须与 prompt 同 stem，只把 -prompt 换成 -response"
+                    "（如 batch-001-essay-prompt.md → batch-001-essay-response.md）"
+                ]
         if hard:
             hard_total += len(hard)
             click.echo(f"FAIL {rf.name}（{len(buffers)} 块）")
@@ -183,7 +195,7 @@ def _apply_wave(
     if not response_files:
         raise click.ClickException(
             "未找到 LLM response 文件。请保存为 "
-            ".nexogenesis/tmp/compile/batch-XXX-response.md 后重试。"
+            ".nexogenesis/tmp/compile/batch-XXX-<genre>-response.md（与 prompt 同 stem）后重试。"
         )
 
     applied_batch_files = set(manifest.get("applied_batch_files") or [])
@@ -320,6 +332,24 @@ def _apply_wave(
         f"ok_files={len(succeeded_responses)}, failed_files={len(failed)}, "
         f"archived={len(archived)}, wave_complete={wave_complete}"
     )
+    if all_written and not wave_complete:
+        missing = sorted(expected - applied_batch_files)
+        click.echo(
+            "WARNING: 已写入 Buffer 但本波未记账（wave_complete=False），"
+            "progress 未更新、原文未归档。请勿盲目重跑整波，以免重复写入 Buffer。"
+        )
+        if missing:
+            click.echo("  未对齐的 prompt（expected 中缺失）:")
+            for name in missing:
+                click.echo(f"    - {name}")
+        click.echo(
+            "  当前 applied_batch_files: "
+            + (", ".join(sorted(applied_batch_files)) or "(空)")
+        )
+        click.echo(
+            "  常见原因：response 文件名与 prompt 不同 stem（如漏写 <genre> 段），"
+            "导致名字映射对不上。对齐文件名后重放 response，或人工核对 manifest。"
+        )
     if failed and not all_written:
         raise click.ClickException(
             "全部 response 失败，未写入 Buffer：" + ", ".join(failed)

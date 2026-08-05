@@ -24,6 +24,12 @@ from nexogenesis.retrieve.context_package import MODES, build_context_package, s
 @click.option("--no-rag", is_flag=True, help="禁用 RAG")
 @click.option("--no-attention", is_flag=True, help="禁用双账户注意力组装（回退旧 retrieve）")
 @click.option("--no-stm", is_flag=True, help="组装时不读短期记忆")
+@click.option(
+    "--excerpt-chars",
+    default=None,
+    type=int,
+    help="单卡摘录字符上限（默认 800；深思场景可调大，如 2000）",
+)
 @click.option("--out", "out_name", default="context", help="输出文件名（不含扩展名）")
 @click.option("--print-yaml", is_flag=True, help="同时打印 YAML 到 stdout")
 def retrieve_cmd(
@@ -39,6 +45,7 @@ def retrieve_cmd(
     no_rag,
     no_attention,
     no_stm,
+    excerpt_chars,
     out_name,
     print_yaml,
 ):
@@ -56,6 +63,7 @@ def retrieve_cmd(
         use_rag=not no_rag,
         use_attention=not no_attention,
         use_stm=not no_stm,
+        excerpt_chars=excerpt_chars,
     )
     path = save_context_package(root_path, pkg, name=out_name)
     click.echo(
