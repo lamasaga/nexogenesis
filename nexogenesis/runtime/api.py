@@ -21,7 +21,7 @@ def create_app(root: Path) -> FastAPI:
     @app.get("/api/graph")
     def get_graph() -> dict:
         payload = build_graph_payload(root)
-        pos = ensure_layout(root, payload["nodes"])
+        pos = ensure_layout(root, payload["nodes"], payload["edges"])
         for n in payload["nodes"]:
             n["x"] = pos[n["id"]]["x"]
             n["y"] = pos[n["id"]]["y"]

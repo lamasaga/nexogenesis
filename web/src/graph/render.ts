@@ -150,15 +150,10 @@ export function drawLabelLayer(
   ctx: CanvasRenderingContext2D, scene: Scene, engine: ActivationEngine,
   camera: Camera, hoverId: string | null
 ): void {
-  // domain 标签恒显；卡片标题仅鼠标悬停时显示（2026-08-08 用户决议：取消激活态标题）
+  // domain 标签暂时隐去（2026-08-08 用户决议：呈现方式难看，后续再设计）；
+  // 卡片标题仅鼠标悬停时显示。
   void engine;
-  const fs = 13 / camera.scale;
-  ctx.textAlign = "center";
-  for (const [, dm] of scene.domains) {
-    ctx.font = `${fs}px "Microsoft YaHei", sans-serif`;
-    ctx.fillStyle = "rgba(170,215,212,0.75)";
-    ctx.fillText(dm.label, dm.x, dm.y);
-  }
+  void camera;
   if (hoverId) {
     const nd = scene.nodes.find((n) => n.id === hoverId);
     if (nd) {
