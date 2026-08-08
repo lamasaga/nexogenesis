@@ -62,9 +62,9 @@ export function GraphCanvas({ data, engine, onNodeClick }: Props) {
     let camMovedAt = 0;
     let prevCam = { x: camera.x, y: camera.y, scale: camera.scale };
 
-    const renderRest = (w: number, h: number, dpr: number, now: number) => {
-      off.width = Math.max(1, w * dpr);
-      off.height = Math.max(1, h * dpr);
+    const renderRest = (pw: number, ph: number, w: number, h: number, dpr: number, now: number) => {
+      off.width = pw;
+      off.height = ph;
       const c = off.getContext("2d")!;
       c.setTransform(dpr * camera.scale, 0, 0, dpr * camera.scale,
         dpr * (w / 2 - camera.x * camera.scale),
@@ -88,17 +88,21 @@ export function GraphCanvas({ data, engine, onNodeClick }: Props) {
 
       const w = host.clientWidth, h = host.clientHeight;
       const dpr = window.devicePixelRatio || 1;
+      // dpr 非整数（1.25/1.5）时 w*dpr 是小数：必须取整后比较，
+      // 否则每帧都判定尺寸变化 → 画布清空 + 全量重绘（帧率崩塌、画面抖动）
+      const pw = Math.max(1, Math.round(w * dpr));
+      const ph = Math.max(1, Math.round(h * dpr));
       for (const ref of [restRef, actRef, labelRef]) {
         const cv = ref.current!;
-        if (cv.width !== w * dpr || cv.height !== h * dpr) {
-          cv.width = w * dpr; cv.height = h * dpr;
+        if (cv.width !== pw || cv.height !== ph) {
+          cv.width = pw; cv.height = ph;
           restDirty = true; // 视口尺寸变化，缓存失效
         }
       }
 
       // 防抖重渲染：相机静止 200ms 后按新精度重绘静息层
       if (restDirty && nowMs - camMovedAt > 200) {
-        renderRest(w, h, dpr, now);
+        renderRest(pw, ph, w, h, dpr, now);
         restDirty = false;
       }
 
@@ -115,7 +119,7 @@ export function GraphCanvas({ data, engine, onNodeClick }: Props) {
 
       restCtx.setTransform(1, 0, 0, 1, 0, 0);
       restCtx.fillStyle = THEME.colors.background;
-      restCtx.fillRect(0, 0, w * dpr, h * dpr);
+      restCtx.fillRect(0, 0, pw, ph);
       if (!restDirty) {
         // 缓存与当前相机一致：1:1 贴图（清晰）
         restCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -129,12 +133,12 @@ export function GraphCanvas({ data, engine, onNodeClick }: Props) {
         if (off.width > 0) restCtx.drawImage(off, 0, 0);
       }
 
-      actCtx.clearRect(0, 0, w * dpr, h * dpr);
+      actCtx.clearRect(0, 0, pw, ph);
       setWorld(actCtx);
       actCtx.lineWidth = 1 / camera.scale;
       drawActivationLayer(actCtx, scene, engine, now);
 
-      labelCtx.clearRect(0, 0, w * dpr, h * dpr);
+      labelCtx.clearRect(0, 0, pw, ph);
       setWorld(labelCtx);
       drawLabelLayer(labelCtx, scene, engine, camera, hoverRef.current);
 
