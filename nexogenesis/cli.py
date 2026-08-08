@@ -15,6 +15,7 @@ from nexogenesis.commands.graph import graph_cmd
 from nexogenesis.commands.rag import rag_cmd
 from nexogenesis.commands.retrieve import retrieve_cmd
 from nexogenesis.commands.memory import attention_cmd, memory_cmd, signal_cmd
+from nexogenesis.commands.serve import serve_cmd
 
 
 def ensure_utf8_stdio() -> None:
@@ -63,6 +64,7 @@ main.add_command(retrieve_cmd, name="retrieve")
 main.add_command(memory_cmd, name="memory")
 main.add_command(attention_cmd, name="attention")
 main.add_command(signal_cmd, name="signal")
+main.add_command(serve_cmd, name="serve")
 
 
 if __name__ == "__main__":
