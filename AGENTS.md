@@ -37,12 +37,13 @@ README.md                              # 项目说明
 │   ├── thinking-body.md               # 思维体注意力设计
 │   └── constraint-layers.md           # 约束分层说明
 └── specs/                             # 设计决策与迭代记录
-01-Cards/                              # 知识卡片
-02-Profile/                            # 领域级思考特质档案
-03-Archive/                            # 已处理原始材料
-04-OutBox/                             # 分析产物
-05-Buffer/<role>/                      # compile 产出的质料
-06-Journal/                            # 操作大事记
+01-Cards/                              # 知识卡片（不入开发仓，单向镜像纪律见 §七）
+02-Profile/                            # 领域级思考特质档案（同上）
+03-Archive/                            # 已处理原始材料（同上）
+04-OutBox/                             # 分析产物（同上）
+05-Buffer/<role>/                      # compile 产出的质料（同上）
+06-Journal/                            # 操作大事记（同上）
+demo-kb/                               # 演示知识库（29 卡，开发调试与分发演示种子）
 nexogenesis/                           # Python 包（harness + runtime/）
 web/                                   # Web 前端（React+Vite+TS+Tailwind，FastAPI 托管 dist/）
 schemes/default/                       # 默认沉淀方案
@@ -114,4 +115,4 @@ schemes/default/                       # 默认沉淀方案
 - 处理完后归档原始文档。
 - 所有 AI 生成的内容标注来源。
 - 任何写入须经授权：逐步确认，或用户一句「开始消化/建构」/`--auto` 视为本轮授权。
-- **知识体单一写入方**：`compile`/`digest`/`construct`/`emerge` 等知识体写入操作只在指定的实践仓库执行；其他克隆（开发仓等）仅 `pull` 使用知识体，不在本地跑写入流程，避免知识体分叉打架。
+- **单向镜像纪律（2026-08-08 用户宪法级确认）**：本仓（`-org`）是纯开发仓——只跟踪代码、`.agent/`、`schemes/`、`docs/`、`demo-kb/`，知识体目录（`00-Inbox`/`01-Cards`/`02-Profile`/`03-Archive`/`04-OutBox`/`05-Buffer`/`06-Journal`）一律不入库；本仓必须保持随时可打包分发的干净状态。实践仓承担 `compile`/`digest`/`construct`/`emerge` 全部知识体工作，只从本仓 `pull` 补丁，**永不 push 回 origin**（机械防呆：实践仓 push 远端已设为 DISABLED）。

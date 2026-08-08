@@ -11,3 +11,11 @@ __pycache__/
 web/node_modules/
 web/dist/
 web/tsconfig.tsbuildinfo
+# ---- 单向镜像纪律：知识体目录不入开发仓（实践仓承担，见 AGENTS.md §七）----
+00-Inbox/
+01-Cards/
+02-Profile/
+03-Archive/
+04-OutBox/
+05-Buffer/
+06-Journal/
