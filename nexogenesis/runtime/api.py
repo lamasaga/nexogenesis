@@ -56,7 +56,7 @@ def create_app(root: Path) -> FastAPI:
         }
 
     app.include_router(_events_router(bus))
-    app.include_router(_simulate_router(runner))
+    app.include_router(_simulate_router(runner, lambda: build_graph_payload(root)))
 
     dist = root / "web" / "dist"
     if dist.exists():
@@ -88,17 +88,29 @@ def _events_router(bus: EventBus):
     return router
 
 
-def _simulate_router(runner: SimulationRunner):
+def _simulate_router(runner: SimulationRunner, graph_fn):
     from fastapi import APIRouter
+
+    from nexogenesis.runtime.simulate import build_scenario
 
     router = APIRouter()
 
     @router.post("/api/simulate/{scenario}")
-    async def simulate(scenario: str) -> dict:
+    async def simulate(scenario: str, batch: bool = False) -> dict:
         if scenario not in SCENARIO_NAMES:
             raise HTTPException(status_code=404,
                                 detail=f"未知剧本: {scenario}，可选 {SCENARIO_NAMES}")
-        position = await runner.submit(scenario)
-        return {"queued": position, "scenario": scenario}
+        position = await runner.submit(scenario, batch=batch)
+        return {"queued": position, "scenario": scenario, "batch": batch}
+
+    @router.get("/api/replay/{scenario}")
+    def replay(scenario: str) -> dict:
+        """一次性返回剧本事件表（截图走查用：前端本地调度，不经 SSE 实时流）。"""
+        if scenario not in SCENARIO_NAMES:
+            raise HTTPException(status_code=404,
+                                detail=f"未知剧本: {scenario}，可选 {SCENARIO_NAMES}")
+        events = build_scenario(scenario, graph_fn())
+        return {"events": [{"t": t, "type": ty, "payload": p}
+                           for t, ty, p in events]}
 
     return router

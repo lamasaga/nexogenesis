@@ -57,3 +57,26 @@ def test_run_scenario_publishes_in_order(kb_root):
 
     got = asyncio.run(go())
     assert got == [t for _, t, _ in events]
+
+
+def test_runner_batch_mode(kb_root):
+    """batch=True：忽略时刻表，以固定间隔连发，顺序与数量不变。"""
+    graph = build_graph_payload(kb_root)
+
+    async def go():
+        from nexogenesis.runtime.simulate import SimulationRunner
+
+        bus = EventBus()
+        q = bus.subscribe()
+        runner = SimulationRunner(bus, lambda: graph)
+        await runner.submit("digest", batch=True)
+        await asyncio.sleep(3.0)  # digest 5 个事件 × 0.3s 间隔
+        got = []
+        while not q.empty():
+            got.append(q.get_nowait().type)
+        return got
+
+    got = asyncio.run(go())
+    assert len(got) == 5
+    assert got[0] == "skill.trigger"
+    assert got[-1] == "session.idle"

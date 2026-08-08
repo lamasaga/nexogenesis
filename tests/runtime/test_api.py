@@ -44,3 +44,26 @@ def test_card_endpoint(client):
 
 def test_card_404(client):
     assert client.get("/api/cards/nonexistent").status_code == 404
+
+
+def test_replay_endpoint(client):
+    r = client.get("/api/replay/judge")
+    assert r.status_code == 200
+    events = r.json()["events"]
+    assert len(events) > 0
+    times = [e["t"] for e in events]
+    assert times == sorted(times)
+    types = [e["type"] for e in events]
+    assert types.count("lens.begin") == 3
+    assert types[-1] == "session.idle"
+
+
+def test_replay_404(client):
+    assert client.get("/api/replay/nonexistent").status_code == 404
+
+
+def test_simulate_endpoint(client):
+    r = client.post("/api/simulate/talk")
+    assert r.status_code == 200
+    assert r.json()["scenario"] == "talk"
+    assert client.post("/api/simulate/nonexistent").status_code == 404

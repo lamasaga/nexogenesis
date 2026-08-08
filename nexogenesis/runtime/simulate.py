@@ -110,11 +110,16 @@ def build_scenario(name: str, graph: dict) -> list[TimedEvent]:
     return _BUILDERS[name](graph)
 
 
-async def run_scenario(bus: EventBus, events: list[TimedEvent]) -> None:
+async def run_scenario(bus: EventBus, events: list[TimedEvent],
+                       batch_gap: float | None = None) -> None:
+    """按剧本时刻表发布事件；batch_gap 非 None 时忽略时刻表、以固定间隔连发（截图走查用）。"""
     t0 = 0.0
     for t, type_, payload in events:
-        await asyncio.sleep(max(0.0, t - t0))
-        t0 = t
+        if batch_gap is None:
+            await asyncio.sleep(max(0.0, t - t0))
+            t0 = t
+        else:
+            await asyncio.sleep(batch_gap)
         await bus.publish(type_, payload)
 
 
@@ -126,17 +131,18 @@ class SimulationRunner:
         self.graph_fn = graph_fn
         self._queue: asyncio.Queue | None = None
 
-    async def submit(self, name: str) -> int:
+    async def submit(self, name: str, batch: bool = False) -> int:
         if name not in _BUILDERS:
             raise KeyError(name)
         if self._queue is None:
             self._queue = asyncio.Queue()
             asyncio.create_task(self._work())
         events = build_scenario(name, self.graph_fn())
-        await self._queue.put(events)
+        await self._queue.put((events, batch))
         return self._queue.qsize()
 
     async def _work(self) -> None:
         while True:
-            events = await self._queue.get()
-            await run_scenario(self.bus, events)
+            events, batch = await self._queue.get()
+            await run_scenario(self.bus, events,
+                               batch_gap=0.3 if batch else None)
