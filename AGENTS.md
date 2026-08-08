@@ -43,7 +43,8 @@ README.md                              # 项目说明
 04-OutBox/                             # 分析产物
 05-Buffer/<role>/                      # compile 产出的质料
 06-Journal/                            # 操作大事记
-nexogenesis/                           # Python 包
+nexogenesis/                           # Python 包（harness + runtime/）
+web/                                   # Web 前端（React+Vite+TS+Tailwind，FastAPI 托管 dist/）
 schemes/default/                       # 默认沉淀方案
 ```
 
