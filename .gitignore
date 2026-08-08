@@ -6,6 +6,7 @@ __pycache__/
 .nexogenesis/tmp/
 .nexogenesis/graph/
 .nexogenesis/rag/
+.nexogenesis/memory/
 .superpowers/
 web/node_modules/
 web/dist/

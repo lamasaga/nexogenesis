@@ -1,0 +1,160 @@
+我对两个框架做了检索，并结合 Nexogenesis 当前文档（README.md、AGENTS.md、.agent/skills/、thinking-body.md 等）做了对照。下面先给出两者画像，再落到智构涌
+   现可以具体借鉴什么、优先级如何。
+
+   ────────────────────────────────────────────────────────────────────────────────
+
+   1. 两个框架的画像
+
+   Pi Agent（earendil-works/pi）
+
+   • 定位：极简主义 coding agent 框架，OpenClaw 的底座。
+   • 核心哲学：agent 只需要 4 个工具——read / write / edit / bash，系统提示控制在 1000 token 以内。
+   • 架构分层：pi-ai（统一多 provider LLM API）→ pi-agent-core（agent 循环与状态）→ pi-coding-agent（编码专用智能）→ pi-tui / web-ui / AgentSession SDK。
+   • 关键特性：provider 无关（OpenAI、Anthropic、Google、OpenRouter 等单配置切换）、内置 token/cost 追踪、AgentSession SDK 可被任何 TypeScript 应用嵌入。
+     来源：Agentlas Pi 框架评测 (https://agentlas.pro/frameworks/pi/)、earendil-works/pi GitHub (https://github.com/earendil-works/pi)
+
+   Hermes Agent（Nous Research）
+
+   • 定位：自改进、有状态的通用 agent 框架，强调“agent 会成长”。
+   • 核心哲学：agent 是有持久身份和记忆的实体，不只是函数调用。
+   • 关键特性：
+       • 三层记忆：情景记忆（episodic）、工作记忆（working）、语义/程序记忆（procedural skills）。
+       • 自动 skill 创建与学习闭环：复杂任务后 agent 通过 skill_manage 自己沉淀 skill。
+       • Skills Hub 与 agentskills.io 标准：可安装、更新、扫描安全性的 skill 生态。
+       • 多平台 gateway：Telegram、Discord、Slack、WhatsApp、Signal、Email 统一入口。
+       • 反思循环（reflection）、定时 cron 自动化、渐进式 skill 披露（先列名、再全文、再具体文件）。
+         来源：Hermes Agent GitHub (https://github.com/nousresearch/hermes-agent)、Hermes Skills 文档
+         (https://hermes-agent.nousresearch.com/docs/user-guide/features/skills)、OpenClaw vs Hermes 深度对比
+         (https://openclawindex.com/learn/openclaw-vs-hermes-agent-which-ai-agent-framework-fits-your-stack-deep-dive)
+
+   ────────────────────────────────────────────────────────────────────────────────
+
+   2. 与 Nexogenesis 的现有对应关系
+
+   从文档看，Nexogenesis 已经在 v1.6 有意识地吸收了 Pi 风格的 skills（SKILL.md + frontmatter + Grounding + Workflows + Invariants + Anti-patterns），并建立
+   了：
+
+   ┌─────────────────────────────────────────────┬────────────────────────────────────────────────────┐
+   │ Nexogenesis 现有机制                        │ 对应 Pi / Hermes 的什么                            │
+   ├─────────────────────────────────────────────┼────────────────────────────────────────────────────┤
+   │ .agent/skills/* 的 SKILL.md                 │ Pi 的 skill / Hermes 的 SKILL.md 与 agentskills.io │
+   ├─────────────────────────────────────────────┼────────────────────────────────────────────────────┤
+   │ write --batch 统一写入闸门                  │ 类似 Hermes 的 write_approval 与 Pi 的受控写操作   │
+   ├─────────────────────────────────────────────┼────────────────────────────────────────────────────┤
+   │ 01-Cards/ + 05-Buffer/ 双层结构             │ 类似 Hermes 的语义记忆 + 工作记忆分层              │
+   ├─────────────────────────────────────────────┼────────────────────────────────────────────────────┤
+   │ memory start/update/end + STM               │ 类似 Hermes 的 episodic / working memory           │
+   ├─────────────────────────────────────────────┼────────────────────────────────────────────────────┤
+   │ retrieve --mode talk/digest/construct/judge │ 类似 Pi 的 AgentSession 模式切换                   │
+   ├─────────────────────────────────────────────┼────────────────────────────────────────────────────┤
+   │ attention.yaml + 双账户（扩展/冲突）        │ 比 Hermes 更精细的注意力预算设计                   │
+   └─────────────────────────────────────────────┴────────────────────────────────────────────────────┘
+
+   所以问题不是“要不要学”，而是在哪几个点上可以学得更有深度、更系统。
+
+   ────────────────────────────────────────────────────────────────────────────────
+
+   3. 值得 Nexogenesis 借鉴的具体点
+
+   3.1 从 Pi 借鉴：极简与可嵌入性
+
+   1. 统一 LLM provider 抽象层（pi-ai 思路）
+      当前 Nexogenesis 的 LLM 调用大概率是分散在各个环节 prompt/调用里。可以引入一个内部的 llm 模块，统一封装：多 provider、流式输出、tool calling、
+      reasoning token、成本追踪。这样切换模型只需改配置，而不是改 prompt 或代码。
+      → 落到项目：可在 nexogenesis/ 下加一个 llm.py / provider.py，并在 attention.yaml 里配 provider 与 model。
+
+   2. 系统提示瘦身 + 按需加载
+      Pi 把系统提示压在 1000 token 以下，大量内容通过 skill / reference 在需要时加载。Nexogenesis 的 prompts 和 reference 已经分层，但可以进一步检查：每次
+      调用是否把整份 body-structure.md / 正例都塞进上下文？能否像 Pi 一样只传当前任务必需的 reference？
+      → 落到项目：retrieve --mode <X> 的 Context Package 可以再做一次“必要度过滤”。
+
+   3. 核心工具原子化
+      Pi 的 4 工具虽然是为 coding 设计，但其“少即是多”的思想可以迁移到 Nexogenesis：把对知识体的操作也压缩为少数原子操作，例如 retrieve、write-batch、
+      memory-update、signal。现在 CLI 已经比较丰富，但可以在 skill 层面统一表述为“这 4–5 个原子能力的组合”，降低认知负担。
+
+   4. 成本透明化
+      Pi 把 cost tracking 做在 pi-ai 最底层。Nexogenesis 目前文档里没有看到按 session / 命令 / provider 的 token 与费用统计。考虑到长期跑
+      compile/digest/construct 可能消耗大量 token，建议加上：每次 LLM 调用记录 token 数、model、费用，并提供 nexogenesis usage 或 --budget 选项。
+      → 这是低摩擦、高价值的改进。
+
+   3.2 从 Hermes 借鉴：有状态、学习与生态
+
+   5. Skill 学习闭环 / 自动沉淀
+      Hermes 的 skill_manage 工具让 agent 在复杂任务后自动创建或 patch skill。Nexogenesis 现在 skill 是手写资产（.agent/skills/）。可以考虑：当某次 digest
+      或 construct 跑通了一个复杂模式后，agent 提议生成一个新的 skill 或 patch 现有 skill，经用户批准后写入。
+      → 这与 write --batch 的批准闸门天然兼容，是 Hermes 对 Nexogenesis 最有价值的借鉴之一。
+
+   6. 渐进式 Skill 披露（Progressive Disclosure）
+      Hermes 把 skill 加载分为 3 级：先列名（~3k tokens）、再全文、再具体文件。Nexogenesis 的 skill 目前在触发时似乎直接加载全文。对于 nexo-construct 这种
+      需要读大量 reference 的 skill，可以引入分级加载，减少每轮 token 消耗。
+      → 落到项目：在 SKILL.md frontmatter 增加 quick_ref 字段，或在 skill 内约定“先读 Grounding 第 1–2 条，其余按需”。
+
+   7. 记忆分层命名与机制对齐
+      Hermes 明确区分 episodic / semantic / procedural memory。Nexogenesis 已有类似结构，但可以更自觉地对应：
+       • episodic → 06-Journal/ + STM 会话档案
+       • semantic → 01-Cards/ + 02-Profile/
+       • procedural → .agent/skills/ + schemes/default/prompts/
+         这种对应关系可以写进 thinking-body.md，让后续设计更一致。
+
+   8. 反思循环（Reflection Phase）
+      Hermes 在 action 后有显式 reflection：分析结果、更新心智模型、调整策略。Nexogenesis 的 construct 已经接近“结构诊断”，但可以在 digest / construct 后增
+      加一个轻量 reflection 步骤：本轮建议是否被接受？哪些链接被证实/证伪？是否应更新 02-Profile/ 的思维范式？
+      → 不必每轮都做，可作为 --reflect 标志或 --auto 的子步骤。
+
+   9. Skill Bundle（工作流组合）
+      Hermes 可以把多个 skill 打包成一个 slash 命令（如 /backend-dev 同时加载 review、tdd、pr workflow）。Nexogenesis 也可以定义 bundle：例如 /backread =
+      compile + digest + construct --auto，/deep-judge = retrieve --mode judge + nexo-judge。
+      → 这在 CLI 和未来的对话界面里都能降低操作成本。
+
+   10. 定时 Cron / 自动化巡检
+       Hermes 内置 cron 调度，可定时生成报告、备份、审计。Nexogenesis 可以考虑：定时跑 validate + doctor、定时生成 orphan / conflict 报告、定时对
+       05-Buffer/ 中积压的 scratch 质料做提醒。
+       → 初期不需要完整 cron，一个 nexogenesis schedule --daily doctor 就够。
+
+   11. Skill Hub / 跨项目共享
+       Hermes 的 skills 可浏览、安装、更新、安全扫描。Nexogenesis 的 skill 目前是项目内资产。如果未来希望这套“社科知识架构”方法能被多个项目复用，可以：把
+       skill 从项目仓库拆到独立 repo、定义 nexogenesis-skills 目录规范、支持从 URL/GitHub 安装 skill。
+       → 这是中长期方向，不是当前 P0。
+
+   12. 多平台 Gateway（对话入口）
+       Hermes 同时支持 CLI 和 Telegram/Discord/Slack/WhatsApp。Nexogenesis 目前主要是 CLI。如果未来用户希望“在聊天中随时问库、记卡”，Hermes 的 gateway 架构
+       是很好参考：一个中心进程管理多个 surface，所有 surface 最终调用同一 AgentSession。
+       → 优先级最低，先做好 CLI 和 Markdown 底座。
+
+   ────────────────────────────────────────────────────────────────────────────────
+
+   4. 给 Nexogenesis 的优先级建议
+
+   ┌────────────────┬────────────────────────────────────────────┬───────────────────────────────────────────────────────────────┐
+   │ 优先级         │ 建议                                       │ 理由                                                          │
+   ├────────────────┼────────────────────────────────────────────┼───────────────────────────────────────────────────────────────┤
+   │ P0（马上可做） │ 引入统一 LLM provider 层 + cost tracking   │ 低摩擦、对长期跑 pipeline 成本控制很关键                      │
+   ├────────────────┼────────────────────────────────────────────┼───────────────────────────────────────────────────────────────┤
+   │ P0             │ 系统提示/Skill 进一步瘦身与按需加载        │ 直接减少 token、提升响应质量                                  │
+   ├────────────────┼────────────────────────────────────────────┼───────────────────────────────────────────────────────────────┤
+   │ P1             │ Skill 学习闭环（agent 沉淀 skill，需批准） │ 与现有 write --batch 闸门天然契合，能显著减少重复 prompt 工程 │
+   ├────────────────┼────────────────────────────────────────────┼───────────────────────────────────────────────────────────────┤
+   │ P1             │ 渐进式 Skill 披露 + Skill Bundle           │ 降低 token、降低用户操作成本                                  │
+   ├────────────────┼────────────────────────────────────────────┼───────────────────────────────────────────────────────────────┤
+   │ P2             │ 显式 reflection 步骤、记忆分层命名对齐     │ 提升架构一致性，但需要设计验收标准                            │
+   ├────────────────┼────────────────────────────────────────────┼───────────────────────────────────────────────────────────────┤
+   │ P2             │ Cron / 定时巡检                            │ 对长期维护知识库有用                                          │
+   ├────────────────┼────────────────────────────────────────────┼───────────────────────────────────────────────────────────────┤
+   │ P3             │ Skill Hub、多平台 gateway                  │ 生态扩展，当前阶段价值不如把 CLI 和知识体做扎实               │
+   └────────────────┴────────────────────────────────────────────┴───────────────────────────────────────────────────────────────┘
+
+   ────────────────────────────────────────────────────────────────────────────────
+
+   5. 需要警惕的坑
+
+   • 不要变成通用 agent 框架。Pi 和 Hermes 都是通用 coding/assistant 框架，而 Nexogenesis 的核心是“社科领域思想的知识架构涌现”。借鉴的是机制（skill、记忆、
+     成本、学习闭环），不是目标。
+   • 自动 skill 创建要防膨胀。Hermes 默认允许 agent 自由写 skill，Nexogenesis 如果引入，必须坚持 write_approval 和质量门槛，否则 .agent/skills/ 会迅速腐烂
+     。
+   • Pi 的 4 工具不能直接照搬。read/write/edit/bash 是为代码仓库设计的，Nexogenesis 的操作对象是卡片、关系、质料、Profile，需要定义自己的原子工具集。
+   • 不要为了生态而生态。Skill Hub、gateway 都是放大器，前提是底座（Markdown 主权、write --batch、双轨检索、七型卡片）已经稳定。
+
+   ────────────────────────────────────────────────────────────────────────────────
+
+   一句话总结：Nexogenesis 已经在 v1.6 迈出了“Pi 风格 skill”这一步，下一步最值得做的是 Hermes 式的“学习闭环”——让 agent 从成功的工作流中自动沉淀 skill，同时
+   保持现有的用户批准闸门；并在底层补上 Pi 式的 provider 统一与成本透明。
