@@ -147,7 +147,8 @@ export function GraphCanvas({ data, engine, onNodeClick }: Props) {
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
       const rect = labelCv.getBoundingClientRect();
-      camera.zoomAt(e.clientX - rect.left, e.clientY - rect.top,
+      // 以视口中心为锚缩放（2026-08-08 用户决议：鼠标锚点缩放会感觉图谱“跳走”，违背直觉）
+      camera.zoomAt(rect.width / 2, rect.height / 2,
         rect.width, rect.height, e.deltaY < 0 ? 1.12 : 1 / 1.12);
     };
     const onDown = (e: PointerEvent) => {
