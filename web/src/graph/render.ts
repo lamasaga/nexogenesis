@@ -150,6 +150,8 @@ export function drawLabelLayer(
   ctx: CanvasRenderingContext2D, scene: Scene, engine: ActivationEngine,
   camera: Camera, hoverId: string | null
 ): void {
+  // domain 标签恒显；卡片标题仅鼠标悬停时显示（2026-08-08 用户决议：取消激活态标题）
+  void engine;
   const fs = 13 / camera.scale;
   ctx.textAlign = "center";
   for (const [, dm] of scene.domains) {
@@ -157,16 +159,14 @@ export function drawLabelLayer(
     ctx.fillStyle = "rgba(170,215,212,0.75)";
     ctx.fillText(dm.label, dm.x, dm.y);
   }
-  ctx.textAlign = "left";
-  const titleFs = 12 / camera.scale;
-  ctx.font = `${titleFs}px "Microsoft YaHei", sans-serif`;
-  const labeled = scene.nodes
-    .map((nd) => ({ nd, act: Math.max(engine.nodeActOf(nd.id), nd.id === hoverId ? 1 : 0) }))
-    .filter((x) => x.act > THEME.node.labelThreshold)
-    .sort((a, b) => b.act - a.act)
-    .slice(0, 24); // 碰撞回避的预算上限
-  for (const { nd, act } of labeled) {
-    ctx.fillStyle = `rgba(255,230,190,${Math.min(1, (act - THEME.node.labelThreshold) * 1.8)})`;
-    ctx.fillText(nd.title, nd.x + 9 / camera.scale, nd.y + 4 / camera.scale);
+  if (hoverId) {
+    const nd = scene.nodes.find((n) => n.id === hoverId);
+    if (nd) {
+      const titleFs = 12 / camera.scale;
+      ctx.font = `${titleFs}px "Microsoft YaHei", sans-serif`;
+      ctx.textAlign = "left";
+      ctx.fillStyle = "rgba(255,230,190,0.95)";
+      ctx.fillText(nd.title, nd.x + 9 / camera.scale, nd.y + 4 / camera.scale);
+    }
   }
 }
