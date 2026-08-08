@@ -7,7 +7,7 @@ export const THEME = {
     expand: [125, 211, 252] as Color,
     conflict: [226, 120, 245] as Color,
     lens: [255, 190, 100] as Color,
-    background: "#080d16",
+    background: "#0a0a0c",
   },
   timing: {
     /** front 从 0 推进到 1.3 的秒数 */

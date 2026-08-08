@@ -12,10 +12,9 @@ const TRIGGERS: Array<[RegExp, string, string]> = [
 
 interface Props {
   onTrigger: (scenario: string) => void;
-  skillLabel: string | null;
 }
 
-export function ChatPanel({ onTrigger, skillLabel }: Props) {
+export function ChatPanel({ onTrigger }: Props) {
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
 
@@ -35,26 +34,35 @@ export function ChatPanel({ onTrigger, skillLabel }: Props) {
   };
 
   return (
-    <div className="flex h-full flex-col overflow-hidden rounded-lg border border-slate-700/60 bg-slate-950/80">
-      <div className="flex items-center justify-between border-b border-slate-700/60 px-3 py-1.5">
-        <span className="text-xs text-slate-400">对话</span>
-        {skillLabel && (
-          <span className="rounded-full border border-teal-300/50 px-2 py-0.5 text-[10px] text-teal-300">
-            {skillLabel}
-          </span>
+    <div className="flex h-full flex-col">
+      {/* 消息区 */}
+      <div className="flex-1 space-y-3 overflow-y-auto px-4 py-3">
+        {msgs.length === 0 && (
+          <p className="mt-8 text-center text-xs leading-6 text-zinc-600">
+            对知识体提问、深判或消化。
+            <br />
+            图谱会随检索与思考实时激活。
+          </p>
+        )}
+        {msgs.map((m, i) =>
+          m.role === "user" ? (
+            <div key={i} className="flex justify-end">
+              <div className="max-w-[85%] rounded-2xl rounded-br-md bg-zinc-800 px-3.5 py-2 text-[13px] leading-5 text-zinc-100">
+                {m.text}
+              </div>
+            </div>
+          ) : (
+            <div key={i} className="border-l-2 border-teal-400/50 pl-3 text-[13px] leading-5 text-zinc-400">
+              {m.text}
+            </div>
+          )
         )}
       </div>
-      <div className="flex-1 space-y-2 overflow-y-auto px-3 py-2 text-sm">
-        {msgs.map((m, i) => (
-          <div key={i} className={m.role === "user" ? "text-slate-100" : "text-slate-500"}>
-            {m.role === "user" ? "你：" : ""}{m.text}
-          </div>
-        ))}
-      </div>
-      <div className="border-t border-slate-700/60 p-2">
+      {/* 输入区 */}
+      <div className="border-t border-white/[0.06] p-3">
         <input
-          className="w-full rounded bg-slate-900 px-3 py-1.5 text-sm text-slate-100 outline-none placeholder:text-slate-600"
-          placeholder="试试：深判 止损纪律 / 消化 / 随便问问"
+          className="w-full rounded-full border border-white/[0.08] bg-zinc-900 px-4 py-2 text-[13px] text-zinc-100 outline-none transition placeholder:text-zinc-600 focus:border-teal-400/40 focus:ring-2 focus:ring-teal-400/20"
+          placeholder="提问、深判、消化…"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && submit()}

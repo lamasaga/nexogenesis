@@ -13,23 +13,31 @@ export function CardReader({ cardId, onClose }: { cardId: string | null; onClose
 
   if (!cardId) return null;
   return (
-    <div className="absolute bottom-0 right-0 top-0 z-10 w-96 overflow-y-auto border-l border-slate-700 bg-slate-950/95 p-4 shadow-2xl">
-      <div className="mb-2 flex items-center justify-between">
-        <span className="text-xs text-slate-500">{cardId}</span>
-        <button className="text-slate-500 hover:text-slate-200" onClick={onClose}>✕</button>
+    <div className="absolute bottom-3 right-3 top-14 z-10 flex w-96 flex-col overflow-hidden rounded-xl border border-white/[0.08] bg-[#101013]/95 shadow-2xl shadow-black/60 backdrop-blur">
+      <div className="flex items-center justify-between border-b border-white/[0.06] px-4 py-2.5">
+        <span className="micro-label">卡片</span>
+        <button
+          className="rounded-md px-1.5 py-0.5 text-zinc-500 transition hover:bg-white/[0.06] hover:text-zinc-200"
+          onClick={onClose}
+        >
+          ✕
+        </button>
       </div>
-      {error && <p className="text-sm text-red-400">{error}</p>}
-      {card && (
-        <>
-          <h2 className="mb-1 text-lg text-slate-100">{card.title}</h2>
-          <p className="mb-3 text-xs text-slate-500">
-            {card.type} · {card.maturity} · 更新 {card.updated}
-          </p>
-          <pre className="whitespace-pre-wrap font-sans text-sm leading-6 text-slate-300">
-            {card.body}
-          </pre>
-        </>
-      )}
+      <div className="flex-1 overflow-y-auto px-4 py-3">
+        {error && <p className="text-[13px] text-red-400">{error}</p>}
+        {!error && !card && <p className="text-[13px] text-zinc-600">读取中…</p>}
+        {card && (
+          <>
+            <h2 className="mb-1.5 text-[15px] font-medium leading-6 text-zinc-100">{card.title}</h2>
+            <p className="micro-label mb-3 !normal-case !tracking-normal">
+              {card.type} · {card.maturity} · 更新 {card.updated}
+            </p>
+            <pre className="whitespace-pre-wrap font-sans text-[13px] leading-6 text-zinc-300">
+              {card.body}
+            </pre>
+          </>
+        )}
+      </div>
     </div>
   );
 }

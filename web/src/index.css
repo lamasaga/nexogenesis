@@ -2,10 +2,49 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  color-scheme: dark;
+}
+
 html, body, #root {
   height: 100%;
   margin: 0;
-  background: #0b0e14;
-  color: #dfe6f0;
-  font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+  background: #0a0a0c;
+  color: #d4d4d8;
+  font-family: "Inter", "Segoe UI", "Microsoft YaHei", sans-serif;
+  font-size: 13px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 细滚动条（Codex/Linear 式） */
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 3px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* 区块微标签：全大写 + 加宽字距 */
+.micro-label {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #71717a;
+}
+
+/* 图谱区暗角 */
+.graph-vignette::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(6, 6, 8, 0.55) 100%);
 }
