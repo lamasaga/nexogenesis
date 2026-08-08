@@ -9,3 +9,4 @@ __pycache__/
 .superpowers/
 web/node_modules/
 web/dist/
+web/tsconfig.tsbuildinfo
