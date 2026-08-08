@@ -32,7 +32,12 @@ def _conflict_edges(graph: dict) -> list[dict]:
 def build_judge(graph: dict) -> list[TimedEvent]:
     seeds = _seed_nodes(graph, 2)
     expand = _edges_touching(graph, set(seeds), cap=9)
-    conflict = _conflict_edges(graph)
+    # conflict 子图强化：优先与种子相关的冲突边，封顶 6 条（全量在大图上会淹没视觉）
+    all_conflicts = _conflict_edges(graph)
+    near_conflicts = [e for e in all_conflicts
+                      if e["from"] in set(seeds) or e["to"] in set(seeds)]
+    conflict = (near_conflicts + [e for e in all_conflicts
+                                  if e not in near_conflicts])[:6]
     others = [nd["id"] for nd in graph["nodes"] if nd["id"] not in seeds]
     lens_names = ["证据强度", "适用边界", "反事实"]
     events: list[TimedEvent] = [

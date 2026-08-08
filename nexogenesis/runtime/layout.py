@@ -29,13 +29,17 @@ def _node_position(node: dict, centers: dict[str, tuple[float, float]]) -> dict:
 
 
 def compute_layout(nodes: list[dict]) -> dict[str, dict[str, float]]:
-    """domain 聚簇布局：domain 环状均布，节点确定性散布于簇内。"""
+    """domain 聚簇布局：domain 环状均布，节点确定性散布于簇内。
+
+    环半径随 domain 数量自适应：保证相邻簇心间距不小于簇直径（~140），
+    避免 18+ 个 domain 时簇间重叠。
+    """
     domains = sorted({(n["domains"] or ["_none"])[0] for n in nodes})
+    ring = max(_DOMAIN_RING_RADIUS, len(domains) * 28.0)
     centers: dict[str, tuple[float, float]] = {}
     for i, d in enumerate(domains):
         a = i / len(domains) * math.tau - math.pi / 2
-        centers[d] = (_DOMAIN_RING_RADIUS * math.cos(a),
-                      _DOMAIN_RING_RADIUS * math.sin(a) * 0.8)
+        centers[d] = (ring * math.cos(a), ring * math.sin(a) * 0.8)
     return {n["id"]: _node_position(n, centers) for n in nodes}
 
 

@@ -13,7 +13,7 @@ export interface Scene {
   domains: Map<string, { x: number; y: number; label: string }>;
 }
 
-/** 从图数据派生场景（簇心 = 各 domain 节点坐标均值） */
+/** 从图数据派生场景（簇心 = 各 domain 节点坐标均值；domain 标签沿径向外置防碰撞） */
 export function buildScene(nodes: GraphNode[], fibers: Fiber[]): Scene {
   const sums = new Map<string, { x: number; y: number; n: number }>();
   for (const nd of nodes) {
@@ -22,13 +22,24 @@ export function buildScene(nodes: GraphNode[], fibers: Fiber[]): Scene {
     s.x += nd.x; s.y += nd.y; s.n++;
     sums.set(d, s);
   }
+  // 全图质心：标签沿「簇心 → 外侧」径向摆放
+  let gx = 0, gy = 0;
+  for (const nd of nodes) { gx += nd.x; gy += nd.y; }
+  gx /= nodes.length; gy /= nodes.length;
   const clusterCenters = new Map<string, { x: number; y: number }>();
   const domains = new Map<string, { x: number; y: number; label: string }>();
   for (const [d, s] of sums) {
     const c = { x: s.x / s.n, y: s.y / s.n };
     clusterCenters.set(d, c);
+    let dx = c.x - gx, dy = c.y - gy;
+    const len = Math.hypot(dx, dy);
+    if (len < 1) { dx = 0; dy = -1; } else { dx /= len; dy /= len; }
     const domainNode = nodes.find((nd) => nd.id === d);
-    domains.set(d, { x: c.x, y: c.y - 74, label: domainNode?.title ?? d });
+    domains.set(d, {
+      x: c.x + dx * 95,
+      y: c.y + dy * 95,
+      label: domainNode?.title ?? d,
+    });
   }
   return { nodes, fibers, clusterCenters, domains };
 }
