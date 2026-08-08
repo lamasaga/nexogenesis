@@ -7,3 +7,5 @@ __pycache__/
 .nexogenesis/graph/
 .nexogenesis/rag/
 .superpowers/
+web/node_modules/
+web/dist/
