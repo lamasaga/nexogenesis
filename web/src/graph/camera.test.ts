@@ -19,12 +19,12 @@ describe("Camera", () => {
     expect(sy2).toBeCloseTo(300, 4);
   });
 
-  it("缩放范围受限 [0.2, 4]", () => {
+  it("缩放范围受限 [0.3, 3]", () => {
     const cam = new Camera(0, 0, 1);
     for (let i = 0; i < 50; i++) cam.zoomAt(400, 300, 800, 600, 1.5);
-    expect(cam.scale).toBeLessThanOrEqual(4);
+    expect(cam.scale).toBeLessThanOrEqual(3);
     for (let i = 0; i < 100; i++) cam.zoomAt(400, 300, 800, 600, 0.5);
-    expect(cam.scale).toBeGreaterThanOrEqual(0.2);
+    expect(cam.scale).toBeGreaterThanOrEqual(0.3);
   });
 
   it("panBy 平移", () => {

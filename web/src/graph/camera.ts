@@ -1,4 +1,8 @@
 export class Camera {
+  /** 缩放范围限制（用户决议 2026-08-08，收窄自 [0.2, 4]）：防止缩得过小失真或放得过大失焦 */
+  static MIN_SCALE = 0.3;
+  static MAX_SCALE = 3;
+
   constructor(
     public x = 0,
     public y = 0,
@@ -16,7 +20,7 @@ export class Camera {
   /** 以屏幕点 (sx,sy) 为锚缩放 */
   zoomAt(sx: number, sy: number, w: number, h: number, factor: number): void {
     const [wx, wy] = this.toWorld(sx, sy, w, h);
-    this.scale = Math.min(4, Math.max(0.2, this.scale * factor));
+    this.scale = Math.min(Camera.MAX_SCALE, Math.max(Camera.MIN_SCALE, this.scale * factor));
     this.x = wx - (sx - w / 2) / this.scale;
     this.y = wy - (sy - h / 2) / this.scale;
   }

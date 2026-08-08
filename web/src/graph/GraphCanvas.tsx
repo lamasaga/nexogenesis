@@ -28,30 +28,50 @@ export function GraphCanvas({ data, engine, onNodeClick }: Props) {
     let last = performance.now();
     const t0 = last;
 
-    // 静息层：离屏渲染一次（世界坐标，2x 超采样）
-    const off = document.createElement("canvas");
+    // 初始取景：整图居中
     const pad = 200;
     const xs = data.nodes.map((n) => n.x);
     const ys = data.nodes.map((n) => n.y);
     const minX = Math.min(...xs) - pad, maxX = Math.max(...xs) + pad;
     const minY = Math.min(...ys) - pad, maxY = Math.max(...ys) + pad;
-    const SS = 2;
-    off.width = Math.max(1, (maxX - minX) * SS);
-    off.height = Math.max(1, (maxY - minY) * SS);
-    const offCtx = off.getContext("2d")!;
-    offCtx.setTransform(SS, 0, 0, SS, -minX * SS, -minY * SS);
-    drawRestLayer(offCtx, scene, (performance.now() - t0) / 1000);
-
-    // 初始取景：整图居中
     const host = restRef.current!.parentElement!;
     const fit = () => {
       const w = host.clientWidth, h = host.clientHeight;
-      camera.scale = Math.min(4, Math.max(0.2,
+      camera.scale = Math.min(Camera.MAX_SCALE, Math.max(Camera.MIN_SCALE,
         Math.min(w / (maxX - minX), h / (maxY - minY)) * 0.95));
       camera.x = (minX + maxX) / 2;
       camera.y = (minY + maxY) / 2;
     };
     fit();
+    // 走查参数：?scale=&x=&y= 指定初始相机（截图验证用）
+    {
+      const q = new URLSearchParams(window.location.search);
+      if (q.get("scale")) {
+        camera.scale = Math.min(Camera.MAX_SCALE, Math.max(Camera.MIN_SCALE, parseFloat(q.get("scale")!)));
+        camera.x = parseFloat(q.get("x") ?? "0");
+        camera.y = parseFloat(q.get("y") ?? "0");
+      }
+    }
+
+    // 静息层策略（方案 2）：视口尺寸离屏缓存。
+    // 交互中按相机差量贴图（保帧率）；相机静止 200ms 后按当前相机
+    // 以设备像素重渲染——任何缩放倍率下都恢复矢量级清晰。
+    const off = document.createElement("canvas");
+    const offCam = new Camera(camera.x, camera.y, camera.scale);
+    let restDirty = true;
+    let camMovedAt = 0;
+    let prevCam = { x: camera.x, y: camera.y, scale: camera.scale };
+
+    const renderRest = (w: number, h: number, dpr: number, now: number) => {
+      off.width = Math.max(1, w * dpr);
+      off.height = Math.max(1, h * dpr);
+      const c = off.getContext("2d")!;
+      c.setTransform(dpr * camera.scale, 0, 0, dpr * camera.scale,
+        dpr * (w / 2 - camera.x * camera.scale),
+        dpr * (h / 2 - camera.y * camera.scale));
+      drawRestLayer(c, scene, now);
+      offCam.x = camera.x; offCam.y = camera.y; offCam.scale = camera.scale;
+    };
 
     const frame = (nowMs: number) => {
       const now = (nowMs - t0) / 1000;
@@ -59,14 +79,29 @@ export function GraphCanvas({ data, engine, onNodeClick }: Props) {
       last = nowMs;
       engine.decay(dt);
 
+      // 相机变动检测：标记脏 + 记录最近变动时刻
+      if (camera.x !== prevCam.x || camera.y !== prevCam.y || camera.scale !== prevCam.scale) {
+        restDirty = true;
+        camMovedAt = nowMs;
+        prevCam = { x: camera.x, y: camera.y, scale: camera.scale };
+      }
+
       const w = host.clientWidth, h = host.clientHeight;
       const dpr = window.devicePixelRatio || 1;
       for (const ref of [restRef, actRef, labelRef]) {
         const cv = ref.current!;
         if (cv.width !== w * dpr || cv.height !== h * dpr) {
           cv.width = w * dpr; cv.height = h * dpr;
+          restDirty = true; // 视口尺寸变化，缓存失效
         }
       }
+
+      // 防抖重渲染：相机静止 200ms 后按新精度重绘静息层
+      if (restDirty && nowMs - camMovedAt > 200) {
+        renderRest(w, h, dpr, now);
+        restDirty = false;
+      }
+
       const actCtx = actRef.current!.getContext("2d")!;
       const labelCtx = labelRef.current!.getContext("2d")!;
       const restCtx = restRef.current!.getContext("2d")!;
@@ -81,8 +116,18 @@ export function GraphCanvas({ data, engine, onNodeClick }: Props) {
       restCtx.setTransform(1, 0, 0, 1, 0, 0);
       restCtx.fillStyle = THEME.colors.background;
       restCtx.fillRect(0, 0, w * dpr, h * dpr);
-      setWorld(restCtx);
-      restCtx.drawImage(off, minX, minY, maxX - minX, maxY - minY);
+      if (!restDirty) {
+        // 缓存与当前相机一致：1:1 贴图（清晰）
+        restCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        restCtx.drawImage(off, 0, 0);
+      } else {
+        // 交互中：按相机差量变换贴图（暂时模糊，松手后自动恢复）
+        const a = camera.scale / offCam.scale;
+        const e = w / 2 + (offCam.x - camera.x) * camera.scale - (w / 2) * a;
+        const f = h / 2 + (offCam.y - camera.y) * camera.scale - (h / 2) * a;
+        restCtx.setTransform(dpr * a, 0, 0, dpr * a, dpr * e, dpr * f);
+        if (off.width > 0) restCtx.drawImage(off, 0, 0);
+      }
 
       actCtx.clearRect(0, 0, w * dpr, h * dpr);
       setWorld(actCtx);
